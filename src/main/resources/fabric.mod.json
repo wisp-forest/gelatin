@@ -12,7 +12,6 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "com.dragon.jello.Jello"
     ],
     "main": [
       "com.dragon.jello.Jello"
