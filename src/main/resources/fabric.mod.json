@@ -18,7 +18,7 @@
       "com.dragon.jello.Jello"
     ],
     "fabric-datagen": [
-      "com.dragon.jello.Jello"
+      "com.dragon.jello.data.JelloDataEntrypoint"
     ]
   },
   "mixins": [

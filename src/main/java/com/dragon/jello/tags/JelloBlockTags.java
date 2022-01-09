@@ -9,8 +9,9 @@ import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
 
 public class JelloBlockTags {
-    public static final Tag.Identified<Block> CONCRETE = TagFactory.BLOCK.create(new Identifier(Jello.MODID, "concrete"));
+    private static String COMMON_NAMESPACE = "c";
 
-    public static final Tag.Identified<Block> COLORED_GLASS_PANES = TagFactory.BLOCK.create(new Identifier(Jello.MODID, "colored_panes"));
+    public static final Tag.Identified<Block> CONCRETE = TagFactory.BLOCK.create(new Identifier(COMMON_NAMESPACE, "concrete"));
+    public static final Tag.Identified<Block> COLORED_GLASS_PANES = TagFactory.BLOCK.create(new Identifier(COMMON_NAMESPACE, "colored_panes"));
 
 }
