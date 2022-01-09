@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "jello",
+  "version": "${version}",
+  "name": "Jello",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "LGPL-3.0",
+  "icon": "assets/jello/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.dragon.jello.Jello"
+    ],
+    "main": [
+      "com.dragon.jello.Jello"
+    ],
+    "fabric-datagen": [
+      "com.dragon.jello.Jello"
+    ]
+  },
+  "mixins": [
+    "jello.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.12.12",
+    "fabric": "*",
+    "minecraft": "1.18.1"
+  }
+}
