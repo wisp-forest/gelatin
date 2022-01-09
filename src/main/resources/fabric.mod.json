@@ -8,6 +8,7 @@
   "contact": {},
   "license": "LGPL-3.0",
   "icon": "assets/jello/icon.png",
+  "accessWidener" : "jello.accesswidener",
   "environment": "*",
   "entrypoints": {
     "client": [
@@ -24,6 +25,7 @@
     "jello.mixins.json"
   ],
   "depends": {
+    "owo": ">=0.3.14+1.18",
     "fabricloader": ">=0.12.12",
     "fabric": "*",
     "minecraft": "1.18.1"
