@@ -1,15 +1,9 @@
 package com.dragon.jello.events;
 
-import com.dragon.jello.mixin.ducks.DyeableEntity;
-import com.dragon.jello.mixin.ducks.RainbowEntity;
 import com.dragon.jello.tags.JelloBlockTags;
 import io.wispforest.owo.ops.ItemOps;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CandleBlock;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.*;
@@ -23,8 +17,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class ColorBlockEvent implements UseBlockCallback {
 
@@ -32,9 +24,14 @@ public class ColorBlockEvent implements UseBlockCallback {
     public ActionResult interact(PlayerEntity player, World world, Hand hand, BlockHitResult hitResult) {
         Item mainHandItem = player.getMainHandStack().getItem();
         BlockState blockState = world.getBlockState(hitResult.getBlockPos());
+        Identifier id = Registry.BLOCK.getId(blockState.getBlock());
 
-        if(player.shouldCancelInteraction()){
+        if(player.shouldCancelInteraction() && id.getNamespace().equals("minecraft")){
             if(mainHandItem instanceof DyeItem dyeItem){
+                if(getColorPrefix(id).equals(dyeItem.getColor().getName())){
+                    return ActionResult.FAIL;
+                }
+
                 String suffix;
                 SoundEvent blockChangeSound;
 
@@ -70,83 +67,63 @@ public class ColorBlockEvent implements UseBlockCallback {
                     return ActionResult.PASS;
                 }
 
-                Identifier id = Registry.BLOCK.getId(blockState.getBlock());
-
-                if(id.getNamespace().equals("minecraft")){
-                    if(getColorPrefix(id).equals(dyeItem.getColor().getName())){
-                        return ActionResult.FAIL;
-                    }
-
+                if(!world.isClient){
                     Block changedBlock = Registry.BLOCK.get(new Identifier(dyeItem.getColor().getName() + suffix));
 
-                    if(!world.isClient){
-                        world.setBlockState(hitResult.getBlockPos(), changedBlock.getStateWithProperties(blockState));
-                    }
-
-                    world.playSound(player, hitResult.getBlockPos(), blockChangeSound, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                    decrementPlayerHandItemCC(player, hand);
-
-                    return ActionResult.SUCCESS;
-                }
-            }else if (mainHandItem instanceof BucketItem bucketItem) {
-                Identifier id = Registry.BLOCK.getId(blockState.getBlock());
-
-                if(id.getNamespace().equals("minecraft")) {
-                    return bucketItemEvent(player, world, blockState, hitResult, player.getMainHandStack(), bucketItem);
+                    world.setBlockState(hitResult.getBlockPos(), changedBlock.getStateWithProperties(blockState));
                 }
 
+                world.playSound(player, hitResult.getBlockPos(), blockChangeSound, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                decrementPlayerHandItemCC(player, hand);
+
+                return ActionResult.SUCCESS;
+
+            }
+            else if (mainHandItem == Blocks.WET_SPONGE.asItem()) {
+                return cleanBlockEvent(player, world, blockState, hitResult, player.getMainHandStack());
             }
         }
 
         return ActionResult.PASS;
     }
 
-    private ActionResult bucketItemEvent(PlayerEntity player, World world, BlockState blockState, BlockHitResult hitResult, ItemStack mainHandStack, BucketItem bucketItem){
-        if (bucketItem.fluid == Fluids.WATER) {
-            if(isAlreadyDefault(blockState.getBlock())){
-                return ActionResult.FAIL;
-            }
+    private ActionResult cleanBlockEvent(PlayerEntity player, World world, BlockState blockState, BlockHitResult hitResult, ItemStack mainHandStack){
 
-            String defaultBlockName;
-            SoundEvent blockChangeSound;
-
-            if(blockState.isIn(BlockTags.TERRACOTTA)){
-                defaultBlockName = "terracotta";
-                blockChangeSound = SoundEvents.BLOCK_STONE_PLACE;
-            }
-            else if(blockState.isIn(BlockTags.CANDLES)){
-                defaultBlockName = "candle";
-                blockChangeSound = SoundEvents.BLOCK_CANDLE_PLACE;
-            }
-            else if(blockState.isIn(BlockTags.IMPERMEABLE)){
-                defaultBlockName = "glass";
-                blockChangeSound = SoundEvents.BLOCK_GLASS_PLACE;
-            }
-            else if(blockState.isIn(JelloBlockTags.COLORED_GLASS_PANES)){
-                defaultBlockName = "glass_pane";
-                blockChangeSound = SoundEvents.BLOCK_GLASS_PLACE;
-            }
-            else{
-                return ActionResult.PASS;
-            }
-
-
-            Block changedBlock = Registry.BLOCK.get(new Identifier(defaultBlockName));
-            if(!world.isClient){
-                world.setBlockState(hitResult.getBlockPos(), changedBlock.getStateWithProperties(blockState));
-            }
-
-            world.playSound(player, hitResult.getBlockPos(), blockChangeSound, SoundCategory.BLOCKS, 1.0F, 1.0F);
-            player.playSound(SoundEvents.ITEM_BUCKET_EMPTY, 1.0F, 1.0F);
-
-            if(!player.getAbilities().creativeMode){
-                ItemUsage.exchangeStack(mainHandStack, player, BucketItem.getEmptiedStack(mainHandStack, player));
-            }
-            return ActionResult.SUCCESS;
-
+        if(isAlreadyDefault(blockState.getBlock())){
+            return ActionResult.FAIL;
         }
 
-        return ActionResult.PASS;
+        String defaultBlockName;
+
+        if(blockState.isIn(BlockTags.TERRACOTTA)){
+            defaultBlockName = "terracotta";
+        }
+        else if(blockState.isIn(BlockTags.CANDLES)){
+            defaultBlockName = "candle";
+        }
+        else if(blockState.isIn(BlockTags.IMPERMEABLE)){
+            defaultBlockName = "glass";
+        }
+        else if(blockState.isIn(JelloBlockTags.COLORED_GLASS_PANES)){
+            defaultBlockName = "glass_pane";
+        } else if(blockState.isIn(BlockTags.WOOL)){
+            defaultBlockName = "white_wool";
+        }
+        else if(blockState.isIn(BlockTags.CARPETS)){
+            defaultBlockName = "white_carpet";
+        }
+        else{
+            return ActionResult.PASS;
+        }
+
+        Block changedBlock = Registry.BLOCK.get(new Identifier(defaultBlockName));
+        if(!world.isClient){
+            world.setBlockState(hitResult.getBlockPos(), changedBlock.getStateWithProperties(blockState));
+        }
+
+        player.playSound(SoundEvents.ITEM_BUCKET_EMPTY, 1.0F, 1.55F);
+
+        return ActionResult.SUCCESS;
     }
 
     private void decrementPlayerHandItemCC(PlayerEntity player, Hand hand){

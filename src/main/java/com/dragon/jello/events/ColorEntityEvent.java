@@ -5,6 +5,7 @@ import com.dragon.jello.mixin.ducks.RainbowEntity;
 import com.dragon.jello.registry.ColorizeRegistry;
 import io.wispforest.owo.ops.ItemOps;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -31,7 +32,10 @@ public class ColorEntityEvent implements UseEntityCallback {
                     return rainbowEntityEvent(player, hand, rainbowEntity);
                 }
                 else if (mainHandItem instanceof BucketItem bucketItem) {
-                    return bucketItemEvent(player, livingEntity, player.getMainHandStack(), bucketItem);
+                    return washEntityEvent(player, livingEntity, player.getMainHandStack(), bucketItem, false);
+                }
+                else if (mainHandItem == Blocks.WET_SPONGE.asItem()) {
+                    return washEntityEvent(player, livingEntity, player.getMainHandStack(), null, true);
                 }
             }
         }
@@ -61,10 +65,10 @@ public class ColorEntityEvent implements UseEntityCallback {
         return ActionResult.SUCCESS;
     }
 
-    private ActionResult bucketItemEvent(PlayerEntity player, LivingEntity livingEntity, ItemStack mainHandStack, BucketItem bucketItem){
+    private ActionResult washEntityEvent(PlayerEntity player, LivingEntity livingEntity, ItemStack mainHandStack, @Nullable BucketItem bucketItem, boolean spongeItemUsed){
         boolean washedEntity = false;
 
-        if (bucketItem.fluid == Fluids.WATER) {
+        if ((bucketItem != null && bucketItem.fluid == Fluids.WATER) || spongeItemUsed) {
             if(livingEntity instanceof DyeableEntity dyeableEntity){
                 if(dyeableEntity.isDyed()){
                     dyeableEntity.setDyeColorID(16);
@@ -79,10 +83,15 @@ public class ColorEntityEvent implements UseEntityCallback {
             }
 
             if(washedEntity){
-                player.playSound(SoundEvents.ITEM_BUCKET_EMPTY, 1.0F, 1.0F);
-                if(!player.getAbilities().creativeMode){
-                    ItemUsage.exchangeStack(mainHandStack, player, BucketItem.getEmptiedStack(mainHandStack, player));
+                if(bucketItem != null){
+                    player.playSound(SoundEvents.ITEM_BUCKET_EMPTY, 1.0F, 1.0F);
+                    if(!player.getAbilities().creativeMode){
+                        ItemUsage.exchangeStack(mainHandStack, player, BucketItem.getEmptiedStack(mainHandStack, player));
+                    }
+                }else{
+                    player.playSound(SoundEvents.ITEM_BUCKET_EMPTY, 1.0F, 1.55F);
                 }
+
                 return ActionResult.SUCCESS;
             }
         }
