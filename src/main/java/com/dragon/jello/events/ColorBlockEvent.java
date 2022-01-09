@@ -88,7 +88,6 @@ public class ColorBlockEvent implements UseBlockCallback {
     }
 
     private ActionResult cleanBlockEvent(PlayerEntity player, World world, BlockState blockState, BlockHitResult hitResult, ItemStack mainHandStack){
-
         if(isAlreadyDefault(blockState.getBlock())){
             return ActionResult.FAIL;
         }
@@ -106,7 +105,8 @@ public class ColorBlockEvent implements UseBlockCallback {
         }
         else if(blockState.isIn(JelloBlockTags.COLORED_GLASS_PANES)){
             defaultBlockName = "glass_pane";
-        } else if(blockState.isIn(BlockTags.WOOL)){
+        }
+        else if(blockState.isIn(BlockTags.WOOL)){
             defaultBlockName = "white_wool";
         }
         else if(blockState.isIn(BlockTags.CARPETS)){
@@ -147,6 +147,8 @@ public class ColorBlockEvent implements UseBlockCallback {
         }else if(block == Blocks.TERRACOTTA){
             return true;
         }else if(block == Blocks.CANDLE){
+            return true;
+        }else if(block == Blocks.WHITE_WOOL || block == Blocks.WHITE_CARPET){
             return true;
         }else{
             return false;
