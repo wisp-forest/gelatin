@@ -1,9 +1,7 @@
 package com.dragon.jello.mixin.mixins.client;
 
-import com.dragon.jello.Util.ColorStateManager;
 import com.dragon.jello.Util.Util;
 import com.dragon.jello.mixin.ducks.DyeableEntity;
-import com.dragon.jello.mixin.ducks.GrayScaleEntity;
 import com.dragon.jello.mixin.ducks.RainbowEntity;
 import com.dragon.jello.registry.ColorizeRegistry;
 import net.minecraft.client.render.RenderLayer;
@@ -32,12 +30,6 @@ public class FeatureRendererMixin<T extends Entity, M extends EntityModel<T>> {
             if(!(livingEntity instanceof WolfEntity)){
                 boolean hasCustomColor = false;
                 float[] colorComp = new float[]{1.0F,1.0F,1.0F};
-
-                if(livingEntity instanceof GrayScaleEntity grayScaleEntity && grayScaleEntity.isGrayScaled()){
-                    ColorStateManager.enableGrayScale();
-                }else{
-                    ColorStateManager.disableGrayScale();
-                }
 
                 if(livingEntity instanceof DyeableEntity dyeableEntity && dyeableEntity.isDyed() && !(livingEntity instanceof SheepEntity)){
                     colorComp = dyeableEntity.getDyeColor().getColorComponents();

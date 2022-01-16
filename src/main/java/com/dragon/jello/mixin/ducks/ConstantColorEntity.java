@@ -1,13 +1,9 @@
 package com.dragon.jello.mixin.ducks;
 
-public interface ConstantColorEntity extends GrayScaleEntity {
+public interface ConstantColorEntity {
 
     default int getConstantColor(){
         return -1;
-    }
-
-    default boolean isGrayScaled(){
-        return trueColorOverride();
     }
 
     default boolean isConstantColor(){

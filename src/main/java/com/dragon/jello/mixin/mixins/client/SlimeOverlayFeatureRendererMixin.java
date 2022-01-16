@@ -1,9 +1,7 @@
 package com.dragon.jello.mixin.mixins.client;
 
-import com.dragon.jello.Util.ColorStateManager;
 import com.dragon.jello.Util.Util;
 import com.dragon.jello.mixin.ducks.DyeableEntity;
-import com.dragon.jello.mixin.ducks.GrayScaleEntity;
 import com.dragon.jello.mixin.ducks.RainbowEntity;
 import com.dragon.jello.registry.ColorizeRegistry;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -29,13 +27,6 @@ public class SlimeOverlayFeatureRendererMixin<T extends LivingEntity> {
         float[] colorComp = new float[]{1.0F, 1.0F, 1.0F};
 
         if(ColorizeRegistry.isRegistered(livingEntity)) {
-//            ColorStateManager.GRAY_SCALE_TEST.clear();
-
-            if(livingEntity instanceof GrayScaleEntity grayScaleEntity && grayScaleEntity.isGrayScaled()){
-                ColorStateManager.enableGrayScale();
-            }else{
-                ColorStateManager.disableGrayScale();
-            }
 
             if(livingEntity instanceof DyeableEntity dyeableEntity && dyeableEntity.isDyed()){
                 colorComp = dyeableEntity.getDyeColor().getColorComponents();

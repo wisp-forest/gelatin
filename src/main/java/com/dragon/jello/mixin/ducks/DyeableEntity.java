@@ -38,14 +38,6 @@ public interface DyeableEntity extends ConstantColorEntity, RainbowEntity{
     }
 
     /**
-     * A Override of {@link GrayScaleEntity#isGrayScaled()} such
-     * that it only activates if the entity is {@link #isDyed()}.
-     */
-    default boolean isGrayScaled(){
-        return trueColorOverride() && isDyed();
-    }
-
-    /**
      * A method used to forever have A Certain DyeColor
      */
     boolean dyeColorOverride();

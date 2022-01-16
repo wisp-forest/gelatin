@@ -25,6 +25,7 @@ public class Jello implements ModInitializer {
         UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) ->{
             return new ColorEntityEvent().interact(player, world, hand, entity, hitResult);
         });
+
         UseBlockCallback.EVENT.register((player, world, hand, blockHitResult) -> {
             return new ColorBlockEvent().interact(player, world, hand, blockHitResult);
         });
