@@ -10,6 +10,8 @@
   "client": [
     "client.LivingEntityRenderMixin",
     "client.ResourceTextureMixin",
+    "client.TextureManagerMixin",
+    "client.RenderLayerMixin",
     "client.SlimeOverlayFeatureRendererMixin",
     "client.FeatureRendererMixin"
   ],

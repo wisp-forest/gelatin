@@ -29,7 +29,7 @@ public class SlimeOverlayFeatureRendererMixin<T extends LivingEntity> {
         float[] colorComp = new float[]{1.0F, 1.0F, 1.0F};
 
         if(ColorizeRegistry.isRegistered(livingEntity)) {
-            ColorStateManager.GRAY_SCALE_TEST.clear();
+//            ColorStateManager.GRAY_SCALE_TEST.clear();
 
             if(livingEntity instanceof GrayScaleEntity grayScaleEntity && grayScaleEntity.isGrayScaled()){
                 ColorStateManager.enableGrayScale();

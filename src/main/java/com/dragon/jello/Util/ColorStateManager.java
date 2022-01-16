@@ -23,6 +23,11 @@ public class ColorStateManager {
 
     public static boolean isGrayScaleEnabled(){
         RenderSystem.assertOnRenderThread();
-        return Boolean.TRUE.equals(GRAY_SCALE_TEST.peekLast());
+
+        if(!GRAY_SCALE_TEST.isEmpty()){
+            return Boolean.TRUE.equals(GRAY_SCALE_TEST.peekLast());
+        }
+
+        return false;
     }
 }
