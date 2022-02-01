@@ -1,18 +1,21 @@
 package com.dragon.jello.mixin.ducks;
 
-public interface ConstantColorEntity {
+import com.dragon.jello.Util.DataConstants;
+import net.minecraft.entity.Entity;
+
+public interface ConstantColorEntity extends GrayScaleEntity {
 
     default int getConstantColor(){
-        return -1;
+        return DataConstants.DEFAULT_NULL_COLOR_VALUE;
     }
 
-    default boolean isConstantColor(){
-        return getConstantColor() != -1;
+    default boolean isColored(){
+        return getConstantColor() != DataConstants.DEFAULT_NULL_COLOR_VALUE;
     }
 
-    /**
-     * A method used to allow for Color Blending with the Entity's base Texture's color
-     */
-    boolean trueColorOverride();
+    @Override
+    default boolean isGrayScaled(Entity entity){
+        return GrayScaleEntity.super.isGrayScaled(entity);
+    }
 
 }

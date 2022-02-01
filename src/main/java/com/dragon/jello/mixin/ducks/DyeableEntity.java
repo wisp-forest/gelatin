@@ -2,14 +2,17 @@ package com.dragon.jello.mixin.ducks;
 
 import com.dragon.jello.events.ColorEntityEvent;
 import com.dragon.jello.mixin.mixins.LivingEntityMixin;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.DyeColor;
-import org.spongepowered.asm.mixin.Unique;
 
 public interface DyeableEntity extends ConstantColorEntity, RainbowEntity{
+
+    /**
+     * A method used to check if the Entity is Dyed or not based on its color ID.
+     */
+    default boolean isDyed(){
+        return dyeColorOverride() || getDyeColorID() < 16;
+    }
 
     /**
      * A method used set your Entity's Color ID. The value of 16 is the default value, any higher will not affect the entity's color.
@@ -24,13 +27,6 @@ public interface DyeableEntity extends ConstantColorEntity, RainbowEntity{
     void setDyeColorID(int dyeColorID);
 
     /**
-     * A method used to check if the Entity is Dyed or not based on its color ID.
-     */
-    default boolean isDyed(){
-        return dyeColorOverride() || getDyeColorID() < 16;
-    }
-
-    /**
      * Returns the {@link DyeColor} using the Entity's Dye Color ID
      */
     default DyeColor getDyeColor(){
@@ -41,5 +37,10 @@ public interface DyeableEntity extends ConstantColorEntity, RainbowEntity{
      * A method used to forever have A Certain DyeColor
      */
     boolean dyeColorOverride();
+
+    @Override
+    default boolean isGrayScaled(Entity entity){
+        return (isDyed() || isColored()) && ConstantColorEntity.super.isGrayScaled(entity);
+    }
 
 }

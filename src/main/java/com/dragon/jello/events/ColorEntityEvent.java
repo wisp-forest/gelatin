@@ -1,5 +1,6 @@
 package com.dragon.jello.events;
 
+import com.dragon.jello.mixin.ducks.ConstantColorEntity;
 import com.dragon.jello.mixin.ducks.DyeableEntity;
 import com.dragon.jello.mixin.ducks.RainbowEntity;
 import com.dragon.jello.registry.ColorizeRegistry;
@@ -13,6 +14,7 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.*;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
@@ -23,6 +25,10 @@ public class ColorEntityEvent implements UseEntityCallback {
     public ActionResult interact(PlayerEntity player, World world, Hand hand, Entity entity, @Nullable EntityHitResult hitResult) {
         if(ColorizeRegistry.isRegistered(entity)){
             Item mainHandItem = player.getMainHandStack().getItem();
+
+            if(entity instanceof ConstantColorEntity constantColorEntity && constantColorEntity.isColored()){
+                return ActionResult.PASS;
+            }
 
             if(player.shouldCancelInteraction() && entity instanceof LivingEntity livingEntity) {
                 if(livingEntity instanceof DyeableEntity dyeableEntity && mainHandItem instanceof DyeItem dyeItem){
@@ -44,7 +50,7 @@ public class ColorEntityEvent implements UseEntityCallback {
     }
 
     private ActionResult dyeEntityEvent(PlayerEntity player, Hand hand, DyeableEntity dyeableEntity, DyeItem dyeItem){
-        if ((dyeableEntity.isRainbowTime()) || dyeItem.getColor().getId() == dyeableEntity.getDyeColorID()) {
+        if ((dyeableEntity.isRainbowTime()) || dyeItem.getColor().getId() == dyeableEntity.getDyeColorID()){//|| dyeItem.getColor().getId() == DyeColor.WHITE.getId()) {
             return ActionResult.FAIL;
         }
 

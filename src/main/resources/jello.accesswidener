@@ -7,3 +7,5 @@ accessible method net/minecraft/client/texture/ResourceTexture loadTextureData (
 accessible method net/minecraft/client/texture/ResourceTexture upload (Lnet/minecraft/client/texture/NativeImage;ZZ)V
 accessible field net/minecraft/client/texture/NativeImage pointer J
 accessible field net/minecraft/client/texture/ResourceTexture location Lnet/minecraft/util/Identifier;
+
+accessible method net/minecraft/client/render/entity/feature/FeatureRenderer getTexture (Lnet/minecraft/entity/Entity;)Lnet/minecraft/util/Identifier;

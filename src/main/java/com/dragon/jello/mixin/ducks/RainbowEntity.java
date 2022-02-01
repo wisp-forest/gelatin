@@ -27,11 +27,13 @@ public interface RainbowEntity {
      *
      * @param value     boolean value for either turning on or off rainbow
      */
-    void setRainbowTime(boolean value);
+    default void setRainbowTime(boolean value){};
 
     /**
      * A method used to forever have Rainbow Effect Enabled
      */
-    boolean rainbowOverride();
+    default boolean rainbowOverride(){
+        return false;
+    }
 
 }

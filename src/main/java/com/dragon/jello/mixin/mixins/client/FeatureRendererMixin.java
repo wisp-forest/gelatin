@@ -1,9 +1,12 @@
 package com.dragon.jello.mixin.mixins.client;
 
 import com.dragon.jello.Util.Util;
+import com.dragon.jello.mixin.ducks.ConstantColorEntity;
 import com.dragon.jello.mixin.ducks.DyeableEntity;
+import com.dragon.jello.mixin.ducks.GrayScaleEntity;
 import com.dragon.jello.mixin.ducks.RainbowEntity;
 import com.dragon.jello.registry.ColorizeRegistry;
+import com.dragon.jello.registry.GrayScaleRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -20,6 +23,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.awt.*;
 
 @Mixin(FeatureRenderer.class)
 public class FeatureRendererMixin<T extends Entity, M extends EntityModel<T>> {
@@ -35,17 +41,35 @@ public class FeatureRendererMixin<T extends Entity, M extends EntityModel<T>> {
                     colorComp = dyeableEntity.getDyeColor().getColorComponents();
                     hasCustomColor = true;
                 }
+                else if(livingEntity instanceof ConstantColorEntity constantColorEntity && constantColorEntity.isColored()){
+                    colorComp = new Color(constantColorEntity.getConstantColor()).getRGBColorComponents(null);
+                    hasCustomColor = true;
+                }
                 else if(livingEntity instanceof RainbowEntity rainbowEntity && rainbowEntity.isRainbowTime()) {
                     colorComp = Util.rainbowColorizer(livingEntity);
                     hasCustomColor = true;
                 }
 
                 if(hasCustomColor){
-                    VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(texture));
+                    VertexConsumer vertexConsumer;
+
+                    if(livingEntity instanceof GrayScaleEntity grayScaleEntity && grayScaleEntity.isGrayScaled(livingEntity)){
+                        vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(GrayScaleRegistry.getOrFindTexture(livingEntity, texture)));
+                    }else{
+                        vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(texture));
+                    }
+
                     model.render(matrices, vertexConsumer, light, LivingEntityRenderer.getOverlay(livingEntity, 0.0F), colorComp[0], colorComp[1], colorComp[2], 1.0F);
                     ci.cancel();
                 }
             }
+        }
+    }
+
+    @Inject(method = "getTexture", at = @At(value = "RETURN"), cancellable = true)
+    private void getGrayScaleID(T entity, CallbackInfoReturnable<Identifier> cir){
+        if(entity instanceof GrayScaleEntity grayScaleEntity && grayScaleEntity.isGrayScaled(entity)){
+            cir.setReturnValue(GrayScaleRegistry.getOrFindTexture(entity, cir.getReturnValue()));
         }
     }
 }
