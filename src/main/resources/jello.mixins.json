@@ -5,13 +5,15 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "LivingEntityMixin",
-    "NbtCompundMixin"
+    "NbtCompundMixin",
+    "PistonHandlerAccessor",
+    "PistonHandlerMixin"
   ],
   "client": [
-    "client.LivingEntityRenderMixin",
-    "client.SlimeOverlayFeatureRendererMixin",
+    "ItemModelGeneratorAccessor",
     "client.FeatureRendererMixin",
-    "ItemModelGeneratorAccessor"
+    "client.LivingEntityRenderMixin",
+    "client.SlimeOverlayFeatureRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
