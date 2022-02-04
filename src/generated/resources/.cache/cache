@@ -40,6 +40,7 @@ fc5f050e972f8245384aec661225bf8e91d3a271 assets\jello\blockstates\orange_slime_b
 24e27c9b54d68ccfa306e308db54c8a0b696469c assets\jello\models\item\brown_slime_ball.json
 d381bd651d00d5bd7633e731dc54146ed300504f data\c\tags\blocks\slime_blocks.json
 24e27c9b54d68ccfa306e308db54c8a0b696469c assets\jello\models\item\magenta_slime_ball.json
+7d604b382a4a6b32d630a51a028795fdc89f5cae assets\jello\lang\en_us.json
 fc5f050e972f8245384aec661225bf8e91d3a271 assets\jello\blockstates\blue_slime_block.json
 fc5f050e972f8245384aec661225bf8e91d3a271 assets\jello\blockstates\gray_slime_block.json
 65b1aed1065ec0d015c867223ae38e9f311b2460 assets\jello\models\item\orange_slime_block.json
@@ -48,4 +49,5 @@ fc5f050e972f8245384aec661225bf8e91d3a271 assets\jello\blockstates\cyan_slime_blo
 fc5f050e972f8245384aec661225bf8e91d3a271 assets\jello\blockstates\purple_slime_block.json
 24e27c9b54d68ccfa306e308db54c8a0b696469c assets\jello\models\item\cyan_slime_ball.json
 65b1aed1065ec0d015c867223ae38e9f311b2460 assets\jello\models\item\lime_slime_block.json
+82348d30594eaf4a3f3b403ece2be4f989df5e5e data\c\tags\blocks\sticky_block.json
 65b1aed1065ec0d015c867223ae38e9f311b2460 assets\jello\models\item\light_gray_slime_block.json
