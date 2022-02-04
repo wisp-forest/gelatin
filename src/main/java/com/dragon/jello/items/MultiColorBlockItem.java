@@ -1,19 +1,23 @@
 package com.dragon.jello.items;
 
 import com.dragon.jello.blocks.SlimeBlockColored;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvironmentInterface;
 import net.minecraft.client.color.item.ItemColorProvider;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.DyeColor;
 
-public class SlimeBlockMultiColorItem extends BlockItem implements ItemColorProvider {
+@EnvironmentInterface(value = EnvType.CLIENT, itf = ItemColorProvider.class)
+public class MultiColorBlockItem extends BlockItem implements ItemColorProvider {
     public static final String NBT_COLOR_KEY = "SlimeColor";
 
     private final DyeColor dyeColor;
     private int blockColor;
 
-    public SlimeBlockMultiColorItem(SlimeBlockColored block, Settings settings) {
+    public MultiColorBlockItem(SlimeBlockColored block, Settings settings) {
         super(block, settings);
 
         this.dyeColor = block.getDyeColor();
@@ -27,6 +31,7 @@ public class SlimeBlockMultiColorItem extends BlockItem implements ItemColorProv
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
     public int getColor(ItemStack stack, int tintIndex) {
         return blockColor;
 

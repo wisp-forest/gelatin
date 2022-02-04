@@ -1,34 +1,31 @@
 package com.dragon.jello.items;
 
 import io.wispforest.owo.registration.reflect.ItemRegistryContainer;
-import net.minecraft.client.color.item.ItemColorProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.DyeColor;
 
-import java.awt.*;
 import java.util.List;
 
 public class ItemRegistry {
 
     public static class SlimeBlockItemRegistry implements ItemRegistryContainer {
-        public static final Item WHITE_SLIME_BALL = new SlimeBallColored(DyeColor.WHITE, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item ORANGE_SLIME_BALL = new SlimeBallColored(DyeColor.ORANGE, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item MAGENTA_SLIME_BALL = new SlimeBallColored(DyeColor.MAGENTA, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item LIGHT_BLUE_SLIME_BALL = new SlimeBallColored(DyeColor.LIGHT_BLUE, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item YELLOW_SLIME_BALL = new SlimeBallColored(DyeColor.YELLOW, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item LIME_SLIME_BALL = new SlimeBallColored(DyeColor.LIME, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item PINK_SLIME_BALL = new SlimeBallColored(DyeColor.PINK, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item GRAY_SLIME_BALL = new SlimeBallColored(DyeColor.GRAY, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item LIGHT_GRAY_SLIME_BALL = new SlimeBallColored(DyeColor.LIGHT_GRAY, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item CYAN_SLIME_BALL = new SlimeBallColored(DyeColor.CYAN, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item PURPLE_SLIME_BALL = new SlimeBallColored(DyeColor.PURPLE, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item BLUE_SLIME_BALL = new SlimeBallColored(DyeColor.BLUE, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item BROWN_SLIME_BALL = new SlimeBallColored(DyeColor.BROWN, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item GREEN_SLIME_BALL = new SlimeBallColored(DyeColor.GREEN, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item RED_SLIME_BALL = new SlimeBallColored(DyeColor.RED, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item BLACK_SLIME_BALL = new SlimeBallColored(DyeColor.BLACK, (new Item.Settings()).group(ItemGroup.MISC));
+        public static final Item WHITE_SLIME_BALL = new MultiColorItem(DyeColor.WHITE, (new Item.Settings()).group(ItemGroup.MISC));
+        public static final Item ORANGE_SLIME_BALL = new MultiColorItem(DyeColor.ORANGE, (new Item.Settings()).group(ItemGroup.MISC));
+        public static final Item MAGENTA_SLIME_BALL = new MultiColorItem(DyeColor.MAGENTA, (new Item.Settings()).group(ItemGroup.MISC));
+        public static final Item LIGHT_BLUE_SLIME_BALL = new MultiColorItem(DyeColor.LIGHT_BLUE, (new Item.Settings()).group(ItemGroup.MISC));
+        public static final Item YELLOW_SLIME_BALL = new MultiColorItem(DyeColor.YELLOW, (new Item.Settings()).group(ItemGroup.MISC));
+        public static final Item LIME_SLIME_BALL = new MultiColorItem(DyeColor.LIME, (new Item.Settings()).group(ItemGroup.MISC));
+        public static final Item PINK_SLIME_BALL = new MultiColorItem(DyeColor.PINK, (new Item.Settings()).group(ItemGroup.MISC));
+        public static final Item GRAY_SLIME_BALL = new MultiColorItem(DyeColor.GRAY, (new Item.Settings()).group(ItemGroup.MISC));
+        public static final Item LIGHT_GRAY_SLIME_BALL = new MultiColorItem(DyeColor.LIGHT_GRAY, (new Item.Settings()).group(ItemGroup.MISC));
+        public static final Item CYAN_SLIME_BALL = new MultiColorItem(DyeColor.CYAN, (new Item.Settings()).group(ItemGroup.MISC));
+        public static final Item PURPLE_SLIME_BALL = new MultiColorItem(DyeColor.PURPLE, (new Item.Settings()).group(ItemGroup.MISC));
+        public static final Item BLUE_SLIME_BALL = new MultiColorItem(DyeColor.BLUE, (new Item.Settings()).group(ItemGroup.MISC));
+        public static final Item BROWN_SLIME_BALL = new MultiColorItem(DyeColor.BROWN, (new Item.Settings()).group(ItemGroup.MISC));
+        public static final Item GREEN_SLIME_BALL = new MultiColorItem(DyeColor.GREEN, (new Item.Settings()).group(ItemGroup.MISC));
+        public static final Item RED_SLIME_BALL = new MultiColorItem(DyeColor.RED, (new Item.Settings()).group(ItemGroup.MISC));
+        public static final Item BLACK_SLIME_BALL = new MultiColorItem(DyeColor.BLACK, (new Item.Settings()).group(ItemGroup.MISC));
 
         public static final List<Item> SLIME_BALLS = List
                 .of(WHITE_SLIME_BALL, ORANGE_SLIME_BALL, MAGENTA_SLIME_BALL, LIGHT_BLUE_SLIME_BALL,
