@@ -1,11 +1,15 @@
 package com.dragon.jello;
 
+import com.dragon.jello.blocks.BlockRegistry;
 import com.dragon.jello.events.ColorEntityEvent;
 import com.dragon.jello.events.ColorBlockEvent;
+import com.dragon.jello.items.ItemRegistry;
 import com.dragon.jello.registry.GrayScaleRegistry;
+import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
+import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.Identifier;
 
@@ -14,6 +18,9 @@ public class Jello implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        FieldRegistrationHandler.register(BlockRegistry.SlimeBlockRegistry.class, MODID, false);
+        FieldRegistrationHandler.register(ItemRegistry.SlimeBlockItemRegistry.class, MODID, false);
+
         registerEvents();
 
         //ColorizeRegistry.registerColorable(new Identifier("textures/entity/slime/slime.png"), EntityType.SLIME);

@@ -10,7 +10,8 @@
   "client": [
     "client.LivingEntityRenderMixin",
     "client.SlimeOverlayFeatureRendererMixin",
-    "client.FeatureRendererMixin"
+    "client.FeatureRendererMixin",
+    "ItemModelGeneratorAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

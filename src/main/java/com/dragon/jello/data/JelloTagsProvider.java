@@ -1,5 +1,6 @@
 package com.dragon.jello.data;
 
+import com.dragon.jello.blocks.BlockRegistry;
 import com.dragon.jello.tags.JelloBlockTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
@@ -56,6 +57,8 @@ public class JelloTagsProvider {
                             Blocks.GREEN_STAINED_GLASS_PANE,
                             Blocks.RED_STAINED_GLASS_PANE,
                             Blocks.BLACK_STAINED_GLASS_PANE);
+
+            BlockRegistry.SlimeBlockRegistry.SLIME_BLOCKS.forEach(this.getOrCreateTagBuilder(JelloBlockTags.COLORED_SLIME_BLOCKS)::add);
         }
     }
 
