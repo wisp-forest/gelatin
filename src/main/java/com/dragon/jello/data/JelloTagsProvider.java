@@ -59,9 +59,14 @@ public class JelloTagsProvider {
                             Blocks.RED_STAINED_GLASS_PANE,
                             Blocks.BLACK_STAINED_GLASS_PANE);
 
-            BlockRegistry.SlimeBlockRegistry.SLIME_BLOCKS.forEach(this.getOrCreateTagBuilder(JelloBlockTags.COLORED_SLIME_BLOCKS)::add);
+            BlockRegistry.SlimeSlabRegistry.SLIME_SLABS.forEach(this.getOrCreateTagBuilder(JelloBlockTags.COLORED_SLIME_SLABS)::add);
 
-            this.getOrCreateTagBuilder(JelloBlockTags.STICKY_BLOCKS).addTag(JelloBlockTags.COLORED_SLIME_BLOCKS).add(Blocks.SLIME_BLOCK, Blocks.HONEY_BLOCK);
+            BlockRegistry.SlimeBlockRegistry.SLIME_BLOCKS.forEach(this.getOrCreateTagBuilder(JelloBlockTags.COLORED_SLIME_BLOCKS)::add);
+            this.getOrCreateTagBuilder(JelloBlockTags.COLORED_SLIME_BLOCKS).addTag(JelloBlockTags.COLORED_SLIME_SLABS);
+
+            this.getOrCreateTagBuilder(JelloBlockTags.STICKY_BLOCKS)
+                    .addTag(JelloBlockTags.COLORED_SLIME_BLOCKS)
+                    .add(Blocks.SLIME_BLOCK, Blocks.HONEY_BLOCK);
         }
     }
 

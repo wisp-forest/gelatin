@@ -6,8 +6,6 @@ import net.fabricmc.api.EnvironmentInterface;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SlimeBlock;
 import net.minecraft.client.color.block.BlockColorProvider;
-import net.minecraft.client.color.item.ItemColorProvider;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -17,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import java.awt.*;
 
 @EnvironmentInterface(value = EnvType.CLIENT, itf = BlockColorProvider.class)
-public class SlimeBlockColored extends SlimeBlock implements BlockColorProvider {
+public class SlimeBlockColored extends SlimeBlock implements BlockColorProvider, DyeableBlock {
     private int blockColor;
     private final DyeColor dyeColor;
 
@@ -41,10 +39,12 @@ public class SlimeBlockColored extends SlimeBlock implements BlockColorProvider 
         return blockColor;
     }
 
+    @Override
     public int getBlockColor(){
         return blockColor;
     }
 
+    @Override
     public DyeColor getDyeColor(){
         return dyeColor;
     }

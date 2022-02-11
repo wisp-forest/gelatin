@@ -26,12 +26,23 @@ public class JelloBlockStateProvider extends FabricBlockStateDefinitionProvider 
         BlockRegistry.SlimeBlockRegistry.SLIME_BLOCKS.forEach((block) -> {
             registerStateWithModelReferenceSlime(block, blockStateModelGenerator);
         });
+
+        BlockRegistry.SlimeSlabRegistry.SLIME_SLABS.forEach((block) -> {
+            BlockStateSupplier stateSupplier = BlockStateModelGenerator.createSlabBlockState(block, new Identifier("jello", "block/slime_slab_multicolor"), new Identifier("jello", "block/slime_slab_top_multicolor"), new Identifier("jello", "block/slime_block_multicolor"));
+
+            blockStateModelGenerator.blockStateCollector.accept(stateSupplier);
+        });
     }
 
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         BlockRegistry.SlimeBlockRegistry.SLIME_BLOCKS.forEach((block) -> {
             Model model = slimeBlockItemModel(block);
+            model.upload(ModelIds.getItemModelId(block.asItem()), new Texture(), ((ItemModelGeneratorAccessor)itemModelGenerator).getWriter());
+        });
+
+        BlockRegistry.SlimeSlabRegistry.SLIME_SLABS.forEach((block) -> {
+            Model model = slimeSlabItemModel(block);
             model.upload(ModelIds.getItemModelId(block.asItem()), new Texture(), ((ItemModelGeneratorAccessor)itemModelGenerator).getWriter());
         });
 
@@ -43,6 +54,9 @@ public class JelloBlockStateProvider extends FabricBlockStateDefinitionProvider 
 
     private Model slimeBlockItemModel(Block block){
        return new Model(Optional.of(new Identifier(Jello.MODID, "block/slime_block_multicolor")), Optional.empty());
+    }
+    private Model slimeSlabItemModel(Block block){
+        return new Model(Optional.of(new Identifier(Jello.MODID, "block/slime_slab_multicolor")), Optional.empty());
     }
 
     private Model slimeBallItemModel(Item item){

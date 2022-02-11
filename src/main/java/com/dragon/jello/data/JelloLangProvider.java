@@ -29,6 +29,10 @@ public class JelloLangProvider extends LanguageProvider {
             addBlock(() -> block);
         });
 
+        BlockRegistry.SlimeSlabRegistry.SLIME_SLABS.forEach((block) -> {
+            addBlock(() -> block);
+        });
+
         ItemRegistry.SlimeBlockItemRegistry.SLIME_BALLS.forEach((item) -> {
             addItem(() -> item);
         });

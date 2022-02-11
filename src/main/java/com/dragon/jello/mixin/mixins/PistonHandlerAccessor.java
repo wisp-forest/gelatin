@@ -11,4 +11,9 @@ public interface PistonHandlerAccessor {
     static boolean callIsBlockSticky(BlockState state) {
         throw new UnsupportedOperationException();
     }
+
+    @Invoker
+    static boolean callIsAdjacentBlockStuck(BlockState state, BlockState adjacentState) {
+        throw new UnsupportedOperationException();
+    }
 }

@@ -16,6 +16,7 @@
     "jello:brown_slime_block",
     "jello:green_slime_block",
     "jello:red_slime_block",
-    "jello:black_slime_block"
+    "jello:black_slime_block",
+    "#c:colored_slime_slabs"
   ]
 }

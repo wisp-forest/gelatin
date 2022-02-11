@@ -5,20 +5,24 @@ import com.dragon.jello.events.ColorEntityEvent;
 import com.dragon.jello.events.ColorBlockEvent;
 import com.dragon.jello.items.ItemRegistry;
 import com.dragon.jello.registry.GrayScaleRegistry;
+//import com.llamalad7.mixinextras.MixinExtrasBootstrap;
 import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
+import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.Identifier;
 
-public class Jello implements ModInitializer {
+public class Jello implements ModInitializer, PreLaunchEntrypoint {
     public static final String MODID = "jello";
 
     @Override
     public void onInitialize() {
         FieldRegistrationHandler.register(BlockRegistry.SlimeBlockRegistry.class, MODID, false);
+        FieldRegistrationHandler.register(BlockRegistry.SlimeSlabRegistry.class, MODID, false);
+
         FieldRegistrationHandler.register(ItemRegistry.SlimeBlockItemRegistry.class, MODID, false);
 
         registerEvents();
@@ -36,5 +40,10 @@ public class Jello implements ModInitializer {
         UseBlockCallback.EVENT.register((player, world, hand, blockHitResult) -> {
             return new ColorBlockEvent().interact(player, world, hand, blockHitResult);
         });
+    }
+
+    @Override
+    public void onPreLaunch() {
+//        MixinExtrasBootstrap.init();
     }
 }

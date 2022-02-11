@@ -1,9 +1,10 @@
 package com.dragon.jello.items;
 
-import com.dragon.jello.blocks.SlimeBlockColored;
+import com.dragon.jello.blocks.DyeableBlock;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvironmentInterface;
+import net.minecraft.block.Block;
 import net.minecraft.client.color.item.ItemColorProvider;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
@@ -17,11 +18,12 @@ public class MultiColorBlockItem extends BlockItem implements ItemColorProvider 
     private final DyeColor dyeColor;
     private int blockColor;
 
-    public MultiColorBlockItem(SlimeBlockColored block, Settings settings) {
+    public MultiColorBlockItem(Block block, Settings settings) {
         super(block, settings);
 
-        this.dyeColor = block.getDyeColor();
-        this.blockColor = block.getBlockColor();
+        DyeableBlock dyableBlock = (DyeableBlock)block;
+        this.dyeColor = dyableBlock.getDyeColor();
+        this.blockColor = dyableBlock.getBlockColor();
     }
 
     @Override

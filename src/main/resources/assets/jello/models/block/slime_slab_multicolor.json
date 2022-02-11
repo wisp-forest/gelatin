@@ -1,0 +1,8 @@
+{
+  "parent": "jello:block/slime_slab",
+  "textures": {
+    "bottom": "jello:block/slime_block_gray",
+    "top": "jello:block/slime_block_gray",
+    "side": "jello:block/slime_block_gray"
+  }
+}

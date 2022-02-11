@@ -19,6 +19,13 @@ public class JelloClient implements ClientModInitializer {
             BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getTranslucent());
         });
 
+        BlockRegistry.SlimeSlabRegistry.SLIME_SLABS.forEach((block)->{
+            ColorProviderRegistry.BLOCK.register((BlockColorProvider)block, block);
+            ColorProviderRegistry.ITEM.register((ItemColorProvider)block.asItem(), block.asItem());
+
+            BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getTranslucent());
+        });
+
         ItemRegistry.SlimeBlockItemRegistry.SLIME_BALLS.forEach((item) -> ColorProviderRegistry.ITEM.register((ItemColorProvider)item, item));
 
     }

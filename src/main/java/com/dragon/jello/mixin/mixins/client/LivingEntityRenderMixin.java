@@ -16,7 +16,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -24,7 +23,6 @@ import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 import java.awt.*;
@@ -62,10 +60,11 @@ public abstract class LivingEntityRenderMixin<T extends LivingEntity, M extends 
         args.set(7, 1F);
     }
 
+    @SuppressWarnings("unchecked")
     @Inject(method = "getRenderLayer", at = @At(value = "HEAD"))
     private void checkForGrayScaleTexture(T entity, boolean showBody, boolean translucent, boolean showOutline, CallbackInfoReturnable<@Nullable RenderLayer> cir){
         if(entity instanceof GrayScaleEntity grayScaleEntity && grayScaleEntity.isGrayScaled(entity)){
-            grayScaleCache = GrayScaleRegistry.getOrFindTexture(entity, ((LivingEntityRenderer)(Object)this).getTexture(entity));
+            grayScaleCache = GrayScaleRegistry.getOrFindTexture(entity, ((LivingEntityRenderer<T,M>)(Object)this).getTexture(entity));
         }else{
             grayScaleCache = null;
         }
