@@ -31,7 +31,7 @@ public class BlockRegistry {
         public static final Block RED_SLIME_BLOCK = new SlimeBlockColored(DyeColor.RED, FabricBlockSettings.copyOf(Blocks.SLIME_BLOCK));
         public static final Block BLACK_SLIME_BLOCK = new SlimeBlockColored(DyeColor.BLACK, FabricBlockSettings.copyOf(Blocks.SLIME_BLOCK));
 
-        public static final List<Block> SLIME_BLOCKS = List
+        public static final List<Block> COLORED_SLIME_BLOCKS = List
                 .of(WHITE_SLIME_BLOCK, ORANGE_SLIME_BLOCK, MAGENTA_SLIME_BLOCK, LIGHT_BLUE_SLIME_BLOCK,
                         YELLOW_SLIME_BLOCK, LIME_SLIME_BLOCK, PINK_SLIME_BLOCK, GRAY_SLIME_BLOCK,
                         LIGHT_GRAY_SLIME_BLOCK, CYAN_SLIME_BLOCK, PURPLE_SLIME_BLOCK, BLUE_SLIME_BLOCK,
@@ -39,11 +39,17 @@ public class BlockRegistry {
 
         @Override
         public BlockItem createBlockItem(Block block, String identifier) {
-            return new MultiColorBlockItem(block, new Item.Settings().group(ItemGroup.REDSTONE));
+            if(block instanceof DyeableBlock){
+                return new MultiColorBlockItem(block, new Item.Settings().group(ItemGroup.REDSTONE));
+            }else{
+                return new BlockItem(block, new Item.Settings().group(ItemGroup.REDSTONE));
+            }
         }
     }
 
     public static class SlimeSlabRegistry implements BlockRegistryContainer{
+        public static final Block SLIME_SLAB = new SlimeSlab(FabricBlockSettings.copyOf(Blocks.SLIME_BLOCK));
+
         public static final Block WHITE_SLIME_SLAB= new SlimeSlabColored(DyeColor.WHITE, FabricBlockSettings.copyOf(Blocks.SLIME_BLOCK));
         public static final Block ORANGE_SLIME_SLAB = new SlimeSlabColored(DyeColor.ORANGE, FabricBlockSettings.copyOf(Blocks.SLIME_BLOCK));
         public static final Block MAGENTA_SLIME_SLAB = new SlimeSlabColored(DyeColor.MAGENTA, FabricBlockSettings.copyOf(Blocks.SLIME_BLOCK));
@@ -61,7 +67,7 @@ public class BlockRegistry {
         public static final Block RED_SLIME_SLAB = new SlimeSlabColored(DyeColor.RED, FabricBlockSettings.copyOf(Blocks.SLIME_BLOCK));
         public static final Block BLACK_SLIME_SLAB = new SlimeSlabColored(DyeColor.BLACK, FabricBlockSettings.copyOf(Blocks.SLIME_BLOCK));
 
-        public static final List<Block> SLIME_SLABS = List
+        public static final List<Block> COLORED_SLIME_SLABS = List
                 .of(WHITE_SLIME_SLAB, ORANGE_SLIME_SLAB, MAGENTA_SLIME_SLAB, LIGHT_BLUE_SLIME_SLAB,
                         YELLOW_SLIME_SLAB, LIME_SLIME_SLAB, PINK_SLIME_SLAB, GRAY_SLIME_SLAB,
                         LIGHT_GRAY_SLIME_SLAB, CYAN_SLIME_SLAB, PURPLE_SLIME_SLAB, BLUE_SLIME_SLAB,
@@ -69,7 +75,11 @@ public class BlockRegistry {
 
         @Override
         public BlockItem createBlockItem(Block block, String identifier) {
-            return new MultiColorBlockItem(block, new Item.Settings().group(ItemGroup.REDSTONE));
+            if(block instanceof DyeableBlock){
+                return new MultiColorBlockItem(block, new Item.Settings().group(ItemGroup.REDSTONE));
+            }else{
+                return new BlockItem(block, new Item.Settings().group(ItemGroup.REDSTONE));
+            }
         }
     }
 

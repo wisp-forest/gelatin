@@ -12,21 +12,23 @@ import net.minecraft.client.render.RenderLayer;
 public class JelloClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        BlockRegistry.SlimeBlockRegistry.SLIME_BLOCKS.forEach((block)->{
+        BlockRegistry.SlimeBlockRegistry.COLORED_SLIME_BLOCKS.forEach((block)->{
             ColorProviderRegistry.BLOCK.register((BlockColorProvider)block, block);
             ColorProviderRegistry.ITEM.register((ItemColorProvider)block.asItem(), block.asItem());
 
             BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getTranslucent());
         });
 
-        BlockRegistry.SlimeSlabRegistry.SLIME_SLABS.forEach((block)->{
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.SlimeSlabRegistry.SLIME_SLAB, RenderLayer.getTranslucent());
+
+        BlockRegistry.SlimeSlabRegistry.COLORED_SLIME_SLABS.forEach((block)->{
             ColorProviderRegistry.BLOCK.register((BlockColorProvider)block, block);
             ColorProviderRegistry.ITEM.register((ItemColorProvider)block.asItem(), block.asItem());
 
             BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getTranslucent());
         });
 
-        ItemRegistry.SlimeBlockItemRegistry.SLIME_BALLS.forEach((item) -> ColorProviderRegistry.ITEM.register((ItemColorProvider)item, item));
+        ItemRegistry.SlimeBallItemRegistry.SLIME_BALLS.forEach((item) -> ColorProviderRegistry.ITEM.register((ItemColorProvider)item, item));
 
     }
 }

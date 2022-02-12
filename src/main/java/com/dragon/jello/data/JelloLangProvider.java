@@ -25,15 +25,17 @@ public class JelloLangProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
 
-        BlockRegistry.SlimeBlockRegistry.SLIME_BLOCKS.forEach((block) -> {
+        BlockRegistry.SlimeBlockRegistry.COLORED_SLIME_BLOCKS.forEach((block) -> {
             addBlock(() -> block);
         });
 
-        BlockRegistry.SlimeSlabRegistry.SLIME_SLABS.forEach((block) -> {
+        BlockRegistry.SlimeSlabRegistry.COLORED_SLIME_SLABS.forEach((block) -> {
             addBlock(() -> block);
         });
 
-        ItemRegistry.SlimeBlockItemRegistry.SLIME_BALLS.forEach((item) -> {
+        addBlock(() -> BlockRegistry.SlimeSlabRegistry.SLIME_SLAB);
+
+        ItemRegistry.SlimeBallItemRegistry.SLIME_BALLS.forEach((item) -> {
             addItem(() -> item);
         });
     }

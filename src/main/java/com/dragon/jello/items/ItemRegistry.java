@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ItemRegistry {
 
-    public static class SlimeBlockItemRegistry implements ItemRegistryContainer {
+    public static class SlimeBallItemRegistry implements ItemRegistryContainer {
         public static final Item WHITE_SLIME_BALL = new MultiColorItem(DyeColor.WHITE, (new Item.Settings()).group(ItemGroup.MISC));
         public static final Item ORANGE_SLIME_BALL = new MultiColorItem(DyeColor.ORANGE, (new Item.Settings()).group(ItemGroup.MISC));
         public static final Item MAGENTA_SLIME_BALL = new MultiColorItem(DyeColor.MAGENTA, (new Item.Settings()).group(ItemGroup.MISC));

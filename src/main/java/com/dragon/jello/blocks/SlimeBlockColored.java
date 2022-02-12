@@ -4,6 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvironmentInterface;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.MapColor;
 import net.minecraft.block.SlimeBlock;
 import net.minecraft.client.color.block.BlockColorProvider;
 import net.minecraft.util.DyeColor;

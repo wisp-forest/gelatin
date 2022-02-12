@@ -1,11 +1,10 @@
 package com.dragon.jello.events;
 
-import com.dragon.jello.tags.JelloBlockTags;
+import com.dragon.jello.tags.JelloTags;
 import io.wispforest.owo.ops.ItemOps;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.item.*;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -47,7 +46,7 @@ public class ColorBlockEvent implements UseBlockCallback {
                     suffix = "_terracotta";
                     blockChangeSound = SoundEvents.BLOCK_STONE_PLACE;
                 }
-                else if(blockState.isIn(JelloBlockTags.CONCRETE)){
+                else if(blockState.isIn(JelloTags.Blocks.CONCRETE)){
                     suffix = "_concrete";
                     blockChangeSound = SoundEvents.BLOCK_STONE_PLACE;
                 }
@@ -59,7 +58,7 @@ public class ColorBlockEvent implements UseBlockCallback {
                     suffix = "_stained_glass";
                     blockChangeSound = SoundEvents.BLOCK_GLASS_PLACE;
                 }
-                else if(blockState.isIn(JelloBlockTags.COLORED_GLASS_PANES)){
+                else if(blockState.isIn(JelloTags.Blocks.COLORED_GLASS_PANES)){
                     suffix = "_stained_glass_pane";
                     blockChangeSound = SoundEvents.BLOCK_GLASS_PLACE;
                 }
@@ -103,7 +102,7 @@ public class ColorBlockEvent implements UseBlockCallback {
         else if(blockState.isIn(BlockTags.IMPERMEABLE)){
             defaultBlockName = "glass";
         }
-        else if(blockState.isIn(JelloBlockTags.COLORED_GLASS_PANES)){
+        else if(blockState.isIn(JelloTags.Blocks.COLORED_GLASS_PANES)){
             defaultBlockName = "glass_pane";
         }
         else if(blockState.isIn(BlockTags.WOOL)){

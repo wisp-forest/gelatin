@@ -4,16 +4,12 @@ import com.dragon.jello.blocks.BlockRegistry;
 import com.dragon.jello.events.ColorEntityEvent;
 import com.dragon.jello.events.ColorBlockEvent;
 import com.dragon.jello.items.ItemRegistry;
-import com.dragon.jello.registry.GrayScaleRegistry;
 //import com.llamalad7.mixinextras.MixinExtrasBootstrap;
 import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
-import net.minecraft.block.piston.PistonBehavior;
-import net.minecraft.entity.EntityType;
-import net.minecraft.util.Identifier;
 
 public class Jello implements ModInitializer, PreLaunchEntrypoint {
     public static final String MODID = "jello";
@@ -23,7 +19,7 @@ public class Jello implements ModInitializer, PreLaunchEntrypoint {
         FieldRegistrationHandler.register(BlockRegistry.SlimeBlockRegistry.class, MODID, false);
         FieldRegistrationHandler.register(BlockRegistry.SlimeSlabRegistry.class, MODID, false);
 
-        FieldRegistrationHandler.register(ItemRegistry.SlimeBlockItemRegistry.class, MODID, false);
+        FieldRegistrationHandler.register(ItemRegistry.SlimeBallItemRegistry.class, MODID, false);
 
         registerEvents();
 

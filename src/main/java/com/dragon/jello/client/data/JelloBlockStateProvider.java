@@ -10,9 +10,7 @@ import net.minecraft.block.Block;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.model.*;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.util.Optional;
 
@@ -23,11 +21,11 @@ public class JelloBlockStateProvider extends FabricBlockStateDefinitionProvider 
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-        BlockRegistry.SlimeBlockRegistry.SLIME_BLOCKS.forEach((block) -> {
+        BlockRegistry.SlimeBlockRegistry.COLORED_SLIME_BLOCKS.forEach((block) -> {
             registerStateWithModelReferenceSlime(block, blockStateModelGenerator);
         });
 
-        BlockRegistry.SlimeSlabRegistry.SLIME_SLABS.forEach((block) -> {
+        BlockRegistry.SlimeSlabRegistry.COLORED_SLIME_SLABS.forEach((block) -> {
             BlockStateSupplier stateSupplier = BlockStateModelGenerator.createSlabBlockState(block, new Identifier("jello", "block/slime_slab_multicolor"), new Identifier("jello", "block/slime_slab_top_multicolor"), new Identifier("jello", "block/slime_block_multicolor"));
 
             blockStateModelGenerator.blockStateCollector.accept(stateSupplier);
@@ -36,17 +34,17 @@ public class JelloBlockStateProvider extends FabricBlockStateDefinitionProvider 
 
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-        BlockRegistry.SlimeBlockRegistry.SLIME_BLOCKS.forEach((block) -> {
+        BlockRegistry.SlimeBlockRegistry.COLORED_SLIME_BLOCKS.forEach((block) -> {
             Model model = slimeBlockItemModel(block);
             model.upload(ModelIds.getItemModelId(block.asItem()), new Texture(), ((ItemModelGeneratorAccessor)itemModelGenerator).getWriter());
         });
 
-        BlockRegistry.SlimeSlabRegistry.SLIME_SLABS.forEach((block) -> {
+        BlockRegistry.SlimeSlabRegistry.COLORED_SLIME_SLABS.forEach((block) -> {
             Model model = slimeSlabItemModel(block);
             model.upload(ModelIds.getItemModelId(block.asItem()), new Texture(), ((ItemModelGeneratorAccessor)itemModelGenerator).getWriter());
         });
 
-        ItemRegistry.SlimeBlockItemRegistry.SLIME_BALLS.forEach((item) -> {
+        ItemRegistry.SlimeBallItemRegistry.SLIME_BALLS.forEach((item) -> {
             Model model = Models.GENERATED;
             model.upload(ModelIds.getItemModelId(item), (new Texture()).put(TextureKey.LAYER0, new Identifier(Jello.MODID, "item/slime_ball_gray")), ((ItemModelGeneratorAccessor)itemModelGenerator).getWriter());
         });
