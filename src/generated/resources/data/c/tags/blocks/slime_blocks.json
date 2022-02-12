@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "#jello:colored_slime_blocks",
+    "minecraft:slime_block"
+  ]
+}

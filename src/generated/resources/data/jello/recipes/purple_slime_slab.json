@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "jello:purple_slime_block"
+    }
+  },
+  "result": {
+    "item": "jello:purple_slime_slab",
+    "count": 6
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "jello:red_slime_ball_red_dye"
+    ]
+  },
+  "criteria": {
+    "has_slime_block_var": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "c:slime_blocks"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "jello:red_slime_ball_red_dye"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_slime_block_var",
+      "has_the_recipe"
+    ]
+  ]
+}

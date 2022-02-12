@@ -1,0 +1,22 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:slime_ball",
+    "jello:white_slime_ball",
+    "jello:orange_slime_ball",
+    "jello:magenta_slime_ball",
+    "jello:light_blue_slime_ball",
+    "jello:yellow_slime_ball",
+    "jello:lime_slime_ball",
+    "jello:pink_slime_ball",
+    "jello:gray_slime_ball",
+    "jello:light_gray_slime_ball",
+    "jello:cyan_slime_ball",
+    "jello:purple_slime_ball",
+    "jello:blue_slime_ball",
+    "jello:brown_slime_ball",
+    "jello:green_slime_ball",
+    "jello:red_slime_ball",
+    "jello:black_slime_ball"
+  ]
+}

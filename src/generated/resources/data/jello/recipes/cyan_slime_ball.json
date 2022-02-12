@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "jello:cyan_slime_block"
+    }
+  ],
+  "result": {
+    "item": "jello:cyan_slime_ball",
+    "count": 9
+  }
+}

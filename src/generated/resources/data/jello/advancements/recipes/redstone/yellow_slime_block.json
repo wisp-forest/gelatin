@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "minecraft:yellow_slime_block"
+    ]
+  },
+  "criteria": {
+    "has_yellow_slime_ball": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "jello:yellow_slime_ball"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "minecraft:yellow_slime_block"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_yellow_slime_ball",
+      "has_the_recipe"
+    ]
+  ]
+}

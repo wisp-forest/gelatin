@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "minecraft:cyan_slime_block"
+    ]
+  },
+  "criteria": {
+    "has_cyan_slime_ball": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "jello:cyan_slime_ball"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "minecraft:cyan_slime_block"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_cyan_slime_ball",
+      "has_the_recipe"
+    ]
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "jello:gray_slime_ball"
+    }
+  },
+  "result": {
+    "item": "jello:gray_slime_block"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "slime_block",
+  "ingredients": [
+    {
+      "item": "minecraft:light_gray_dye"
+    },
+    {
+      "tag": "c:slime_blocks"
+    }
+  ],
+  "result": {
+    "item": "jello:light_gray_slime_block"
+  }
+}

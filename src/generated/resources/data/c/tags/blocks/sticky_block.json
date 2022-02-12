@@ -1,8 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    "#c:colored_slime_blocks",
-    "minecraft:slime_block",
-    "minecraft:honey_block"
-  ]
-}

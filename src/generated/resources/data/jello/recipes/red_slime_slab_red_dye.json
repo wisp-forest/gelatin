@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "slime_block",
+  "ingredients": [
+    {
+      "item": "minecraft:red_dye"
+    },
+    {
+      "tag": "c:slime_slabs"
+    }
+  ],
+  "result": {
+    "item": "jello:red_slime_slab"
+  }
+}

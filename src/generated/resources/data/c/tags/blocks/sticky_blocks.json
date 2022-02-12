@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#c:slime_blocks",
+    "#jello:slime_slabs",
+    "minecraft:honey_block"
+  ]
+}

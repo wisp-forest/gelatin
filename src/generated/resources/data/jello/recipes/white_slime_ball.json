@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "jello:white_slime_block"
+    }
+  ],
+  "result": {
+    "item": "jello:white_slime_ball",
+    "count": 9
+  }
+}

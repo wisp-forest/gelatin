@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "jello:purple_slime_slab_purple_dye_full"
+    ]
+  },
+  "criteria": {
+    "has_slime_block_var": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "c:slime_slabs"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "jello:purple_slime_slab_purple_dye_full"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_slime_block_var",
+      "has_the_recipe"
+    ]
+  ]
+}
