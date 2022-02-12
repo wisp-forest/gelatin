@@ -1,6 +1,6 @@
 {
   "parent": "jello:block/slime_slab",
   "textures": {
-    "texture": "jello:block/slime_block_gray"
+    "texture": "minecraft:block/slime_block"
   }
 }
