@@ -2,12 +2,23 @@
   "schemaVersion": 1,
   "id": "jello",
   "version": "${version}",
+
   "name": "Jello",
   "description": "A Library mod that adds some useful entity coloring API's and new Blocks & Features based around Color!",
-  "authors": ["Dragon_Seeker"],
-  "contact": {},
+  "authors": [
+    "Dragon_Seeker"
+  ],
+  "contact": {
+    "homepage": "https://github.com/Dragon-Seeker/Jello",
+    "issues": "https://github.com/Dragon-Seeker/Jello/issues",
+    "sources": "https://github.com/Dragon-Seeker/Jello"
+  },
+
   "license": "LGPL-3.0",
-  "contributors": ["Elzra_Hentma"],
+  "contributors": [
+    "Elzra_Hentma"
+  ],
+
   "icon": "assets/jello/icon.png",
   "accessWidener" : "jello.accesswidener",
   "environment": "*",

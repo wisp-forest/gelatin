@@ -18,6 +18,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.passive.WolfEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -68,7 +69,7 @@ public class FeatureRendererMixin<T extends Entity, M extends EntityModel<T>> {
 
     @Inject(method = "getTexture", at = @At(value = "RETURN"), cancellable = true)
     private void getGrayScaleID(T entity, CallbackInfoReturnable<Identifier> cir){
-        if(entity instanceof GrayScaleEntity grayScaleEntity && grayScaleEntity.isGrayScaled(entity)){
+        if(!(entity instanceof PlayerEntity) && (entity instanceof GrayScaleEntity grayScaleEntity && grayScaleEntity.isGrayScaled(entity))){
             cir.setReturnValue(GrayScaleRegistry.getOrFindTexture(entity, cir.getReturnValue()));
         }
     }

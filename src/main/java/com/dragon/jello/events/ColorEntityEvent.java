@@ -20,7 +20,7 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class ColorEntityEvent implements UseEntityCallback {
+public class ColorEntityEvent implements UseEntityCallback, DeColorizeCallback{
     @Override
     public ActionResult interact(PlayerEntity player, World world, Hand hand, Entity entity, @Nullable EntityHitResult hitResult) {
         if(ColorizeRegistry.isRegistered(entity)){
@@ -109,5 +109,16 @@ public class ColorEntityEvent implements UseEntityCallback {
         if(!player.getAbilities().creativeMode){
             ItemOps.decrementPlayerHandItem(player, hand);
         }
+    }
+
+    //------------------------------------------------------------------------------------
+
+    @Override
+    public boolean finishUsing(ItemStack stack, World world, LivingEntity user) {
+        if(user instanceof DyeableEntity dyeableEntity && dyeableEntity.isDyed()){
+            dyeableEntity.setDyeColorID(16);
+        }
+
+        return true;
     }
 }

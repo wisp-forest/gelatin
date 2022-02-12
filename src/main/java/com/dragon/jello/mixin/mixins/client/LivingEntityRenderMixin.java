@@ -13,6 +13,7 @@ import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -63,7 +64,7 @@ public abstract class LivingEntityRenderMixin<T extends LivingEntity, M extends 
     @SuppressWarnings("unchecked")
     @Inject(method = "getRenderLayer", at = @At(value = "HEAD"))
     private void checkForGrayScaleTexture(T entity, boolean showBody, boolean translucent, boolean showOutline, CallbackInfoReturnable<@Nullable RenderLayer> cir){
-        if(entity instanceof GrayScaleEntity grayScaleEntity && grayScaleEntity.isGrayScaled(entity)){
+        if(!(entity instanceof PlayerEntity) && (entity instanceof GrayScaleEntity grayScaleEntity && grayScaleEntity.isGrayScaled(entity))){
             grayScaleCache = GrayScaleRegistry.getOrFindTexture(entity, ((LivingEntityRenderer<T,M>)(Object)this).getTexture(entity));
         }else{
             grayScaleCache = null;

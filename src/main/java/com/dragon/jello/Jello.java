@@ -1,15 +1,24 @@
 package com.dragon.jello;
 
 import com.dragon.jello.blocks.BlockRegistry;
-import com.dragon.jello.events.ColorEntityEvent;
-import com.dragon.jello.events.ColorBlockEvent;
+import com.dragon.jello.events.*;
 import com.dragon.jello.items.ItemRegistry;
 //import com.llamalad7.mixinextras.MixinExtrasBootstrap;
+import io.wispforest.owo.registration.reflect.AutoRegistryContainer;
 import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
+import net.minecraft.block.DispenserBlock;
+import net.minecraft.block.dispenser.ShearsDispenserBehavior;
+import net.minecraft.entity.EntityType;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
+import net.minecraft.util.DyeColor;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.event.GameEvent;
 
 public class Jello implements ModInitializer, PreLaunchEntrypoint {
     public static final String MODID = "jello";
@@ -20,6 +29,10 @@ public class Jello implements ModInitializer, PreLaunchEntrypoint {
         FieldRegistrationHandler.register(BlockRegistry.SlimeSlabRegistry.class, MODID, false);
 
         FieldRegistrationHandler.register(ItemRegistry.SlimeBallItemRegistry.class, MODID, false);
+        FieldRegistrationHandler.register(GameEvents.class, MODID, false);
+
+        registerDyeDispenserBehavior();
+        DispenserBlock.registerBehavior(Items.WATER_BUCKET, new DeColorEntityBehavior());
 
         registerEvents();
 
@@ -36,10 +49,39 @@ public class Jello implements ModInitializer, PreLaunchEntrypoint {
         UseBlockCallback.EVENT.register((player, world, hand, blockHitResult) -> {
             return new ColorBlockEvent().interact(player, world, hand, blockHitResult);
         });
+
+        DeColorizeCallback.EVENT.register((itemStack, world, user) -> {
+            return new ColorEntityEvent().finishUsing(itemStack, world, user);
+        });
+    }
+
+    private void registerDyeDispenserBehavior(){
+        DyeColor[] dyeColors = DyeColor.values();
+
+        for(int i = 0; i < dyeColors.length; i++){
+            Item item = Registry.ITEM.get(new Identifier(dyeColors[i].getName() + "_dye"));
+
+            DispenserBlock.registerBehavior(item, new ColorEntityBehavior());
+        }
     }
 
     @Override
     public void onPreLaunch() {
 //        MixinExtrasBootstrap.init();
+    }
+
+    public static class GameEvents implements AutoRegistryContainer<GameEvent> {
+
+        public static final GameEvent DYE_ENTITY = new GameEvent("dye_entity", 16);
+
+        @Override
+        public Registry<GameEvent> getRegistry() {
+            return Registry.GAME_EVENT;
+        }
+
+        @Override
+        public Class<GameEvent> getTargetFieldType() {
+            return GameEvent.class;
+        }
     }
 }
