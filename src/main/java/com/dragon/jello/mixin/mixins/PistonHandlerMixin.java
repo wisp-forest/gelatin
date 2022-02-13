@@ -60,7 +60,7 @@ public abstract class PistonHandlerMixin {
 
     @Unique
     private static boolean isCustomSlimeBlock(BlockState state){
-        return state.isIn(JelloTags.Blocks.SLIME_BLOCKS) || state.isIn(JelloTags.Blocks.SLIME_SLABS);
+        return state.isIn(JelloTags.Blocks.COLORED_SLIME_BLOCKS) || state.isIn(JelloTags.Blocks.COLORED_SLIME_SLABS);
     }
 
     @Unique
@@ -79,7 +79,7 @@ public abstract class PistonHandlerMixin {
 
     @Inject(method = "calculatePush", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/BlockState;", shift = At.Shift.BY, by = 2, ordinal = 0), locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
     private void firstBlockCulling(CallbackInfoReturnable<Boolean> cir, BlockState blockState){
-        if(blockState.isIn(JelloTags.Blocks.COLORED_SLIME_SLABS)){
+        if(blockState.isIn(JelloTags.Blocks.SLIME_SLABS)){
             if((motionDirection == Direction.DOWN && getPistonDirection() == Direction.UP) && blockState.get(SlabBlock.TYPE) == SlabType.TOP){
                 cir.setReturnValue(true);
             }
@@ -108,7 +108,7 @@ public abstract class PistonHandlerMixin {
         setToAir = false;
 
         //--------------------------\/--\/--\/------------------------------\\
-        if(blockState2.isIn(JelloTags.Blocks.COLORED_SLIME_SLABS)){
+        if(blockState2.isIn(JelloTags.Blocks.SLIME_SLABS)){
             if(motionDirection == Direction.DOWN && blockState2.get(SlabBlock.TYPE) == SlabType.BOTTOM){
                 setToAir = true;
             }
@@ -116,7 +116,7 @@ public abstract class PistonHandlerMixin {
                 setToAir = true;
             }
 
-            if(blockState.isIn(JelloTags.Blocks.COLORED_SLIME_SLABS)){
+            if(blockState.isIn(JelloTags.Blocks.SLIME_SLABS)){
                 if(motionDirection.getId() >= 2) {
                     if (blockState2.get(SlabBlock.TYPE) == SlabType.BOTTOM && blockState.get(SlabBlock.TYPE) == SlabType.TOP) {
                         setToAir = true;
@@ -157,7 +157,7 @@ public abstract class PistonHandlerMixin {
         BlockState blockState = this.world.getBlockState(pos);
 
         for(Direction direction : Direction.values()) {
-            if (blockState.isIn(JelloTags.Blocks.COLORED_SLIME_SLABS)) {
+            if (blockState.isIn(JelloTags.Blocks.SLIME_SLABS)) {
                 slabType.set(blockState.get(SlabBlock.TYPE));
 
                 if (motionDirection.getId() >= 2) {
@@ -172,7 +172,7 @@ public abstract class PistonHandlerMixin {
                 BlockPos blockPos = pos.offset(direction);
                 BlockState blockState2 = this.world.getBlockState(blockPos);
 
-                if (blockState2.isIn(JelloTags.Blocks.COLORED_SLIME_SLABS)) {
+                if (blockState2.isIn(JelloTags.Blocks.SLIME_SLABS)) {
                     slabType2.set(blockState2.get(SlabBlock.TYPE));
                     if (direction.getId() >= 2) {
                         if (slabType.get() == SlabType.TOP && slabType2.get() == SlabType.BOTTOM) {

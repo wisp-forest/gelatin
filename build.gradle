@@ -39,7 +39,7 @@ dependencies {
     }
 
     modLocalRuntime("maven.modrinth:ferrite-core:${project.ferrite_core}")
-    modLocalRuntime("maven.modrinth:lithium:${project.lithium}")
+    //modLocalRuntime("maven.modrinth:lithium:${project.lithium}")
 //    modLocalRuntime("maven.modrinth:krypton:${project.krypton}")
     modLocalRuntime("maven.modrinth:phosphor:${project.phosphor}")
     modLocalRuntime("maven.modrinth:modmenu:${project.modmenu}")
