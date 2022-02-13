@@ -2,6 +2,8 @@ package com.dragon.jello;
 
 import com.dragon.jello.blocks.BlockRegistry;
 import com.dragon.jello.events.*;
+import com.dragon.jello.events.behavior.ColorEntityBehavior;
+import com.dragon.jello.events.behavior.DeColorEntityBehavior;
 import com.dragon.jello.items.ItemRegistry;
 //import com.llamalad7.mixinextras.MixinExtrasBootstrap;
 import io.wispforest.owo.registration.reflect.AutoRegistryContainer;
@@ -11,8 +13,6 @@ import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
 import net.minecraft.block.DispenserBlock;
-import net.minecraft.block.dispenser.ShearsDispenserBehavior;
-import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.util.DyeColor;

@@ -36,8 +36,28 @@ public class JelloTagsProvider {
                             Blocks.RED_CONCRETE,
                             Blocks.BLACK_CONCRETE);
 
-            this.getOrCreateTagBuilder(JelloTags.Blocks.COLORED_GLASS_PANES)
-                    .add(Blocks.WHITE_STAINED_GLASS_PANE,
+            this.getOrCreateTagBuilder(JelloTags.Blocks.CONCRETE_POWDER)
+                    .add(Blocks.WHITE_CONCRETE_POWDER,
+                            Blocks.ORANGE_CONCRETE_POWDER,
+                            Blocks.MAGENTA_CONCRETE_POWDER,
+                            Blocks.LIGHT_BLUE_CONCRETE_POWDER,
+                            Blocks.YELLOW_CONCRETE_POWDER,
+                            Blocks.LIME_CONCRETE_POWDER,
+                            Blocks.PINK_CONCRETE_POWDER,
+                            Blocks.GRAY_CONCRETE_POWDER,
+                            Blocks.LIGHT_GRAY_CONCRETE_POWDER,
+                            Blocks.CYAN_CONCRETE_POWDER,
+                            Blocks.PURPLE_CONCRETE_POWDER,
+                            Blocks.BLUE_CONCRETE_POWDER,
+                            Blocks.BROWN_CONCRETE_POWDER,
+                            Blocks.GREEN_CONCRETE_POWDER,
+                            Blocks.RED_CONCRETE_POWDER,
+                            Blocks.BLACK_CONCRETE_POWDER
+            );
+
+            this.getOrCreateTagBuilder(JelloTags.Blocks.GLASS_PANES)
+                    .add(Blocks.GLASS_PANE,
+                            Blocks.WHITE_STAINED_GLASS_PANE,
                             Blocks.ORANGE_STAINED_GLASS_PANE,
                             Blocks.MAGENTA_STAINED_GLASS_PANE,
                             Blocks.LIGHT_BLUE_STAINED_GLASS_PANE,

@@ -14,8 +14,10 @@ public class JelloTags {
 
     public static class Blocks{
 
-        public static final Tag.Identified<Block> COLORED_GLASS_PANES = TagFactory.BLOCK.create(new Identifier(COMMON_NAMESPACE, "colored_glass_panes"));
+        public static final Tag.Identified<Block> GLASS_PANES = TagFactory.BLOCK.create(new Identifier(COMMON_NAMESPACE, "glass_panes"));
+
         public static final Tag.Identified<Block> CONCRETE = TagFactory.BLOCK.create(new Identifier(COMMON_NAMESPACE, "concrete"));
+        public static final Tag.Identified<Block> CONCRETE_POWDER = TagFactory.BLOCK.create(new Identifier(COMMON_NAMESPACE, "concrete_powder"));
 
         public static final Tag.Identified<Block> COLORED_SLIME_SLABS = TagFactory.BLOCK.create(new Identifier(Jello.MODID, "colored_slime_slabs"));
         public static final Tag.Identified<Block> SLIME_SLABS = TagFactory.BLOCK.create(new Identifier(Jello.MODID, "slime_slabs"));
@@ -24,7 +26,6 @@ public class JelloTags {
         public static final Tag.Identified<Block> SLIME_BLOCKS = TagFactory.BLOCK.create(new Identifier(COMMON_NAMESPACE, "slime_blocks"));
 
         public static final Tag.Identified<Block> STICKY_BLOCKS = TagFactory.BLOCK.create(new Identifier(COMMON_NAMESPACE, "sticky_blocks"));
-
 
     }
 
