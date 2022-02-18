@@ -1,7 +1,7 @@
 package com.dragon.jello.mixin.ducks;
 
-import com.dragon.jello.events.ColorEntityEvent;
-import com.dragon.jello.mixin.mixins.LivingEntityMixin;
+import com.dragon.jello.common.events.ColorEntityEvent;
+import com.dragon.jello.mixin.mixins.common.LivingEntityMixin;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.DyeColor;
 

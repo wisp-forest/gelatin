@@ -1,6 +1,6 @@
 package com.dragon.jello.mixin.ducks;
 
-import com.dragon.jello.Util.DataConstants;
+import com.dragon.jello.common.Util.DataConstants;
 import net.minecraft.entity.Entity;
 
 public interface ConstantColorEntity extends GrayScaleEntity {

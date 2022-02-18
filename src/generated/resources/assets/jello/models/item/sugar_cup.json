@@ -1,0 +1,7 @@
+{
+  "parent": "jello:item/template_cup",
+  "textures": {
+    "layer0": "#texture0",
+    "layer1": "#texture1"
+  }
+}

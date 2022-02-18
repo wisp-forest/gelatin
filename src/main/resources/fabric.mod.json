@@ -27,10 +27,10 @@
       "com.dragon.jello.client.JelloClient"
     ],
     "main": [
-      "com.dragon.jello.Jello"
+      "com.dragon.jello.common.Jello"
     ],
     "fabric-datagen": [
-      "com.dragon.jello.data.JelloDataEntrypoint"
+      "com.dragon.jello.common.data.JelloDataEntrypoint"
     ]
   },
   "mixins": [

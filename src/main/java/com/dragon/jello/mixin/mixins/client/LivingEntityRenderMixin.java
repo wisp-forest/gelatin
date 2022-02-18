@@ -1,12 +1,12 @@
 package com.dragon.jello.mixin.mixins.client;
 
-import com.dragon.jello.Util.Util;
+import com.dragon.jello.common.Util.Util;
 import com.dragon.jello.mixin.ducks.ConstantColorEntity;
 import com.dragon.jello.mixin.ducks.DyeableEntity;
 import com.dragon.jello.mixin.ducks.GrayScaleEntity;
 import com.dragon.jello.mixin.ducks.RainbowEntity;
-import com.dragon.jello.registry.ColorizeRegistry;
-import com.dragon.jello.registry.GrayScaleRegistry;
+import com.dragon.jello.common.registry.ColorizeRegistry;
+import com.dragon.jello.common.registry.GrayScaleRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.LivingEntityRenderer;

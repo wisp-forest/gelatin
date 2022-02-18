@@ -1,26 +1,19 @@
 package com.dragon.jello.mixin.mixins.client;
 
-import com.dragon.jello.Util.Util;
+import com.dragon.jello.common.Util.Util;
 import com.dragon.jello.mixin.ducks.ConstantColorEntity;
 import com.dragon.jello.mixin.ducks.DyeableEntity;
-import com.dragon.jello.mixin.ducks.GrayScaleEntity;
 import com.dragon.jello.mixin.ducks.RainbowEntity;
-import com.dragon.jello.registry.ColorizeRegistry;
-import com.dragon.jello.registry.GrayScaleRegistry;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
+import com.dragon.jello.common.registry.ColorizeRegistry;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.SlimeOverlayFeatureRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 

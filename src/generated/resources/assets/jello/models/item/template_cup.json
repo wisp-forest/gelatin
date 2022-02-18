@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "texture0": "jello:item/jello_cup/cup_outline",
+    "texture1": "jello:item/jello_cup/cup_translucent_front"
+  }
+}

@@ -1,0 +1,14 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Jello: Minecraft Client [Mixin]" type="Application" factoryName="Application">
+    <envs>
+      <env name="srcDirs +" value=" ['src/generated/resources']" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="net.fabricmc.devlaunchinjector.Main" />
+    <module name="jello.test" />
+    <option name="VM_PARAMETERS" value="-Dfabric.dli.config=D:\Main@@0020Folder\Develping@@0020Folder\Modding@@0020Minecraft\jello\.gradle\loom-cache\launch.cfg -Dfabric.dli.env=client -Dfabric.dli.main=net.fabricmc.loader.impl.launch.knot.KnotClient -javaagent:C:\Users\William\.gradle\caches\modules-2\files-2.1\net.fabricmc\sponge-mixin\0.11.1+mixin.0.8.5\151fc9ec23e9507c128bb33e761d88432ec89c7f\sponge-mixin-0.11.1+mixin.0.8.5.jar -Dlog4j.configurationFile=&quot;D:\Main Folder\Develping Folder\Modding Minecraft\jello\.gradle\loom-cache\log4j.xml&quot; -Dfabric.log.disableAnsi=false -Dmixin.debug.export=true -Dlog4j2.debug=true" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../jello/run/" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

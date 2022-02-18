@@ -4,15 +4,18 @@
   "package": "com.dragon.jello.mixin.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "LivingEntityMixin",
-    "MilkBucketItemMixin",
-    "PistonBlockMixin",
-    "PistonHandlerAccessor",
-    "PistonHandlerMixin",
-    "ShulkerBoxBlockEntityAccessor"
+    "common.BlockMixin",
+    "common.LivingEntityMixin",
+    "common.MilkBucketItemMixin",
+    "common.PistonBlockMixin",
+    "common.accessors.PistonHandlerAccessor",
+    "common.PistonHandlerMixin",
+    "common.accessors.ShulkerBoxBlockEntityAccessor",
+    "common.accessors.StatusEffectAccessor"
   ],
   "client": [
-    "ItemModelGeneratorAccessor",
+    "client.accessors.ItemModelGeneratorAccessor",
+    "client.accessors.ModelsAccessor",
     "client.FeatureRendererMixin",
     "client.LivingEntityRenderMixin",
     "client.SlimeOverlayFeatureRendererMixin"

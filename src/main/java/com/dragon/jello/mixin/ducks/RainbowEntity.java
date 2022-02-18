@@ -1,11 +1,6 @@
 package com.dragon.jello.mixin.ducks;
 
-import com.dragon.jello.events.ColorEntityEvent;
-import com.dragon.jello.mixin.mixins.LivingEntityMixin;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import com.dragon.jello.common.events.ColorEntityEvent;
 
 /**
  * RainbowEntity Interface is used to give your entity a Rainbow effect like the _Jeb easter Egg.

@@ -1,7 +1,7 @@
 package com.dragon.jello.client;
 
-import com.dragon.jello.blocks.BlockRegistry;
-import com.dragon.jello.items.ItemRegistry;
+import com.dragon.jello.common.blocks.BlockRegistry;
+import com.dragon.jello.common.items.ItemRegistry;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
@@ -30,5 +30,6 @@ public class JelloClient implements ClientModInitializer {
 
         ItemRegistry.SlimeBallItemRegistry.SLIME_BALLS.forEach((item) -> ColorProviderRegistry.ITEM.register((ItemColorProvider)item, item));
 
+        ItemRegistry.JelloCupItemRegistry.JELLO_CUP.forEach((item) -> ColorProviderRegistry.ITEM.register((ItemColorProvider)item, item));
     }
 }
