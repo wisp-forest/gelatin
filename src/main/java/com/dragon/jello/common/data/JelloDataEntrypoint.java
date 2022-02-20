@@ -1,6 +1,9 @@
 package com.dragon.jello.common.data;
 
 import com.dragon.jello.client.data.JelloBlockStateProvider;
+import com.dragon.jello.common.data.providers.JelloLangProvider;
+import com.dragon.jello.common.data.providers.JelloRecipeProvider;
+import com.dragon.jello.common.data.providers.JelloTagsProvider;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;

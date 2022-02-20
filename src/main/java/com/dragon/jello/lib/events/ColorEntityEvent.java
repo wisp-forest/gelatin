@@ -1,9 +1,9 @@
-package com.dragon.jello.common.events;
+package com.dragon.jello.lib.events;
 
 import com.dragon.jello.mixin.ducks.ConstantColorEntity;
 import com.dragon.jello.mixin.ducks.DyeableEntity;
 import com.dragon.jello.mixin.ducks.RainbowEntity;
-import com.dragon.jello.common.registry.ColorizeRegistry;
+import com.dragon.jello.lib.registry.ColorizeRegistry;
 import io.wispforest.owo.ops.ItemOps;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.block.Blocks;

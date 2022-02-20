@@ -1,4 +1,4 @@
-package com.dragon.jello.common.data;
+package com.dragon.jello.common.data.providers;
 
 import com.dragon.forge.LanguageProvider;
 import com.dragon.jello.common.Jello;

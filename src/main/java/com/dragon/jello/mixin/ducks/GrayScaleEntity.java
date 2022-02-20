@@ -1,6 +1,6 @@
 package com.dragon.jello.mixin.ducks;
 
-import com.dragon.jello.common.registry.GrayScaleRegistry;
+import com.dragon.jello.lib.registry.GrayScaleRegistry;
 import net.minecraft.entity.Entity;
 
 public interface GrayScaleEntity {

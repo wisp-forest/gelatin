@@ -2,7 +2,7 @@ package com.dragon.jello.mixin.mixins.common;
 
 import com.dragon.jello.common.blocks.BlockRegistry;
 import com.dragon.jello.common.blocks.DyeableBlock;
-import com.dragon.jello.common.tags.JelloTags;
+import com.dragon.jello.common.data.tags.JelloTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FacingBlock;

@@ -1,6 +1,6 @@
-package com.dragon.jello.common.events.behavior;
+package com.dragon.jello.lib.events.behavior;
 
-import com.dragon.jello.common.events.ColorEntityEvent;
+import com.dragon.jello.lib.events.ColorEntityEvent;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
 import net.minecraft.entity.LivingEntity;

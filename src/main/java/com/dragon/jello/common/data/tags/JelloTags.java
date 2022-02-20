@@ -1,4 +1,4 @@
-package com.dragon.jello.common.tags;
+package com.dragon.jello.common.data.tags;
 
 import com.dragon.jello.common.Jello;
 import net.fabricmc.fabric.api.tag.TagFactory;

@@ -1,6 +1,6 @@
 package com.dragon.jello.mixin.ducks;
 
-import com.dragon.jello.common.events.ColorEntityEvent;
+import com.dragon.jello.lib.events.ColorEntityEvent;
 
 /**
  * RainbowEntity Interface is used to give your entity a Rainbow effect like the _Jeb easter Egg.

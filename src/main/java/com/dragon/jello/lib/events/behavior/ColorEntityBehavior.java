@@ -1,4 +1,4 @@
-package com.dragon.jello.common.events.behavior;
+package com.dragon.jello.lib.events.behavior;
 
 import com.dragon.jello.common.Jello;
 import com.dragon.jello.mixin.ducks.DyeableEntity;

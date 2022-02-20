@@ -1,4 +1,4 @@
-package com.dragon.jello.common.events;
+package com.dragon.jello.lib.events;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;

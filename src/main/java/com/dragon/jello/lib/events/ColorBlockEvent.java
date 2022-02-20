@@ -1,9 +1,9 @@
-package com.dragon.jello.common.events;
+package com.dragon.jello.lib.events;
 
 import com.dragon.jello.common.Jello;
 import com.dragon.jello.common.blocks.BlockRegistry;
 import com.dragon.jello.mixin.mixins.common.accessors.ShulkerBoxBlockEntityAccessor;
-import com.dragon.jello.common.tags.JelloTags;
+import com.dragon.jello.common.data.tags.JelloTags;
 import io.wispforest.owo.ops.ItemOps;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.block.*;

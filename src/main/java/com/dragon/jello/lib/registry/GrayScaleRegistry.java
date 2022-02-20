@@ -1,4 +1,4 @@
-package com.dragon.jello.common.registry;
+package com.dragon.jello.lib.registry;
 
 import com.dragon.jello.common.Jello;
 import com.dragon.jello.mixin.ducks.DyeableEntity;

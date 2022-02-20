@@ -1,6 +1,6 @@
 package com.dragon.jello.mixin.mixins.common;
 
-import com.dragon.jello.common.events.DeColorizeCallback;
+import com.dragon.jello.lib.events.DeColorizeCallback;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;

@@ -4,7 +4,7 @@ import com.dragon.jello.common.Util.Util;
 import com.dragon.jello.mixin.ducks.ConstantColorEntity;
 import com.dragon.jello.mixin.ducks.DyeableEntity;
 import com.dragon.jello.mixin.ducks.RainbowEntity;
-import com.dragon.jello.common.registry.ColorizeRegistry;
+import com.dragon.jello.lib.registry.ColorizeRegistry;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.SlimeOverlayFeatureRenderer;
 import net.minecraft.client.util.math.MatrixStack;

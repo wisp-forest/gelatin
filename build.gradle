@@ -66,7 +66,7 @@ loom {
             vmArg "-Dfabric.dli.config=D:\\Main@@0020Folder\\Develping@@0020Folder\\Modding@@0020Minecraft\\jello\\.gradle\\loom-cache\\launch.cfg"
             vmArg "-Dfabric.dli.env=client"
             vmArg "-Dfabric.dli.main=net.fabricmc.loader.impl.launch.knot.KnotClient"
-            //vmArg "-javaagent:${("C:\\Users\\William\\.gradle\\caches\\modules-2\\files-2.1\\net.fabricmc\\sponge-mixin\\0.11.1+mixin.0.8.5\\151fc9ec23e9507c128bb33e761d88432ec89c7f\\sponge-mixin-0.11.1+mixin.0.8.5.jar")}"
+            vmArg "-javaagent:${("C:\\Users\\William\\.gradle\\caches\\modules-2\\files-2.1\\net.fabricmc\\sponge-mixin\\0.11.1+mixin.0.8.5\\151fc9ec23e9507c128bb33e761d88432ec89c7f\\sponge-mixin-0.11.1+mixin.0.8.5.jar")}"
             vmArg "-Dlog4j.configurationFile=${("D:\\Main Folder\\Develping Folder\\Modding Minecraft\\jello\\.gradle\\loom-cache\\log4j.xml")}"
             vmArg "-Dfabric.log.disableAnsi=false"
 //            vmArg "-Dowo.uwu=${("yes please")}"

@@ -1,8 +1,8 @@
-package com.dragon.jello.common.data;
+package com.dragon.jello.common.data.providers;
 
 import com.dragon.jello.common.blocks.BlockRegistry;
 import com.dragon.jello.common.items.ItemRegistry;
-import com.dragon.jello.common.tags.JelloTags;
+import com.dragon.jello.common.data.tags.JelloTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.block.Blocks;

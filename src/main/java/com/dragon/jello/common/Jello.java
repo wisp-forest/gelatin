@@ -1,13 +1,14 @@
 package com.dragon.jello.common;
 
 import com.dragon.jello.common.blocks.BlockRegistry;
-import com.dragon.jello.common.events.ColorBlockEvent;
-import com.dragon.jello.common.events.ColorEntityEvent;
-import com.dragon.jello.common.events.DeColorizeCallback;
+import com.dragon.jello.common.data.tags.JelloTags;
+import com.dragon.jello.lib.events.ColorBlockEvent;
+import com.dragon.jello.lib.events.ColorEntityEvent;
+import com.dragon.jello.lib.events.DeColorizeCallback;
 import com.dragon.jello.common.effects.JelloStatusEffectsRegistry;
-import com.dragon.jello.events.*;
-import com.dragon.jello.common.events.behavior.ColorEntityBehavior;
-import com.dragon.jello.common.events.behavior.DeColorEntityBehavior;
+import com.dragon.jello.lib.events.LivingEntityTickEvents;
+import com.dragon.jello.lib.events.behavior.ColorEntityBehavior;
+import com.dragon.jello.lib.events.behavior.DeColorEntityBehavior;
 import com.dragon.jello.common.items.ItemRegistry;
 //import com.llamalad7.mixinextras.MixinExtrasBootstrap;
 import io.wispforest.owo.registration.reflect.AutoRegistryContainer;
