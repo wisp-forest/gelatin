@@ -13,6 +13,7 @@ public class JelloTags {
     public static class Blocks{
 
         public static final Tag.Identified<Block> GLASS_PANES = TagFactory.BLOCK.create(new Identifier(COMMON_NAMESPACE, "glass_panes"));
+        public static final Tag.Identified<Block> STAINED_GLASS = TagFactory.BLOCK.create(new Identifier(COMMON_NAMESPACE, "stained_glass"));
 
         public static final Tag.Identified<Block> CONCRETE = TagFactory.BLOCK.create(new Identifier(COMMON_NAMESPACE, "concrete"));
         public static final Tag.Identified<Block> CONCRETE_POWDER = TagFactory.BLOCK.create(new Identifier(COMMON_NAMESPACE, "concrete_powder"));
@@ -34,5 +35,4 @@ public class JelloTags {
 
         public static final Tag.Identified<Item> SLIME_BALLS = TagFactory.ITEM.create(new Identifier(COMMON_NAMESPACE, "slime_balls"));
     }
-
 }
