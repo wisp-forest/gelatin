@@ -5,20 +5,24 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "common.BlockMixin",
+    "common.DyeItemMixin",
+    "common.DyeableItemMixin",
     "common.LivingEntityMixin",
-    "common.MilkBucketItemMixin",
     "common.PistonBlockMixin",
-    "common.accessors.PistonHandlerAccessor",
     "common.PistonHandlerMixin",
+    "common.LeveledCauldronBlockMixin",
+    "common.CauldronBehaviorMixin",
+    "common.accessors.BlockAccessor",
+    "common.accessors.PistonHandlerAccessor",
     "common.accessors.ShulkerBoxBlockEntityAccessor",
     "common.accessors.StatusEffectAccessor"
   ],
   "client": [
-    "client.accessors.ItemModelGeneratorAccessor",
-    "client.accessors.ModelsAccessor",
     "client.FeatureRendererMixin",
     "client.LivingEntityRenderMixin",
-    "client.SlimeOverlayFeatureRendererMixin"
+    "client.SlimeOverlayFeatureRendererMixin",
+    "client.accessors.ItemModelGeneratorAccessor",
+    "client.accessors.ModelsAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

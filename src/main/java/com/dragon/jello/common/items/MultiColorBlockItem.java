@@ -1,6 +1,7 @@
 package com.dragon.jello.common.items;
 
 import com.dragon.jello.common.blocks.DyeableBlock;
+import com.dragon.jello.lib.dyecolor.DyeColorRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvironmentInterface;
@@ -15,7 +16,7 @@ import net.minecraft.util.DyeColor;
 public class MultiColorBlockItem extends BlockItem implements ItemColorProvider {
     public static final String NBT_COLOR_KEY = "SlimeColor";
 
-    private final DyeColor dyeColor;
+    private final DyeColorRegistry.DyeColor dyeColor;
     private int blockColor;
 
     public MultiColorBlockItem(Block block, Settings settings) {

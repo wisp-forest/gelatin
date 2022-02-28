@@ -7,9 +7,7 @@ import com.dragon.jello.common.config.JelloConfig;
 import com.dragon.jello.common.data.tags.JelloTags;
 import com.dragon.jello.common.effects.JelloStatusEffectsRegistry;
 import com.dragon.jello.common.items.ItemRegistry;
-import com.dragon.jello.lib.events.ColorBlockEvent;
 import com.dragon.jello.lib.events.ColorEntityEvent;
-import com.dragon.jello.lib.events.DeColorizeCallback;
 import com.dragon.jello.lib.events.behavior.ColorEntityBehavior;
 import com.dragon.jello.lib.events.behavior.DeColorEntityBehavior;
 import com.dragon.jello.lib.registry.ColorBlockRegistry;
@@ -20,9 +18,7 @@ import io.wispforest.owo.util.ModCompatHelpers;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
-import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.DispenserBlock;
@@ -46,7 +42,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-//import com.llamalad7.mixinextras.MixinExtrasBootstrap;
 public class Jello implements ModInitializer{
 
     public static final Logger DEBUG_LOGGER = LogManager.getLogger(Jello.class);
@@ -64,7 +59,7 @@ public class Jello implements ModInitializer{
         FieldRegistrationHandler.register(BlockRegistry.SlimeSlabRegistry.class, MODID, false);
         FieldRegistrationHandler.register(BlockRegistry.MainBlockRegistry.class, MODID, false);
 
-        DefaultColorBlockRegistry.init();
+        JelloCauldronBehaviors.registerJelloBehavior();
 
         //  StatusEffect Registry
         FieldRegistrationHandler.register(JelloStatusEffectsRegistry.class, MODID, false);
@@ -72,7 +67,6 @@ public class Jello implements ModInitializer{
         //  Item Registry
         FieldRegistrationHandler.register(ItemRegistry.SlimeBallItemRegistry.class, MODID, false);
         FieldRegistrationHandler.register(ItemRegistry.JelloCupItemRegistry.class, MODID, false);
-        FieldRegistrationHandler.register(GameEvents.class, MODID, false);
         FieldRegistrationHandler.register(ItemRegistry.MainItemRegistry.class, MODID, false);
 
         //  GameEvent Registry
@@ -130,6 +124,28 @@ public class Jello implements ModInitializer{
             return GameEvent.class;
         }
     }
+
+    //------------------------------------------------------------------------------
+
+    public static class Stats implements SimpleFieldProcessingSubject<Identifier> {
+
+        public static final Identifier DYE_ARMOR = new Identifier(MODID, "clean_armor");
+        public static final Identifier DYE_BANNER = new Identifier(MODID, "clean_banner");
+        public static final Identifier DYE_SHULKER_BOX = new Identifier(MODID, "clean_shulker_box");
+
+        @Override
+        public void processField(Identifier value, String identifier, Field field) {
+            Registry.register(Registry.CUSTOM_STAT, identifier, value);
+            net.minecraft.stat.Stats.CUSTOM.getOrCreateStat(value, StatFormatter.DEFAULT);
+        }
+
+        @Override
+        public Class<Identifier> getTargetFieldType() {
+            return Identifier.class;
+        }
+    }
+
+    //------------------------------------------------------------------------------
 
     private static class DefaultColorBlockRegistry{
         private static final DyeColor[] DYE_VALUES = DyeColor.values();

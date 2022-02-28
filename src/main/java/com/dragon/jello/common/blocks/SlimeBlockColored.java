@@ -1,5 +1,6 @@
 package com.dragon.jello.common.blocks;
 
+import com.dragon.jello.lib.dyecolor.DyeColorRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvironmentInterface;
@@ -17,9 +18,9 @@ import java.awt.*;
 @EnvironmentInterface(value = EnvType.CLIENT, itf = BlockColorProvider.class)
 public class SlimeBlockColored extends SlimeBlock implements BlockColorProvider, DyeableBlock {
     private int blockColor;
-    private final DyeColor dyeColor;
+    private final DyeColorRegistry.DyeColor dyeColor;
 
-    public SlimeBlockColored(DyeColor dyeColor, Settings settings) {
+    public SlimeBlockColored(DyeColorRegistry.DyeColor dyeColor, Settings settings) {
         super(settings.mapColor(dyeColor.getMapColor()));
 
         float[] colorComp = dyeColor.getColorComponents();
@@ -45,7 +46,7 @@ public class SlimeBlockColored extends SlimeBlock implements BlockColorProvider,
     }
 
     @Override
-    public DyeColor getDyeColor(){
+    public DyeColorRegistry.DyeColor getDyeColor(){
         return dyeColor;
     }
 }

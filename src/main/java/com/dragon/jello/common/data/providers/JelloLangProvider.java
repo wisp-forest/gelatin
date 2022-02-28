@@ -4,6 +4,7 @@ import com.dragon.forge.LanguageProvider;
 import com.dragon.jello.common.Jello;
 import com.dragon.jello.common.blocks.BlockRegistry;
 import com.dragon.jello.common.items.ItemRegistry;
+import com.dragon.jello.common.items.SpongeItem;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.entity.EntityType;
