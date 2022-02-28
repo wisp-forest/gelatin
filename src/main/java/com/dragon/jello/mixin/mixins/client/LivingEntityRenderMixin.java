@@ -1,12 +1,14 @@
 package com.dragon.jello.mixin.mixins.client;
 
-import com.dragon.jello.common.Util.Util;
+import com.dragon.jello.common.Jello;
+import com.dragon.jello.common.Util.ColorUtil;
 import com.dragon.jello.mixin.ducks.ConstantColorEntity;
 import com.dragon.jello.mixin.ducks.DyeableEntity;
 import com.dragon.jello.mixin.ducks.GrayScaleEntity;
 import com.dragon.jello.mixin.ducks.RainbowEntity;
 import com.dragon.jello.lib.registry.ColorizeRegistry;
 import com.dragon.jello.lib.registry.GrayScaleRegistry;
+import net.fabricmc.loader.impl.FabricLoaderImpl;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
@@ -39,14 +41,14 @@ public abstract class LivingEntityRenderMixin<T extends LivingEntity, M extends 
     private void gatherRenderColor(T livingEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci){
         float[] colorComp = new float[]{1.0F, 1.0F, 1.0F};
 
-        if(ColorizeRegistry.isRegistered(livingEntity)) {
+        if(ColorizeRegistry.isRegistered(livingEntity) && Jello.MAIN_CONFIG.enableDyeingEntitys) {
             if(livingEntity instanceof DyeableEntity dyeableEntity && dyeableEntity.isDyed()){
                 colorComp = dyeableEntity.getDyeColor().getColorComponents();
             }else if(livingEntity instanceof ConstantColorEntity constantColorEntity && constantColorEntity.isColored()){
                 colorComp = new Color(constantColorEntity.getConstantColor()).getRGBColorComponents(null);
             }
             else if(livingEntity instanceof RainbowEntity rainbowEntity && rainbowEntity.isRainbowTime()) {
-                colorComp = Util.rainbowColorizer(livingEntity, g);
+                colorComp = ColorUtil.rainbowColorizer(livingEntity, g);
             }
         }
 
@@ -64,6 +66,10 @@ public abstract class LivingEntityRenderMixin<T extends LivingEntity, M extends 
     @SuppressWarnings("unchecked")
     @Inject(method = "getRenderLayer", at = @At(value = "HEAD"))
     private void checkForGrayScaleTexture(T entity, boolean showBody, boolean translucent, boolean showOutline, CallbackInfoReturnable<@Nullable RenderLayer> cir){
+        if(!FabricLoaderImpl.INSTANCE.isDevelopmentEnvironment() && Jello.MAIN_CONFIG.enableGrayScalingOfEntitys){
+            grayScaleCache = null;
+        }
+
         if(!(entity instanceof PlayerEntity) && (entity instanceof GrayScaleEntity grayScaleEntity && grayScaleEntity.isGrayScaled(entity))){
             grayScaleCache = GrayScaleRegistry.getOrFindTexture(entity, ((LivingEntityRenderer<T,M>)(Object)this).getTexture(entity));
         }else{

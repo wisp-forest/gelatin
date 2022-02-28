@@ -1,6 +1,6 @@
 package com.dragon.jello.mixin.mixins.client;
 
-import com.dragon.jello.common.Util.Util;
+import com.dragon.jello.common.Util.ColorUtil;
 import com.dragon.jello.mixin.ducks.ConstantColorEntity;
 import com.dragon.jello.mixin.ducks.DyeableEntity;
 import com.dragon.jello.mixin.ducks.GrayScaleEntity;
@@ -47,7 +47,7 @@ public class FeatureRendererMixin<T extends Entity, M extends EntityModel<T>> {
                     hasCustomColor = true;
                 }
                 else if(livingEntity instanceof RainbowEntity rainbowEntity && rainbowEntity.isRainbowTime()) {
-                    colorComp = Util.rainbowColorizer(livingEntity);
+                    colorComp = ColorUtil.rainbowColorizer(livingEntity);
                     hasCustomColor = true;
                 }
 

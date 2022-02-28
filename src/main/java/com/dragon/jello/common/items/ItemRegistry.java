@@ -69,4 +69,9 @@ public class ItemRegistry {
             return new MultiColorItem(dyeColor, JELLO_CUP_DEFAULT.food(foodComponent), value -> value > 1);
         }
     }
+
+    public static class MainItemRegistry implements ItemRegistryContainer{
+
+        public static final Item SPONGE = new SpongeItem(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1));
+    }
 }

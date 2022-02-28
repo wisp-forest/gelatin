@@ -19,7 +19,7 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class ColorEntityEvent implements UseEntityCallback, DeColorizeCallback{
+public class ColorEntityEvent implements UseEntityCallback{
     @Override
     public ActionResult interact(PlayerEntity player, World world, Hand hand, Entity entity, @Nullable EntityHitResult hitResult) {
         if(ColorizeRegistry.isRegistered(entity)){
@@ -30,17 +30,8 @@ public class ColorEntityEvent implements UseEntityCallback, DeColorizeCallback{
             }
 
             if(player.shouldCancelInteraction() && entity instanceof LivingEntity livingEntity) {
-                if(livingEntity instanceof DyeableEntity dyeableEntity && mainHandItem instanceof DyeItem dyeItem){
-                    return dyeEntityEvent(player, hand, dyeableEntity, dyeItem);
-                }
-                else if(livingEntity instanceof RainbowEntity rainbowEntity && mainHandItem instanceof EnchantedGoldenAppleItem) {
+                if(livingEntity instanceof RainbowEntity rainbowEntity && mainHandItem instanceof EnchantedGoldenAppleItem) {
                     return rainbowEntityEvent(player, hand, rainbowEntity);
-                }
-                else if (mainHandItem instanceof BucketItem bucketItem) {
-                    return washEntityEvent(player, livingEntity, player.getMainHandStack(), bucketItem, false);
-                }
-                else if (mainHandItem == Blocks.WET_SPONGE.asItem()) {
-                    return washEntityEvent(player, livingEntity, player.getMainHandStack(), null, true);
                 }
             }
         }
@@ -48,7 +39,7 @@ public class ColorEntityEvent implements UseEntityCallback, DeColorizeCallback{
         return ActionResult.PASS;
     }
 
-    private ActionResult dyeEntityEvent(PlayerEntity player, Hand hand, DyeableEntity dyeableEntity, DyeItem dyeItem){
+    public static ActionResult dyeEntityEvent(PlayerEntity player, Hand hand, DyeableEntity dyeableEntity, DyeItem dyeItem){
         if ((dyeableEntity.isRainbowTime()) || dyeItem.getColor().getId() == dyeableEntity.getDyeColorID()){//|| dyeItem.getColor().getId() == DyeColor.WHITE.getId()) {
             return ActionResult.FAIL;
         }
@@ -59,7 +50,7 @@ public class ColorEntityEvent implements UseEntityCallback, DeColorizeCallback{
         return ActionResult.SUCCESS;
     }
 
-    private ActionResult rainbowEntityEvent(PlayerEntity player, Hand hand, RainbowEntity rainbowEntity){
+    public static ActionResult rainbowEntityEvent(PlayerEntity player, Hand hand, RainbowEntity rainbowEntity){
         if(rainbowEntity.isRainbowTime() || (rainbowEntity instanceof DyeableEntity dyeableEntity && dyeableEntity.isDyed())){
             return ActionResult.FAIL;
         }
@@ -70,7 +61,26 @@ public class ColorEntityEvent implements UseEntityCallback, DeColorizeCallback{
         return ActionResult.SUCCESS;
     }
 
-    private ActionResult washEntityEvent(PlayerEntity player, LivingEntity livingEntity, ItemStack mainHandStack, @Nullable BucketItem bucketItem, boolean spongeItemUsed){
+    public static boolean washEntityEvent(PlayerEntity player, LivingEntity livingEntity, ItemStack mainHandStack){
+        boolean washedEntity = false;
+
+        if(livingEntity instanceof DyeableEntity dyeableEntity){
+            if(dyeableEntity.isDyed()){
+                dyeableEntity.setDyeColorID(16);
+                washedEntity = true;
+            }
+        }
+        if(livingEntity instanceof RainbowEntity rainbowEntity){
+            if(rainbowEntity.isRainbowTime()){
+                rainbowEntity.setRainbowTime(false);
+                washedEntity = true;
+            }
+        }
+
+        return washedEntity;
+    }
+
+    public static ActionResult washEntityEvent(PlayerEntity player, LivingEntity livingEntity, ItemStack mainHandStack, @Nullable BucketItem bucketItem, boolean spongeItemUsed){
         boolean washedEntity = false;
 
         if ((bucketItem != null && bucketItem.fluid == Fluids.WATER) || spongeItemUsed) {
@@ -104,20 +114,11 @@ public class ColorEntityEvent implements UseEntityCallback, DeColorizeCallback{
         return ActionResult.PASS;
     }
 
-    private void decrementPlayerHandItemCC(PlayerEntity player, Hand hand){
+    private static void decrementPlayerHandItemCC(PlayerEntity player, Hand hand){
         if(!player.getAbilities().creativeMode){
             ItemOps.decrementPlayerHandItem(player, hand);
         }
     }
 
-    //------------------------------------------------------------------------------------
 
-    @Override
-    public boolean finishUsing(ItemStack stack, World world, LivingEntity user) {
-        if(user instanceof DyeableEntity dyeableEntity && dyeableEntity.isDyed()){
-            dyeableEntity.setDyeColorID(16);
-        }
-
-        return true;
-    }
 }

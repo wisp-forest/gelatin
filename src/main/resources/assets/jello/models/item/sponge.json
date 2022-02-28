@@ -1,0 +1,50 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "jello:item/sponge/sponge_stage_0"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "dirtiness": 0.14
+      },
+      "model": "jello:item/sponge_stage_1"
+    },
+    {
+      "predicate": {
+        "dirtiness": 0.28
+      },
+      "model": "jello:item/sponge_stage_2"
+    },
+    {
+      "predicate": {
+        "dirtiness": 0.42
+      },
+      "model": "jello:item/sponge_stage_3"
+    },
+    {
+      "predicate": {
+        "dirtiness": 0.56
+      },
+      "model": "jello:item/sponge_stage_4"
+    },
+    {
+      "predicate": {
+        "dirtiness": 0.7
+      },
+      "model": "jello:item/sponge_stage_5"
+    },
+    {
+      "predicate": {
+        "dirtiness": 0.84
+      },
+      "model": "jello:item/sponge_stage_6"
+    },
+    {
+      "predicate": {
+        "dirtiness": 1
+      },
+      "model": "jello:item/sponge_stage_7"
+    }
+  ]
+}

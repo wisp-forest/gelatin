@@ -77,6 +77,11 @@ public class JelloBlockStateProvider extends FabricBlockStateDefinitionProvider 
                     .put(LAYER2, new Identifier(Jello.MODID, "item/jello_cup/jello_front"))
                     .put(LAYER3, new Identifier(Jello.MODID, "item/jello_cup/jello_top")), ((ItemModelGeneratorAccessor)itemModelGenerator).getWriter());
         });
+
+        for(int i = 1; i < 8; i++){
+            Model model = Models.GENERATED;
+            model.upload(new Identifier(Jello.MODID,"item/sponge_stage_" + i), Texture.layer0(new Identifier(Jello.MODID, "item/sponge/sponge_stage_" + i)), ((ItemModelGeneratorAccessor)itemModelGenerator).getWriter());
+        }
     }
 
     private Model slimeBlockItemModel(Block block){

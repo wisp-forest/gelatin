@@ -44,6 +44,11 @@ public class JelloLangProvider extends LanguageProvider {
         ItemRegistry.JelloCupItemRegistry.JELLO_CUP.forEach((item) -> {
             addItem(() -> item);
         });
+
+        addItem(() -> ItemRegistry.MainItemRegistry.SPONGE);
+
+        add(SpongeItem.DIRTINESS_TRANSLATION_KEY, "Dirty Sponge");
+
     }
 
     //-----------------------------------------------//

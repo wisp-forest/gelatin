@@ -1,6 +1,7 @@
 package com.dragon.jello.lib.events.behavior;
 
 import com.dragon.jello.lib.events.ColorEntityEvent;
+import com.dragon.jello.mixin.ducks.DyeableEntity;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
 import net.minecraft.entity.LivingEntity;
@@ -34,7 +35,8 @@ public class DeColorEntityBehavior extends FallibleItemDispenserBehavior {
 
     private static boolean tryColorEntity(ServerWorld world, BlockPos pos, ItemStack stack) {
         for(LivingEntity livingEntity : world.getEntitiesByClass(LivingEntity.class, new Box(pos), EntityPredicates.EXCEPT_SPECTATOR)) {
-            if(new ColorEntityEvent().finishUsing(stack, world, livingEntity)){
+            if(livingEntity instanceof DyeableEntity dyeableEntity && dyeableEntity.isDyed()){
+                dyeableEntity.setDyeColorID(16);
                 return true;
             }
         }

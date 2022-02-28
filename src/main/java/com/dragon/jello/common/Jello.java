@@ -1,7 +1,9 @@
 package com.dragon.jello.common;
 
 import com.dragon.jello.common.blocks.BlockRegistry;
+import com.dragon.jello.common.blocks.cauldron.JelloCauldronBehaviors;
 import com.dragon.jello.common.compat.consistencyplus.data.ConsistencyPlusTags;
+import com.dragon.jello.common.config.JelloConfig;
 import com.dragon.jello.common.data.tags.JelloTags;
 import com.dragon.jello.common.effects.JelloStatusEffectsRegistry;
 import com.dragon.jello.common.items.ItemRegistry;
@@ -13,7 +15,10 @@ import com.dragon.jello.lib.events.behavior.DeColorEntityBehavior;
 import com.dragon.jello.lib.registry.ColorBlockRegistry;
 import io.wispforest.owo.registration.reflect.AutoRegistryContainer;
 import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
+import io.wispforest.owo.registration.reflect.SimpleFieldProcessingSubject;
 import io.wispforest.owo.util.ModCompatHelpers;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
@@ -23,6 +28,9 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.stat.Stat;
+import net.minecraft.stat.StatFormatter;
+import net.minecraft.stat.Stats;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.DyeColor;
@@ -32,64 +40,57 @@ import net.minecraft.world.event.GameEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 //import com.llamalad7.mixinextras.MixinExtrasBootstrap;
+public class Jello implements ModInitializer{
 
-public class Jello implements ModInitializer, PreLaunchEntrypoint {
+    public static final Logger DEBUG_LOGGER = LogManager.getLogger(Jello.class);
+
     public static final String MODID = "jello";
+
+    public static JelloConfig MAIN_CONFIG;
 
     @Override
     public void onInitialize() {
+        initClothConfig();
+
+        //  Block Registry
         FieldRegistrationHandler.register(BlockRegistry.SlimeBlockRegistry.class, MODID, false);
         FieldRegistrationHandler.register(BlockRegistry.SlimeSlabRegistry.class, MODID, false);
+        FieldRegistrationHandler.register(BlockRegistry.MainBlockRegistry.class, MODID, false);
 
         DefaultColorBlockRegistry.init();
 
+        //  StatusEffect Registry
         FieldRegistrationHandler.register(JelloStatusEffectsRegistry.class, MODID, false);
 
+        //  Item Registry
         FieldRegistrationHandler.register(ItemRegistry.SlimeBallItemRegistry.class, MODID, false);
         FieldRegistrationHandler.register(ItemRegistry.JelloCupItemRegistry.class, MODID, false);
         FieldRegistrationHandler.register(GameEvents.class, MODID, false);
+        FieldRegistrationHandler.register(ItemRegistry.MainItemRegistry.class, MODID, false);
 
-        registerDyeDispenserBehavior();
-        DispenserBlock.registerBehavior(Items.WATER_BUCKET, new DeColorEntityBehavior());
+        //  GameEvent Registry
+        FieldRegistrationHandler.register(GameEvents.class, MODID, false);
 
-        ModCompatHelpers.getRegistryHelper(Registry.ITEM).runWhenPresent(new Identifier(ConsistencyPlusTags.CONSISTENCY_PLUS_MODID, "stone_wall"), item -> ConsistencyPlusColorBlockRegistry.init());
+        initColorBlockRegistry();
 
-//        if(FabricLoaderImpl.INSTANCE.isModLoaded("consistency_plus")){
-//            ConsistencyPlusColorBlockRegistry.init();
-//        }
-
+        registerDispenserBehavior();
         registerEvents();
-
-        //ColorizeRegistry.registerColorable(new Identifier("textures/entity/slime/slime.png"), EntityType.SLIME);
-//        GrayScaleRegistry.registerGrayScalable(new Identifier(MODID, "textures/entity/slime/slime_grayscale.png"), EntityType.SLIME);
-//        GrayScaleRegistry.registerGrayScalable(new Identifier(MODID, "textures/entity/cow/cow_grayscale.png"), EntityType.COW);
-
     }
 
     private void registerEvents(){
         UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) ->{
             return new ColorEntityEvent().interact(player, world, hand, entity, hitResult);
         });
-
-        UseBlockCallback.EVENT.register((player, world, hand, blockHitResult) -> {
-            return new ColorBlockEvent().interact(player, world, hand, blockHitResult);
-        });
-
-        DeColorizeCallback.EVENT.register((itemStack, world, user) -> {
-            return new ColorEntityEvent().finishUsing(itemStack, world, user);
-        });
-
-//        LivingEntityTickEvents.START_TICK.register(BounceEffectMethod::bounce);
-
     }
 
-    private void registerDyeDispenserBehavior(){
+    private void registerDispenserBehavior(){
         DyeColor[] dyeColors = DyeColor.values();
 
         for(int i = 0; i < dyeColors.length; i++){
@@ -97,12 +98,23 @@ public class Jello implements ModInitializer, PreLaunchEntrypoint {
 
             DispenserBlock.registerBehavior(item, new ColorEntityBehavior());
         }
+
+        DispenserBlock.registerBehavior(Items.WATER_BUCKET, new DeColorEntityBehavior());
     }
 
-    @Override
-    public void onPreLaunch() {
-//        MixinExtrasBootstrap.init();
+    public static void initClothConfig(){
+        AutoConfig.register(JelloConfig.class, GsonConfigSerializer::new);
+
+        MAIN_CONFIG = AutoConfig.getConfigHolder(JelloConfig.class).getConfig();
     }
+
+    private static void initColorBlockRegistry(){
+        DefaultColorBlockRegistry.init();
+
+        ModCompatHelpers.getRegistryHelper(Registry.ITEM).runWhenPresent(new Identifier(ConsistencyPlusTags.CONSISTENCY_PLUS_MODID, "stone_wall"), item -> ConsistencyPlusColorBlockRegistry.init());
+    }
+
+    //------------------------------------------------------------------------------
 
     public static class GameEvents implements AutoRegistryContainer<GameEvent> {
 
@@ -184,6 +196,8 @@ public class Jello implements ModInitializer, PreLaunchEntrypoint {
             }
         }
     }
+
+    //------------------------------------------------------------------------------
 
     private static class ConsistencyPlusColorBlockRegistry{
 
@@ -319,6 +333,4 @@ public class Jello implements ModInitializer, PreLaunchEntrypoint {
             }
         }
     }
-
-
 }

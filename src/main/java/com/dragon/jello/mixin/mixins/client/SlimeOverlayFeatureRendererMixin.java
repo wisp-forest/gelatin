@@ -1,6 +1,6 @@
 package com.dragon.jello.mixin.mixins.client;
 
-import com.dragon.jello.common.Util.Util;
+import com.dragon.jello.common.Util.ColorUtil;
 import com.dragon.jello.mixin.ducks.ConstantColorEntity;
 import com.dragon.jello.mixin.ducks.DyeableEntity;
 import com.dragon.jello.mixin.ducks.RainbowEntity;
@@ -36,7 +36,7 @@ public class SlimeOverlayFeatureRendererMixin<T extends LivingEntity> {
             } else if(livingEntity instanceof ConstantColorEntity constantColorEntity && constantColorEntity.isColored()){
                 colorComp = new Color(constantColorEntity.getConstantColor()).getRGBColorComponents(null);
             } else if (livingEntity instanceof RainbowEntity rainbowEntity && rainbowEntity.isRainbowTime()) {
-                colorComp = Util.rainbowColorizer(livingEntity, g);
+                colorComp = ColorUtil.rainbowColorizer(livingEntity, g);
             }
         }
 

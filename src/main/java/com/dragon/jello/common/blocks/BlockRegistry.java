@@ -83,7 +83,5 @@ public class BlockRegistry {
         }
     }
 
-//    @NoBlockItem
-//    public static Block SLIME_BLOCK_MULTICOLOR = new SlimeBlockTest(FabricBlockSettings.copyOf(Blocks.SLIME_BLOCK).nonOpaque(), 0x3495eb);
 
 }
