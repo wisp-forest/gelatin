@@ -1,42 +1,34 @@
-package com.dragon.jello.lib.dyecolor;
+package com.dragon.jello.dyelib;
 
 import com.dragon.jello.common.Jello;
 import com.dragon.jello.common.Util.ColorUtil;
-import com.google.common.collect.Maps;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import io.netty.util.collection.IntObjectHashMap;
-import io.netty.util.collection.IntObjectMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.MapColor;
 import net.minecraft.item.DyeItem;
-import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonHelper;
 import net.minecraft.util.registry.DefaultedRegistry;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DyeColorRegistry {
 
-    private static final Map<Integer, DyeColor> BY_FIREWORK_COLOR = new HashMap<>();
     private static final List<Identifier> DYE_COLOR_INT_MAP = new ArrayList<>();
 
+    public static final Map<Integer, DyeColor> BY_FIREWORK_COLOR = new HashMap<>();
     public static final Map<DyeColor, DyeItem> DYE_COLOR_TO_DYEITEM = new HashMap<>();
 
+    public static final List<DyeColor> VANILLA_DYES = new ArrayList<>();
+
     public static final RegistryKey<Registry<Block>> DYE_COLOR_KEY = RegistryKey.ofRegistry(new Identifier(Jello.MODID, "dye_color"));
-    public static final DefaultedRegistry<DyeColor> DYE_COLOR = FabricRegistryBuilder.createDefaulted(DyeColor.class, new Identifier(Jello.MODID, "dye_color"), new Identifier("white")).buildAndRegister();
+    public static final DefaultedRegistry<DyeColor> DYE_COLOR = FabricRegistryBuilder.createDefaulted(DyeColor.class, DYE_COLOR_KEY.getValue(), new Identifier("white")).buildAndRegister();
 
     public static final DyeColor WHITE = registryDyeColorVanilla("white", 16383998, MapColor.WHITE, 15790320, 16777215);
     public static final DyeColor ORANGE = registryDyeColorVanilla("orange", 16351261, MapColor.ORANGE, 15435844, 16738335);
@@ -56,7 +48,11 @@ public class DyeColorRegistry {
     public static final DyeColor BLACK = registryDyeColorVanilla( "black", 1908001, MapColor.BLACK, 1973019, 0);
 
     public static DyeColor registryDyeColor(Identifier id, int baseColor, MapColor mapColor){
-        return registryDyeColor(id, baseColor, mapColor, baseColor, baseColor);
+        return registryDyeColorNameOverride(id, id.getPath(), baseColor, mapColor);
+    }
+
+    public static DyeColor registryDyeColorNameOverride(Identifier id, String overrideDisplayName, int baseColor, MapColor mapColor){
+        return registryDyeColor(id, overrideDisplayName, mapColor, baseColor, baseColor, baseColor);
     }
 
     /**
@@ -69,22 +65,24 @@ public class DyeColorRegistry {
      * @param signColor
      * @return DyeColor
      */
-
     @ApiStatus.Internal
     private static DyeColor registryDyeColorVanilla(String dyeName, int baseColor, MapColor mapColor, int fireworkColor, int signColor){
-        DYE_COLOR_INT_MAP.add(new Identifier(dyeName));
+        DyeColor dyeColor = registryDyeColor(new Identifier(dyeName), dyeName, mapColor, baseColor, fireworkColor, signColor);
 
-        return registryDyeColor(new Identifier(dyeName), baseColor, mapColor, baseColor, baseColor);
+        DYE_COLOR_INT_MAP.add(new Identifier(dyeName));
+        VANILLA_DYES.add(dyeColor);
+
+        return dyeColor;
     }
 
-    public static DyeColor registryDyeColor(Identifier id, int baseColor, MapColor mapColor, int fireworkColor, int signColor){
-        DyeColor dyeColor = new DyeColor(ColorUtil.getColorComponents(baseColor), mapColor, fireworkColor, signColor);
+    public static DyeColor registryDyeColor(Identifier id, String displayName, MapColor mapColor, int baseColor, int fireworkColor, int signColor){
+        DyeColor dyeColor = new DyeColor(displayName, ColorUtil.getColorComponents(baseColor),  mapColor, baseColor, fireworkColor, signColor);
 
         BY_FIREWORK_COLOR.put(fireworkColor, dyeColor);
         return Registry.register(DYE_COLOR, id, dyeColor);
     }
 
-    public record DyeColor(float[] colorComponents, MapColor mapColor, int fireworkColor, int signColor){
+    public record DyeColor(String displayName, float[] colorComponents, MapColor mapColor, int baseColor, int fireworkColor, int signColor){
 
         public Identifier getId() {
             return DyeColorRegistry.DYE_COLOR.getId(this);
@@ -149,30 +147,13 @@ public class DyeColorRegistry {
         public static DyeColor byOldDyeColor(net.minecraft.util.DyeColor dyeColor) {
             return byOldDyeId(dyeColor.getId());
         }
+
+        public String getDisplayName(){
+            return this.displayName;
+        }
     }
 
     //------------------------------------------------------------------------------------
 
-    private static final String COLOR_API_URL = "https://www.thecolorapi.com/id?hex=";
 
-    private static final Gson BIG_GSON = new Gson();
-
-    public static void getColorData(int colorValue) {
-        colorValue = 0X24B1E0;
-
-        try {
-            URL color_URL = new URL(COLOR_API_URL + Integer.toHexString(colorValue));
-
-            InputStreamReader outputFromUrl = new InputStreamReader(color_URL.openStream());
-
-            JsonObject infoFromApi = BIG_GSON.fromJson(outputFromUrl, JsonObject.class);
-
-            String colorName = JsonHelper.getString(JsonHelper.getObject(infoFromApi, "name"), "value");
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

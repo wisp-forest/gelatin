@@ -1,7 +1,7 @@
 package com.dragon.jello.common.items;
 
 import com.dragon.jello.common.blocks.DyeableBlock;
-import com.dragon.jello.lib.dyecolor.DyeColorRegistry;
+import com.dragon.jello.dyelib.DyeColorRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvironmentInterface;
@@ -10,7 +10,6 @@ import net.minecraft.client.color.item.ItemColorProvider;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.DyeColor;
 
 @EnvironmentInterface(value = EnvType.CLIENT, itf = ItemColorProvider.class)
 public class MultiColorBlockItem extends BlockItem implements ItemColorProvider {

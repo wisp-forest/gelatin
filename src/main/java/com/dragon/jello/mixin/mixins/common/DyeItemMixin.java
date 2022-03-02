@@ -1,45 +1,30 @@
 package com.dragon.jello.mixin.mixins.common;
 
 import com.dragon.jello.common.Jello;
-import com.dragon.jello.lib.dyecolor.DyeColorRegistry;
+import com.dragon.jello.dyelib.mixin.ducks.DyeRedirect;
 import com.dragon.jello.lib.events.ColorBlockUtil;
 import com.dragon.jello.lib.events.ColorEntityEvent;
 import com.dragon.jello.lib.registry.ColorBlockRegistry;
 import com.dragon.jello.lib.registry.ColorizeRegistry;
 import com.dragon.jello.mixin.ducks.*;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.DyeColor;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Random;
 
 @Mixin(DyeItem.class)
-public abstract class DyeItemMixin implements DyeItemRedirect {
-
-    @Unique @Mutable @Final private DyeColorRegistry.DyeColor color;
-
-    @Inject(method = "<init>", at = @At(value = "TAIL"))
-    private void fillNewDyeMap(DyeColor color, Item.Settings settings, CallbackInfo ci){
-        this.color = DyeColorRegistry.DyeColor.byOldDyeColor(((DyeItem)(Object)this).getColor());
-
-        DyeColorRegistry.DYE_COLOR_TO_DYEITEM.put(this.color, (DyeItem)(Object)this);
-    }
+public abstract class DyeItemMixin implements DyeRedirect {
 
     public ActionResult useOnBlock(ItemUsageContext context) {
         if(!Jello.MAIN_CONFIG.enableDyeingBlocks){
@@ -52,7 +37,7 @@ public abstract class DyeItemMixin implements DyeItemRedirect {
             World world = context.getWorld();
             BlockState blockState = world.getBlockState(context.getBlockPos());
 
-            if(!ColorBlockUtil.changeBlockColor(world, context.getBlockPos(), blockState, ColorBlockRegistry.getVariant(blockState.getBlock(), ((DyeItem)(Object)this).getColor()), player)){
+            if(!ColorBlockUtil.changeBlockColor(world, context.getBlockPos(), blockState, ColorBlockRegistry.getVariant(blockState.getBlock(), this.getDyeColor()), player)){
                 return ActionResult.FAIL;
             }
 
@@ -86,10 +71,5 @@ public abstract class DyeItemMixin implements DyeItemRedirect {
                 }
             }
         }
-    }
-
-    @Override
-    public DyeColorRegistry.DyeColor getDyeColor() {
-        return color;
     }
 }

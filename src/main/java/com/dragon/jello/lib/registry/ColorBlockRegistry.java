@@ -1,10 +1,8 @@
 package com.dragon.jello.lib.registry;
 
-import com.dragon.jello.common.data.tags.JelloTags;
+import com.dragon.jello.dyelib.DyeColorRegistry;
 import net.minecraft.block.Block;
-import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.Tag;
-import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
@@ -18,11 +16,11 @@ import java.util.Optional;
 
 public class ColorBlockRegistry {
 
-    private static final Map<Tag.Identified<Block>, Map<DyeColor, Block>> REGISTRY = new HashMap<>();
+    private static final Map<Tag.Identified<Block>, Map<DyeColorRegistry.DyeColor, Block>> REGISTRY = new HashMap<>();
 
     private static final Logger LOGGER = LogManager.getLogger(ColorBlockRegistry.class);
 
-    private static final DyeColor[] DYE_VALUES = DyeColor.values();
+    private static final DyeColorRegistry.DyeColor[] VANILLA_DYES = DyeColorRegistry.VANILLA_DYES.toArray(new DyeColorRegistry.DyeColor[0]);
 
     public static void registerBlockSet(List<Block> blockTypes, Block defaultBlock, Tag.Identified<Block> blockTags){
         if(blockTypes.size() > 16){
@@ -30,14 +28,14 @@ public class ColorBlockRegistry {
             return;
         }
 
-        Map<DyeColor, Block> map = new HashMap<>();
+        Map<DyeColorRegistry.DyeColor, Block> map = new HashMap<>();
 
-        for(int z = 0; z < DYE_VALUES.length; z++){
-            String currentDyeValueName = DYE_VALUES[z].getName();
+        for(int z = 0; z < VANILLA_DYES.length; z++){
+            String currentDyeValueName = VANILLA_DYES[z].getName();
 
             Block colorBlock = blockTypes.get(z);
 
-            if(getDyeColorFromBlock(colorBlock) == DYE_VALUES[z].getName()){
+            if(getDyeColorFromBlock(colorBlock) == VANILLA_DYES[z].getName()){
                 Optional<Block> possibleBlock = blockTypes.stream().filter((block) -> {
                     String blockDyeColorPrefix = getDyeColorFromBlock(block);
 
@@ -52,7 +50,7 @@ public class ColorBlockRegistry {
                 }
             }
 
-            map.put(DYE_VALUES[z], colorBlock);
+            map.put(VANILLA_DYES[z], colorBlock);
         }
 
         map.put(null, defaultBlock);
@@ -66,12 +64,12 @@ public class ColorBlockRegistry {
             return;
         }
 
-        Map<DyeColor, Block> map = new HashMap<>();
+        Map<DyeColorRegistry.DyeColor, Block> map = new HashMap<>();
 
-        for(int z = 0; z < DYE_VALUES.length; z++){
+        for(int z = 0; z < VANILLA_DYES.length; z++){
             Block colorBlock = blockTypes.get(z);
 
-            map.put(DYE_VALUES[z], colorBlock);
+            map.put(VANILLA_DYES[z], colorBlock);
         }
 
         map.put(null, defaultBlock);
@@ -79,7 +77,7 @@ public class ColorBlockRegistry {
         REGISTRY.put(blockTags, map);
     }
 
-    public static Block getVariant(Block block, DyeColor color) {
+    public static Block getVariant(Block block, DyeColorRegistry.DyeColor color) {
         var map = REGISTRY.keySet().stream().filter(blockTag -> blockTag.contains(block))
                 .map(REGISTRY::get).findAny();
 

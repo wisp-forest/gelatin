@@ -6,18 +6,31 @@ import com.dragon.jello.lib.events.ColorEntityEvent;
 import com.dragon.jello.lib.registry.ColorBlockRegistry;
 import com.dragon.jello.lib.registry.ColorizeRegistry;
 import com.dragon.jello.mixin.ducks.DyeableEntity;
+import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.FluidDrainable;
+import net.minecraft.block.FluidFillable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsage;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 
 public class SpongeItem extends Item {
 
@@ -54,7 +67,7 @@ public class SpongeItem extends Item {
 
             user.playSound(SoundEvents.ITEM_BUCKET_EMPTY, 1.0F, 1.55F);
             if (!world.isClient) {
-                incrementDirtiness(context.getStack());
+                incrementDirtiness(context.getStack(), user);
             }
 
             return ActionResult.SUCCESS;
@@ -65,21 +78,46 @@ public class SpongeItem extends Item {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        ItemStack itemInHand = user.getMainHandStack();
+        ItemStack itemInHand = user.getStackInHand(hand);
 
         Jello.DEBUG_LOGGER.info(itemInHand + " / " + itemInHand.getNbt());
 
         if(user.shouldCancelInteraction()){
-            if (itemInHand.getDamage() != -1) {
+            if (canClean(itemInHand)) {
                 if (user instanceof DyeableEntity dyeableEntity && dyeableEntity.isDyed()) {
                     dyeableEntity.setDyeColorID(16);
 
 
                     if (!world.isClient) {
-                        incrementDirtiness(itemInHand);
+                        incrementDirtiness(itemInHand, user);
                     }
 
                     return TypedActionResult.success(itemInHand);
+                }
+            }
+        }else{
+            if(itemInHand.getOrCreateNbt().getInt(DIRTINESS_KEY) != 0) {
+                BlockHitResult blockHitResult = raycast(world, user, RaycastContext.FluidHandling.SOURCE_ONLY);
+
+                if (blockHitResult.getType() == HitResult.Type.MISS || blockHitResult.getType() != HitResult.Type.BLOCK) {
+                    return TypedActionResult.pass(itemInHand);
+                } else {
+                    BlockPos blockPos = blockHitResult.getBlockPos();
+
+                    if (world.canPlayerModifyAt(user, blockPos) && user.canPlaceOn(blockPos.offset(blockHitResult.getSide()), blockHitResult.getSide(), itemInHand) && world.getBlockState(blockPos).getBlock() instanceof FluidDrainable fluidDrainable) {
+
+                        fluidDrainable.tryDrainFluid(world, blockPos, world.getBlockState(blockPos));
+                        fluidDrainable.getBucketFillSound().ifPresent(sound -> user.playSound(sound, 1.0F, 1.0F));
+
+                        user.incrementStat(Stats.USED.getOrCreateStat(this));
+                        world.emitGameEvent(user, GameEvent.FLUID_PICKUP, blockPos);
+
+                        if (!world.isClient) {
+                            cleanSponge(itemInHand, user);
+                        }
+
+                        return TypedActionResult.success(itemInHand, world.isClient());
+                    }
                 }
             }
         }
@@ -99,7 +137,7 @@ public class SpongeItem extends Item {
             if (stack.getDamage() != -1 && ColorEntityEvent.washEntityEvent(user, entity, user.getMainHandStack())) {
 
                 if (!user.world.isClient) {
-                    incrementDirtiness(stack);
+                    incrementDirtiness(stack, user);
                 }
 
                 return ActionResult.SUCCESS;
@@ -117,30 +155,34 @@ public class SpongeItem extends Item {
         super.postProcessNbt(nbt);
     }
 
-    private static void incrementDirtiness(ItemStack itemStack){
-        setDirtiness(itemStack.getOrCreateNbt(), 1);
+    private static void cleanSponge(ItemStack itemStack, PlayerEntity player){
+        if(!player.getAbilities().creativeMode) {
+            setDirtiness(itemStack.getOrCreateNbt(), 0);
+        }
+    }
+
+    private static void incrementDirtiness(ItemStack itemStack, PlayerEntity player){
+        if(!player.getAbilities().creativeMode) {
+            int newDirtinessValue = itemStack.getOrCreateNbt().getInt(DIRTINESS_KEY) + 1;
+
+            setDirtiness(itemStack.getOrCreateNbt(), newDirtinessValue);
+        }
     }
 
     private static void setDirtiness(NbtCompound nbt, int amount){
-        int newDirtinessValue = nbt.getInt(DIRTINESS_KEY) + amount;
-
-        nbt.putInt(DIRTINESS_KEY, Math.min(newDirtinessValue, MAX_DIRTINESS));
+        nbt.putInt(DIRTINESS_KEY, Math.min(amount, MAX_DIRTINESS));
     }
 
     private static int getDirtinessValue(ItemStack stack){
-        return getDirtinessValue(stack.getOrCreateNbt());
-    }
-
-    private static int getDirtinessValue(NbtCompound nbt){
-        return nbt.getInt(DIRTINESS_KEY);
+        return stack.getOrCreateNbt().getInt(DIRTINESS_KEY);
     }
 
     private static boolean canClean(ItemStack itemStack){
-        return getDirtinessValue(itemStack.getOrCreateNbt()) < MAX_DIRTINESS;
+        return getDirtinessValue(itemStack) < MAX_DIRTINESS;
     }
 
     public static float getDirtinessStage(ItemStack itemStack){
-        int dirtiness = getDirtinessValue(itemStack.getOrCreateNbt());
+        int dirtiness = getDirtinessValue(itemStack);
 
         return dirtiness / 64F;
     }

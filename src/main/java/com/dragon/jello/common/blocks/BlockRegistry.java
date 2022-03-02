@@ -1,7 +1,7 @@
 package com.dragon.jello.common.blocks;
 
 import com.dragon.jello.common.items.MultiColorBlockItem;
-import com.dragon.jello.lib.dyecolor.DyeColorRegistry;
+import com.dragon.jello.dyelib.DyeColorRegistry;
 import io.wispforest.owo.registration.reflect.BlockRegistryContainer;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;

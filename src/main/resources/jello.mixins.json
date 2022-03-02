@@ -12,6 +12,7 @@
     "common.PistonHandlerMixin",
     "common.LeveledCauldronBlockMixin",
     "common.CauldronBehaviorMixin",
+    "common.AbstractCauldronBlockMixin",
     "common.accessors.BlockAccessor",
     "common.accessors.PistonHandlerAccessor",
     "common.accessors.ShulkerBoxBlockEntityAccessor",

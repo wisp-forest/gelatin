@@ -1,12 +1,12 @@
 package com.dragon.jello.common.items;
 
-import com.dragon.jello.lib.dyecolor.DyeColorRegistry;
+import com.dragon.jello.dyelib.DyeColorRegistry;
+import com.dragon.jello.dyelib.DyenamicDyeItem;
 import io.wispforest.owo.registration.reflect.ItemRegistryContainer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.util.DyeColor;
 
 import java.util.List;
 
@@ -74,5 +74,6 @@ public class ItemRegistry {
     public static class MainItemRegistry implements ItemRegistryContainer{
 
         public static final Item SPONGE = new SpongeItem(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1));
+        public static final Item DYNAMIC_DYE = new DyenamicDyeItem(new FabricItemSettings().group(ItemGroup.TOOLS));
     }
 }

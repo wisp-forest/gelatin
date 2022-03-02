@@ -1,10 +1,8 @@
 package com.dragon.jello.mixin.ducks;
 
-import com.dragon.jello.lib.dyecolor.DyeColorRegistry;
+import com.dragon.jello.dyelib.DyeColorRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.state.property.IntProperty;
-import net.minecraft.util.DyeColor;
-import org.spongepowered.asm.mixin.Unique;
 
 public interface DyeableCauldron {
 

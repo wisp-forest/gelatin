@@ -1,5 +1,8 @@
 package com.dragon.jello.lib.events;
 
+import com.dragon.jello.common.Jello;
+import com.dragon.jello.lib.registry.ColorBlockRegistry;
+import com.dragon.jello.mixin.ducks.DyeableCauldron;
 import com.dragon.jello.mixin.mixins.common.accessors.ShulkerBoxBlockEntityAccessor;
 import io.wispforest.owo.ops.ItemOps;
 import net.minecraft.block.*;
@@ -7,8 +10,14 @@ import net.minecraft.block.entity.BedBlockEntity;
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.block.enums.BedPart;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BedItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.stat.Stats;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -58,6 +67,45 @@ public class ColorBlockUtil {
         }
         else if (!world.isClient) {
             world.setBlockState(blockPos, changedBlock.getStateWithProperties(oldBlockState));
+        }
+
+        return true;
+    }
+
+    public static boolean changeBlockItemColor(World world, ItemStack oldBlockItemStack, Block changedBlock, PlayerEntity player, Hand hand, boolean washingBlock){
+        Block oldBlock = Block.getBlockFromItem(oldBlockItemStack.getItem());
+
+        if(changedBlock == null || changedBlock == oldBlock){
+            return false;
+        }
+
+        if (oldBlock instanceof ShulkerBoxBlock) {
+            if (!world.isClient) {
+                ItemStack itemStack = new ItemStack(changedBlock);
+                if (oldBlockItemStack.hasNbt()) {
+                    itemStack.setNbt(oldBlockItemStack.getNbt().copy());
+                }
+
+                player.setStackInHand(hand, itemStack);
+
+                if (washingBlock) {
+                    player.incrementStat(Stats.CLEAN_SHULKER_BOX);
+                } else {
+                    player.incrementStat(Jello.Stats.DYE_SHULKER_BOX);
+                }
+            }
+
+            return true;
+        } else if (!world.isClient) {
+            ItemStack itemStack = new ItemStack(changedBlock);
+            itemStack.setCount(oldBlockItemStack.getCount());
+            player.setStackInHand(hand, itemStack);
+
+            if (washingBlock) {
+                player.incrementStat(Jello.Stats.CLEAN_BLOCK);
+            } else {
+                player.incrementStat(Jello.Stats.DYE_BLOCK);
+            }
         }
 
         return true;

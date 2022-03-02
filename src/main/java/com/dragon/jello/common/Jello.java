@@ -7,6 +7,8 @@ import com.dragon.jello.common.config.JelloConfig;
 import com.dragon.jello.common.data.tags.JelloTags;
 import com.dragon.jello.common.effects.JelloStatusEffectsRegistry;
 import com.dragon.jello.common.items.ItemRegistry;
+import com.dragon.jello.dyelib.DyeColorRegistry;
+import com.dragon.jello.dyelib.RandomDyeColorStuff;
 import com.dragon.jello.lib.events.ColorEntityEvent;
 import com.dragon.jello.lib.events.behavior.ColorEntityBehavior;
 import com.dragon.jello.lib.events.behavior.DeColorEntityBehavior;
@@ -52,6 +54,11 @@ public class Jello implements ModInitializer{
 
     @Override
     public void onInitialize() {
+        //DyeColorRegistry.generateJsonFile();
+//        System.exit(0);
+
+        RandomDyeColorStuff.gatherDyesFromJson();
+
         initClothConfig();
 
         //  Block Registry
@@ -71,6 +78,9 @@ public class Jello implements ModInitializer{
 
         //  GameEvent Registry
         FieldRegistrationHandler.register(GameEvents.class, MODID, false);
+
+        //  Stats Registry
+        FieldRegistrationHandler.processSimple(Stats.class, false);
 
         initColorBlockRegistry();
 
@@ -129,9 +139,12 @@ public class Jello implements ModInitializer{
 
     public static class Stats implements SimpleFieldProcessingSubject<Identifier> {
 
-        public static final Identifier DYE_ARMOR = new Identifier(MODID, "clean_armor");
-        public static final Identifier DYE_BANNER = new Identifier(MODID, "clean_banner");
-        public static final Identifier DYE_SHULKER_BOX = new Identifier(MODID, "clean_shulker_box");
+        public static final Identifier CLEAN_BLOCK = new Identifier(MODID, "clean_block");
+
+        public static final Identifier DYE_BLOCK = new Identifier(MODID, "dye_block");
+        public static final Identifier DYE_ARMOR = new Identifier(MODID, "dye_armor");
+        //public static final Identifier DYE_BANNER = new Identifier(MODID, "dye_banner");
+        public static final Identifier DYE_SHULKER_BOX = new Identifier(MODID, "dye_shulker_box");
 
         @Override
         public void processField(Identifier value, String identifier, Field field) {

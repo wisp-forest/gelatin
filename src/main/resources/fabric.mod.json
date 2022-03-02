@@ -34,7 +34,8 @@
     ]
   },
   "mixins": [
-    "jello.mixins.json"
+    "jello.mixins.json",
+    "dyelib.mixins.json"
   ],
   "depends": {
     "owo": ">=0.3.14+1.18",

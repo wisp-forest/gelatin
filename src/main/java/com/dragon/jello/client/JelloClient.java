@@ -43,5 +43,7 @@ public class JelloClient implements ClientModInitializer {
         ItemRegistry.JelloCupItemRegistry.JELLO_CUP.forEach((item) -> ColorProviderRegistry.ITEM.register((ItemColorProvider)item, item));
 
         FabricModelPredicateProviderRegistry.register(ItemRegistry.MainItemRegistry.SPONGE, new Identifier("dirtiness"), (stack, world, entity, seed) -> SpongeItem.getDirtinessStage(stack));
+
+        ColorProviderRegistry.ITEM.register((ItemColorProvider)ItemRegistry.MainItemRegistry.DYNAMIC_DYE, ItemRegistry.MainItemRegistry.DYNAMIC_DYE);
     }
 }

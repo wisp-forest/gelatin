@@ -55,6 +55,38 @@ public class ColorUtil {
         return new float[]{r1, g1, b1};
     }
 
+    /**
+     *  Note: Code was based off of/used from <a href="https://chir.ag/projects/ntc/ntc.js">ntc.js</a>, created by Chirag Mehta,
+     *  under the <a href="http://creativecommons.org/licenses/by/2.5/">Creative Commons Licences</a>
+     */
+    public static float[] getHSLfromColor(int color) {
+        var rgb = new float[]{(color >> 16)/ 255F, ((color >> 8) & 0xFF)/ 255F, (color & 0xFF)/ 255F};
+
+        var r = rgb[0];
+        var g = rgb[1];
+        var b = rgb[2];
+
+        float min = Math.min(r, Math.min(g, b));
+        float max = Math.max(r, Math.max(g, b));
+        float delta = max - min;
+        float l = (min + max) / 2;
+
+        float s = 0;
+        if(l > 0 && l < 1)
+            s = delta / (l < 0.5 ? (2 * l) : (2 - 2 * l));
+
+        float h = 0;
+        if(delta > 0)
+        {
+            if (max == r && max != g) h += (g - b) / delta;
+            if (max == g && max != b) h += (2 + (b - r) / delta);
+            if (max == b && max != r) h += (4 + (r - g) / delta);
+            h /= 6;
+        }
+
+        return new float[]{(int) (h * 255F), (int) (s * 255F), (int) (l * 255F)};
+    }
+
 
 
 
