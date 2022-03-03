@@ -2,6 +2,7 @@ package com.dragon.jello.api.events;
 
 import com.dragon.jello.main.common.Jello;
 import com.dragon.jello.api.mixin.mixins.common.accessors.ShulkerBoxBlockEntityAccessor;
+import com.dragon.jello.main.common.Util.ItemScattererExt;
 import io.wispforest.owo.ops.ItemOps;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BedBlockEntity;
@@ -10,11 +11,16 @@ import net.minecraft.block.enums.BedPart;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ItemScatterer;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class ColorBlockUtil {
 
@@ -65,8 +71,8 @@ public class ColorBlockUtil {
         return true;
     }
 
-    public static boolean changeBlockItemColor(World world, ItemStack oldBlockItemStack, Block changedBlock, PlayerEntity player, Hand hand, boolean washingBlock){
-        Block oldBlock = Block.getBlockFromItem(oldBlockItemStack.getItem());
+    public static boolean changeBlockItemColor(World world, BlockPos cauldronPos, ItemStack oldBlockStack, Block changedBlock, PlayerEntity player, Hand hand, boolean washingBlock){
+        Block oldBlock = Block.getBlockFromItem(oldBlockStack.getItem());
 
         if(changedBlock == null || changedBlock == oldBlock){
             return false;
@@ -75,8 +81,8 @@ public class ColorBlockUtil {
         if (oldBlock instanceof ShulkerBoxBlock) {
             if (!world.isClient) {
                 ItemStack itemStack = new ItemStack(changedBlock);
-                if (oldBlockItemStack.hasNbt()) {
-                    itemStack.setNbt(oldBlockItemStack.getNbt().copy());
+                if (oldBlockStack.hasNbt()) {
+                    itemStack.setNbt(oldBlockStack.getNbt().copy());
                 }
 
                 player.setStackInHand(hand, itemStack);
@@ -90,9 +96,18 @@ public class ColorBlockUtil {
 
             return true;
         } else if (!world.isClient) {
-            ItemStack itemStack = new ItemStack(changedBlock);
-            itemStack.setCount(oldBlockItemStack.getCount());
-            player.setStackInHand(hand, itemStack);
+            int stackDecrementAmount = 1;
+
+            if(oldBlock.asItem().getMaxCount() > 1){
+                stackDecrementAmount = Math.min(oldBlockStack.getCount(), 8);
+            }
+
+            ItemStack changedItemStack = new ItemStack(changedBlock, stackDecrementAmount);
+            oldBlockStack.decrement(stackDecrementAmount);
+
+            ItemScattererExt.spawn(world, cauldronPos.up(), changedItemStack);
+
+//            player.setStackInHand(hand, changedItemStack);
 
             if (washingBlock) {
                 player.incrementStat(Jello.Stats.CLEAN_BLOCK);

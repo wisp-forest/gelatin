@@ -16,7 +16,8 @@
     "dye.FireworkStarItemMixin",
     "dye.MapBannerMarkerMixin",
     "dye.SimpleRegistryAccessor",
-    "entitycolor.LivingEntityMixin"
+    "entitycolor.LivingEntityMixin",
+    "entitycolor.WaterBucketMixin"
   ],
   "client": [
     "client.FeatureRendererMixin",

@@ -16,6 +16,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
@@ -59,9 +61,9 @@ public class SpongeItem extends Item {
                 return ActionResult.PASS;
             }
 
-            user.playSound(SoundEvents.ITEM_BUCKET_EMPTY, 1.0F, 1.55F);
             if (!world.isClient) {
                 incrementDirtiness(context.getStack(), user);
+                world.playSound(null, user.getBlockPos(), SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.PLAYERS, 1.0F, 1.55F);
             }
 
             return ActionResult.SUCCESS;
@@ -82,7 +84,10 @@ public class SpongeItem extends Item {
 
                     if (!world.isClient) {
                         incrementDirtiness(itemInHand, user);
+
+                        world.playSound(null, user.getBlockPos(), SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.PLAYERS, 1.0F, 1.55F);
                     }
+
 
                     return TypedActionResult.success(itemInHand);
                 }
@@ -132,6 +137,8 @@ public class SpongeItem extends Item {
 
                 if (!user.world.isClient) {
                     incrementDirtiness(stack, user);
+
+                    entity.getWorld().playSound(null, user.getBlockPos(), SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.PLAYERS, 1.0F, 1.55F);
                 }
 
                 return ActionResult.SUCCESS;

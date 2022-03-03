@@ -35,7 +35,7 @@ public class DyenamicDyeItem extends DyeItem implements ItemColorProvider, DyeRe
 
     @Override
     public Text getName() {
-        return isDynamicColor ? new LiteralText(dynamicColor.getDisplayName() + " Dye") : new LiteralText(mainColor.getDisplayName() + " Dye");
+        return isDynamicColor ? new LiteralText("[Experimental]: " + dynamicColor.getDisplayName() + " Dye") : new LiteralText("[Experimental]: " + mainColor.getDisplayName() + " Dye");
     }
 
     @Override

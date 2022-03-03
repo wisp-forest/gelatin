@@ -105,13 +105,13 @@ public interface JelloCauldronBehaviors extends CauldronBehavior {
         Block block = Block.getBlockFromItem(stack.getItem());
 
         if(block != Blocks.AIR) {
+            Block changedBlock = ColorBlockRegistry.getVariant(block, null);
+
+            if (!ColorBlockUtil.changeBlockItemColor(world, pos, stack, changedBlock, player, hand, true)) {
+                return player.shouldCancelInteraction() ? ActionResult.FAIL : ActionResult.CONSUME_PARTIAL;
+            }
+
             if (!world.isClient) {
-                Block changedBlock = ColorBlockRegistry.getVariant(block, null);
-
-                if (!ColorBlockUtil.changeBlockItemColor(world, stack, changedBlock, player, hand, true)) {
-                    return ActionResult.PASS;
-                }
-
                 LeveledCauldronBlock.decrementFluidLevel(state, world, pos);
 
                 world.playSound((PlayerEntity)null, pos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.4F);
@@ -125,19 +125,21 @@ public interface JelloCauldronBehaviors extends CauldronBehavior {
 
     CauldronBehavior DYE_BLOCK_ITEM = (state, world, pos, player, hand, stack) -> {
         Block block = Block.getBlockFromItem(stack.getItem());
-
         if(block == Blocks.AIR){
             return ActionResult.PASS;
         }
 
+        Block changedBlock = ColorBlockRegistry.getVariant(block, DyeableCauldron.getDyeColor(state));
+        if(changedBlock == null){
+            return ActionResult.FAIL;
+        }
+
         if(DyeableCauldron.isWaterColored(state)) {
+            if (!ColorBlockUtil.changeBlockItemColor(world, pos, stack, changedBlock, player, hand, true)) {
+                return player.shouldCancelInteraction() ? ActionResult.FAIL : ActionResult.CONSUME_PARTIAL;
+            }
+
             if (!world.isClient) {
-                Block changedBlock = ColorBlockRegistry.getVariant(block, DyeableCauldron.getDyeColor(state));
-
-                if (!ColorBlockUtil.changeBlockItemColor(world, stack, changedBlock, player, hand, false)) {
-                    return ActionResult.PASS;
-                }
-
                 LeveledCauldronBlock.decrementFluidLevel(state, world, pos);
 
                 world.playSound((PlayerEntity)null, pos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.4F);
