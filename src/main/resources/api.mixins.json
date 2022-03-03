@@ -1,0 +1,30 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.dragon.jello.api.mixin.mixins",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "cauldron.AbstractCauldronBlockMixin",
+    "cauldron.LeveledCauldronBlockMixin",
+    "cauldron.CauldronBehaviorMixin",
+    "cauldron.DyeableItemMixin",
+    "common.DyeItemMixin",
+    "common.accessors.BlockAccessor",
+    "common.accessors.ShulkerBoxBlockEntityAccessor",
+    "dye.DyeColorEnumMixin",
+    "dye.DyeItemMixin",
+    "dye.FireworkStarItemMixin",
+    "dye.MapBannerMarkerMixin",
+    "dye.SimpleRegistryAccessor",
+    "entitycolor.LivingEntityMixin"
+  ],
+  "client": [
+    "client.FeatureRendererMixin",
+    "client.InGameHudMixin",
+    "client.LivingEntityRenderMixin",
+    "client.SlimeOverlayFeatureRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

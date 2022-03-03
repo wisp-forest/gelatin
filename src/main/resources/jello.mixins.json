@@ -1,27 +1,15 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.dragon.jello.mixin.mixins",
+  "package": "com.dragon.jello.main.mixin.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "common.BlockMixin",
-    "common.DyeItemMixin",
-    "common.DyeableItemMixin",
-    "common.LivingEntityMixin",
-    "common.PistonBlockMixin",
-    "common.PistonHandlerMixin",
-    "common.LeveledCauldronBlockMixin",
-    "common.CauldronBehaviorMixin",
-    "common.AbstractCauldronBlockMixin",
-    "common.accessors.BlockAccessor",
-    "common.accessors.PistonHandlerAccessor",
-    "common.accessors.ShulkerBoxBlockEntityAccessor",
-    "common.accessors.StatusEffectAccessor"
+    "BlockMixin",
+    "PistonBlockMixin",
+    "PistonHandlerMixin",
+    "StatusEffectAccessor"
   ],
   "client": [
-    "client.FeatureRendererMixin",
-    "client.LivingEntityRenderMixin",
-    "client.SlimeOverlayFeatureRendererMixin",
     "client.accessors.ItemModelGeneratorAccessor",
     "client.accessors.ModelsAccessor"
   ],

@@ -24,23 +24,23 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "com.dragon.jello.client.JelloClient"
+      "com.dragon.jello.main.client.JelloClient"
     ],
     "main": [
-      "com.dragon.jello.common.Jello"
+      "com.dragon.jello.main.common.Jello"
     ],
     "fabric-datagen": [
-      "com.dragon.jello.common.data.JelloDataEntrypoint"
+      "com.dragon.jello.main.common.data.JelloDataEntrypoint"
     ]
   },
   "mixins": [
     "jello.mixins.json",
-    "dyelib.mixins.json"
+    "api.mixins.json"
   ],
   "depends": {
-    "owo": ">=0.3.14+1.18",
+    "owo": ">=0.5.4+1.18",
     "fabricloader": ">=0.12.12",
     "fabric": "*",
-    "minecraft": "1.18.1"
+    "minecraft": ">=1.18.2"
   }
 }
