@@ -38,21 +38,16 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
-    modLocalRuntime("maven.modrinth:ferrite-core:${project.ferrite_core}")
-    //modLocalRuntime("maven.modrinth:lithium:${project.lithium}")
+    //modLocalRuntime("maven.modrinth:ferrite-core:${project.ferrite_core}")
+    modLocalRuntime("maven.modrinth:lithium:${project.lithium}")
 //    modLocalRuntime("maven.modrinth:krypton:${project.krypton}")
-    modLocalRuntime("maven.modrinth:phosphor:${project.phosphor}")
-    modLocalRuntime("maven.modrinth:modmenu:${project.modmenu}")
+    //modLocalRuntime("maven.modrinth:phosphor:${project.phosphor}")
+    //modLocalRuntime("maven.modrinth:modmenu:${project.modmenu}")
 
-    modImplementation "maven.modrinth:consistencyplus:${project.consistencyplus}"
-
-//    modImplementation("me.shedaniel.cloth:cloth-config-fabric:${project.architectury}"){
+    //modImplementation "maven.modrinth:consistencyplus:${project.consistencyplus}"
+//    modImplementation("dev.architectury:architectury-fabric:${rootProject.architectury}"){ //:sources"){
 //        exclude(group: "net.fabricmc.fabric-api")
 //    }
-
-    modImplementation("dev.architectury:architectury-fabric:${rootProject.architectury}"){ //:sources"){
-        exclude(group: "net.fabricmc.fabric-api")
-    }
 }
 
 sourceSets {
@@ -72,7 +67,6 @@ loom {
         clientMixinDebug {
             client()
             name "Client for Mixin Debug"
-            vmArg "-XX:HotswapAgent=fatjar"
             vmArg "-Dfabric.dli.config=D:\\Main@@0020Folder\\Develping@@0020Folder\\Modding@@0020Minecraft\\jello\\.gradle\\loom-cache\\launch.cfg"
             vmArg "-Dfabric.dli.env=client"
             vmArg "-Dfabric.dli.main=net.fabricmc.loader.impl.launch.knot.KnotClient"
@@ -116,7 +110,7 @@ processResources {
     inputs.property "version", project.version
     filteringCharset "UTF-8"
 
-    filesMatching("fabric.mod.json") {
+    filesMatching("fabric.main.json") {
         expand "version": project.version
     }
 }
