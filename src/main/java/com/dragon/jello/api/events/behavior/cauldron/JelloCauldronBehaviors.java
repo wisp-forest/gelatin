@@ -1,5 +1,6 @@
 package com.dragon.jello.api.events.behavior.cauldron;
 
+import com.dragon.jello.api.mixin.ducks.DyeRedirect;
 import com.dragon.jello.main.common.Jello;
 import com.dragon.jello.main.common.items.ItemRegistry;
 import com.dragon.jello.main.common.items.SpongeItem;
@@ -19,6 +20,7 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -34,13 +36,13 @@ public interface JelloCauldronBehaviors extends CauldronBehavior {
         for(DyeColorant dyeColor : DyeColorRegistry.VANILLA_DYES){
             Item dyeItem = Registry.ITEM.get(new Identifier(dyeColor.getName() + "_dye"));
 
-            CauldronBehavior colorWater = (state, world, pos, player, hand, stack) -> changeColor(
+            CauldronBehavior colorWater = (state, world, pos, player, hand, stack) -> changeColor((DyeItem)dyeItem,
                     world,
                     pos,
                     player,
                     hand,
                     stack,
-                    Blocks.WATER_CAULDRON.getDefaultState().with(LeveledCauldronBlock.LEVEL, state.get(LeveledCauldronBlock.LEVEL)).with(DyeableCauldron.DYE_COLOR, ((DyeItem)dyeItem).getColor().getId()),
+                    state,
                     SoundEvents.ITEM_BUCKET_EMPTY
             );
 
@@ -59,14 +61,20 @@ public interface JelloCauldronBehaviors extends CauldronBehavior {
         WATER_CAULDRON_BEHAVIOR.put(ItemRegistry.MainItemRegistry.SPONGE, CLEAN_SPONGE);
     }
 
-    static ActionResult changeColor(World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack, BlockState state, SoundEvent soundEvent) {
+    static ActionResult changeColor(DyeItem dyeItem, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack, BlockState state, SoundEvent soundEvent) {
+        if(DyeableCauldron.isWaterColored(state) && ((DyeRedirect)dyeItem).getDyeColor() == DyeableCauldron.getDyeColor(state)){
+            return ActionResult.PASS;
+        }
+
+        BlockState coloredState = Blocks.WATER_CAULDRON.getDefaultState().with(LeveledCauldronBlock.LEVEL, state.get(LeveledCauldronBlock.LEVEL)).with(DyeableCauldron.DYE_COLOR, (dyeItem).getColor().getId());
+
         if (!world.isClient) {
             Item item = stack.getItem();
             if(!player.getAbilities().creativeMode){
                 player.getMainHandStack().decrement(1);
             }
             player.incrementStat(Stats.USED.getOrCreateStat(item));
-            world.setBlockState(pos, state);
+            world.setBlockState(pos, coloredState);
             world.playSound((PlayerEntity)null, pos, soundEvent, SoundCategory.BLOCKS, 1.0F, 1.0F);
             world.emitGameEvent((Entity)null, GameEvent.FLUID_PLACE, pos);
         }
@@ -75,6 +83,10 @@ public interface JelloCauldronBehaviors extends CauldronBehavior {
     }
 
     CauldronBehavior CLEAN_SPONGE = (state, world, pos, player, hand, stack) -> {
+        if(DyeableCauldron.isWaterColored(state)){
+            return ActionResult.PASS;
+        }
+
         if(stack.getOrCreateNbt().getInt(SpongeItem.DIRTINESS_KEY) != 0){
             if(!world.isClient) {
                 stack.getOrCreateNbt().putInt(SpongeItem.DIRTINESS_KEY, 0);
@@ -153,6 +165,8 @@ public interface JelloCauldronBehaviors extends CauldronBehavior {
 
                 LeveledCauldronBlock.decrementFluidLevel(state, world, pos);
                 player.incrementStat(Jello.Stats.DYE_ARMOR);
+
+                world.playSound((PlayerEntity)null, pos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.4F);
             }
 
             return ActionResult.success(world.isClient);
