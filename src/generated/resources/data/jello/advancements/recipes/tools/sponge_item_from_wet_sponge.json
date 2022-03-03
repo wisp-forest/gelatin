@@ -1,0 +1,47 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "jello:sponge_item_from_wet_sponge"
+    ]
+  },
+  "criteria": {
+    "has_sponge_item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:wet_sponge"
+            ]
+          }
+        ]
+      }
+    },
+    "has_shears_item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:shears"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "jello:sponge_item_from_wet_sponge"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_sponge_item",
+      "has_shears_item",
+      "has_the_recipe"
+    ]
+  ]
+}
