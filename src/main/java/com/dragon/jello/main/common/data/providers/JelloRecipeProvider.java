@@ -78,6 +78,22 @@ public class JelloRecipeProvider extends FabricRecipesProvider {
 
             offerSlimeBallDyeingRecipe(exporter, item, dyeItem, itemPath, dyePath);
         }
+
+        ShapelessRecipeJsonBuilder.create(ItemRegistry.MainItemRegistry.SPONGE)
+                .input(Items.WET_SPONGE)
+                .input(Items.SHEARS)
+                .group("tool")
+                .criterion("has_sponge_item", conditionsFromItem(Items.WET_SPONGE))
+                .criterion("has_shears_item", conditionsFromItem(Items.SHEARS))
+                .offerTo(exporter, new Identifier(Jello.MODID, "sponge_item_from_wet_sponge"));
+
+        ShapelessRecipeJsonBuilder.create(ItemRegistry.MainItemRegistry.SPONGE)
+                .input(Items.SPONGE)
+                .input(Items.SHEARS)
+                .group("tool")
+                .criterion("has_sponge_item", conditionsFromItem(Items.SPONGE))
+                .criterion("has_shears_item", conditionsFromItem(Items.SHEARS))
+                .offerTo(exporter, new Identifier(Jello.MODID, "sponge_item_from_dry_sponge"));
     }
 
     public static void offerSlimeBlockDyeingRecipe(Consumer<RecipeJsonProvider> exporter, ItemConvertible output, ItemConvertible input, String blockPath, String dyePath) {
