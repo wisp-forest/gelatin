@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "id": "jello",
   "version": "${version}",
-
   "name": "Jello",
   "description": "A Library mod that adds some useful entity coloring API's and new Blocks & Features based around Color!",
   "authors": [
@@ -16,7 +15,8 @@
 
   "license": "LGPL-3.0",
   "contributors": [
-    "Elzra_Hentma"
+    "Elzra_Hentma - Texture Artist",
+    "Glisco - Creator of owo"
   ],
 
   "icon": "assets/jello/icon.png",
@@ -31,6 +31,9 @@
     ],
     "fabric-datagen": [
       "com.dragon.jello.main.common.data.JelloDataEntrypoint"
+    ],
+    "modmenu": [
+      "com.dragon.jello.main.common.compat.modmenu.JelloModMenuIntegration"
     ]
   },
   "mixins": [
@@ -39,8 +42,13 @@
   ],
   "depends": {
     "owo": ">=0.5.4+1.18",
-    "fabricloader": ">=0.12.12",
+    "cloth-config": ">=6.2.57",
+    "fabricloader": ">=0.13.3",
     "fabric": "*",
     "minecraft": ">=1.18.2"
+  },
+  "suggests": {
+    "modmenu": "*",
+    "consistency_plus": "*"
   }
 }

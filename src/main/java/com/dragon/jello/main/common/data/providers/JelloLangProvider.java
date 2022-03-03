@@ -50,6 +50,11 @@ public class JelloLangProvider extends LanguageProvider {
 
         add(SpongeItem.DIRTINESS_TRANSLATION_KEY, "Dirty Sponge");
 
+        addACToolTipAndNameEntry("enableGrayScalingOfEntitys", "Enable GrayScaling of Entitys", "[Warning: Will break texturepacks!] Used to allow for true color when a entity is dyed or color.");
+
+        addACToolTipAndNameEntry("enableDyeingEntitys", "Enable Dyeing of Entitys","Allow for the dyeing of entitys using any dye.");
+        addACToolTipAndNameEntry("enableDyeingPlayers", "Enable Dyeing of Players","Allow for the dyeing of players using any dye.");
+        addACToolTipAndNameEntry("enableDyeingBlocks", "Enable Dyeing of Blocks","Allow for the dyeing of blocks using any vanilla dye.");
     }
 
     //-----------------------------------------------//
@@ -82,5 +87,10 @@ public class JelloLangProvider extends LanguageProvider {
         return Arrays.stream(internalName.toLowerCase(Locale.ROOT).split("_"))
                 .map(StringUtils::capitalize)
                 .collect(Collectors.joining(" "));
+    }
+
+    private void addACToolTipAndNameEntry(String keyName, String nameTranslation, String tooltipTranslation){
+        add("text.autoconfig.jello.option." + keyName + ".@Tooltip", tooltipTranslation);
+        add("text.autoconfig.jello.option." + keyName, nameTranslation);
     }
 }
