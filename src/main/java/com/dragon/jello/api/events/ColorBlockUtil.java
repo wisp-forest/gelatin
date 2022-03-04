@@ -1,7 +1,7 @@
 package com.dragon.jello.api.events;
 
 import com.dragon.jello.main.common.Jello;
-import com.dragon.jello.api.mixin.mixins.common.accessors.ShulkerBoxBlockEntityAccessor;
+import com.dragon.jello.api.mixin.mixins.accessors.ShulkerBoxBlockEntityAccessor;
 import com.dragon.jello.main.common.Util.ItemScattererExt;
 import io.wispforest.owo.ops.ItemOps;
 import net.minecraft.block.*;
@@ -11,16 +11,11 @@ import net.minecraft.block.enums.BedPart;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ItemScatterer;
-import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-
-import java.util.List;
 
 public class ColorBlockUtil {
 

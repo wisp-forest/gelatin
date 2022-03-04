@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "id": "jello",
   "version": "${version}",
+
   "name": "Jello",
   "description": "A Library mod that adds some useful entity coloring API's and new Blocks & Features based around Color!",
   "authors": [

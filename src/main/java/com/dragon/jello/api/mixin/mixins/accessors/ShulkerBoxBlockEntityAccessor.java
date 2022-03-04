@@ -1,4 +1,4 @@
-package com.dragon.jello.api.mixin.mixins.common.accessors;
+package com.dragon.jello.api.mixin.mixins.accessors;
 
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.nbt.NbtCompound;

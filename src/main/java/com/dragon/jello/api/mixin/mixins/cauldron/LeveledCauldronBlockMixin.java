@@ -2,7 +2,7 @@ package com.dragon.jello.api.mixin.mixins.cauldron;
 
 import com.dragon.jello.api.dye.DyeColorant;
 import com.dragon.jello.api.mixin.ducks.DyeableCauldron;
-import com.dragon.jello.api.mixin.mixins.common.accessors.BlockAccessor;
+import com.dragon.jello.api.mixin.mixins.accessors.BlockAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvironmentInterface;
