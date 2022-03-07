@@ -25,16 +25,16 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "com.dragon.jello.main.client.JelloClient"
+      "io.wispforest.jello.main.client.JelloClient"
     ],
     "main": [
-      "com.dragon.jello.main.common.Jello"
+      "io.wispforest.jello.main.common.Jello"
     ],
     "fabric-datagen": [
-      "com.dragon.jello.main.common.data.JelloDataEntrypoint"
+      "io.wispforest.jello.main.common.data.JelloDataEntrypoint"
     ],
     "modmenu": [
-      "com.dragon.jello.main.common.compat.modmenu.JelloModMenuIntegration"
+      "io.wispforest.jello.main.common.compat.modmenu.JelloModMenuIntegration"
     ]
   },
   "mixins": [

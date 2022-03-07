@@ -28,7 +28,7 @@ repositories {
 ```groovy
 dependencies {
   // Recommend creating a jello version within your gradle.properties 
-  modImplementation "com.dragon:jello:${project.jello_version}"
+  modImplementation "com.wispforest:jello:${project.jello_version}"
 }
 ```
 

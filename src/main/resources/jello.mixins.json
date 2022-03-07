@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.dragon.jello.main.mixin.mixins",
+  "package": "io.wispforest.jello.main.mixin.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "BlockMixin",
