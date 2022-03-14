@@ -1,6 +1,6 @@
 package io.wispforest.jello.api.mixin.ducks;
 
-import io.wispforest.jello.main.common.Util.DataConstants;
+import io.wispforest.jello.api.util.DataConstants;
 import net.minecraft.entity.Entity;
 
 public interface ConstantColorEntity extends GrayScaleEntity {

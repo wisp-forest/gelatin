@@ -56,6 +56,8 @@ public class JelloLangProvider extends LanguageProvider {
         addACToolTipAndNameEntry("enableDyeingEntitys", "Enable Dyeing of Entitys","Allow for the dyeing of entitys using any dye.");
         addACToolTipAndNameEntry("enableDyeingPlayers", "Enable Dyeing of Players","Allow for the dyeing of players using any dye.");
         addACToolTipAndNameEntry("enableDyeingBlocks", "Enable Dyeing of Blocks","Allow for the dyeing of blocks using any vanilla dye.");
+
+        add("text.jello.dye_bundle_pattern", "%1$s [%2$s]");
     }
 
     //-----------------------------------------------//

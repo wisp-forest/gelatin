@@ -1,5 +1,6 @@
 package io.wispforest.jello.api.mixin.ducks;
 
+import io.wispforest.jello.api.dye.DyeColorant;
 import net.minecraft.item.DyeableItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public interface DyeableItemExt {
 
-    static ItemStack blendItemColorAndDyeColor(ItemStack stack, List<DyeColor> colors) {
+    static ItemStack blendItemColorAndDyeColor(ItemStack stack, List<DyeColorant> colors) {
         ItemStack itemStack = ItemStack.EMPTY;
         int[] is = new int[3];
         int i = 0;
@@ -32,8 +33,8 @@ public interface DyeableItemExt {
                 ++j;
             }
 
-            for(DyeColor dyeColor : colors) {
-                float[] fs = dyeColor.getColorComponents();
+            for(DyeColorant dyeColorant : colors) {
+                float[] fs = dyeColorant.getColorComponents();
                 int l = (int)(fs[0] * 255.0F);
                 int m = (int)(fs[1] * 255.0F);
                 int n = (int)(fs[2] * 255.0F);

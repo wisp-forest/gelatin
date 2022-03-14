@@ -1,9 +1,7 @@
 package io.wispforest.jello.api.dye.item;
 
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.dye.registry.RandomDyeColorStuff;
-import io.wispforest.jello.api.mixin.ducks.DyeRedirect;
-import net.minecraft.client.color.item.ItemColorProvider;
+import io.wispforest.jello.api.dye.RandomDyeColorStuff;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -13,7 +11,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class DyenamicDyeItem extends DyeItem implements ItemColorProvider, DyeRedirect {
+public class DyenamicDyeItem extends DyeItem {
     public static final String COLOR_KEY = "color";
 
     private DyeColorant dynamicColor;
@@ -68,11 +66,6 @@ public class DyenamicDyeItem extends DyeItem implements ItemColorProvider, DyeRe
 
     private static void setColor(NbtCompound nbt, String colorID){
         nbt.putString(COLOR_KEY, colorID);
-    }
-
-    @Override
-    public int getColor(ItemStack stack, int tintIndex) {
-        return this.getDyeColor().getBaseColor();
     }
 
     @Override

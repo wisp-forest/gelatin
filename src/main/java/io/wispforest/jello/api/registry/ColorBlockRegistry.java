@@ -17,9 +17,9 @@ import java.util.Optional;
 
 public class ColorBlockRegistry {
 
-    private static final Map<TagKey<Block>, Map<DyeColorant, Block>> REGISTRY = new HashMap<>();
-
     private static final Logger LOGGER = LogManager.getLogger(ColorBlockRegistry.class);
+
+    private static final Map<TagKey<Block>, Map<DyeColorant, Block>> REGISTRY = new HashMap<>();
 
     private static final DyeColorant[] VANILLA_DYES = DyeColorRegistry.VANILLA_DYES.toArray(new DyeColorant[0]);
 
@@ -107,6 +107,4 @@ public class ColorBlockRegistry {
     private static void loggerError(String message){
         LOGGER.error("[Color Block Registry] Error: " + message);
     }
-
-
 }

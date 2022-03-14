@@ -82,7 +82,7 @@ public class JelloRecipeProvider extends FabricRecipesProvider {
         ShapelessRecipeJsonBuilder.create(ItemRegistry.MainItemRegistry.SPONGE)
                 .input(Items.WET_SPONGE)
                 .input(Items.SHEARS)
-                .group("tool")
+                .group("")
                 .criterion("has_sponge_item", conditionsFromItem(Items.WET_SPONGE))
                 .criterion("has_shears_item", conditionsFromItem(Items.SHEARS))
                 .offerTo(exporter, new Identifier(Jello.MODID, "sponge_item_from_wet_sponge"));
@@ -90,7 +90,7 @@ public class JelloRecipeProvider extends FabricRecipesProvider {
         ShapelessRecipeJsonBuilder.create(ItemRegistry.MainItemRegistry.SPONGE)
                 .input(Items.SPONGE)
                 .input(Items.SHEARS)
-                .group("tool")
+                .group("")
                 .criterion("has_sponge_item", conditionsFromItem(Items.SPONGE))
                 .criterion("has_shears_item", conditionsFromItem(Items.SHEARS))
                 .offerTo(exporter, new Identifier(Jello.MODID, "sponge_item_from_dry_sponge"));

@@ -1,9 +1,12 @@
-package io.wispforest.jello.api.dye.registry;
+package io.wispforest.jello.api.dye;
 
 import io.wispforest.jello.api.dye.DyeColorant;
+import io.wispforest.jello.api.dye.item.DyeItem;
+import io.wispforest.jello.api.dye.item.DyedItemVariants;
+import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
 import io.wispforest.jello.main.common.Jello;
-import io.wispforest.jello.main.common.Util.ColorUtil;
-import io.wispforest.jello.main.common.Util.MessageUtil;
+import io.wispforest.jello.api.util.ColorUtil;
+import io.wispforest.jello.api.util.MessageUtil;
 import io.wispforest.jello.main.common.data.tags.JelloTags;
 import com.google.gson.*;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
@@ -29,13 +32,14 @@ import java.util.Random;
 
 public class RandomDyeColorStuff {
 
-    private static final Gson BIG_GSON = new GsonBuilder().setPrettyPrinting().create();
-
-    private static final String COLOR_API_URL = "https://www.thecolorapi.com/id?hex=";
+    public static final String JSON_NAMESPACE = "jello_dji";
 
     private static final String LETTERS_AND_NUMBERS = "0123456789ABCDEF";
-
     private static List<Character> VAILID_CHARACTERS = new ArrayList<>();
+
+    private static final Gson BIG_GSON = new GsonBuilder().setPrettyPrinting().create();
+
+    public static List<DyeItem> JSON_DYES = new ArrayList<>();
 
     static{
         for(int i = 0; i < LETTERS_AND_NUMBERS.length(); i++){
@@ -79,7 +83,11 @@ public class RandomDyeColorStuff {
                     colorName = currentObject.get("colorName").getAsString() + " 2";
                 }
 
-                DyeColorRegistry.registryDyeColorNameOverride(dyeColorID, colorName, closeHexColor, MapColor.CLEAR);
+                DyeColorant currentDyeColor = DyeColorRegistry.registryDyeColorNameOverride(dyeColorID, colorName, closeHexColor, MapColor.CLEAR);
+
+                DyeItem dyeItem = DyedItemVariants.createDyeColorant(new Identifier(JSON_NAMESPACE, dyeColorID.getPath() + "_dye"), currentDyeColor, new OwoItemSettings().group(ItemGroup.MISC).tab(1));
+
+                JSON_DYES.add(dyeItem);
             }
 
             messager.stopTimerPrint("JsonToRegistry", "It seems that the registry filling took ");

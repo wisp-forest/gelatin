@@ -1,4 +1,4 @@
-package io.wispforest.jello.main.common.Util;
+package io.wispforest.jello.api.util;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ItemScatterer;

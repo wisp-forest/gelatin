@@ -1,6 +1,6 @@
 package io.wispforest.jello.api.mixin.mixins.entitycolor;
 
-import io.wispforest.jello.main.common.Util.DataConstants;
+import io.wispforest.jello.api.util.DataConstants;
 import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.mixin.ducks.DyeableEntity;

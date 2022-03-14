@@ -7,9 +7,12 @@
     "BlockMixin",
     "PistonBlockMixin",
     "PistonHandlerMixin",
-    "StatusEffectAccessor"
+    "StatusEffectAccessor",
+    "ItemMixin"
   ],
   "client": [
+    "client.CreativeInventoryMixin",
+    "client.InventoryScreenMixin",
     "client.accessors.ItemModelGeneratorAccessor",
     "client.accessors.ModelsAccessor"
   ],

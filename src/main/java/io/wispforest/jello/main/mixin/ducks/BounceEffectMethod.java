@@ -29,8 +29,6 @@ public interface BounceEffectMethod {
                 LOGGER.info("3: Player's Horizontal Velocity: [" + horizontalVel + "]");
             }
 
-            //double xzMultiplier = horizontalVel / 2000;
-
             livingEntity.setVelocity(0, vec3d.y * d, 0);
 
             //livingEntity.setVelocity(vec3d.x * Math.min(1.5, xzMultiplier), (-1 * vec3d.y /* / Math.min(1.0, xzMultiplier)*/), vec3d.z * Math.min(1.5, xzMultiplier));

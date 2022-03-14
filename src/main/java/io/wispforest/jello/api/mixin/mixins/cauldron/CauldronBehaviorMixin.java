@@ -1,5 +1,6 @@
 package io.wispforest.jello.api.mixin.mixins.cauldron;
 
+import io.wispforest.jello.api.dye.blockentity.ColorStorageBlockEntity;
 import io.wispforest.jello.api.mixin.ducks.DyeableCauldron;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.cauldron.CauldronBehavior;
@@ -19,21 +20,27 @@ public interface CauldronBehaviorMixin {
 
     @Inject(method = "method_32209", at = @At("HEAD"), cancellable = true)
     private static void CLEAN_DYEABLE_ITEM$cancelIfDyedWater(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack, CallbackInfoReturnable<ActionResult> cir){
-        if(DyeableCauldron.isWaterColored(state)){
+        ColorStorageBlockEntity blockEntity = (ColorStorageBlockEntity) world.getBlockEntity(pos);
+
+        if (blockEntity != null && DyeableCauldron.isWaterColored(blockEntity)) {
             cir.setReturnValue(ActionResult.FAIL);
         }
     }
 
     @Inject(method = "method_32214", at = @At("HEAD"), cancellable = true)
     private static void CLEAN_BANNER$cancelIfDyedWater(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack, CallbackInfoReturnable<ActionResult> cir){
-        if(DyeableCauldron.isWaterColored(state)){
+        ColorStorageBlockEntity blockEntity = (ColorStorageBlockEntity) world.getBlockEntity(pos);
+
+        if (blockEntity != null && DyeableCauldron.isWaterColored(blockEntity)) {
             cir.setReturnValue(ActionResult.FAIL);
         }
     }
 
     @Inject(method = "method_32215", at = @At("HEAD"), cancellable = true)
     private static void CLEAN_SHULKER_BOX$cancelIfDyedWater(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack, CallbackInfoReturnable<ActionResult> cir){
-        if(DyeableCauldron.isWaterColored(state)){
+        ColorStorageBlockEntity blockEntity = (ColorStorageBlockEntity) world.getBlockEntity(pos);
+
+        if (blockEntity != null && DyeableCauldron.isWaterColored(blockEntity)) {
             cir.setReturnValue(ActionResult.FAIL);
         }
     }

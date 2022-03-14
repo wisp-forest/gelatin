@@ -2,7 +2,7 @@ package io.wispforest.jello.api.dye.registry;
 
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.main.common.Jello;
-import io.wispforest.jello.main.common.Util.ColorUtil;
+import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.jello.api.mixin.mixins.dye.SimpleRegistryAccessor;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.block.MapColor;

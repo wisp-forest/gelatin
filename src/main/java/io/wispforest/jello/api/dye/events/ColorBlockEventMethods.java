@@ -1,8 +1,9 @@
-package io.wispforest.jello.api.events;
+package io.wispforest.jello.api.dye.events;
 
+import io.wispforest.jello.api.JelloAPI;
 import io.wispforest.jello.main.common.Jello;
 import io.wispforest.jello.api.mixin.mixins.accessors.ShulkerBoxBlockEntityAccessor;
-import io.wispforest.jello.main.common.Util.ItemScattererExt;
+import io.wispforest.jello.api.util.ItemScattererExt;
 import io.wispforest.owo.ops.ItemOps;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BedBlockEntity;
@@ -17,7 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-public class ColorBlockUtil {
+public class ColorBlockEventMethods {
 
     public static boolean changeBlockColor(World world, BlockPos blockPos, BlockState oldBlockState, Block changedBlock, PlayerEntity player){
         if(changedBlock == null || changedBlock == oldBlockState.getBlock()){
@@ -85,7 +86,7 @@ public class ColorBlockUtil {
                 if (washingBlock) {
                     player.incrementStat(Stats.CLEAN_SHULKER_BOX);
                 } else {
-                    player.incrementStat(Jello.Stats.DYE_SHULKER_BOX);
+                    player.incrementStat(JelloAPI.Stats.DYE_SHULKER_BOX);
                 }
             }
 
@@ -105,9 +106,9 @@ public class ColorBlockUtil {
 //            player.setStackInHand(hand, changedItemStack);
 
             if (washingBlock) {
-                player.incrementStat(Jello.Stats.CLEAN_BLOCK);
+                player.incrementStat(JelloAPI.Stats.CLEAN_BLOCK);
             } else {
-                player.incrementStat(Jello.Stats.DYE_BLOCK);
+                player.incrementStat(JelloAPI.Stats.DYE_BLOCK);
             }
         }
 

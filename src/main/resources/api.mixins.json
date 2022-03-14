@@ -4,15 +4,16 @@
   "package": "io.wispforest.jello.api.mixin.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "cauldron.AbstractCauldronBlockMixin",
-    "cauldron.LeveledCauldronBlockMixin",
-    "cauldron.CauldronBehaviorMixin",
-    "cauldron.DyeableItemMixin",
     "accessors.BlockAccessor",
     "accessors.ShulkerBoxBlockEntityAccessor",
+    "cauldron.AbstractCauldronBlockMixin",
+    "cauldron.CauldronBehaviorMixin",
+    "cauldron.DyeableItemMixin",
+    "cauldron.LeveledCauldronBlockMixin",
     "dye.DyeColorEnumMixin",
     "dye.DyeItemMixin",
     "dye.FireworkStarItemMixin",
+    "dye.ItemGroupMixin",
     "dye.MapBannerMarkerMixin",
     "dye.SimpleRegistryAccessor",
     "entitycolor.LivingEntityMixin",
@@ -22,7 +23,12 @@
     "client.FeatureRendererMixin",
     "client.InGameHudMixin",
     "client.LivingEntityRenderMixin",
-    "client.SlimeOverlayFeatureRendererMixin"
+    "client.MouseMixin",
+    "client.SlimeOverlayFeatureRendererMixin",
+    "client.TranslationStorageMixin",
+    "client.accessors.HandledScreenAccessor",
+    "client.accessors.ScreenAccessor",
+    "client.accessors.ScreenHandlerAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

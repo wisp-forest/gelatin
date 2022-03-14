@@ -2,8 +2,8 @@ package io.wispforest.jello.api.mixin.mixins.dye;
 
 import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.events.ColorBlockUtil;
-import io.wispforest.jello.api.events.ColorEntityEvent;
+import io.wispforest.jello.api.dye.events.ColorBlockEventMethods;
+import io.wispforest.jello.api.dye.events.ColorEntityEvent;
 import io.wispforest.jello.api.mixin.ducks.ConstantColorEntity;
 import io.wispforest.jello.api.mixin.ducks.DyeRedirect;
 import io.wispforest.jello.api.mixin.ducks.DyeableEntity;
@@ -78,15 +78,17 @@ public class DyeItemMixin extends Item implements DyeRedirect {
             World world = context.getWorld();
             BlockState blockState = world.getBlockState(context.getBlockPos());
 
-            if(!ColorBlockUtil.changeBlockColor(world, context.getBlockPos(), blockState, ColorBlockRegistry.getVariant(blockState.getBlock(), this.getDyeColor()), player)){
+            if(!ColorBlockEventMethods.changeBlockColor(world, context.getBlockPos(), blockState, ColorBlockRegistry.getVariant(blockState.getBlock(), this.getDyeColor()), player)){
                 return ActionResult.FAIL;
             }
 
             world.playSound(player, context.getBlockPos(), blockState.getBlock().getSoundGroup(blockState).getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
 
-            Random random = new Random();
-            if(random.nextInt(10) == 0){
-                ColorBlockUtil.decrementPlayerHandItemCC(player, context.getHand());
+            if(!player.getAbilities().creativeMode) {
+                Random random = new Random();
+                if (random.nextInt(10) == 0) {
+                    ColorBlockEventMethods.decrementPlayerHandItemCC(player, context.getHand());
+                }
             }
 
             return ActionResult.SUCCESS;

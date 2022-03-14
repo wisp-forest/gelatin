@@ -1,6 +1,6 @@
 package io.wispforest.jello.api.mixin.mixins.client;
 
-import io.wispforest.jello.main.common.Util.ColorUtil;
+import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.jello.api.mixin.ducks.ConstantColorEntity;
 import io.wispforest.jello.api.mixin.ducks.DyeableEntity;
 import io.wispforest.jello.api.mixin.ducks.GrayScaleEntity;

@@ -19,6 +19,8 @@ public class JelloDataEntrypoint implements DataGeneratorEntrypoint {
         fabricDataGenerator.addProvider(new JelloTagsProvider.BlockTagProvider(fabricDataGenerator));
         fabricDataGenerator.addProvider(new JelloTagsProvider.ItemTagProvider(fabricDataGenerator));
 
+        fabricDataGenerator.addProvider(new JelloTagsProvider.GeneratedDyeItemTagProvider(fabricDataGenerator));
+
         fabricDataGenerator.addProvider(new JelloTagsProvider.DyeTagProvider(fabricDataGenerator));
 
         fabricDataGenerator.addProvider(new JelloRecipeProvider(fabricDataGenerator));

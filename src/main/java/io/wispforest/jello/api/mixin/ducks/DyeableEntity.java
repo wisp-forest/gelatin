@@ -2,7 +2,7 @@ package io.wispforest.jello.api.mixin.ducks;
 
 import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.events.ColorEntityEvent;
+import io.wispforest.jello.api.dye.events.ColorEntityEvent;
 import io.wispforest.jello.api.mixin.mixins.entitycolor.LivingEntityMixin;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;

@@ -8,6 +8,10 @@ accessible method net/minecraft/client/texture/ResourceTexture upload (Lnet/mine
 accessible field net/minecraft/client/texture/NativeImage pointer J
 accessible field net/minecraft/client/texture/ResourceTexture location Lnet/minecraft/util/Identifier;
 
+accessible method net/minecraft/item/BundleItem getBundledStacks (Lnet/minecraft/item/ItemStack;)Ljava/util/stream/Stream;
+
+extendable method net/minecraft/client/gui/screen/Screen renderTooltipFromComponents (Lnet/minecraft/client/util/math/MatrixStack;Ljava/util/List;II)V
+
 accessible method net/minecraft/client/render/entity/feature/FeatureRenderer getTexture (Lnet/minecraft/entity/Entity;)Lnet/minecraft/util/Identifier;
 
 

@@ -1,18 +1,17 @@
 package io.wispforest.jello.main.common;
 
+import io.wispforest.jello.api.JelloAPI;
+import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
+import io.wispforest.jello.api.registry.ColorBlockRegistry;
 import io.wispforest.jello.main.common.blocks.BlockRegistry;
-import io.wispforest.jello.api.events.behavior.cauldron.JelloCauldronBehaviors;
 import io.wispforest.jello.main.common.compat.consistencyplus.data.ConsistencyPlusTags;
 import io.wispforest.jello.main.common.config.JelloConfig;
 import io.wispforest.jello.main.common.data.tags.JelloTags;
 import io.wispforest.jello.main.common.items.ItemRegistry;
-import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
-import io.wispforest.jello.api.dye.registry.RandomDyeColorStuff;
-import io.wispforest.jello.api.TrackedDataHandlerExtended;
-import io.wispforest.jello.api.events.ColorEntityEvent;
-import io.wispforest.jello.api.events.behavior.ColorEntityBehavior;
-import io.wispforest.jello.api.events.behavior.DeColorEntityBehavior;
-import io.wispforest.jello.api.registry.ColorBlockRegistry;
+import io.wispforest.jello.api.dye.events.ColorEntityEvent;
+import io.wispforest.jello.api.dye.behavior.ColorEntityBehavior;
+import io.wispforest.jello.api.dye.behavior.DeColorEntityBehavior;
+import io.wispforest.jello.main.common.items.dyebundle.DyeBundlePackets;
 import io.wispforest.jello.main.mixin.ducks.InInventoryCraftingPacket;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
 import io.wispforest.owo.network.OwoNetChannel;
@@ -58,24 +57,12 @@ public class Jello implements ModInitializer{
 
     @Override
     public void onInitialize() {
-
-        FieldRegistrationHandler.processSimple(TrackedDataHandlerExtended.class, false);
-
-        //DyeColorRegistry.generateJsonFile();
-//        System.exit(0);
-
-        RandomDyeColorStuff.gatherDyesFromJson();
-
-        ((OwoItemGroup)ItemGroup.MISC).initialize();
-
-        initClothConfig();
+        Jello.initClothConfig();
 
         //  Block Registry
         FieldRegistrationHandler.register(BlockRegistry.SlimeBlockRegistry.class, MODID, false);
         FieldRegistrationHandler.register(BlockRegistry.SlimeSlabRegistry.class, MODID, false);
         FieldRegistrationHandler.register(BlockRegistry.MainBlockRegistry.class, MODID, false);
-
-        JelloCauldronBehaviors.registerJelloBehavior();
 
         //  StatusEffect Registry
         //FieldRegistrationHandler.register(JelloStatusEffectsRegistry.class, MODID, false);
@@ -85,40 +72,16 @@ public class Jello implements ModInitializer{
         FieldRegistrationHandler.register(ItemRegistry.JelloCupItemRegistry.class, MODID, false);
         FieldRegistrationHandler.register(ItemRegistry.MainItemRegistry.class, MODID, false);
 
-        //  GameEvent Registry
-        FieldRegistrationHandler.register(GameEvents.class, MODID, false);
+        Jello.ColorBlockRegistryCompat();
 
-        //  Stats Registry
-        FieldRegistrationHandler.processSimple(Stats.class, false);
-
-        initColorBlockRegistry();
-
-        registerDispenserBehavior();
-        registerEvents();
-
-        setupOWOPacketStuff();
+        Jello.setupOWOPacketStuff();
     }
 
-    private void setupOWOPacketStuff(){
-        CHANNEL.registerServerbound(InInventoryCraftingPacket.CraftPacket.class,    InInventoryCraftingPacket.CraftPacket::craftFromStack);
-    }
+    //------------------------------------------------------------------------------
 
-    private void registerEvents(){
-        UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) ->{
-            return new ColorEntityEvent().interact(player, world, hand, entity, hitResult);
-        });
-    }
-
-    private void registerDispenserBehavior(){
-        DyeColor[] dyeColors = DyeColor.values();
-
-        for(int i = 0; i < dyeColors.length; i++){
-            Item item = Registry.ITEM.get(new Identifier(dyeColors[i].getName() + "_dye"));
-
-            DispenserBlock.registerBehavior(item, new ColorEntityBehavior());
-        }
-
-        DispenserBlock.registerBehavior(Items.WATER_BUCKET, new DeColorEntityBehavior());
+    private static void setupOWOPacketStuff(){
+        CHANNEL.registerServerbound(InInventoryCraftingPacket.CraftPacket.class, InInventoryCraftingPacket.CraftPacket::craftFromStack);
+        CHANNEL.registerServerbound(DyeBundlePackets.ScreenScrollPacket.class, DyeBundlePackets.ScreenScrollPacket::scrollBundle);
     }
 
     public static void initClothConfig(){
@@ -127,50 +90,10 @@ public class Jello implements ModInitializer{
         MAIN_CONFIG = AutoConfig.getConfigHolder(JelloConfig.class).getConfig();
     }
 
-    private static void initColorBlockRegistry(){
+    private static void ColorBlockRegistryCompat(){
         DefaultColorBlockRegistry.init();
 
         ModCompatHelpers.getRegistryHelper(Registry.ITEM).runWhenPresent(new Identifier(ConsistencyPlusTags.CONSISTENCY_PLUS_MODID, "stone_wall"), item -> ConsistencyPlusColorBlockRegistry.init());
-    }
-
-    //------------------------------------------------------------------------------
-
-    public static class GameEvents implements AutoRegistryContainer<GameEvent> {
-
-        public static final GameEvent DYE_ENTITY = new GameEvent("dye_entity", 16);
-
-        @Override
-        public Registry<GameEvent> getRegistry() {
-            return Registry.GAME_EVENT;
-        }
-
-        @Override
-        public Class<GameEvent> getTargetFieldType() {
-            return GameEvent.class;
-        }
-    }
-
-    //------------------------------------------------------------------------------
-
-    public static class Stats implements SimpleFieldProcessingSubject<Identifier> {
-
-        public static final Identifier CLEAN_BLOCK = new Identifier(MODID, "clean_block");
-
-        public static final Identifier DYE_BLOCK = new Identifier(MODID, "dye_block");
-        public static final Identifier DYE_ARMOR = new Identifier(MODID, "dye_armor");
-        //public static final Identifier DYE_BANNER = new Identifier(MODID, "dye_banner");
-        public static final Identifier DYE_SHULKER_BOX = new Identifier(MODID, "dye_shulker_box");
-
-        @Override
-        public void processField(Identifier value, String identifier, Field field) {
-            Registry.register(Registry.CUSTOM_STAT, identifier, value);
-            net.minecraft.stat.Stats.CUSTOM.getOrCreateStat(value, StatFormatter.DEFAULT);
-        }
-
-        @Override
-        public Class<Identifier> getTargetFieldType() {
-            return Identifier.class;
-        }
     }
 
     //------------------------------------------------------------------------------
@@ -374,4 +297,9 @@ public class Jello implements ModInitializer{
             }
         }
     }
+
+
+
+
+
 }

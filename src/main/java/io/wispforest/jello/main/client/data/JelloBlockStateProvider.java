@@ -82,7 +82,10 @@ public class JelloBlockStateProvider extends FabricModelProvider {
             model.upload(new Identifier(Jello.MODID,"item/sponge_stage_" + i), TextureMap.layer0(new Identifier(Jello.MODID, "item/sponge/sponge_stage_" + i)), ((ItemModelGeneratorAccessor)itemModelGenerator).getWriter());
         }
 
-
+        for(int i = 1; i < 9; i++){
+            Model model = Models.GENERATED;
+            model.upload(new Identifier(Jello.MODID,"item/dye_texture_var_" + i), TextureMap.layer0(new Identifier(Jello.MODID, "item/dye_item_variant/var_" + i)), ((ItemModelGeneratorAccessor)itemModelGenerator).getWriter());
+        }
     }
 
     private Model slimeBlockItemModel(Block block){

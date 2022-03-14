@@ -1,4 +1,4 @@
-package io.wispforest.jello.api;
+package io.wispforest.jello.api.util;
 
 import io.wispforest.owo.registration.reflect.SimpleFieldProcessingSubject;
 import net.minecraft.entity.data.TrackedDataHandler;

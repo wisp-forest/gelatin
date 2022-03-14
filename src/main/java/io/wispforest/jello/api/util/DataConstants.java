@@ -1,6 +1,5 @@
-package io.wispforest.jello.main.common.Util;
+package io.wispforest.jello.api.util;
 
-import io.wispforest.jello.api.TrackedDataHandlerExtended;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;

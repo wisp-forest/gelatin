@@ -2,6 +2,7 @@ package io.wispforest.jello.api.dye;
 
 import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
 import net.minecraft.block.MapColor;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.RegistryEntry;
@@ -109,5 +110,8 @@ public class DyeColorant {
     public RegistryEntry.Reference<DyeColorant> getRegistryEntry() {
         return this.registryEntry;
     }
-    
+
+    public boolean isIn(TagKey<DyeColorant> tag) {
+        return getRegistryEntry().isIn(tag);
+    }
 }

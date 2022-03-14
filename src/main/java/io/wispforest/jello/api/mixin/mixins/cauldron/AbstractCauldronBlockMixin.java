@@ -1,5 +1,6 @@
 package io.wispforest.jello.api.mixin.mixins.cauldron;
 
+import io.wispforest.jello.api.events.CauldronEvent;
 import net.minecraft.block.AbstractCauldronBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.cauldron.CauldronBehavior;
@@ -21,19 +22,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Map;
 
 @Mixin(AbstractCauldronBlock.class)
-public class AbstractCauldronBlockMixin {
+public class AbstractCauldronBlockMixin  {
 
     @Shadow @Final private Map<Item, CauldronBehavior> behaviorMap;
 
     @Inject(method = "onUse", at = @At(value = "HEAD"), cancellable = true)
     private void runDyeableBlockColoring(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir){
-        CauldronBehavior possibleCauldronBehavior = behaviorMap.get(null);
-        if(possibleCauldronBehavior != null){
-            ItemStack itemStack = player.getStackInHand(hand);
-            ActionResult actionResult = possibleCauldronBehavior.interact(state, world, pos, player, hand, itemStack);
+        CauldronEvent.CauldronType cauldronType = CauldronEvent.CauldronType.getCauldronType(behaviorMap);
 
-            if(actionResult != ActionResult.PASS) {
-                cir.setReturnValue(actionResult);
+        if(cauldronType != null){
+            ActionResult result = CauldronEvent.BEFORE_CAULDRON_BEHAVIOR.invoker().interact(state, world, pos, player, hand, player.getStackInHand(hand), cauldronType);
+
+            if(result != ActionResult.PASS){
+                cir.setReturnValue(result);
             }
         }
     }

@@ -1,4 +1,4 @@
-package io.wispforest.jello.main.common.Util;
+package io.wispforest.jello.api.util;
 
 import me.shedaniel.math.Color;
 import net.minecraft.client.MinecraftClient;
