@@ -11,6 +11,8 @@ archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
 
+def ENV = System.getenv()
+
 repositories {
     maven { url 'https://maven.wispforest.io' }
     maven { url "https://maven.shedaniel.me/" }
@@ -81,16 +83,6 @@ loom {
 
             ideConfigGenerated = true
         }
-        datagen {
-            server()
-            name "Data Generation"
-            vmArg "-Dfabric-api.datagen"
-            vmArg "-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}"
-//            vmArg "-Dfabric-api.datagen.strict-validation"
-
-            ideConfigGenerated = true
-            runDir "build/datagen"
-        }
         datagenClient {
             client()
             name "Data Generation"
@@ -144,11 +136,18 @@ publishing {
         }
     }
 
-    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
-        // Add repositories to publish to here.
-        // Notice: This block does NOT have the same function as the block in the top level.
-        // The repositories here will be used for publishing your artifact, not for
-        // retrieving dependencies.
+        maven {
+            url ENV.MAVEN_URL
+
+            credentials {
+                username ENV.MAVEN_USER
+                password ENV.MAVEN_PASSWORD
+            }
+
+//            authentication {
+//                digest(DigestAuthentication)
+//            }
+        }
     }
 }
