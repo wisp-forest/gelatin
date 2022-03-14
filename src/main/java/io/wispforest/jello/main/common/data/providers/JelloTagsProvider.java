@@ -2,7 +2,7 @@ package io.wispforest.jello.main.common.data.providers;
 
 import com.google.gson.*;
 import io.wispforest.jello.main.common.Jello;
-import io.wispforest.jello.main.common.Util.MessageUtil;
+import io.wispforest.jello.api.util.MessageUtil;
 import io.wispforest.jello.main.common.blocks.BlockRegistry;
 import io.wispforest.jello.main.common.items.ItemRegistry;
 import io.wispforest.jello.main.common.data.tags.JelloTags;
@@ -17,6 +17,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.registry.Registry;
 
+import java.io.InputStreamReader;
 
 public class JelloTagsProvider {
 
@@ -137,6 +138,46 @@ public class JelloTagsProvider {
         }
     }
 
+    private static final Gson BIG_GSON = new GsonBuilder().setPrettyPrinting().create();
+
+    public static class GeneratedDyeItemTagProvider extends FabricTagProvider.ItemTagProvider {
+
+        public GeneratedDyeItemTagProvider(FabricDataGenerator dataGenerator) {
+            super(dataGenerator);
+        }
+
+        @Override
+        protected void generateTags() {
+            MessageUtil messager = new MessageUtil();
+
+            FabricTagProvider<Item>.FabricTagBuilder<Item> tagBuilder = this.getOrCreateTagBuilder(JelloTags.Items.DYE_ITEMS);
+
+            try {
+                var colorDataBaseFile = DyeColorRegistry.class.getClassLoader().getResourceAsStream("assets/jello/other/colorDatabase.json");
+
+                JsonArray names = JsonHelper.getArray(BIG_GSON.fromJson(new InputStreamReader(colorDataBaseFile), JsonObject.class), "colors");
+
+                for (var i = 0; i < names.size(); i++) {
+                    JsonObject currentObject = names.get(i).getAsJsonObject();
+
+                    Item dyeItem = Registry.ITEM.get(new Identifier(Jello.MODID + "_dji", currentObject.get("identifierSafeName").getAsString() + "_dye"));
+
+                    if(dyeItem == Items.AIR){
+                        dyeItem = Registry.ITEM.get(new Identifier(Jello.MODID + "_dji", currentObject.get("identifierSafeName").getAsString() + "_2" + "_dye"));
+                    }
+
+                    tagBuilder.add(dyeItem);
+                }
+
+                messager.stopTimerPrint("JsonToRegistry", "Data gen for tags based on DyeColor Database was ");
+            }catch (JsonSyntaxException | JsonIOException e) {
+                messager.failMessage("JsonToRegistry","It seems that tags building has failed!");
+                e.printStackTrace();
+            }
+
+        }
+    }
+
     public static class DyeTagProvider extends FabricTagProvider<DyeColorant>{
 
         public DyeTagProvider(FabricDataGenerator dataGenerator) {
@@ -146,22 +187,22 @@ public class JelloTagsProvider {
         @Override
         protected void generateTags() {
             this.getOrCreateTagBuilder(JelloTags.DyeColor.VANILLA_DYES)
-                    .add(WHITE,
-                            ORANGE,
-                            MAGENTA,
-                            LIGHT_BLUE,
-                            YELLOW,
-                            LIME,
-                            PINK,
-                            GRAY,
-                            LIGHT_GRAY,
-                            CYAN,
-                            PURPLE,
-                            BLUE,
-                            BROWN,
-                            GREEN,
-                            RED,
-                            BLACK);
+                    .add(DyeColorRegistry.WHITE,
+                            DyeColorRegistry.ORANGE,
+                            DyeColorRegistry.MAGENTA,
+                            DyeColorRegistry.LIGHT_BLUE,
+                            DyeColorRegistry.YELLOW,
+                            DyeColorRegistry.LIME,
+                            DyeColorRegistry.PINK,
+                            DyeColorRegistry.GRAY,
+                            DyeColorRegistry.LIGHT_GRAY,
+                            DyeColorRegistry.CYAN,
+                            DyeColorRegistry.PURPLE,
+                            DyeColorRegistry.BLUE,
+                            DyeColorRegistry.BROWN,
+                            DyeColorRegistry.GREEN,
+                            DyeColorRegistry.RED,
+                            DyeColorRegistry.BLACK);
         }
     }
 }

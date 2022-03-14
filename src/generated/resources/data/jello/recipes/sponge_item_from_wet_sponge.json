@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "group": "tool",
   "ingredients": [
     {
       "item": "minecraft:wet_sponge"

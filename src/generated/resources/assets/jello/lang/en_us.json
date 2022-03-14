@@ -40,6 +40,7 @@
   "item.jello.brown_slime_ball": "Brown Slime Ball",
   "item.jello.cyan_jello_cup": "Cyan Jello Cup",
   "item.jello.cyan_slime_ball": "Cyan Slime Ball",
+  "item.jello.dye_bundle": "Dye Bundle",
   "item.jello.gray_jello_cup": "Gray Jello Cup",
   "item.jello.gray_slime_ball": "Gray Slime Ball",
   "item.jello.green_jello_cup": "Green Jello Cup",
@@ -74,5 +75,6 @@
   "text.autoconfig.jello.option.enableDyeingPlayers": "Enable Dyeing of Players",
   "text.autoconfig.jello.option.enableDyeingPlayers.@Tooltip": "Allow for the dyeing of players using any dye.",
   "text.autoconfig.jello.option.enableGrayScalingOfEntitys": "Enable GrayScaling of Entitys",
-  "text.autoconfig.jello.option.enableGrayScalingOfEntitys.@Tooltip": "[Warning: Will break texturepacks!] Used to allow for true color when a entity is dyed or color."
+  "text.autoconfig.jello.option.enableGrayScalingOfEntitys.@Tooltip": "[Warning: Will break texturepacks!] Used to allow for true color when a entity is dyed or color.",
+  "text.jello.dye_bundle_pattern": "%1$s [%2$s]"
 }

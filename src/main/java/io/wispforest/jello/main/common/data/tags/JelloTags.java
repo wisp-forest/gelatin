@@ -40,6 +40,8 @@ public class JelloTags {
 
         public static final TagKey<Item> SLIME_BALLS = register(new Identifier(COMMON_NAMESPACE, "slime_balls"));
 
+        public static final TagKey<Item> DYE_ITEMS = register(new Identifier(Jello.MODID, "dyes"));
+
         private static TagKey<Item> register(Identifier id) {
             return TagKey.of(Registry.ITEM_KEY, id);
         }
