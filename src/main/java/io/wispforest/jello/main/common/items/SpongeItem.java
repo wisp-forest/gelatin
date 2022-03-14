@@ -2,8 +2,8 @@ package io.wispforest.jello.main.common.items;
 
 import io.wispforest.jello.main.common.Jello;
 import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
-import io.wispforest.jello.api.events.ColorBlockUtil;
-import io.wispforest.jello.api.events.ColorEntityEvent;
+import io.wispforest.jello.api.dye.events.ColorBlockEventMethods;
+import io.wispforest.jello.api.dye.events.ColorEntityEvent;
 import io.wispforest.jello.api.registry.ColorBlockRegistry;
 import io.wispforest.jello.api.registry.ColorizeRegistry;
 import io.wispforest.jello.api.mixin.ducks.ConstantColorEntity;
@@ -56,7 +56,7 @@ public class SpongeItem extends Item {
         BlockState blockState = world.getBlockState(context.getBlockPos());
 
         if(canClean(context.getStack())) {
-            if (!ColorBlockUtil.changeBlockColor(world, context.getBlockPos(), blockState, ColorBlockRegistry.getVariant(blockState.getBlock(), null), user)) {
+            if (!ColorBlockEventMethods.changeBlockColor(world, context.getBlockPos(), blockState, ColorBlockRegistry.getVariant(blockState.getBlock(), null), user)) {
                 return ActionResult.PASS;
             }
 

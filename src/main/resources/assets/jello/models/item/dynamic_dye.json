@@ -1,6 +1,56 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "jello:item/colorless_dye"
-  }
+    "layer0": "jello:item/dye_item_variant/var_0"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "variant": 0.125
+      },
+      "model": "jello:item/dye_texture_var_1"
+    },
+    {
+      "predicate": {
+        "variant": 0.25
+      },
+      "model": "jello:item/dye_texture_var_2"
+    },
+    {
+      "predicate": {
+        "variant": 0.375
+      },
+      "model": "jello:item/dye_texture_var_3"
+    },
+    {
+      "predicate": {
+        "variant": 0.5
+      },
+      "model": "jello:item/dye_texture_var_4"
+    },
+    {
+      "predicate": {
+        "variant": 0.625
+      },
+      "model": "jello:item/dye_texture_var_5"
+    },
+    {
+      "predicate": {
+        "variant": 0.75
+      },
+      "model": "jello:item/dye_texture_var_6"
+    },
+    {
+      "predicate": {
+        "variant": 0.875
+      },
+      "model": "jello:item/dye_texture_var_7"
+    },
+    {
+      "predicate": {
+        "variant": 1
+      },
+      "model": "jello:item/dye_texture_var_8"
+    }
+  ]
 }

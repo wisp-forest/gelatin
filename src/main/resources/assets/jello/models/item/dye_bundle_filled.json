@@ -1,0 +1,6 @@
+{
+  "parent": "jello:item/dye_bundle",
+  "textures": {
+    "layer0": "jello:item/dye_bundle/artsy_bundle_filled"
+  }
+}
