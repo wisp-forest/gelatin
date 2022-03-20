@@ -1,9 +1,10 @@
 package io.wispforest.jello.api.dye;
 
-import io.wispforest.jello.api.dye.DyeColorant;
+import io.wispforest.jello.api.dye.block.DyedBlockVariants;
 import io.wispforest.jello.api.dye.item.DyeItem;
 import io.wispforest.jello.api.dye.item.DyedItemVariants;
 import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
+import io.wispforest.jello.api.mixin.mixins.BlockEntityTypeAccessor;
 import io.wispforest.jello.main.common.Jello;
 import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.jello.api.util.MessageUtil;
@@ -11,7 +12,9 @@ import io.wispforest.jello.main.common.data.tags.JelloTags;
 import com.google.gson.*;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.block.Block;
 import net.minecraft.block.MapColor;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
@@ -25,12 +28,9 @@ import org.apache.commons.lang3.tuple.Triple;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Random;
+import java.util.*;
 
-public class RandomDyeColorStuff {
+public class DyeColorantJsonTest {
 
     public static final String JSON_NAMESPACE = "jello_dji";
 
@@ -40,6 +40,8 @@ public class RandomDyeColorStuff {
     private static final Gson BIG_GSON = new GsonBuilder().setPrettyPrinting().create();
 
     public static List<DyeItem> JSON_DYES = new ArrayList<>();
+
+    public static List<List<Block>> JSON_BLOCK_VAR = new ArrayList<>();
 
     static{
         for(int i = 0; i < LETTERS_AND_NUMBERS.length(); i++){
@@ -63,79 +65,87 @@ public class RandomDyeColorStuff {
     }
 
     public static void gatherDyesFromJson(){
-        MessageUtil messager = new MessageUtil();
+        MessageUtil messager = new MessageUtil("JsonToRegistry");
 
         try {
-            var colorDataBaseFile = DyeColorRegistry.class.getClassLoader().getResourceAsStream("assets/jello/other/colorDatabase.json");
+            JsonArray names = JsonHelper.getArray(BIG_GSON.fromJson(new InputStreamReader(DyeColorRegistry.class.getClassLoader().getResourceAsStream("assets/jello/other/colorDatabase.json")), JsonObject.class), "colors");
 
-            JsonArray names = JsonHelper.getArray(BIG_GSON.fromJson(new InputStreamReader(colorDataBaseFile), JsonObject.class), "colors");
+            Set<Block> JSON_SHULKER_VARS = new HashSet<>(((BlockEntityTypeAccessor) BlockEntityType.SHULKER_BOX).jello$getBlocks());
 
             for (var i = 0; i < names.size(); i++) {
                 JsonObject currentObject = names.get(i).getAsJsonObject();
 
-                int closeHexColor = Integer.parseInt(currentObject.get("hexValue").getAsString(), 16);
-
-                Identifier dyeColorID = new Identifier(Jello.MODID, currentObject.get("identifierSafeName").getAsString());
+                Identifier colorIdentifier = new Identifier(Jello.MODID, currentObject.get("identifierSafeName").getAsString());
                 String colorName = currentObject.get("colorName").getAsString();
+                int colorValue = Integer.parseInt(currentObject.get("hexValue").getAsString(), 16);
 
-                if(DyeColorRegistry.DYE_COLOR.containsId(dyeColorID)){
-                    dyeColorID = new Identifier(Jello.MODID, currentObject.get("identifierSafeName").getAsString() + "_2");
-                    colorName = currentObject.get("colorName").getAsString() + " 2";
+
+                if(DyeColorRegistry.DYE_COLOR.containsId(colorIdentifier)){
+                    continue;
+//                    dyeColorID = new Identifier(Jello.MODID, currentObject.get("identifierSafeName").getAsString() + "_2");
+//                    colorName = currentObject.get("colorName").getAsString() + " 2";
                 }
 
-                DyeColorant currentDyeColor = DyeColorRegistry.registryDyeColorNameOverride(dyeColorID, colorName, closeHexColor, MapColor.CLEAR);
+                DyeColorant currentDyeColor = DyeColorRegistry.registryDyeColorNameOverride(colorIdentifier, colorName, colorValue, MapColor.CLEAR);
 
-                DyeItem dyeItem = DyedItemVariants.createDyeColorant(new Identifier(JSON_NAMESPACE, dyeColorID.getPath() + "_dye"), currentDyeColor, new OwoItemSettings().group(ItemGroup.MISC).tab(1));
+                JSON_DYES.add(DyedItemVariants.createDyeColorant(new Identifier(JSON_NAMESPACE, colorIdentifier.getPath() + "_dye"), currentDyeColor, new OwoItemSettings().group(ItemGroup.MISC).tab(1)));
 
-                JSON_DYES.add(dyeItem);
+                List<Block> jsonBlockVars = DyedBlockVariants.createBlockVariants(currentDyeColor);
+
+                JSON_SHULKER_VARS.add(jsonBlockVars.get(jsonBlockVars.size() - 1));
+                JSON_BLOCK_VAR.add(jsonBlockVars);
+
             }
 
-            messager.stopTimerPrint("JsonToRegistry", "It seems that the registry filling took ");
-            messager.infoMessage("JsonToRegistry","Total amount of registered dyes from json are " + DyeColorRegistry.DYE_COLOR.size());
+            ((BlockEntityTypeAccessor) BlockEntityType.SHULKER_BOX).jello$setBlocks(JSON_SHULKER_VARS);
+
+            messager.stopTimerPrint("It seems that the registry filling took ");
+            messager.infoMessage("Total amount of registered dyes from json are " + DyeColorRegistry.DYE_COLOR.size());
         }catch (JsonSyntaxException | JsonIOException e) {
-            messager.failMessage("JsonToRegistry","Something has gone with the json to Dye Registry method!");
+            messager.failMessage("Something has gone with the json to Dye Registry method!");
             e.printStackTrace();
         }
     }
 
-    public static void generateJsonFile() {
-        try {
-            var colorDataBaseFile = DyeColorRegistry.class.getClassLoader().getResourceAsStream("assets/jello/other/colorNames.json");
-
-            InputStreamReader inputFile = new InputStreamReader(colorDataBaseFile);
-
-            JsonObject infoFromJson = BIG_GSON.fromJson(inputFile, JsonObject.class);
-
-            JsonHelper.getArray(infoFromJson, "colors").forEach(jsonElement -> {
-                ((JsonObject)jsonElement).remove("r");
-                ((JsonObject)jsonElement).remove("g");
-                ((JsonObject)jsonElement).remove("b");
-                ((JsonObject)jsonElement).remove("h");
-                ((JsonObject)jsonElement).remove("s");
-                ((JsonObject)jsonElement).remove("l");
-
-                String hexValue = ((JsonObject)jsonElement).get("hex").getAsString();
-                String colorName = ((JsonObject)jsonElement).get("name").getAsString();
-
-                ((JsonObject)jsonElement).remove("hex");
-                ((JsonObject)jsonElement).remove("name");
-
-                ((JsonObject)jsonElement).addProperty("hexValue", hexValue);
-                ((JsonObject)jsonElement).addProperty("colorName", colorName);
-
-                ((JsonObject)jsonElement).addProperty("identifierSafeName", colorName.toLowerCase(Locale.ROOT).replace("\s", "_").replaceAll("[^a-z0-9\\/\\._\\-]", ""));
-            });
-
-            FileWriter saveFile = new FileWriter(FabricLoader.getInstance().getConfigDir().resolve("colorDatabase.json").toFile());
-
-            BIG_GSON.toJson(infoFromJson, saveFile);
-
-            saveFile.close();
-
-        } catch (JsonSyntaxException | JsonIOException | IOException e) {
-            e.printStackTrace();
-        }
-    }
+    //TODO: Keep??
+//    public static void generateJsonFile() {
+//        try {
+//            var colorDataBaseFile = DyeColorRegistry.class.getClassLoader().getResourceAsStream("assets/jello/other/colorNames.json");
+//
+//            InputStreamReader inputFile = new InputStreamReader(colorDataBaseFile);
+//
+//            JsonObject infoFromJson = BIG_GSON.fromJson(inputFile, JsonObject.class);
+//
+//            JsonHelper.getArray(infoFromJson, "colors").forEach(jsonElement -> {
+//                ((JsonObject)jsonElement).remove("r");
+//                ((JsonObject)jsonElement).remove("g");
+//                ((JsonObject)jsonElement).remove("b");
+//                ((JsonObject)jsonElement).remove("h");
+//                ((JsonObject)jsonElement).remove("s");
+//                ((JsonObject)jsonElement).remove("l");
+//
+//                String hexValue = ((JsonObject)jsonElement).get("hex").getAsString();
+//                String colorName = ((JsonObject)jsonElement).get("name").getAsString();
+//
+//                ((JsonObject)jsonElement).remove("hex");
+//                ((JsonObject)jsonElement).remove("name");
+//
+//                ((JsonObject)jsonElement).addProperty("hexValue", hexValue);
+//                ((JsonObject)jsonElement).addProperty("colorName", colorName);
+//
+//                ((JsonObject)jsonElement).addProperty("identifierSafeName", colorName.toLowerCase(Locale.ROOT).replace("\s", "_").replaceAll("[^a-z0-9\\/\\._\\-]", ""));
+//            });
+//
+//            FileWriter saveFile = new FileWriter(FabricLoader.getInstance().getConfigDir().resolve("colorDatabase.json").toFile());
+//
+//            BIG_GSON.toJson(infoFromJson, saveFile);
+//
+//            saveFile.close();
+//
+//        } catch (JsonSyntaxException | JsonIOException | IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     private static MutablePair<Triple<String, String, String>, Boolean> ERROR_RETURN_VALUE(String color){
         return new MutablePair<>(new MutableTriple<>("000000", "Invalid Color: " + color, "_null"), false);

@@ -58,6 +58,9 @@ public class JelloLangProvider extends LanguageProvider {
         addACToolTipAndNameEntry("enableDyeingBlocks", "Enable Dyeing of Blocks","Allow for the dyeing of blocks using any vanilla dye.");
 
         add("text.jello.dye_bundle_pattern", "%1$s [%2$s]");
+
+        add("itemGroup.misc.tab.dyes", "Custom Dyes");
+        add("itemGroup.misc.tab.block_vars", "Colored Block Variants");
     }
 
     //-----------------------------------------------//

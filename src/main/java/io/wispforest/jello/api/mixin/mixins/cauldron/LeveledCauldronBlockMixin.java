@@ -3,38 +3,27 @@ package io.wispforest.jello.api.mixin.mixins.cauldron;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.blockentity.ColorStorageBlockEntity;
 import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
-import io.wispforest.jello.api.mixin.ducks.DyeableCauldron;
-import io.wispforest.jello.api.mixin.mixins.accessors.BlockAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvironmentInterface;
 import net.minecraft.block.*;
 import net.minecraft.block.cauldron.CauldronBehavior;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.color.block.BlockColorProvider;
 import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.item.Item;
-import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.state.StateManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockRenderView;
 import net.minecraft.world.World;
-import net.minecraft.world.event.listener.GameEventListener;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Map;
-import java.util.function.Predicate;
 
 @Mixin(LeveledCauldronBlock.class)
 @EnvironmentInterface(value = EnvType.CLIENT, itf = BlockColorProvider.class)
-public class LeveledCauldronBlockMixin extends AbstractCauldronBlock implements BlockEntityProvider, BlockColorProvider, DyeableCauldron{
+public class LeveledCauldronBlockMixin extends AbstractCauldronBlock implements BlockEntityProvider, BlockColorProvider{
 
     @Shadow
     public boolean isFull(BlockState state) { return false; }

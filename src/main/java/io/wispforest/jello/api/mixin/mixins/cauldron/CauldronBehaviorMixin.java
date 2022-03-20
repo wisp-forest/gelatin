@@ -1,7 +1,6 @@
 package io.wispforest.jello.api.mixin.mixins.cauldron;
 
 import io.wispforest.jello.api.dye.blockentity.ColorStorageBlockEntity;
-import io.wispforest.jello.api.mixin.ducks.DyeableCauldron;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.cauldron.CauldronBehavior;
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,7 +21,7 @@ public interface CauldronBehaviorMixin {
     private static void CLEAN_DYEABLE_ITEM$cancelIfDyedWater(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack, CallbackInfoReturnable<ActionResult> cir){
         ColorStorageBlockEntity blockEntity = (ColorStorageBlockEntity) world.getBlockEntity(pos);
 
-        if (blockEntity != null && DyeableCauldron.isWaterColored(blockEntity)) {
+        if (blockEntity != null && ColorStorageBlockEntity.isWaterColored(blockEntity)) {
             cir.setReturnValue(ActionResult.FAIL);
         }
     }
@@ -31,7 +30,7 @@ public interface CauldronBehaviorMixin {
     private static void CLEAN_BANNER$cancelIfDyedWater(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack, CallbackInfoReturnable<ActionResult> cir){
         ColorStorageBlockEntity blockEntity = (ColorStorageBlockEntity) world.getBlockEntity(pos);
 
-        if (blockEntity != null && DyeableCauldron.isWaterColored(blockEntity)) {
+        if (blockEntity != null && ColorStorageBlockEntity.isWaterColored(blockEntity)) {
             cir.setReturnValue(ActionResult.FAIL);
         }
     }
@@ -40,7 +39,7 @@ public interface CauldronBehaviorMixin {
     private static void CLEAN_SHULKER_BOX$cancelIfDyedWater(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack, CallbackInfoReturnable<ActionResult> cir){
         ColorStorageBlockEntity blockEntity = (ColorStorageBlockEntity) world.getBlockEntity(pos);
 
-        if (blockEntity != null && DyeableCauldron.isWaterColored(blockEntity)) {
+        if (blockEntity != null && ColorStorageBlockEntity.isWaterColored(blockEntity)) {
             cir.setReturnValue(ActionResult.FAIL);
         }
     }

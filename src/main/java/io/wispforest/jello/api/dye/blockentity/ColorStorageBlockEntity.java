@@ -73,4 +73,8 @@ public class ColorStorageBlockEntity extends BlockEntity {
         super.markDirty();
         WorldOps.updateIfOnServer(world, this.getPos());
     }
+
+    public static boolean isWaterColored(ColorStorageBlockEntity blockEntity){
+        return blockEntity.getDyeColorant() != DyeColorRegistry.NULL_VALUE_NEW;
+    }
 }

@@ -1,6 +1,5 @@
 package io.wispforest.jello.main.common;
 
-import io.wispforest.jello.api.JelloAPI;
 import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
 import io.wispforest.jello.api.registry.ColorBlockRegistry;
 import io.wispforest.jello.main.common.blocks.BlockRegistry;
@@ -8,38 +7,23 @@ import io.wispforest.jello.main.common.compat.consistencyplus.data.ConsistencyPl
 import io.wispforest.jello.main.common.config.JelloConfig;
 import io.wispforest.jello.main.common.data.tags.JelloTags;
 import io.wispforest.jello.main.common.items.ItemRegistry;
-import io.wispforest.jello.api.dye.events.ColorEntityEvent;
-import io.wispforest.jello.api.dye.behavior.ColorEntityBehavior;
-import io.wispforest.jello.api.dye.behavior.DeColorEntityBehavior;
 import io.wispforest.jello.main.common.items.dyebundle.DyeBundlePackets;
 import io.wispforest.jello.main.mixin.ducks.InInventoryCraftingPacket;
-import io.wispforest.owo.itemgroup.OwoItemGroup;
 import io.wispforest.owo.network.OwoNetChannel;
-import io.wispforest.owo.registration.reflect.AutoRegistryContainer;
 import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
-import io.wispforest.owo.registration.reflect.SimpleFieldProcessingSubject;
 import io.wispforest.owo.util.ModCompatHelpers;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.DispenserBlock;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.Items;
-import net.minecraft.stat.StatFormatter;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.TagKey;
-import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.event.GameEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

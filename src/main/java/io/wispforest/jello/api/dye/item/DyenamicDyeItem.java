@@ -1,7 +1,7 @@
 package io.wispforest.jello.api.dye.item;
 
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.dye.RandomDyeColorStuff;
+import io.wispforest.jello.api.dye.DyeColorantJsonTest;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -27,7 +27,7 @@ public class DyenamicDyeItem extends DyeItem {
     public DyenamicDyeItem(Settings settings) {
         super(null, settings);
 
-        this.dynamicColor = RandomDyeColorStuff.getRandomlyRegisteredDyeColor();
+        this.dynamicColor = DyeColorantJsonTest.getRandomlyRegisteredDyeColor();
         this.isDynamicColor = true;
     }
 
@@ -47,7 +47,7 @@ public class DyenamicDyeItem extends DyeItem {
             ItemStack mainHandItem = user.getStackInHand(hand);
 
             mainHandItem.setNbt(new NbtCompound());
-            this.dynamicColor = RandomDyeColorStuff.getRandomlyRegisteredDyeColor();
+            this.dynamicColor = DyeColorantJsonTest.getRandomlyRegisteredDyeColor();
         }
 
         return super.use(world, user, hand);

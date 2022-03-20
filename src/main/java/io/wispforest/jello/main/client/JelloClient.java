@@ -1,34 +1,21 @@
 package io.wispforest.jello.main.client;
 
-import io.wispforest.jello.api.dye.item.DyeItem;
-import io.wispforest.jello.api.dye.RandomDyeColorStuff;
-import io.wispforest.jello.api.dye.item.group.DyeModelResourceRedirect;
 import io.wispforest.jello.api.events.HotbarMouseEvents;
 import io.wispforest.jello.main.client.render.DyeBundleTooltipRender;
-import io.wispforest.jello.main.common.Jello;
 import io.wispforest.jello.main.common.blocks.BlockRegistry;
 import io.wispforest.jello.main.common.items.ItemRegistry;
 import io.wispforest.jello.main.common.items.SpongeItem;
 import io.wispforest.jello.main.common.items.dyebundle.DyeBundleScreenEvent;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.color.block.BlockColorProvider;
 import net.minecraft.client.color.item.ItemColorProvider;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.BundleItem;
-import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Language;
-import net.minecraft.util.profiler.Profiler;
-
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 
 public class JelloClient implements ClientModInitializer {
 
