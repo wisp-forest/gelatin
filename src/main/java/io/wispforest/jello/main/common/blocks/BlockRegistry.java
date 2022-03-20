@@ -1,6 +1,7 @@
 package io.wispforest.jello.main.common.blocks;
 
-import io.wispforest.jello.main.common.items.MultiColorBlockItem;
+import io.wispforest.jello.api.mixin.ducks.DyeBlockStorage;
+import io.wispforest.jello.api.dye.item.MultiColorBlockItem;
 import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
 import io.wispforest.owo.registration.reflect.BlockRegistryContainer;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -39,7 +40,7 @@ public class BlockRegistry {
 
         @Override
         public BlockItem createBlockItem(Block block, String identifier) {
-            if(block instanceof DyeableBlock){
+            if(block instanceof DyeBlockStorage dyeBlockStorage && dyeBlockStorage.getDyeColor() != DyeColorRegistry.NULL_VALUE_NEW){
                 return new MultiColorBlockItem(block, new Item.Settings().group(ItemGroup.REDSTONE));
             }else{
                 return new BlockItem(block, new Item.Settings().group(ItemGroup.REDSTONE));
@@ -75,7 +76,7 @@ public class BlockRegistry {
 
         @Override
         public BlockItem createBlockItem(Block block, String identifier) {
-            if(block instanceof DyeableBlock){
+            if(block instanceof DyeBlockStorage dyeBlockStorage && dyeBlockStorage.getDyeColor() != DyeColorRegistry.NULL_VALUE_NEW){
                 return new MultiColorBlockItem(block, new Item.Settings().group(ItemGroup.REDSTONE));
             }else{
                 return new BlockItem(block, new Item.Settings().group(ItemGroup.REDSTONE));

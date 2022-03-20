@@ -148,7 +148,7 @@ public class JelloTagsProvider {
 
         @Override
         protected void generateTags() {
-            MessageUtil messager = new MessageUtil();
+            MessageUtil messager = new MessageUtil("JsonToRegistry");
 
             FabricTagProvider<Item>.FabricTagBuilder<Item> tagBuilder = this.getOrCreateTagBuilder(JelloTags.Items.DYE_ITEMS);
 
@@ -169,9 +169,9 @@ public class JelloTagsProvider {
                     tagBuilder.add(dyeItem);
                 }
 
-                messager.stopTimerPrint("JsonToRegistry", "Data gen for tags based on DyeColor Database was ");
+                messager.stopTimerPrint("Data gen for tags based on DyeColor Database was ");
             }catch (JsonSyntaxException | JsonIOException e) {
-                messager.failMessage("JsonToRegistry","It seems that tags building has failed!");
+                messager.failMessage("It seems that tags building has failed!");
                 e.printStackTrace();
             }
 

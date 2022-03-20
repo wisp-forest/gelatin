@@ -1,7 +1,7 @@
 package io.wispforest.jello.api.mixin.mixins.dye;
 
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.mixin.ducks.DyeRedirect;
+import io.wispforest.jello.api.mixin.ducks.DyeItemStorage;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.map.MapBannerMarker;
 import net.minecraft.text.Text;
@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MapBannerMarker.class)
-public class MapBannerMarkerMixin implements DyeRedirect {
+public class MapBannerMarkerMixin implements DyeItemStorage {
 
     @Unique
     @Mutable

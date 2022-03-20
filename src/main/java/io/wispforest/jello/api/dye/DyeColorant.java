@@ -64,7 +64,9 @@ public class DyeColorant {
     }
 
     public static DyeColorant byOldIntId(int id) {
-        return DyeColorRegistry.VANILLA_DYES.get(id);
+        DyeColorant dyeColor = DyeColorRegistry.VANILLA_DYES.get(id);
+
+        return dyeColor != null ? dyeColor : DyeColorRegistry.NULL_VALUE_NEW;
     }
 
     public static DyeColorant byName(String name, DyeColorant defaultColor) {
@@ -92,7 +94,7 @@ public class DyeColorant {
     }
 
     public String asString() {
-        return this.getName();
+        return this.getName() + " / " + getBaseColor();
     }
 
     public static DyeColorant byOldDyeColor(DyeColor dyeColor) {

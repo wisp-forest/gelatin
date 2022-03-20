@@ -1,7 +1,7 @@
 package io.wispforest.jello.api.dye.behavior;
 
 import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
-import io.wispforest.jello.api.mixin.ducks.DyeableEntity;
+import io.wispforest.jello.api.mixin.ducks.entity.DyeableEntity;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
 import net.minecraft.entity.LivingEntity;
@@ -14,7 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 
-public class DeColorEntityBehavior extends FallibleItemDispenserBehavior {
+public class WashEntityBehavior extends FallibleItemDispenserBehavior {
 
     @Override
     protected ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {

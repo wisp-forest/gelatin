@@ -1,4 +1,4 @@
-package io.wispforest.jello.api.mixin.ducks;
+package io.wispforest.jello.api.mixin.ducks.entity;
 
 import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
 import io.wispforest.jello.api.dye.DyeColorant;

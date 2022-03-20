@@ -1,7 +1,7 @@
 package io.wispforest.jello.main.mixin.mixins;
 
+import io.wispforest.jello.api.mixin.ducks.DyeBlockStorage;
 import io.wispforest.jello.main.common.blocks.BlockRegistry;
-import io.wispforest.jello.main.common.blocks.DyeableBlock;
 import io.wispforest.jello.main.common.data.tags.JelloTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -42,8 +42,10 @@ public abstract class PistonHandlerMixin {
 
     @Inject(method = "isAdjacentBlockStuck", at = @At(value = "HEAD"), cancellable = true)
     private static void isAdjacentBlockStuckExt(BlockState state, BlockState adjacentState, CallbackInfoReturnable<Boolean> cir){
-        if(state.getBlock() instanceof DyeableBlock dyeableBlock1 && adjacentState.getBlock() instanceof DyeableBlock dyeableBlock2){
-            cir.setReturnValue(dyeableBlock1.getDyeColor() == dyeableBlock2.getDyeColor());
+        if(state.getBlock() instanceof DyeBlockStorage dyeableBlock1 && adjacentState.getBlock() instanceof DyeBlockStorage dyeableBlock2){
+            if(dyeableBlock1.isBlockDyed() && dyeableBlock1.isBlockDyed()) {
+                cir.setReturnValue(dyeableBlock1.getDyeColor() == dyeableBlock2.getDyeColor());
+            }
         }else if(isRegularSlime(state, adjacentState)){
             cir.setReturnValue(true);
         }else if(isCustomSlimeBlock(state) && isSlimeOrHoneyBlock(adjacentState)){

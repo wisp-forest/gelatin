@@ -14,18 +14,14 @@ import java.util.function.IntPredicate;
 @EnvironmentInterface(value = EnvType.CLIENT, itf = ItemColorProvider.class)
 public class MultiColorItem extends Item implements ItemColorProvider {
 
-    private final IntPredicate tintAbove;
-    private int itemColor;
     private final DyeColorant dyeColor;
+    private final IntPredicate tintAbove;
 
     public MultiColorItem(DyeColorant dyeColor, Settings settings, IntPredicate tintAbove) {
         super(settings);
-        this.tintAbove = tintAbove;
 
-        float[] colorComp = dyeColor.getColorComponents();
-
-        this.itemColor = new Color(colorComp[0], colorComp[1], colorComp[2], 1.0F).getRGB();
         this.dyeColor = dyeColor;
+        this.tintAbove = tintAbove;
     }
 
     public MultiColorItem(DyeColorant dyeColor, Settings settings) {
@@ -35,10 +31,6 @@ public class MultiColorItem extends Item implements ItemColorProvider {
     @Override
     @Environment(EnvType.CLIENT)
     public int getColor(ItemStack stack, int tintIndex) {
-        if(tintAbove.test(tintIndex)){
-            return itemColor;
-        }else{
-            return -1;
-        }
+        return tintAbove.test(tintIndex) ? dyeColor.getBaseColor() : -1;
     }
 }

@@ -7,21 +7,19 @@ public class MessageUtil {
     private static final Logger LOGGER = LogManager.getLogger(MessageUtil.class);
 
     private long startTime;
+    private final String prefix;
 
-    public MessageUtil(){
+    public MessageUtil(String prefix){
         this.startTime = System.currentTimeMillis();
+        this.prefix = prefix;
     }
 
     //-------------------------------------------------------------
 
-    public void stopTimerPrint(String outputName, String message){
-        stopTimerPrint("[" + outputName + "]: " + message);
-    }
-
-    private void stopTimerPrint(String message){
+    public void stopTimerPrint(String message){
         long endTime = System.currentTimeMillis();
 
-        LOGGER.info(message + (endTime - this.startTime) / 1000F + " secounds");
+        LOGGER.info("[" + prefix + "]: " + message + (endTime - this.startTime) / 1000F + " secounds");
     }
 
     public void restartTimer(){
@@ -30,22 +28,14 @@ public class MessageUtil {
 
     //-------------------------------------------------------------
 
-    public void failMessage(String outputName, String message){
-        failMessage("[" + outputName + "]: " + message);
-    }
-
-    private void failMessage(String message){
-        LOGGER.error(message);
+    public void failMessage(String message){
+        LOGGER.error("[" + prefix + "]: " + message);
     }
 
     //-------------------------------------------------------------
 
-    public void infoMessage(String outputName, String message){
-        infoMessage("[" + outputName + "]: " + message);
-    }
-
-    private void infoMessage(String message){
-        LOGGER.info(message);
+    public void infoMessage(String message){
+        LOGGER.info("[" + prefix + "]: " + message);
     }
 
     //-------------------------------------------------------------

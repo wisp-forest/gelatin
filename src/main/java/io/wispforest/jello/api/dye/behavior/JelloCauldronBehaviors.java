@@ -1,34 +1,27 @@
-package io.wispforest.jello.api.dye.behavior.cauldron;
+package io.wispforest.jello.api.dye.behavior;
 
 import io.wispforest.jello.api.JelloAPI;
 import io.wispforest.jello.api.dye.blockentity.ColorStorageBlockEntity;
 import io.wispforest.jello.api.events.CauldronEvent;
-import io.wispforest.jello.api.mixin.ducks.DyeRedirect;
-import io.wispforest.jello.main.common.Jello;
-import io.wispforest.jello.main.common.items.ItemRegistry;
+import io.wispforest.jello.api.mixin.ducks.DyeItemStorage;
+import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.jello.main.common.items.SpongeItem;
 import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.events.ColorBlockEventMethods;
 import io.wispforest.jello.api.registry.ColorBlockRegistry;
-import io.wispforest.jello.api.mixin.ducks.DyeableCauldron;
-import io.wispforest.jello.api.mixin.ducks.DyeableItemExt;
 import io.wispforest.jello.main.common.items.dyebundle.DyeBundle;
 import net.minecraft.block.*;
 import net.minecraft.block.cauldron.CauldronBehavior;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
@@ -50,14 +43,14 @@ public class JelloCauldronBehaviors implements CauldronBehavior{
             DyeColorant dyeColorant = DyeColorRegistry.NULL_VALUE_NEW;
 
             if(stack.getItem() instanceof DyeItem dyeItem){
-                dyeColorant = ((DyeRedirect)dyeItem).getDyeColor();
+                dyeColorant = ((DyeItemStorage)dyeItem).getDyeColor();
             }
             else if(stack.getItem() instanceof DyeBundle dyeBundle){
                 DyeItem dyeItem = (DyeItem)dyeBundle.getFirstStack(stack).getItem();
                 isStack = true;
 
                 if(dyeItem != null){
-                    dyeColorant = ((DyeRedirect)dyeItem).getDyeColor();
+                    dyeColorant = ((DyeItemStorage)dyeItem).getDyeColor();
                 }
             }
 
@@ -100,7 +93,7 @@ public class JelloCauldronBehaviors implements CauldronBehavior{
         if(cauldronType == CauldronEvent.CauldronType.WATER) {
             ColorStorageBlockEntity blockEntity = (ColorStorageBlockEntity) world.getBlockEntity(pos);
 
-            if (blockEntity != null && DyeableCauldron.isWaterColored(blockEntity)) {
+            if (blockEntity != null && ColorStorageBlockEntity.isWaterColored(blockEntity)) {
                 return ActionResult.PASS;
             }
 
@@ -133,7 +126,7 @@ public class JelloCauldronBehaviors implements CauldronBehavior{
 
             ColorStorageBlockEntity blockEntity = (ColorStorageBlockEntity) world.getBlockEntity(pos);
 
-            if(blockEntity != null && DyeableCauldron.isWaterColored(blockEntity)) {
+            if(blockEntity != null && ColorStorageBlockEntity.isWaterColored(blockEntity)) {
                 changedBlock = ColorBlockRegistry.getVariant(block, blockEntity.getDyeColorant());
             }else{
                 changedBlock = ColorBlockRegistry.getVariant(block, null);
@@ -165,7 +158,7 @@ public class JelloCauldronBehaviors implements CauldronBehavior{
 
             ColorStorageBlockEntity blockEntity = (ColorStorageBlockEntity) world.getBlockEntity(pos);
 
-            if (item instanceof DyeableItem dyeableItem && blockEntity != null && DyeableCauldron.isWaterColored(blockEntity)) {
+            if (item instanceof DyeableItem dyeableItem && blockEntity != null && ColorStorageBlockEntity.isWaterColored(blockEntity)) {
                 if (!world.isClient) {
                     if (!dyeableItem.hasColor(stack)) {
                         float[] colorComp = blockEntity.getDyeColorant().getColorComponents();
@@ -174,7 +167,7 @@ public class JelloCauldronBehaviors implements CauldronBehavior{
 
                         dyeableItem.setColor(stack, color);
                     } else {
-                        player.setStackInHand(hand, DyeableItemExt.blendItemColorAndDyeColor(stack, List.of(blockEntity.getDyeColorant())));
+                        player.setStackInHand(hand, ColorUtil.blendItemColorAndDyeColor(stack, List.of(blockEntity.getDyeColorant())));
                     }
 
                     LeveledCauldronBlock.decrementFluidLevel(state, world, pos);

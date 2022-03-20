@@ -1,29 +1,32 @@
 package io.wispforest.jello.api.dye.item;
 
-import io.wispforest.jello.api.JelloAPI;
-import io.wispforest.jello.api.dye.RandomDyeColorStuff;
 import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.mixin.ducks.DyeRedirect;
+import io.wispforest.jello.api.mixin.ducks.DyeItemStorage;
+import io.wispforest.jello.api.util.ColorUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.EnvironmentInterface;
 import net.minecraft.client.color.item.ItemColorProvider;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
+import net.minecraft.util.DyeColor;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.World;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.Random;
 
 @EnvironmentInterface(value = EnvType.CLIENT, itf = ItemColorProvider.class)
-public class DyeItem extends net.minecraft.item.DyeItem implements DyeRedirect, ItemColorProvider {
+public class DyeItem extends net.minecraft.item.DyeItem implements DyeItemStorage, ItemColorProvider {
 
     public static final String TEXTURE_VARIANT_KEY = "Texture_variant";
     private static final int NUMBER_OF_TEXTURE_VAR = 9;
@@ -69,35 +72,12 @@ public class DyeItem extends net.minecraft.item.DyeItem implements DyeRedirect, 
     }
 
     @Override
-    public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
-        Identifier itemId = Registry.ITEM.getId(this);
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        float[] HSL = ColorUtil.getHSLfromColor(((DyeItem)user.getMainHandStack().getItem()).getDyeColor().getBaseColor());
 
-        if (Objects.equals(itemId.getNamespace(), "jello_dji")) {
-            if (this.isIn(group) ){//&& group == ItemGroup.MISC) {
-                if (stacks.isEmpty()) {
-                    stacks.add(new ItemStack(this));
-                } else {
-                    for (int i = 0; i < stacks.size(); i++) {
-                        if(stacks.get(i).getItem() instanceof DyeItem dyeItem) {
-                            DyeColorant listEntryColor = dyeItem.getDyeColor();
+        user.sendMessage(Text.of(String.format("HSL: { %f, %f, %f}", HSL[0], HSL[1], HSL[2])), true);
 
-                            if (this.getDyeColor().getBaseColor() > listEntryColor.getBaseColor()) {
-                                if (i + 1 < stacks.size()) {
-                                    stacks.add(i, new ItemStack(this));
-                                } else {
-                                    stacks.add(new ItemStack(this));
-                                }
-                                return;
-                            }
-                        }
-                    }
-
-                    stacks.add(0, new ItemStack(this));
-                }
-            }
-        }else{
-            super.appendStacks(group, stacks);
-        }
+        return super.use(world, user, hand);
     }
 
     @Override

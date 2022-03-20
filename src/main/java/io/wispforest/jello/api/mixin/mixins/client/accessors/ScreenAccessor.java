@@ -11,8 +11,6 @@ import java.util.List;
 
 @Mixin(Screen.class)
 public interface ScreenAccessor {
-    @Invoker(value = "renderTooltipFromComponents")
-    void jello$renderTooltipFromComponents(MatrixStack matrices, List<TooltipComponent> components, int x, int y);
 
     @Invoker(value = "renderTooltip")
     void jello$renderTooltip(MatrixStack matrices, ItemStack stack, int x, int y);

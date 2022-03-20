@@ -1,6 +1,7 @@
 package io.wispforest.jello.main.common.blocks;
 
 import io.wispforest.jello.api.dye.DyeColorant;
+import io.wispforest.jello.api.mixin.ducks.DyeBlockStorage;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvironmentInterface;
@@ -13,32 +14,19 @@ import org.jetbrains.annotations.Nullable;
 import java.awt.*;
 
 @EnvironmentInterface(value = EnvType.CLIENT, itf = BlockColorProvider.class)
-public class SlimeSlabColored extends SlimeSlab implements BlockColorProvider, DyeableBlock {
-    private int blockColor;
-    private final DyeColorant dyeColor;
+public class SlimeSlabColored extends SlimeSlab implements BlockColorProvider {
 
     public SlimeSlabColored(DyeColorant dyeColor, Settings settings) {
         super(settings.mapColor(dyeColor.getMapColor()));
 
-        float[] colorComp = dyeColor.getColorComponents();
-
-        this.blockColor = new Color(colorComp[0], colorComp[1], colorComp[2], 1.0F).getRGB();
-        this.dyeColor = dyeColor;
+        ((DyeBlockStorage)this).setDyeColor(dyeColor);
     }
 
     @Override
     @Environment(EnvType.CLIENT)
     public int getColor(BlockState state, @Nullable BlockRenderView world, @Nullable BlockPos pos, int tintIndex) {
-        return blockColor;
+        return ((DyeBlockStorage)this).getDyeColor().getBaseColor();
     }
 
-    @Override
-    public int getBlockColor(){
-        return blockColor;
-    }
 
-    @Override
-    public DyeColorant getDyeColor(){
-        return dyeColor;
-    }
 }

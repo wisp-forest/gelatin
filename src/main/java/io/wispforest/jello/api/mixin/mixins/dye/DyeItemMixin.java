@@ -4,9 +4,9 @@ import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.events.ColorBlockEventMethods;
 import io.wispforest.jello.api.dye.events.ColorEntityEvent;
-import io.wispforest.jello.api.mixin.ducks.ConstantColorEntity;
-import io.wispforest.jello.api.mixin.ducks.DyeRedirect;
-import io.wispforest.jello.api.mixin.ducks.DyeableEntity;
+import io.wispforest.jello.api.mixin.ducks.entity.ConstantColorEntity;
+import io.wispforest.jello.api.mixin.ducks.DyeItemStorage;
+import io.wispforest.jello.api.mixin.ducks.entity.DyeableEntity;
 import io.wispforest.jello.api.registry.ColorBlockRegistry;
 import io.wispforest.jello.api.registry.ColorizeRegistry;
 import io.wispforest.jello.main.common.Jello;
@@ -34,7 +34,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Random;
 
 @Mixin(DyeItem.class)
-public class DyeItemMixin extends Item implements DyeRedirect {
+public class DyeItemMixin extends Item implements DyeItemStorage {
 
     @Unique @Mutable @Final private DyeColorant color;
 

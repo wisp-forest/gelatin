@@ -1,4 +1,4 @@
-package io.wispforest.jello.api.mixin.mixins.client;
+package io.wispforest.jello.api.mixin.mixins.client.dye;
 
 import io.wispforest.jello.api.dye.item.DyenamicDyeItem;
 import net.minecraft.client.gui.hud.InGameHud;

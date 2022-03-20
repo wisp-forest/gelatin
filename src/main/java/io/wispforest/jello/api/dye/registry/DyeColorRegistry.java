@@ -17,6 +17,8 @@ import java.util.*;
 
 public class DyeColorRegistry {
 
+    public static final String ENUM_NAMESPACE = "enum";
+
     public static final RegistryKey<Registry<DyeColorant>> DYE_COLOR_KEY = RegistryKey.ofRegistry(new Identifier(Jello.MODID, "dye_color"));
 
     public static final DefaultedRegistry<DyeColorant> DYE_COLOR = FabricRegistryBuilder.createDefaulted(DyeColorant.class, DYE_COLOR_KEY.getValue(), new Identifier(Jello.MODID, "_null")).buildAndRegister();

@@ -1,4 +1,4 @@
-package io.wispforest.jello.api.mixin.ducks;
+package io.wispforest.jello.api.mixin.ducks.entity;
 
 import io.wispforest.jello.api.registry.GrayScaleRegistry;
 import net.minecraft.entity.Entity;

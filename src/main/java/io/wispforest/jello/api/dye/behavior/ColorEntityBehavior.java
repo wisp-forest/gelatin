@@ -1,10 +1,9 @@
 package io.wispforest.jello.api.dye.behavior;
 
 import io.wispforest.jello.api.JelloAPI;
-import io.wispforest.jello.main.common.Jello;
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.mixin.ducks.DyeRedirect;
-import io.wispforest.jello.api.mixin.ducks.DyeableEntity;
+import io.wispforest.jello.api.mixin.ducks.DyeItemStorage;
+import io.wispforest.jello.api.mixin.ducks.entity.DyeableEntity;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
 import net.minecraft.entity.Entity;
@@ -29,7 +28,7 @@ public class ColorEntityBehavior extends FallibleItemDispenserBehavior {
         if (!world.isClient()) {
             if(stack.getItem() instanceof DyeItem dyeItem){
                 BlockPos blockPos = pointer.getPos().offset(pointer.getBlockState().get(DispenserBlock.FACING));
-                this.setSuccess(tryColorEntity((ServerWorld)world, blockPos, ((DyeRedirect)dyeItem).getDyeColor()));
+                this.setSuccess(tryColorEntity((ServerWorld)world, blockPos, ((DyeItemStorage)dyeItem).getDyeColor()));
                 if (this.isSuccess()) {
                     stack.decrement(1);
                 }

@@ -3,9 +3,9 @@ package io.wispforest.jello.main.common.items.dyebundle;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.events.ColorBlockEventMethods;
 import io.wispforest.jello.api.dye.events.ColorEntityEvent;
-import io.wispforest.jello.api.mixin.ducks.ConstantColorEntity;
-import io.wispforest.jello.api.mixin.ducks.DyeRedirect;
-import io.wispforest.jello.api.mixin.ducks.DyeableEntity;
+import io.wispforest.jello.api.mixin.ducks.entity.ConstantColorEntity;
+import io.wispforest.jello.api.mixin.ducks.DyeItemStorage;
+import io.wispforest.jello.api.mixin.ducks.entity.DyeableEntity;
 import io.wispforest.jello.api.registry.ColorBlockRegistry;
 import io.wispforest.jello.api.registry.ColorizeRegistry;
 import io.wispforest.jello.main.common.Jello;
@@ -13,7 +13,6 @@ import io.wispforest.jello.main.common.data.tags.JelloTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.BundleItem;
@@ -24,7 +23,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
@@ -35,7 +33,6 @@ import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class DyeBundle extends BundleItem {
 
@@ -66,7 +63,7 @@ public class DyeBundle extends BundleItem {
         DyeItem firstDyeItem = (DyeItem)getFirstStack(stack).getItem();
 
         if(firstDyeItem != null) {
-            DyeColorant dyeColorant = ((DyeRedirect)firstDyeItem).getDyeColor();
+            DyeColorant dyeColorant = ((DyeItemStorage)firstDyeItem).getDyeColor();
 
             if (Jello.MAIN_CONFIG.enableDyeingEntitys || (entity instanceof PlayerEntity && Jello.MAIN_CONFIG.enableDyeingPlayers)) {
                 if (ColorizeRegistry.isRegistered(entity)) {
@@ -112,7 +109,7 @@ public class DyeBundle extends BundleItem {
             DyeItem firstDyeItem = (DyeItem)getFirstStack(bundleStack).getItem();
 
             if(firstDyeItem != null) {
-                DyeColorant dyeColorant = ((DyeRedirect)firstDyeItem).getDyeColor();
+                DyeColorant dyeColorant = ((DyeItemStorage)firstDyeItem).getDyeColor();
 
                 if (dyeColorant.isIn(JelloTags.DyeColor.VANILLA_DYES) && player.shouldCancelInteraction()) {
                     BlockState blockState = world.getBlockState(context.getBlockPos());

@@ -1,11 +1,11 @@
-package io.wispforest.jello.api.mixin.mixins.client;
+package io.wispforest.jello.api.mixin.mixins.client.entitycolor;
 
 import io.wispforest.jello.main.common.Jello;
 import io.wispforest.jello.api.util.ColorUtil;
-import io.wispforest.jello.api.mixin.ducks.ConstantColorEntity;
-import io.wispforest.jello.api.mixin.ducks.DyeableEntity;
-import io.wispforest.jello.api.mixin.ducks.GrayScaleEntity;
-import io.wispforest.jello.api.mixin.ducks.RainbowEntity;
+import io.wispforest.jello.api.mixin.ducks.entity.ConstantColorEntity;
+import io.wispforest.jello.api.mixin.ducks.entity.DyeableEntity;
+import io.wispforest.jello.api.mixin.ducks.entity.GrayScaleEntity;
+import io.wispforest.jello.api.mixin.ducks.entity.RainbowEntity;
 import io.wispforest.jello.api.registry.ColorizeRegistry;
 import io.wispforest.jello.api.registry.GrayScaleRegistry;
 import net.fabricmc.loader.impl.FabricLoaderImpl;
