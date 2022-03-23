@@ -1,19 +1,12 @@
 package io.wispforest.jello.api.mixin.mixins.dye;
 
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.mixin.ducks.DyeBlockStorage;
-import io.wispforest.jello.main.common.data.tags.JelloTags;
 import net.minecraft.block.*;
-import net.minecraft.tag.BlockTags;
-import net.minecraft.util.DyeColor;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.RegistryEntry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Block.class)
 public abstract class BlockMixin extends AbstractBlock implements DyeBlockStorage {
@@ -87,7 +80,7 @@ public abstract class BlockMixin extends AbstractBlock implements DyeBlockStorag
 //        }
 //    }
 
-    private DyeColorant blockDyeColor = DyeColorRegistry.NULL_VALUE_NEW;
+    private DyeColorant blockDyeColor = DyeColorantRegistry.Constants.NULL_VALUE_NEW;
 
     @Override
     public void setDyeColor(DyeColorant dyeColorant) {
@@ -101,7 +94,7 @@ public abstract class BlockMixin extends AbstractBlock implements DyeBlockStorag
 
     @Override
     public boolean isBlockDyed() {
-        return getDyeColor() != DyeColorRegistry.NULL_VALUE_NEW;
+        return getDyeColor() != DyeColorantRegistry.Constants.NULL_VALUE_NEW;
     }
 
 

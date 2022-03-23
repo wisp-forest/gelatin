@@ -6,7 +6,7 @@ import io.wispforest.jello.api.events.CauldronEvent;
 import io.wispforest.jello.api.mixin.ducks.DyeItemStorage;
 import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.jello.main.common.items.SpongeItem;
-import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.events.ColorBlockEventMethods;
 import io.wispforest.jello.api.registry.ColorBlockRegistry;
@@ -40,7 +40,7 @@ public class JelloCauldronBehaviors implements CauldronBehavior{
         if(cauldronType == CauldronEvent.CauldronType.WATER) {
             boolean isStack = false;
 
-            DyeColorant dyeColorant = DyeColorRegistry.NULL_VALUE_NEW;
+            DyeColorant dyeColorant = DyeColorantRegistry.Constants.NULL_VALUE_NEW;
 
             if(stack.getItem() instanceof DyeItem dyeItem){
                 dyeColorant = ((DyeItemStorage)dyeItem).getDyeColor();
@@ -54,7 +54,7 @@ public class JelloCauldronBehaviors implements CauldronBehavior{
                 }
             }
 
-            if(dyeColorant != DyeColorRegistry.NULL_VALUE_NEW) {
+            if(dyeColorant != DyeColorantRegistry.Constants.NULL_VALUE_NEW) {
                 ColorStorageBlockEntity blockEntity = (ColorStorageBlockEntity) world.getBlockEntity(pos);
 
                 if (blockEntity != null) {

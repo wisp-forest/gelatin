@@ -36,7 +36,7 @@ public class ColorUtil {
     public static float[] getColorComponents(int baseColor){
         int j = (baseColor & 0xFF0000) >> 16;
         int k = (baseColor & 0xFF00) >> 8;
-        int l = (baseColor & 0xFF) >> 0;
+        int l = (baseColor & 0xFF);
         return new float[]{(float)j / 255.0F, (float)k / 255.0F, (float)l / 255.0F};
     }
 

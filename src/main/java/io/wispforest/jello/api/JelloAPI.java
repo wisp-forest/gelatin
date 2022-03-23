@@ -4,7 +4,7 @@ import io.wispforest.jello.api.dye.behavior.ColorEntityBehavior;
 import io.wispforest.jello.api.dye.behavior.WashEntityBehavior;
 import io.wispforest.jello.api.dye.blockentity.BlockEntityRegistry;
 import io.wispforest.jello.api.dye.events.ColorEntityEvent;
-import io.wispforest.jello.api.dye.DyeColorantJsonTest;
+import io.wispforest.jello.api.dye.registry.DyeColorantJsonTest;
 import io.wispforest.jello.api.dye.behavior.JelloCauldronBehaviors;
 import io.wispforest.jello.api.util.TrackedDataHandlerExtended;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
@@ -55,8 +55,6 @@ public class JelloAPI implements ModInitializer {
         JelloAPI.registerDispenserBehavior();
 
         JelloAPI.registerEvents();
-
-
     }
 
     //------------------------------------------------------------------------------

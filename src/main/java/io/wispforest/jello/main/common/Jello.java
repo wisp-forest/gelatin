@@ -1,6 +1,6 @@
 package io.wispforest.jello.main.common;
 
-import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.registry.ColorBlockRegistry;
 import io.wispforest.jello.main.common.blocks.BlockRegistry;
 import io.wispforest.jello.main.common.compat.consistencyplus.data.ConsistencyPlusTags;
@@ -139,7 +139,7 @@ public class Jello implements ModInitializer{
                 String nameSpace = z <= 10 ? "minecraft" : Jello.MODID;
 
                 for(int i = 0; i < 16; i++){
-                    blockTypes.add(Registry.BLOCK.get(new Identifier(nameSpace, DyeColorRegistry.VANILLA_DYES.get(i) + BLOCK_TYPE.get(z))));
+                    blockTypes.add(Registry.BLOCK.get(new Identifier(nameSpace, DyeColorantRegistry.Constants.VANILLA_DYES.get(i) + BLOCK_TYPE.get(z))));
                 }
 
                 ColorBlockRegistry.registerBlockSetUnsafe(blockTypes, BLOCK_TYPE_DEFAULT.get(z), COLORABLE_BLOCK_TAGS.get(z));
@@ -260,16 +260,16 @@ public class Jello implements ModInitializer{
             List<Block> colorBlockList = new ArrayList<>();
 
             for(int i = 0; i < 16; i++){
-                if(nameParts[0] == "ice" && DyeColorRegistry.VANILLA_DYES.get(i).getName() == "blue") {
+                if(nameParts[0] == "ice" && DyeColorantRegistry.Constants.VANILLA_DYES.get(i).getName() == "blue") {
                     colorBlockList.add(Blocks.BLUE_ICE);
                     defaultBlock = Blocks.BLUE_ICE;
                     continue;
                 }
 
                 if(blockNamePrefix != null){
-                    colorBlockList.add(Registry.BLOCK.get(new Identifier(ConsistencyPlusTags.CONSISTENCY_PLUS_MODID, blockNamePrefix + "_" + DyeColorRegistry.VANILLA_DYES.get(i).getName() + "_" + blockNameSuffix)));
+                    colorBlockList.add(Registry.BLOCK.get(new Identifier(ConsistencyPlusTags.CONSISTENCY_PLUS_MODID, blockNamePrefix + "_" + DyeColorantRegistry.Constants.VANILLA_DYES.get(i).getName() + "_" + blockNameSuffix)));
                 }else{
-                    colorBlockList.add(Registry.BLOCK.get(new Identifier(ConsistencyPlusTags.CONSISTENCY_PLUS_MODID, DyeColorRegistry.VANILLA_DYES.get(i).getName() + "_" + blockNameSuffix)));
+                    colorBlockList.add(Registry.BLOCK.get(new Identifier(ConsistencyPlusTags.CONSISTENCY_PLUS_MODID, DyeColorantRegistry.Constants.VANILLA_DYES.get(i).getName() + "_" + blockNameSuffix)));
                 }
             }
 

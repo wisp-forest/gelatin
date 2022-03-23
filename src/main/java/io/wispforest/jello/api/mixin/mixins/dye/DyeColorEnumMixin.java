@@ -1,7 +1,6 @@
 package io.wispforest.jello.api.mixin.mixins.dye;
 
-import io.wispforest.jello.main.common.Jello;
-import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.DyeColorant;
 import net.minecraft.block.MapColor;
 import net.minecraft.util.Identifier;
@@ -33,7 +32,7 @@ public class DyeColorEnumMixin {
         System.arraycopy(field_7953, 0, dyeColor, 0, field_7953.length);
 
         dyeColor[dyeColor.length - 1] = DyeColorEnumMixin.dyeColorRegistry$invokeNew("_null", net.minecraft.util.DyeColor.values().length, 16, "_null", 0, MapColor.CLEAR, 0, 0);
-        DyeColorRegistry.NULL_VALUE_OLD = dyeColor[dyeColor.length - 1];
+        DyeColorantRegistry.Constants.NULL_VALUE_OLD = dyeColor[dyeColor.length - 1];
 
         field_7953 = dyeColor;
     }
@@ -42,8 +41,8 @@ public class DyeColorEnumMixin {
 
     @Inject(method = "<init>", at = @At(value = "TAIL"))
     private void importCreatedEnumDyeColor(String internalName, int ordinal, int id, String name, int color, MapColor mapColor, int fireworkColor, int signColor, CallbackInfo ci){
-        if(!(Objects.equals(name, "_null") || DyeColorRegistry.VANILLA_DYES.stream().anyMatch(dyeColor -> Objects.equals(name, dyeColor.getName())))){
-            DyeColorant convertedDyeColor = DyeColorRegistry.registryDyeColor(new Identifier(DyeColorRegistry.ENUM_NAMESPACE, name), name, mapColor, color, fireworkColor, signColor);
+        if(!(Objects.equals(name, "_null") || DyeColorantRegistry.Constants.VANILLA_DYES.stream().anyMatch(dyeColor -> Objects.equals(name, dyeColor.getName())))){
+            DyeColorant convertedDyeColor = DyeColorantRegistry.registryDyeColor(new Identifier(DyeColorantRegistry.Constants.ENUM_NAMESPACE, name), name, mapColor, color, fireworkColor, signColor);
         }
     }
 }

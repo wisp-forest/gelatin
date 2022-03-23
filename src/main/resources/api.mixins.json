@@ -18,6 +18,7 @@
     "dye.MapBannerMarkerMixin",
     "dye.ShulkerBoxBlockEntityMixin",
     "dye.SimpleRegistryAccessor",
+    "dye.BeaconBlockEntityMixin",
     "dye.bugfix.AbstractDonkeyEntityMixin",
     "dye.bugfix.HorseEntityMixin",
     "entitycolor.LivingEntityMixin",
@@ -29,8 +30,10 @@
     "client.accessors.ScreenAccessor",
     "client.accessors.HandledScreenAccessor",
     "client.dye.InGameHudMixin",
+    "client.dye.ModelLoaderMixin",
     "client.dye.ShulkerBoxBlockEntityRendererMixin",
     "client.dye.BuiltinModelItemRendererMixin",
+    "client.dye.BedBlockEntityRendererMixin",
     "client.entitycolor.FeatureRendererMixin",
     "client.entitycolor.LivingEntityRenderMixin",
     "client.entitycolor.SlimeOverlayFeatureRendererMixin"

@@ -1,21 +1,14 @@
-package io.wispforest.jello.api.dye;
+package io.wispforest.jello.api.dye.registry;
 
-import io.wispforest.jello.api.dye.block.DyedBlockVariants;
-import io.wispforest.jello.api.dye.item.DyeItem;
-import io.wispforest.jello.api.dye.item.DyedItemVariants;
-import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
+import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.mixin.mixins.BlockEntityTypeAccessor;
 import io.wispforest.jello.main.common.Jello;
 import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.jello.api.util.MessageUtil;
 import io.wispforest.jello.main.common.data.tags.JelloTags;
 import com.google.gson.*;
-import io.wispforest.owo.itemgroup.OwoItemSettings;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
-import net.minecraft.block.MapColor;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.MathHelper;
@@ -25,8 +18,6 @@ import org.apache.commons.lang3.tuple.MutableTriple;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
@@ -34,30 +25,26 @@ public class DyeColorantJsonTest {
 
     public static final String JSON_NAMESPACE = "jello_dji";
 
-    private static final String LETTERS_AND_NUMBERS = "0123456789ABCDEF";
-    private static List<Character> VAILID_CHARACTERS = new ArrayList<>();
-
     private static final Gson BIG_GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    public static List<DyeItem> JSON_DYES = new ArrayList<>();
-
-    public static List<List<Block>> JSON_BLOCK_VAR = new ArrayList<>();
-
-    static{
-        for(int i = 0; i < LETTERS_AND_NUMBERS.length(); i++){
-            VAILID_CHARACTERS.add(LETTERS_AND_NUMBERS.charAt(i));
-        }
-    }
+//    private static final String LETTERS_AND_NUMBERS = "0123456789ABCDEF";
+//    private static final List<Character> VAILID_CHARACTERS = new ArrayList<>();
+//
+//    static{
+//        for(int i = 0; i < LETTERS_AND_NUMBERS.length(); i++){
+//            VAILID_CHARACTERS.add(LETTERS_AND_NUMBERS.charAt(i));
+//        }
+//    }
 
     public static DyeColorant getRandomlyRegisteredDyeColor(){
         boolean nonVanillaDyeColor = false;
-        RegistryEntry<DyeColorant> dyeColor = DyeColorRegistry.DYE_COLOR.getRandom(new Random()).get();
+        RegistryEntry<DyeColorant> dyeColor = DyeColorantRegistry.DYE_COLOR.getRandom(new Random()).get();
 
         while(!nonVanillaDyeColor){
             if(!dyeColor.isIn(JelloTags.DyeColor.VANILLA_DYES)){
                 nonVanillaDyeColor = true;
             }else{
-                dyeColor = DyeColorRegistry.DYE_COLOR.getRandom(new Random()).get();
+                dyeColor = DyeColorantRegistry.DYE_COLOR.getRandom(new Random()).get();
             }
         }
 
@@ -68,9 +55,7 @@ public class DyeColorantJsonTest {
         MessageUtil messager = new MessageUtil("JsonToRegistry");
 
         try {
-            JsonArray names = JsonHelper.getArray(BIG_GSON.fromJson(new InputStreamReader(DyeColorRegistry.class.getClassLoader().getResourceAsStream("assets/jello/other/colorDatabase.json")), JsonObject.class), "colors");
-
-            Set<Block> JSON_SHULKER_VARS = new HashSet<>(((BlockEntityTypeAccessor) BlockEntityType.SHULKER_BOX).jello$getBlocks());
+            JsonArray names = JsonHelper.getArray(BIG_GSON.fromJson(new InputStreamReader(DyeColorantRegistry.class.getClassLoader().getResourceAsStream("assets/jello/other/colorDatabase.json")), JsonObject.class), "colors");
 
             for (var i = 0; i < names.size(); i++) {
                 JsonObject currentObject = names.get(i).getAsJsonObject();
@@ -79,28 +64,19 @@ public class DyeColorantJsonTest {
                 String colorName = currentObject.get("colorName").getAsString();
                 int colorValue = Integer.parseInt(currentObject.get("hexValue").getAsString(), 16);
 
-
-                if(DyeColorRegistry.DYE_COLOR.containsId(colorIdentifier)){
-                    continue;
-//                    dyeColorID = new Identifier(Jello.MODID, currentObject.get("identifierSafeName").getAsString() + "_2");
-//                    colorName = currentObject.get("colorName").getAsString() + " 2";
+                if(DyeColorantRegistry.DYE_COLOR.containsId(colorIdentifier)){
+                    //continue;
+                    colorIdentifier = new Identifier(Jello.MODID, currentObject.get("identifierSafeName").getAsString() + "_2");
+                    colorName = currentObject.get("colorName").getAsString() + " 2";
                 }
 
-                DyeColorant currentDyeColor = DyeColorRegistry.registryDyeColorNameOverride(colorIdentifier, colorName, colorValue, MapColor.CLEAR);
+                DyeColorant currentDyeColor = DyeColorantRegistry.registerAndCreateVariants(colorIdentifier, colorName, colorValue);
 
-                JSON_DYES.add(DyedItemVariants.createDyeColorant(new Identifier(JSON_NAMESPACE, colorIdentifier.getPath() + "_dye"), currentDyeColor, new OwoItemSettings().group(ItemGroup.MISC).tab(1)));
-
-                List<Block> jsonBlockVars = DyedBlockVariants.createBlockVariants(currentDyeColor);
-
-                JSON_SHULKER_VARS.add(jsonBlockVars.get(jsonBlockVars.size() - 1));
-                JSON_BLOCK_VAR.add(jsonBlockVars);
-
+//                DyedVariants dyedVariants = DyedVariants.DYE_ITEM_VARIANTS.get(currentDyeColor);
             }
 
-            ((BlockEntityTypeAccessor) BlockEntityType.SHULKER_BOX).jello$setBlocks(JSON_SHULKER_VARS);
-
             messager.stopTimerPrint("It seems that the registry filling took ");
-            messager.infoMessage("Total amount of registered dyes from json are " + DyeColorRegistry.DYE_COLOR.size());
+            messager.infoMessage("Total amount of registered dyes from json are " + DyeColorantRegistry.DYE_COLOR.size());
         }catch (JsonSyntaxException | JsonIOException e) {
             messager.failMessage("Something has gone with the json to Dye Registry method!");
             e.printStackTrace();
@@ -183,7 +159,7 @@ public class DyeColorantJsonTest {
         float df = -1;
 
         try {
-            var colorDataBaseFile = DyeColorRegistry.class.getClassLoader().getResourceAsStream("assets/jello/other/colorDatabase.json");
+            var colorDataBaseFile = DyeColorantRegistry.class.getClassLoader().getResourceAsStream("assets/jello/other/colorDatabase.json");
 
             JsonArray names = JsonHelper.getArray(BIG_GSON.fromJson(new InputStreamReader(colorDataBaseFile), JsonObject.class), "colors");
 

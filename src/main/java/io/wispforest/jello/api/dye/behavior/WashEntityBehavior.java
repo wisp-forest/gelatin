@@ -1,6 +1,6 @@
 package io.wispforest.jello.api.dye.behavior;
 
-import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.mixin.ducks.entity.DyeableEntity;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
@@ -36,7 +36,7 @@ public class WashEntityBehavior extends FallibleItemDispenserBehavior {
     private static boolean tryColorEntity(ServerWorld world, BlockPos pos, ItemStack stack) {
         for(LivingEntity livingEntity : world.getEntitiesByClass(LivingEntity.class, new Box(pos), EntityPredicates.EXCEPT_SPECTATOR)) {
             if(livingEntity instanceof DyeableEntity dyeableEntity && dyeableEntity.isDyed()){
-                dyeableEntity.setDyeColor(DyeColorRegistry.NULL_VALUE_NEW);
+                dyeableEntity.setDyeColor(DyeColorantRegistry.Constants.NULL_VALUE_NEW);
                 return true;
             }
         }

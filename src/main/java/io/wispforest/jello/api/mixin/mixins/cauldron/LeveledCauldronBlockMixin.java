@@ -2,7 +2,7 @@ package io.wispforest.jello.api.mixin.mixins.cauldron;
 
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.blockentity.ColorStorageBlockEntity;
-import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvironmentInterface;
@@ -52,7 +52,7 @@ public class LeveledCauldronBlockMixin extends AbstractCauldronBlock implements 
             int worldColor = pos != null ? BiomeColors.getWaterColor(world, pos) : -1;
 
             ColorStorageBlockEntity blockEntity = (ColorStorageBlockEntity) world.getBlockEntity(pos);
-            if (blockEntity != null && blockEntity.getDyeColorant() != DyeColorRegistry.NULL_VALUE_NEW) {
+            if (blockEntity != null && blockEntity.getDyeColorant() != DyeColorantRegistry.Constants.NULL_VALUE_NEW) {
                 DyeColorant dyeColor = blockEntity.getDyeColorant();
 
                 float[] colorComp = {1F, 1F, 1F};

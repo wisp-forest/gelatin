@@ -42,11 +42,16 @@ public abstract class PistonHandlerMixin {
 
     @Inject(method = "isAdjacentBlockStuck", at = @At(value = "HEAD"), cancellable = true)
     private static void isAdjacentBlockStuckExt(BlockState state, BlockState adjacentState, CallbackInfoReturnable<Boolean> cir){
-        if(state.getBlock() instanceof DyeBlockStorage dyeableBlock1 && adjacentState.getBlock() instanceof DyeBlockStorage dyeableBlock2){
-            if(dyeableBlock1.isBlockDyed() && dyeableBlock1.isBlockDyed()) {
+
+        if((isCustomSlimeBlock(state) && isCustomSlimeBlock(adjacentState))) {
+            DyeBlockStorage dyeableBlock1 = (DyeBlockStorage)state.getBlock();
+            DyeBlockStorage dyeableBlock2 = (DyeBlockStorage)adjacentState.getBlock();
+
+            if((dyeableBlock1.isBlockDyed() && dyeableBlock2.isBlockDyed())) {
                 cir.setReturnValue(dyeableBlock1.getDyeColor() == dyeableBlock2.getDyeColor());
             }
-        }else if(isRegularSlime(state, adjacentState)){
+        }
+        else if(isRegularSlime(state, adjacentState)){
             cir.setReturnValue(true);
         }else if(isCustomSlimeBlock(state) && isSlimeOrHoneyBlock(adjacentState)){
             cir.setReturnValue(false);

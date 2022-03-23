@@ -30,6 +30,7 @@ public class MiscItemGroup extends OwoItemGroup {
         this.addTab(Icon.of(Items.LAVA_BUCKET), "misc", null, ItemGroupTab.DEFAULT_TEXTURE);
         this.addTab(Icon.of(ItemRegistry.MainItemRegistry.DYNAMIC_DYE), "dyes", JelloTags.Items.DYE_ITEMS, ItemGroupTab.DEFAULT_TEXTURE);
         this.addTab(Icon.of(Items.WHITE_CONCRETE), "block_vars", null, ItemGroupTab.DEFAULT_TEXTURE);
+        this.addTab(Icon.of(Items.SLIME_BALL), "item_vars", null, ItemGroupTab.DEFAULT_TEXTURE);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package io.wispforest.jello.main.common.data.tags;
 
 import io.wispforest.jello.main.common.Jello;
-import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.DyeColorant;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -51,7 +51,7 @@ public class JelloTags {
         public static final TagKey<DyeColorant> VANILLA_DYES = register(new Identifier(COMMON_NAMESPACE, "vanilla_dye"));
 
         private static TagKey<DyeColorant> register(Identifier id) {
-            return TagKey.of(DyeColorRegistry.DYE_COLOR_KEY, id);
+            return TagKey.of(DyeColorantRegistry.DYE_COLOR_KEY, id);
         }
     }
 }

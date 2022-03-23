@@ -1,6 +1,6 @@
 package io.wispforest.jello.api.dye.events;
 
-import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.mixin.ducks.entity.ConstantColorEntity;
 import io.wispforest.jello.api.mixin.ducks.entity.DyeableEntity;
@@ -75,7 +75,7 @@ public class ColorEntityEvent implements UseEntityCallback{
 
         if(livingEntity instanceof DyeableEntity dyeableEntity){
             if(dyeableEntity.isDyed()){
-                dyeableEntity.setDyeColor(DyeColorRegistry.NULL_VALUE_NEW);
+                dyeableEntity.setDyeColor(DyeColorantRegistry.Constants.NULL_VALUE_NEW);
                 washedEntity = true;
             }
         }
@@ -95,7 +95,7 @@ public class ColorEntityEvent implements UseEntityCallback{
         if ((bucketItem != null && bucketItem.fluid == Fluids.WATER) || spongeItemUsed) {
             if(livingEntity instanceof DyeableEntity dyeableEntity){
                 if(dyeableEntity.isDyed()){
-                    dyeableEntity.setDyeColor(DyeColorRegistry.NULL_VALUE_NEW);
+                    dyeableEntity.setDyeColor(DyeColorantRegistry.Constants.NULL_VALUE_NEW);
                     washedEntity = true;
                 }
             }

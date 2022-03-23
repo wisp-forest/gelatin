@@ -1,6 +1,6 @@
 package io.wispforest.jello.api.registry;
 
-import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.DyeColorant;
 import net.minecraft.block.Block;
 import net.minecraft.tag.TagKey;
@@ -21,7 +21,7 @@ public class ColorBlockRegistry {
 
     private static final Map<TagKey<Block>, Map<DyeColorant, Block>> REGISTRY = new HashMap<>();
 
-    private static final DyeColorant[] VANILLA_DYES = DyeColorRegistry.VANILLA_DYES.toArray(new DyeColorant[0]);
+    private static final DyeColorant[] VANILLA_DYES = DyeColorantRegistry.Constants.VANILLA_DYES.toArray(new DyeColorant[0]);
 
     public static void registerBlockSet(List<Block> blockTypes, Block defaultBlock, TagKey<Block> blockTags){
         if(blockTypes.size() > 16){

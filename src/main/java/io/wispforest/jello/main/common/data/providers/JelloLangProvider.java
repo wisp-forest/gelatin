@@ -1,5 +1,6 @@
 package io.wispforest.jello.main.common.data.providers;
 
+import io.wispforest.jello.api.dye.registry.DyedVariants;
 import io.wispforest.jello.forge.LanguageProvider;
 import io.wispforest.jello.main.common.Jello;
 import io.wispforest.jello.main.common.blocks.BlockRegistry;
@@ -61,6 +62,16 @@ public class JelloLangProvider extends LanguageProvider {
 
         add("itemGroup.misc.tab.dyes", "Custom Dyes");
         add("itemGroup.misc.tab.block_vars", "Colored Block Variants");
+
+        for(DyedVariants dyedVariant : DyedVariants.DYE_ITEM_VARIANTS.values()){
+            for(Block block : dyedVariant.dyedBlocks){
+                addBlock(() -> block);
+            }
+
+            for(Item item : dyedVariant.dyedItems){
+                addItem(() -> item);
+            }
+        }
     }
 
     //-----------------------------------------------//
@@ -77,11 +88,11 @@ public class JelloLangProvider extends LanguageProvider {
         addEntityType(entity, getAutomaticNameEntityType(entity));
     }
 
-    private String getAutomaticNameItem(Supplier<? extends Item> sup) {
+    public String getAutomaticNameItem(Supplier<? extends Item> sup) {
         return toEnglishName(Registry.ITEM.getId(sup.get()).getPath());
     }
 
-    private String getAutomaticNameBlock(Supplier<? extends Block> sup) {
+    public String getAutomaticNameBlock(Supplier<? extends Block> sup) {
         return toEnglishName(Registry.BLOCK.getId(sup.get()).getPath());
     }
 

@@ -1,6 +1,6 @@
 package io.wispforest.jello.api.mixin.ducks.entity;
 
-import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.events.ColorEntityEvent;
 import io.wispforest.jello.api.mixin.mixins.entitycolor.LivingEntityMixin;
@@ -13,14 +13,14 @@ public interface DyeableEntity extends ConstantColorEntity, RainbowEntity{
      * A method used to check if the Entity is Dyed or not based on its color ID.
      */
     default boolean isDyed(){
-        return dyeColorOverride() || getDyeColorID() != DyeColorRegistry.NULL_VALUE_NEW.getId();
+        return dyeColorOverride() || getDyeColorID() != DyeColorantRegistry.Constants.NULL_VALUE_NEW.getId();
     }
 
     /**
      * A method used set your Entity's Color ID. The value of 16 is the default value, any higher will not affect the entity's color.
      */
     default Identifier getDyeColorID(){
-        return DyeColorRegistry.NULL_VALUE_NEW.getId();
+        return DyeColorantRegistry.Constants.NULL_VALUE_NEW.getId();
     }
 
     /**
@@ -32,7 +32,7 @@ public interface DyeableEntity extends ConstantColorEntity, RainbowEntity{
      * Returns the {@link net.minecraft.util.DyeColor} using the Entity's Dye Color ID
      */
     default DyeColorant getDyeColor(){
-        return DyeColorRegistry.DYE_COLOR.get(getDyeColorID());
+        return DyeColorantRegistry.DYE_COLOR.get(getDyeColorID());
     }
 
     /**

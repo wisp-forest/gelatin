@@ -1,7 +1,7 @@
 package io.wispforest.jello.api.dye.item;
 
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.dye.DyeColorantJsonTest;
+import io.wispforest.jello.api.dye.registry.DyeColorantJsonTest;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;

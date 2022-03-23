@@ -1,7 +1,7 @@
 package io.wispforest.jello.api.mixin.mixins.entitycolor;
 
 import io.wispforest.jello.api.util.DataConstants;
-import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.mixin.ducks.entity.DyeableEntity;
 import io.wispforest.jello.api.mixin.ducks.entity.RainbowEntity;
@@ -25,7 +25,7 @@ public abstract class LivingEntityMixin implements DyeableEntity, RainbowEntity 
 
     @Inject(method = "initDataTracker", at = @At(value = "TAIL"))
     private void initDyeColorTracker(CallbackInfo ci){
-        ((LivingEntity) (Object)this).getDataTracker().startTracking(DYE_COLOR, DyeColorRegistry.NULL_VALUE_NEW.getId());
+        ((LivingEntity) (Object)this).getDataTracker().startTracking(DYE_COLOR, DyeColorantRegistry.Constants.NULL_VALUE_NEW.getId());
         ((LivingEntity) (Object)this).getDataTracker().startTracking(RAINBOW_MODE, (byte)0);
         ((LivingEntity) (Object)this).getDataTracker().startTracking(CONSTANT_COLOR, DataConstants.DEFAULT_NULL_COLOR_VALUE);
     }
@@ -41,7 +41,7 @@ public abstract class LivingEntityMixin implements DyeableEntity, RainbowEntity 
     public void readDyeColorNBT(NbtCompound nbt, CallbackInfo ci){
         String possibleIdentifier = nbt.getString(DataConstants.getDyeColorNbtKey());
 
-        ((LivingEntity) (Object)this).getDataTracker().set(DYE_COLOR, !Objects.equals(possibleIdentifier, "") ? Identifier.tryParse(possibleIdentifier) : DyeColorRegistry.NULL_VALUE_NEW.getId());
+        ((LivingEntity) (Object)this).getDataTracker().set(DYE_COLOR, !Objects.equals(possibleIdentifier, "") ? Identifier.tryParse(possibleIdentifier) : DyeColorantRegistry.Constants.NULL_VALUE_NEW.getId());
         ((LivingEntity) (Object)this).getDataTracker().set(RAINBOW_MODE, nbt.getByte(DataConstants.getRainbowNbtKey()));
         ((LivingEntity) (Object)this).getDataTracker().set(CONSTANT_COLOR, getOrDefaultNbtColor(DataConstants.getConstantColorNbtKey(), nbt, DataConstants.DEFAULT_NULL_COLOR_VALUE));
     }

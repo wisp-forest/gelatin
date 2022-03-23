@@ -1,17 +1,14 @@
 package io.wispforest.jello.api.dye.block;
 
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
 import io.wispforest.jello.api.mixin.ducks.DyeBlockStorage;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvironmentInterface;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.CarpetBlock;
 import net.minecraft.block.DyedCarpetBlock;
 import net.minecraft.client.color.block.BlockColorProvider;
-import net.minecraft.util.DyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockRenderView;
 import org.jetbrains.annotations.Nullable;

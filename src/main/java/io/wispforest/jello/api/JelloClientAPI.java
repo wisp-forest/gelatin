@@ -1,50 +1,60 @@
 package io.wispforest.jello.api;
 
-import io.wispforest.jello.api.dye.DyeColorantJsonTest;
+import io.wispforest.jello.api.dye.block.ColoredGlassBlock;
+import io.wispforest.jello.api.dye.block.ColoredGlassPaneBlock;
+import io.wispforest.jello.api.dye.registry.DyeColorantJsonTest;
 import io.wispforest.jello.api.dye.client.BlockModelRedirect;
 import io.wispforest.jello.api.dye.item.DyeItem;
 import io.wispforest.jello.api.dye.client.DyeModelResourceRedirect;
-import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
+import io.wispforest.jello.api.dye.registry.DyedVariants;
+import io.wispforest.jello.main.common.Jello;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ShulkerBoxBlock;
+import net.fabricmc.fabric.impl.blockrenderlayer.BlockRenderLayerMapImpl;
+import net.minecraft.block.*;
+import net.minecraft.block.entity.BedBlockEntity;
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.color.block.BlockColorProvider;
 import net.minecraft.client.color.item.ItemColorProvider;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.TexturedRenderLayers;
+import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
+import java.util.Collection;
 import java.util.List;
 
 public class JelloClientAPI implements ClientModInitializer {
+
+    public static final Identifier BED_BLANKET_ONLY = new Identifier(Jello.MODID, "block/bed/blanket_only");
+    public static final Identifier BED_PILLOW_ONLY = new Identifier(Jello.MODID, "block/bed/pillow_only");
 
     @Override
     public void onInitializeClient() {
         ColorProviderRegistry.BLOCK.register((BlockColorProvider) Blocks.WATER_CAULDRON, Blocks.WATER_CAULDRON);
         BlockRenderLayerMap.INSTANCE.putBlock(Blocks.WATER_CAULDRON, RenderLayer.getTranslucent());
 
-        registerCustomModelPredicate();
-
         initJsonDyeItems();
 
         registerJsonBlocksForColor();
+
+        ClientSpriteRegistryCallback.event(TexturedRenderLayers.BEDS_ATLAS_TEXTURE).register((atlasTexture, registry) -> {
+            registry.register(BED_BLANKET_ONLY);
+            registry.register(BED_PILLOW_ONLY);
+        });
     }
 
     //------------------------------------------------------------------------------
 
     private static void initJsonDyeItems(){
-        DyeColorantJsonTest.JSON_DYES.forEach(dyeItem -> {
-            ColorProviderRegistry.ITEM.register(dyeItem, dyeItem);
-        });
-
         ModelLoadingRegistry.INSTANCE.registerResourceProvider((manager) -> {
             return new DyeModelResourceRedirect();
         });
@@ -54,31 +64,47 @@ public class JelloClientAPI implements ClientModInitializer {
         });
     }
 
-    private static void registerCustomModelPredicate(){
-        DyeColorantJsonTest.JSON_DYES.forEach(dyeItem -> {
-            FabricModelPredicateProviderRegistry.register(dyeItem, new Identifier("variant"), (stack, world, entity, seed) -> DyeItem.getTextureVariant(stack));
-        });
-    }
+
 
     private static void registerJsonBlocksForColor(){
-        List<List<Block>> blockVarList = DyeColorantJsonTest.JSON_BLOCK_VAR;
+        Collection<DyedVariants> dyedVariantList = DyedVariants.DYE_ITEM_VARIANTS.values();
 
-        for(List<Block> blockList : blockVarList){
-            for(Block block : blockList){
-                if(!(block instanceof ShulkerBoxBlock)) {
+        for(DyedVariants dyedVariant : dyedVariantList){
+            for(Block block : dyedVariant.dyedBlocks){
+                if(block instanceof ColoredGlassBlock || block instanceof ColoredGlassPaneBlock){
                     ColorProviderRegistry.BLOCK.register((BlockColorProvider) block, block);
                     ColorProviderRegistry.ITEM.register((ItemColorProvider) block.asItem(), block.asItem());
-                }else{
-                    BuiltinItemRendererRegistry.INSTANCE.register(block, (stack, mode, matrices, vertexConsumers, light, overlay) -> {
-//                        System.out.println("test1");
 
-                        ShulkerBoxBlockEntity shulkerBoxBlockEntity = new ShulkerBoxBlockEntity(DyeColorRegistry.NULL_VALUE_OLD, BlockPos.ORIGIN, block.getDefaultState());
+                    BlockRenderLayerMapImpl.INSTANCE.putBlock(block, RenderLayer.getTranslucent());
+                    BlockRenderLayerMapImpl.INSTANCE.putItem(block.asItem(), RenderLayer.getTranslucent());
+                }else if(block instanceof ShulkerBoxBlock){
+                    BuiltinItemRendererRegistry.INSTANCE.register(block, (stack, mode, matrices, vertexConsumers, light, overlay) -> {
+                        ShulkerBoxBlockEntity shulkerBoxBlockEntity = new ShulkerBoxBlockEntity(DyeColorantRegistry.Constants.NULL_VALUE_OLD, BlockPos.ORIGIN, block.getDefaultState());
 
                         MinecraftClient.getInstance().getBlockEntityRenderDispatcher().get(shulkerBoxBlockEntity).render(shulkerBoxBlockEntity, 0.0F, matrices, vertexConsumers, light, overlay);
+                    });
+                }else if(block instanceof BedBlock){
+                    BuiltinItemRendererRegistry.INSTANCE.register(block, (stack, mode, matrices, vertexConsumers, light, overlay) -> {
+                        BedBlockEntity renderBed = new BedBlockEntity(BlockPos.ORIGIN, block.getDefaultState());
 
-//                        System.out.println("test2");
+                        MinecraftClient.getInstance().getBlockEntityRenderDispatcher().get(renderBed).render(renderBed, 0.0F, matrices, vertexConsumers, light, overlay);
                     });
                 }
+                else {
+                    ColorProviderRegistry.BLOCK.register((BlockColorProvider) block, block);
+
+                    Item item = block.asItem();
+
+                    if(item != Blocks.AIR.asItem()) {
+                        ColorProviderRegistry.ITEM.register((ItemColorProvider) item, item);
+                    }
+                }
+            }
+
+            for(Item item : dyedVariant.dyedItems){
+                ColorProviderRegistry.ITEM.register((DyeItem)item, item);
+
+                FabricModelPredicateProviderRegistry.register(item, new Identifier("variant"), (stack, world, entity, seed) -> DyeItem.getTextureVariant(stack));
             }
         }
     }

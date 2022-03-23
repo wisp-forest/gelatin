@@ -1,7 +1,7 @@
 package io.wispforest.jello.main.common.items;
 
 import io.wispforest.jello.main.common.Jello;
-import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.events.ColorBlockEventMethods;
 import io.wispforest.jello.api.dye.events.ColorEntityEvent;
 import io.wispforest.jello.api.registry.ColorBlockRegistry;
@@ -78,7 +78,7 @@ public class SpongeItem extends Item {
         if(user.shouldCancelInteraction()){
             if (canClean(itemInHand)) {
                 if (user instanceof DyeableEntity dyeableEntity && dyeableEntity.isDyed()) {
-                    dyeableEntity.setDyeColor(DyeColorRegistry.NULL_VALUE_NEW);
+                    dyeableEntity.setDyeColor(DyeColorantRegistry.Constants.NULL_VALUE_NEW);
 
 
                     if (!world.isClient) {

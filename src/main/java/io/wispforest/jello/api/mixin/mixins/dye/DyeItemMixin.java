@@ -1,6 +1,6 @@
 package io.wispforest.jello.api.mixin.mixins.dye;
 
-import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.events.ColorBlockEventMethods;
 import io.wispforest.jello.api.dye.events.ColorEntityEvent;
@@ -44,7 +44,7 @@ public class DyeItemMixin extends Item implements DyeItemStorage {
 
     @Inject(method = "<init>", at = @At(value = "TAIL"))
     private void fillNewDyeMap(net.minecraft.util.DyeColor color, Item.Settings settings, CallbackInfo ci){
-        if(color != DyeColorRegistry.NULL_VALUE_OLD) {
+        if(color != DyeColorantRegistry.Constants.NULL_VALUE_OLD) {
             this.color = DyeColorant.byOldDyeColor(((DyeItem) (Object) this).getColor());
 
             if(this.color == null){
@@ -56,7 +56,7 @@ public class DyeItemMixin extends Item implements DyeItemStorage {
             }
         }
 
-        DyeColorRegistry.DYE_COLOR_TO_DYEITEM.put(this.color, (DyeItem)(Object)this);
+        //DyeColorantRegistry.DYE_COLOR_TO_DYEITEM.put(this.color, (DyeItem)(Object)this);
     }
 
     @Override

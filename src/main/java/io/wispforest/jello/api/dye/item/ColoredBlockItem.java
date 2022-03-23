@@ -11,11 +11,11 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 
 @EnvironmentInterface(value = EnvType.CLIENT, itf = ItemColorProvider.class)
-public class MultiColorBlockItem extends BlockItem implements ItemColorProvider {
+public class ColoredBlockItem extends BlockItem implements ItemColorProvider {
 
     private final DyeColorant dyeColor;
 
-    public MultiColorBlockItem(Block block, Settings settings) {
+    public ColoredBlockItem(Block block, Settings settings) {
         super(block, settings);
 
         this.dyeColor = ((DyeBlockStorage)block).getDyeColor();

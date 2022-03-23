@@ -1,19 +1,18 @@
 package io.wispforest.jello.main.common.items.dyebundle;
 
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.InvalidIdentifierException;
-import org.lwjgl.system.CallbackI;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DyeBufferEntry {
 
-    public static final DyeBufferEntry NULL = new DyeBufferEntry(DyeColorRegistry.NULL_VALUE_NEW, -1);
+    public static final DyeBufferEntry NULL = new DyeBufferEntry(DyeColorantRegistry.Constants.NULL_VALUE_NEW, -1);
 
     public static final String DYE_ENTRY_BUFFER_KEY = "BufferEntry";
 
@@ -65,7 +64,7 @@ public class DyeBufferEntry {
 
         DyeColorant dyeColorant;
         try {
-            dyeColorant = DyeColorRegistry.DYE_COLOR.get(Identifier.tryParse(bufferComponents[0]));
+            dyeColorant = DyeColorantRegistry.DYE_COLOR.get(Identifier.tryParse(bufferComponents[0]));
         } catch (InvalidIdentifierException e) {
             e.printStackTrace();
             return NULL;

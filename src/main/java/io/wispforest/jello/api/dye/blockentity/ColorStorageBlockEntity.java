@@ -1,13 +1,11 @@
 package io.wispforest.jello.api.dye.blockentity;
 
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.dye.registry.DyeColorRegistry;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.owo.ops.WorldOps;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.inventory.Inventories;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.listener.ClientPlayPacketListener;
@@ -25,7 +23,7 @@ public class ColorStorageBlockEntity extends BlockEntity {
 
     public ColorStorageBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.COLOR_STORAGE, pos, state);
-        this.currentColor = DyeColorRegistry.NULL_VALUE_NEW;
+        this.currentColor = DyeColorantRegistry.Constants.NULL_VALUE_NEW;
     }
 
     public void setDyeColorant(DyeColorant dyeColorant){
@@ -61,7 +59,7 @@ public class ColorStorageBlockEntity extends BlockEntity {
         super.readNbt(nbt);
         Identifier id = Identifier.tryParse(nbt.getString(DYE_COLOR_KEY));
 
-        this.currentColor = DyeColorRegistry.DYE_COLOR.get(id);
+        this.currentColor = DyeColorantRegistry.DYE_COLOR.get(id);
 
         if(world != null && world.isClient) {
             world.scheduleBlockRerenderIfNeeded(pos, Blocks.AIR.getDefaultState(), this.getCachedState());
@@ -75,6 +73,6 @@ public class ColorStorageBlockEntity extends BlockEntity {
     }
 
     public static boolean isWaterColored(ColorStorageBlockEntity blockEntity){
-        return blockEntity.getDyeColorant() != DyeColorRegistry.NULL_VALUE_NEW;
+        return blockEntity.getDyeColorant() != DyeColorantRegistry.Constants.NULL_VALUE_NEW;
     }
 }
