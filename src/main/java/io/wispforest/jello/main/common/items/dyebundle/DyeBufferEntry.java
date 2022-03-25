@@ -12,7 +12,7 @@ import java.util.List;
 
 public class DyeBufferEntry {
 
-    public static final DyeBufferEntry NULL = new DyeBufferEntry(DyeColorantRegistry.Constants.NULL_VALUE_NEW, -1);
+    public static final DyeBufferEntry NULL = new DyeBufferEntry(DyeColorantRegistry.NULL_VALUE_NEW, -1);
 
     public static final String DYE_ENTRY_BUFFER_KEY = "BufferEntry";
 

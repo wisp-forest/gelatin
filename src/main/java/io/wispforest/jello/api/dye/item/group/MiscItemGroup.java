@@ -1,7 +1,9 @@
 package io.wispforest.jello.api.dye.item.group;
 
+import io.wispforest.jello.api.JelloAPI;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.item.DyeItem;
+import io.wispforest.jello.api.dye.registry.DyeColorantJsonTest;
 import io.wispforest.jello.api.mixin.ducks.DyeBlockStorage;
 import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.jello.main.common.data.tags.JelloTags;
@@ -9,6 +11,7 @@ import io.wispforest.jello.main.common.items.ItemRegistry;
 import io.wispforest.owo.itemgroup.Icon;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
 import io.wispforest.owo.itemgroup.gui.ItemGroupTab;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -28,7 +31,7 @@ public class MiscItemGroup extends OwoItemGroup {
     @Override
     protected void setup() {
         this.addTab(Icon.of(Items.LAVA_BUCKET), "misc", null, ItemGroupTab.DEFAULT_TEXTURE);
-        this.addTab(Icon.of(ItemRegistry.MainItemRegistry.DYNAMIC_DYE), "dyes", JelloTags.Items.DYE_ITEMS, ItemGroupTab.DEFAULT_TEXTURE);
+        this.addTab(Icon.of(Registry.ITEM.get(new Identifier(JelloAPI.MODID, "cold_turkey_dye"))), "dyes", JelloTags.Items.DYE_ITEMS, ItemGroupTab.DEFAULT_TEXTURE);
         this.addTab(Icon.of(Items.WHITE_CONCRETE), "block_vars", null, ItemGroupTab.DEFAULT_TEXTURE);
         this.addTab(Icon.of(Items.SLIME_BALL), "item_vars", null, ItemGroupTab.DEFAULT_TEXTURE);
     }
@@ -38,11 +41,9 @@ public class MiscItemGroup extends OwoItemGroup {
         return new ItemStack(Items.LAVA_BUCKET);
     }
 
-
     @Override
     public void appendStacks(DefaultedList<ItemStack> stacks) {
         super.appendStacks(stacks);
-
 
         if(this.getSelectedTabIndex() == 1){
             stacks.sort(Comparator.comparingDouble(stack -> {

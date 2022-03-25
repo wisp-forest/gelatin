@@ -1,5 +1,5 @@
 {
-  "parent": "jello:block/template_glass_pane_post",
+  "parent": "jello:block/glass_pane/template_glass_pane_post",
   "textures": {
     "pane": "minecraft:block/white_stained_glass",
     "edge": "minecraft:block/white_stained_glass_pane_top"

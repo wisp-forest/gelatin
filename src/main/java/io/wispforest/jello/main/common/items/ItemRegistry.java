@@ -2,7 +2,6 @@ package io.wispforest.jello.main.common.items;
 
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.dye.item.DyenamicDyeItem;
 import io.wispforest.jello.main.common.items.dyebundle.DyeBundle;
 import io.wispforest.owo.registration.reflect.ItemRegistryContainer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -10,6 +9,7 @@ import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 public class ItemRegistry {
@@ -74,9 +74,7 @@ public class ItemRegistry {
     }
 
     public static class MainItemRegistry implements ItemRegistryContainer{
-
         public static final Item SPONGE = new SpongeItem(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1));
-        public static final Item DYNAMIC_DYE = new DyenamicDyeItem(new FabricItemSettings().group(ItemGroup.TOOLS));
         public static final Item DYE_BUNDLE = new DyeBundle(new FabricItemSettings().group(ItemGroup.TOOLS));
     }
 }

@@ -1,22 +1,6 @@
 {
   "replace": false,
   "values": [
-    "jello:slime_slab",
-    "jello:white_slime_slab",
-    "jello:orange_slime_slab",
-    "jello:magenta_slime_slab",
-    "jello:light_blue_slime_slab",
-    "jello:yellow_slime_slab",
-    "jello:lime_slime_slab",
-    "jello:pink_slime_slab",
-    "jello:gray_slime_slab",
-    "jello:light_gray_slime_slab",
-    "jello:cyan_slime_slab",
-    "jello:purple_slime_slab",
-    "jello:blue_slime_slab",
-    "jello:brown_slime_slab",
-    "jello:green_slime_slab",
-    "jello:red_slime_slab",
-    "jello:black_slime_slab"
+    "jello:slime_slab"
   ]
 }

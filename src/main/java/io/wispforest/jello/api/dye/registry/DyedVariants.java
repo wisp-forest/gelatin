@@ -1,24 +1,20 @@
 package io.wispforest.jello.api.dye.registry;
 
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.dye.block.*;
-import io.wispforest.jello.api.dye.item.DyeItem;
-import io.wispforest.jello.api.mixin.ducks.DyeBlockStorage;
 import io.wispforest.jello.api.dye.item.ColoredBlockItem;
-import io.wispforest.jello.api.mixin.mixins.BlockEntityTypeAccessor;
+import io.wispforest.jello.api.dye.registry.builder.BaseBlockBuilder;
+import io.wispforest.jello.api.dye.registry.builder.BlockType;
+import io.wispforest.jello.api.dye.registry.builder.VanillaBlockBuilder;
+import io.wispforest.jello.api.mixin.mixins.accessors.SettingsAccessor;
+import io.wispforest.jello.api.registry.ColorBlockRegistry;
+import io.wispforest.jello.main.common.Jello;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
-import io.wispforest.owo.util.TagInjector;
-import net.minecraft.block.*;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.block.entity.ShulkerBoxBlockEntity;
-import net.minecraft.block.enums.BedPart;
+import net.minecraft.block.Block;
+import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.tag.BlockTags;
-import net.minecraft.tag.ItemTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.ApiStatus;
@@ -27,17 +23,20 @@ import java.util.*;
 
 public class DyedVariants {
 
-    public static Map<DyeColorant, DyedVariants> DYE_ITEM_VARIANTS = new HashMap<>();
+    public static final Map<DyeColorant, DyedVariants> DYED_VARIANTS = new HashMap<>();
 
     public List<Item> dyedItems;
-    public List<Block> dyedBlocks;
+    public Map<BlockType, Block> dyedBlocks;
 
     public DyeColorant dyeColorant;
 
-    protected DyedVariants(List<Item> dyedItems, List<Block> dyedBlocks, DyeColorant dyeColorant){
+    private Builder builder;
+
+    protected DyedVariants(List<Item> dyedItems, Map<BlockType, Block> dyedBlocks, DyeColorant dyeColorant, Builder builder){
         this.dyedItems = dyedItems;
         this.dyedBlocks = dyedBlocks;
         this.dyeColorant = dyeColorant;
+        this.builder = builder;
     }
 
     @Override
@@ -45,59 +44,60 @@ public class DyedVariants {
         return "[ " + dyeColorant.toString() + " / " + dyedBlocks.toString() + " / " + dyedItems.toString() + " ]";
     }
 
+    public static void addToAlreadyExistingVariants(BaseBlockBuilder baseBlockBuilder){
+        if(!DYED_VARIANTS.isEmpty()) {
+            for (Map.Entry<DyeColorant, DyedVariants> entry : DYED_VARIANTS.entrySet()) {
+                DyedVariants dyedVariants = entry.getValue();
+                dyedVariants.builder.addColoredVariant(dyedVariants, baseBlockBuilder);
+            }
+        }
+    }
+
     public static class Builder {
-
-        private static final OwoItemSettings BASE_BLOCK_ITEM_SETTINGS = new OwoItemSettings().group(ItemGroup.MISC).tab(2);
-        private static final OwoItemSettings BASE_ITEM_SETTINGS = new OwoItemSettings().group(ItemGroup.MISC).tab(3);
-
         public DyeColorant dyeColorant;
 
         private final BlockBuilder blockBuilder;
         private final ItemBuilder itemBuilder;
 
         public Builder(DyeColorant dyeColorant, Item.Settings settings){
-            this(dyeColorant, settings, settings, dyeColorant.getId().getNamespace());
+            this(dyeColorant, settings, settings);
         }
 
         public Builder(DyeColorant dyeColorant, Item.Settings itemSettings, Item.Settings blockItemSettings){
-            this(dyeColorant, itemSettings, blockItemSettings, dyeColorant.getId().getNamespace());
-        }
-
-        public Builder(DyeColorant dyeColorant, Item.Settings settings, String modid){
-            this(dyeColorant, settings, settings, modid);
-        }
-
-        public Builder(DyeColorant dyeColorant, Item.Settings itemSettings, Item.Settings blockItemSettings, String modid){
-            this.blockBuilder = new BlockBuilder(dyeColorant, blockItemSettings, modid);
-            this.itemBuilder = new ItemBuilder(dyeColorant, itemSettings, modid);
+            this.blockBuilder = new BlockBuilder(dyeColorant, blockItemSettings, dyeColorant.getId().getNamespace());
+            this.itemBuilder = new ItemBuilder(dyeColorant, itemSettings, dyeColorant.getId().getNamespace());
 
             this.dyeColorant = dyeColorant;
         }
 
         @ApiStatus.Internal
-        protected Builder(DyeColorant dyeColorant, String modid){
-            this(dyeColorant, BASE_ITEM_SETTINGS, BASE_BLOCK_ITEM_SETTINGS, modid);
+        protected Builder(DyeColorant dyeColorant){
+            this.blockBuilder = new BlockBuilder(dyeColorant, new Item.Settings(), dyeColorant.getId().getNamespace()).readOnlyMode();
+            this.itemBuilder = new ItemBuilder(dyeColorant, new Item.Settings(), dyeColorant.getId().getNamespace()).readOnlyMode();
+
+            this.dyeColorant = dyeColorant;
         }
 
-        public DyedVariants createColoredVariants(boolean useJelloAPIModelRedirect){
-            List<Block> blockVariants = this.blockBuilder.createBlockVariants(useJelloAPIModelRedirect);
-            List<Item> itemVariants = this.itemBuilder.createItemVariants(useJelloAPIModelRedirect);
+        public DyedVariants createColoredVanillaVariants(boolean useJelloAPIModelRedirect){
+            Map<BlockType, Block> blockVariants = this.blockBuilder.createBlockVariants(useJelloAPIModelRedirect);
+            List<Item> itemVariants;
 
-            DyedVariants dyedVariant = new DyedVariants(itemVariants, blockVariants, this.dyeColorant);
-            DYE_ITEM_VARIANTS.put(this.dyeColorant, dyedVariant);
+            if(Objects.equals(dyeColorant.getId().getNamespace(), Jello.MODID)) {
+                itemVariants = this.itemBuilder.createItemVariants(new OwoItemSettings().group(ItemGroup.MISC).tab(1));
+            }else{
+                itemVariants = this.itemBuilder.createItemVariants(useJelloAPIModelRedirect);
+            }
 
-            return dyedVariant;
+            DyedVariants dyedVariants = new DyedVariants(itemVariants, blockVariants, this.dyeColorant, this);
+
+            ColorBlockRegistry.registerDyeColorant(dyeColorant, dyedVariants);
+
+            return DYED_VARIANTS.put(dyeColorant, new DyedVariants(itemVariants, blockVariants, this.dyeColorant, this));
         }
 
-        @ApiStatus.Internal
-        protected DyedVariants createColoredVariants(Item.Settings dyeItemSettings){
-            List<Block> blockVariants = this.blockBuilder.createBlockVariants(true);
-            List<Item> itemVariants = this.itemBuilder.createItemVariants(dyeItemSettings, true);
-
-            DyedVariants dyedVariant = new DyedVariants(itemVariants, blockVariants, this.dyeColorant);
-            DYE_ITEM_VARIANTS.put(this.dyeColorant, dyedVariant);
-
-            return dyedVariant;
+        public void addColoredVariant(DyedVariants dyedVariants, BaseBlockBuilder baseBlockBuilder){
+            Map<BlockType, Block> blockVariants = this.blockBuilder.createBlockVariant(baseBlockBuilder);
+            dyedVariants.dyedBlocks.putAll(blockVariants);
         }
 
         private static class BlockBuilder {
@@ -107,163 +107,129 @@ public class DyedVariants {
             private final String modid;
 
             private boolean useJelloAPIModelRedirect = true;
+            private boolean readOnly = false;
 
-            private List<Block> BLOCK_VARS;
+            private Map<BlockType, Block> BLOCK_VARS;
 
             private BlockBuilder(DyeColorant dyeColorant, Item.Settings settings, String modid){
+                VanillaBlockBuilder.init();
+
                 this.dyeColorant = dyeColorant;
                 this.settings = settings;
                 this.modid = modid;
             }
 
-            private Block createConcreteVariant() {
-                Block block = new ColoredBlock(AbstractBlock.Settings.of(Material.STONE, DyeColorantRegistry.Constants.NULL_VALUE_OLD).requiresTool().strength(1.8F), this.dyeColorant);
-                BLOCK_VARS.add(block);
+            public Map<BlockType, Block> createBlockVariants(boolean useJelloAPIModelRedirect) {
+                BLOCK_VARS = new HashMap<>();
 
-                return registerBlock("_concrete", block);
-            }
-
-            private Block createConcretePowderVariant(Block concreteBlock) {
-                Block block = new ColoredConcretePowderBlock(concreteBlock, AbstractBlock.Settings.of(Material.AGGREGATE, DyeColorantRegistry.Constants.NULL_VALUE_OLD).strength(0.5F).sounds(BlockSoundGroup.SAND), this.dyeColorant);
-                BLOCK_VARS.add(block);
-
-                return registerBlock("_concrete_powder", block);
-            }
-
-            private Block createTerracottaVariant() {
-                Block block = new ColoredBlock(AbstractBlock.Settings.of(Material.STONE, DyeColorantRegistry.Constants.NULL_VALUE_OLD).requiresTool().strength(1.25F, 4.2F), this.dyeColorant);
-                BLOCK_VARS.add(block);
-
-                return registerBlock("_terracotta", block);
-            }
-
-            private Block createWoolVariant() {
-                Block block = new ColoredBlock(AbstractBlock.Settings.of(Material.WOOL, DyeColorantRegistry.Constants.NULL_VALUE_OLD).strength(0.8F).sounds(BlockSoundGroup.WOOL), this.dyeColorant);
-                BLOCK_VARS.add(block);
-
-                return registerBlock("_wool", block);
-            }
-
-            private Block createCarpetVariant() {
-                Block block = new ColoredCarpetBlock(AbstractBlock.Settings.of(Material.CARPET, DyeColorantRegistry.Constants.NULL_VALUE_OLD).strength(0.1F).sounds(BlockSoundGroup.WOOL), this.dyeColorant);
-                BLOCK_VARS.add(block);
-
-                return registerBlock("_carpet", block);
-            }
-
-            public Block createCandleVariant(){
-                Block block = new ColoredCandleBlock(this.dyeColorant ,AbstractBlock.Settings.of(Material.DECORATION, DyeColorantRegistry.Constants.NULL_VALUE_OLD).nonOpaque().strength(0.1F).sounds(BlockSoundGroup.CANDLE).luminance(CandleBlock.STATE_TO_LUMINANCE));
-                BLOCK_VARS.add(block);
-
-                return registerBlock("_candle", block);
-            }
-
-            public Block createCandleCakeVariant(Block candleBlock){
-                Block block = new ColoredCandleCakeBlock(this.dyeColorant, candleBlock, AbstractBlock.Settings.copy(Blocks.CANDLE_CAKE));
-                BLOCK_VARS.add(block);
-
-                return registerBlock("_candle_cake", block, false);
-            }
-
-            private Block createBedVariant() {
-                Set<Block> BED_VARS = new HashSet<>(((BlockEntityTypeAccessor) BlockEntityType.BED).jello$getBlocks());
-
-                Block block = new BedBlock(DyeColorantRegistry.Constants.NULL_VALUE_OLD,
-                        AbstractBlock.Settings.of(Material.WOOL, state -> state.get(BedBlock.PART) == BedPart.FOOT ? MapColor.CLEAR : MapColor.WHITE_GRAY).sounds(BlockSoundGroup.WOOD).strength(0.2F).nonOpaque());
-                ((DyeBlockStorage)block).setDyeColor(this.dyeColorant);
-                BLOCK_VARS.add(block);
-                BED_VARS.add(block);
-
-                ((BlockEntityTypeAccessor) BlockEntityType.BED).jello$setBlocks(BED_VARS);
-
-                return registerBlock("_bed", block);
-            }
-
-            public Block createGlassVariant(){
-                Block block = new ColoredGlassBlock(this.dyeColorant, AbstractBlock.Settings.of(Material.GLASS).strength(0.3F).sounds(BlockSoundGroup.GLASS).nonOpaque());
-                BLOCK_VARS.add(block);
-
-                return registerBlock("_glass", block);
-            }
-
-            public Block createGlassPaneVariant(){
-                Block block = new ColoredGlassPaneBlock(this.dyeColorant, AbstractBlock.Settings.of(Material.GLASS).strength(0.3F).sounds(BlockSoundGroup.GLASS).nonOpaque());
-                BLOCK_VARS.add(block);
-
-                return registerBlock("_glass_pane", block);
-            }
-
-            private Block createShulkerVariant() {
-                Set<Block> SHULKER_VARS = new HashSet<>(((BlockEntityTypeAccessor) BlockEntityType.SHULKER_BOX).jello$getBlocks());
-
-                Block block = createShulkerBoxBlock(AbstractBlock.Settings.of(Material.SHULKER_BOX, DyeColorantRegistry.Constants.NULL_VALUE_OLD));
-                ((DyeBlockStorage) block).setDyeColor(this.dyeColorant);
-                BLOCK_VARS.add(block);
-                SHULKER_VARS.add(block);
-
-                ((BlockEntityTypeAccessor) BlockEntityType.SHULKER_BOX).jello$setBlocks(SHULKER_VARS);
-
-                return registerBlock("_shulker_box", block);
-            }
-
-            private ShulkerBoxBlock createShulkerBoxBlock(AbstractBlock.Settings settings) {
-                AbstractBlock.ContextPredicate contextPredicate = (state, world, pos) -> {
-                    BlockEntity blockEntity = world.getBlockEntity(pos);
-                    if (!(blockEntity instanceof ShulkerBoxBlockEntity)) {
-                        return true;
-                    } else {
-                        ShulkerBoxBlockEntity shulkerBoxBlockEntity = (ShulkerBoxBlockEntity) blockEntity;
-                        return shulkerBoxBlockEntity.suffocates();
-                    }
-                };
-                return new ShulkerBoxBlock(DyeColorantRegistry.Constants.NULL_VALUE_OLD, settings.strength(2.0F).dynamicBounds().nonOpaque().suffocates(contextPredicate).blockVision(contextPredicate));
-            }
-
-            public List<Block> createBlockVariants(boolean useJelloAPIModelRedirect) {
-                BLOCK_VARS = new ArrayList<>();
                 this.useJelloAPIModelRedirect = useJelloAPIModelRedirect;
 
-                Block concreteBlock = createConcreteVariant();
-                Block concretePowderBlock = createConcretePowderVariant(concreteBlock);
-                Block terracottaBlock = createTerracottaVariant();
-                Block woolBlock = createWoolVariant();
-                Block carpetBlock = createCarpetVariant();
-                Block glassBlock = createGlassVariant();
-                Block glassPaneBlock = createGlassPaneVariant();
-                Block bedBlock = createBedVariant();
+                for(VanillaBlockBuilder builder : VanillaBlockBuilder.VANILLA_BUILDERS){
+                    for(BlockType.RegistryHelper registryHelper : builder.build(dyeColorant, readOnly)){
+                        BLOCK_VARS.put(registryHelper.blockType, registerBlock(registryHelper, registryHelper.blockType.vanillaItemGroupOverride));
 
-                Block candleBlock = createCandleVariant();
-                TagInjector.injectItems(ItemTags.CANDLES.id(), candleBlock.asItem());
-                TagInjector.injectBlocks(BlockTags.CANDLES.id(), candleBlock);
+                        if(!readOnly){
+                            registryHelper.initTags();
+                        }
+                    }
+                }
 
-                Block candleCakeBlock = createCandleCakeVariant(candleBlock);
-                TagInjector.injectBlocks(BlockTags.CANDLE_CAKES.id(), candleCakeBlock);
+                for(BaseBlockBuilder builder : BaseBlockBuilder.ADDITIONAL_BUILDERS){
+                    for(BlockType.RegistryHelper registryHelper : builder.build(dyeColorant)){
+                        BLOCK_VARS.put(registryHelper.blockType, registerBlock(registryHelper));
 
-                Block shulkerBlock = createShulkerVariant();
+                        registryHelper.initTags();
+                    }
+                }
+
+                readOnly = false;
+                return BLOCK_VARS;
+            }
+
+            public Map<BlockType, Block> createBlockVariant(BaseBlockBuilder baseBlockBuilder) {
+                BLOCK_VARS = new HashMap<>();
+
+                for(BlockType.RegistryHelper registryHelper : baseBlockBuilder.build(dyeColorant)){
+                    BLOCK_VARS.put(registryHelper.blockType, registerBlock(registryHelper, baseBlockBuilder.modid, registryHelper.blockType.vanillaItemGroupOverride));
+
+                    if(!readOnly){
+                        registryHelper.initTags();
+                    }
+                }
+
+                readOnly = false;
 
                 return BLOCK_VARS;
             }
 
-            private Block registerBlock(String suffix, Block block) {
-                return registerBlock(suffix, block, true);
+
+            private Block registerBlock(BlockType.RegistryHelper registryHelper){
+                return registerBlock(registryHelper, null,null);
             }
 
-            private Block registerBlock(String suffix, Block block, boolean createBlockItem) {
-                Identifier identifier = new Identifier(this.modid, this.dyeColorant.getId().getPath() + suffix);
+            private Block registerBlock(BlockType.RegistryHelper registryHelper, ItemGroup vanillaItemGroupOverride){
+                return registerBlock(registryHelper, null, vanillaItemGroupOverride);
+            }
 
-                if(this.useJelloAPIModelRedirect){
-                    DyeColorantRegistry.IDENTIFIER_RESOURCE_REDIRECTS.add(identifier);
+            private Block registerBlock(BlockType.RegistryHelper registryHelper, String modidOverride, ItemGroup vanillaItemGroupOverride) {
+                Identifier identifier;
+                if(this.modid == "minecraft" && modidOverride != null) {
+                    identifier = new Identifier(modidOverride, this.dyeColorant.getId().getPath() + registryHelper.blockType.getSuffix());
+                }else{
+                    identifier = new Identifier(this.modid, this.dyeColorant.getId().getPath() + registryHelper.blockType.getSuffix());
                 }
 
-                if(createBlockItem) {
-                    if (!(block instanceof ShulkerBoxBlock)) {
-                        Registry.register(Registry.ITEM, identifier, new ColoredBlockItem(block, this.settings));
-                    } else {
-                        Registry.register(Registry.ITEM, identifier, new BlockItem(block, this.settings.maxCount(1)));
+                if(!readOnly) {
+                    ItemGroup groupCache = null;
+                    if(vanillaItemGroupOverride != null && this.modid == "minecraft"){
+                        groupCache = ((SettingsAccessor)this.settings).getGroup();
+                        this.settings.group(vanillaItemGroupOverride);
                     }
-                }
 
-                return Registry.register(Registry.BLOCK, identifier, block);
+                    if(this.useJelloAPIModelRedirect){
+                        DyeColorantRegistry.IDENTIFIER_RESOURCE_REDIRECTS.add(identifier);
+                    }
+
+                    Block block = registryHelper.block;
+                    if (registryHelper.createBlockItem) {
+                        if (block instanceof ShulkerBoxBlock) {
+                            Registry.register(Registry.ITEM, identifier, new BlockItem(block, this.settings.maxCount(1)));
+                        } else {
+                            Registry.register(Registry.ITEM, identifier, new ColoredBlockItem(block, this.settings.maxCount(64)));
+                        }
+                    }
+
+                    if(groupCache != null){
+                        this.settings.group(groupCache);
+                    }
+
+                    return Registry.register(Registry.BLOCK, identifier, block);
+                }else{
+                    return Registry.BLOCK.get(identifier);
+                }
+            }
+
+            public static Item.Settings copySettings(Item.Settings oldSettings){
+                SettingsAccessor settingsAccessor = (SettingsAccessor)oldSettings;
+
+                Item.Settings newSettings = new Item.Settings();
+
+                if(settingsAccessor.isFireproof())
+                    newSettings.fireproof();
+
+                newSettings.maxDamageIfAbsent(settingsAccessor.getMaxDamage())
+                        .maxCount(settingsAccessor.getMaxCount())
+                        .group(settingsAccessor.getGroup())
+                        .food(settingsAccessor.getFoodComponent())
+                        .recipeRemainder(settingsAccessor.getRecipeRemainder());
+
+                return newSettings;
+            }
+
+            public BlockBuilder readOnlyMode(){
+                this.readOnly = true;
+
+                return this;
             }
         }
 
@@ -274,6 +240,7 @@ public class DyedVariants {
             private final String modid;
 
             private boolean useJelloAPIModelRedirect = true;
+            private boolean readOnly = false;
 
             private List<Item> itemVariants;
 
@@ -288,26 +255,32 @@ public class DyedVariants {
             }
 
             private DyeItem createDyeItem(Item.Settings settings){
-                DyeItem dyeItem = (DyeItem) register("_dye", new DyeItem(this.dyeColorant, settings));
+                DyeItem dyeItem;
+
+                if(!readOnly) {
+                    dyeItem = (DyeItem) register("_dye", new io.wispforest.jello.api.dye.item.DyeItem(this.dyeColorant, settings));
+                }else{
+                    dyeItem = (DyeItem) register("_dye", null);
+                }
 
                 itemVariants.add(dyeItem);
                 return dyeItem;
             }
 
             @ApiStatus.Internal
-            private List<Item> createItemVariants(Item.Settings settings, boolean useJelloAPIModelRedirect){
-                itemVariants = new ArrayList<>();
-
-                Item DyeItem = createDyeItem(settings);
-
-                return itemVariants;
+            private List<Item> createItemVariants(Item.Settings settings){
+                return createItemVariants(settings, false);
             }
 
             private List<Item> createItemVariants(boolean useJelloAPIModelRedirect){
+                return createItemVariants(this.settings, useJelloAPIModelRedirect);
+            }
+
+            private List<Item> createItemVariants(Item.Settings settings, boolean useJelloAPIModelRedirect){
                 itemVariants = new ArrayList<>();
                 this.useJelloAPIModelRedirect = useJelloAPIModelRedirect;
 
-                Item DyeItem = createDyeItem();
+                Item DyeItem = createDyeItem(settings);
 
                 return itemVariants;
             }
@@ -315,11 +288,21 @@ public class DyedVariants {
             private Item register(String suffix, Item item){
                 Identifier id = new Identifier(this.modid ,dyeColorant.getId().getPath() + suffix);
 
-                if(this.useJelloAPIModelRedirect){
-                    DyeColorantRegistry.IDENTIFIER_RESOURCE_REDIRECTS.add(id);
-                }
+                if(!readOnly) {
+                    if(this.useJelloAPIModelRedirect){
+                        DyeColorantRegistry.IDENTIFIER_RESOURCE_REDIRECTS.add(id);
+                    }
 
-                return Registry.register(Registry.ITEM, id, item);
+                    return Registry.register(Registry.ITEM, id, item);
+                }else{
+                    return Registry.ITEM.get(id);
+                }
+            }
+
+            public ItemBuilder readOnlyMode(){
+                this.readOnly = true;
+
+                return this;
             }
         }
     }

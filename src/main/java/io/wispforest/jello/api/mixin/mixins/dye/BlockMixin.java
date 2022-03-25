@@ -80,7 +80,7 @@ public abstract class BlockMixin extends AbstractBlock implements DyeBlockStorag
 //        }
 //    }
 
-    private DyeColorant blockDyeColor = DyeColorantRegistry.Constants.NULL_VALUE_NEW;
+    private DyeColorant blockDyeColor = DyeColorantRegistry.NULL_VALUE_NEW;
 
     @Override
     public void setDyeColor(DyeColorant dyeColorant) {
@@ -94,7 +94,7 @@ public abstract class BlockMixin extends AbstractBlock implements DyeBlockStorag
 
     @Override
     public boolean isBlockDyed() {
-        return getDyeColor() != DyeColorantRegistry.Constants.NULL_VALUE_NEW;
+        return getDyeColor() != DyeColorantRegistry.NULL_VALUE_NEW;
     }
 
 

@@ -5,13 +5,20 @@ import io.wispforest.jello.api.dye.block.ColoredCandleCakeBlock;
 import io.wispforest.jello.api.dye.block.ColoredGlassPaneBlock;
 import io.wispforest.jello.api.dye.registry.DyeColorantJsonTest;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
+import io.wispforest.jello.api.dye.registry.builder.BaseBlockBuilder;
+import io.wispforest.jello.api.dye.registry.builder.BlockType;
+import io.wispforest.jello.api.dye.registry.builder.VanillaBlockBuilder;
+import io.wispforest.jello.api.registry.ColorBlockRegistry;
 import io.wispforest.jello.api.util.MessageUtil;
 import io.wispforest.jello.main.common.Jello;
+import io.wispforest.jello.main.common.blocks.SlimeBlockColored;
+import io.wispforest.jello.main.common.blocks.SlimeSlabColored;
 import net.fabricmc.fabric.api.client.model.ModelProviderContext;
 import net.fabricmc.fabric.api.client.model.ModelProviderException;
 import net.fabricmc.fabric.api.client.model.ModelVariantProvider;
 import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.model.ModelLoader;
 import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.client.render.model.json.ModelVariantMap;
 import net.minecraft.client.util.ModelIdentifier;
@@ -31,13 +38,22 @@ public class BlockModelRedirect implements ModelVariantProvider {
 
     private static final MessageUtil MESSAGE_TOOL = new MessageUtil("Block Model Redirect");
 
+    private static final Set<BaseBlockBuilder> ALL_BUILDERS = new HashSet<>();
+
     @Override
     public @Nullable UnbakedModel loadModelVariant(ModelIdentifier modelId, ModelProviderContext context) throws ModelProviderException {
+        if(ALL_BUILDERS.isEmpty()){
+            ALL_BUILDERS.addAll(VanillaBlockBuilder.VANILLA_BUILDERS);
+            ALL_BUILDERS.addAll(BaseBlockBuilder.ADDITIONAL_BUILDERS);
+        }
+
         if (DyeColorantRegistry.shouldRedirectModelResource(new Identifier(modelId.getNamespace(), modelId.getPath()))) {
             //if(Objects.equals(modelId.getNamespace(), DyeColorantJsonTest.JSON_NAMESPACE)){
             String[] stringParts = modelId.getPath().split("_");
 
             //MESSAGE_TOOL.infoMessage(Arrays.toString(stringParts));
+
+
 
             if (Objects.equals(stringParts[stringParts.length - 1], "dye")) {
                 return context.loadModel(new Identifier("jello", "item/dynamic_dye"));
@@ -49,6 +65,16 @@ public class BlockModelRedirect implements ModelVariantProvider {
             } else {
                 loadFromDirectory = "block";
             }
+
+//            for(BaseBlockBuilder builder : ALL_BUILDERS){
+//                List<BlockType> blockTypes = builder.getBlockTypes();
+//
+//                for(BlockType type : blockTypes) {
+//                    if (type.isVariantType(modelId)) {
+//                        return context.loadModel(new Identifier(builder.modid, loadFromDirectory + "/" + type.blockType));
+//                    }
+//                }
+//            }
 
             if (Objects.equals(stringParts[stringParts.length - 1], "terracotta")) {
                 return context.loadModel(new Identifier("jello", loadFromDirectory + "/terracotta"));
@@ -83,10 +109,25 @@ public class BlockModelRedirect implements ModelVariantProvider {
                 return null;
             }else if(Objects.equals(stringParts[stringParts.length - 1], "cake")){
                 return null;
+            }else if(Objects.equals(stringParts[stringParts.length - 1], "block")){
+                if (loadFromDirectory.equals("item")) {
+                    return context.loadModel(new Identifier("jello", loadFromDirectory + "/slime_block_multicolor"));
+                }
+            }else if(Objects.equals(stringParts[stringParts.length - 1], "slab")){
+                if (loadFromDirectory.equals("item")) {
+                    return context.loadModel(new Identifier("jello", loadFromDirectory + "/slime_slab_multicolor"));
+                }
             }
 
-            MESSAGE_TOOL.infoMessage(Arrays.toString(stringParts));
-            MESSAGE_TOOL.failMessage("{Deetz Nuts} Failed to find model for " + modelId.toString());
+//            UnbakedModel possibleModel = context.loadModel(modelId);
+//            if(MISSING_MODEL == null){
+//                MISSING_MODEL = context.loadModel(ModelLoader.MISSING_ID);
+//            }
+//
+//            if(possibleModel == MISSING_MODEL){
+//                MESSAGE_TOOL.infoMessage(Arrays.toString(stringParts));
+//                MESSAGE_TOOL.failMessage("{Deetz Nuts} Failed to find model for " + modelId.toString());
+//            }
         }
 
         return null;
@@ -99,6 +140,9 @@ public class BlockModelRedirect implements ModelVariantProvider {
         private static final ResourceRedirectEntryPredicate GLASS_PANE_PREDICATE = new ResourceRedirectEntryPredicate(ColoredGlassPaneBlock.class, new Identifier(Jello.MODID, "stained_glass_pane"));
         private static final ResourceRedirectEntryPredicate CANDLE_PREDICATE = new ResourceRedirectEntryPredicate(ColoredCandleBlock.class, new Identifier(Jello.MODID, "candle"));
         private static final ResourceRedirectEntryPredicate CANDLE_CAKE_PREDICATE = new ResourceRedirectEntryPredicate(ColoredCandleCakeBlock.class, new Identifier(Jello.MODID, "candle_cake"));
+
+        private static final ResourceRedirectEntryPredicate SLIME_BLOCK_PREDICATE = new ResourceRedirectEntryPredicate(SlimeBlockColored.class, new Identifier(Jello.MODID, "slime_block"));
+        private static final ResourceRedirectEntryPredicate SLIME_SLAB_PREDICATE = new ResourceRedirectEntryPredicate(SlimeSlabColored.class, new Identifier(Jello.MODID, "colored_slime_slab"));
 
         private final Class<? extends Block> klazz;
 

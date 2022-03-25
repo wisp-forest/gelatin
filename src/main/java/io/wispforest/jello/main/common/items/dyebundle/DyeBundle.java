@@ -111,7 +111,7 @@ public class DyeBundle extends BundleItem {
             if(firstDyeItem != null) {
                 DyeColorant dyeColorant = ((DyeItemStorage)firstDyeItem).getDyeColor();
 
-                if (dyeColorant.isIn(JelloTags.DyeColor.VANILLA_DYES) && player.shouldCancelInteraction()) {
+                if (player.shouldCancelInteraction()) {
                     BlockState blockState = world.getBlockState(context.getBlockPos());
 
                     if (!ColorBlockEventMethods.changeBlockColor(world, context.getBlockPos(), blockState, ColorBlockRegistry.getVariant(blockState.getBlock(), dyeColorant), player)) {

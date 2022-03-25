@@ -1,6 +1,7 @@
 package io.wispforest.jello.main.common.data.providers;
 
 import com.google.gson.*;
+import io.wispforest.jello.api.dye.registry.DyedVariants;
 import io.wispforest.jello.main.common.Jello;
 import io.wispforest.jello.api.util.MessageUtil;
 import io.wispforest.jello.main.common.blocks.BlockRegistry;
@@ -11,6 +12,7 @@ import io.wispforest.jello.api.dye.DyeColorant;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.block.Blocks;
+import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
@@ -18,6 +20,7 @@ import net.minecraft.util.JsonHelper;
 import net.minecraft.util.registry.Registry;
 
 import java.io.InputStreamReader;
+import java.util.Map;
 
 public class JelloTagsProvider {
 
@@ -104,9 +107,9 @@ public class JelloTagsProvider {
                             Blocks.RED_STAINED_GLASS,
                             Blocks.BLACK_STAINED_GLASS);
 
-            BlockRegistry.SlimeSlabRegistry.COLORED_SLIME_SLABS.forEach(this.getOrCreateTagBuilder(JelloTags.Blocks.COLORED_SLIME_SLABS)::add);
+            this.getOrCreateTagBuilder(JelloTags.Blocks.COLORED_SLIME_SLABS);//BlockRegistry.SlimeSlabRegistry.COLORED_SLIME_SLABS.forEach(this.getOrCreateTagBuilder(JelloTags.Blocks.COLORED_SLIME_SLABS)::add);
 
-            BlockRegistry.SlimeBlockRegistry.COLORED_SLIME_BLOCKS.forEach(this.getOrCreateTagBuilder(JelloTags.Blocks.COLORED_SLIME_BLOCKS)::add);
+            this.getOrCreateTagBuilder(JelloTags.Blocks.COLORED_SLIME_BLOCKS);//BlockRegistry.SlimeBlockRegistry.COLORED_SLIME_BLOCKS.forEach(this.getOrCreateTagBuilder(JelloTags.Blocks.COLORED_SLIME_BLOCKS)::add);
 
             this.getOrCreateTagBuilder(JelloTags.Blocks.SLIME_SLABS).addTag(JelloTags.Blocks.COLORED_SLIME_SLABS).add(BlockRegistry.SlimeSlabRegistry.SLIME_SLAB);
 
@@ -127,56 +130,63 @@ public class JelloTagsProvider {
         @Override
         protected void generateTags() {
             this.getOrCreateTagBuilder(JelloTags.Items.SLIME_SLABS).add(BlockRegistry.SlimeSlabRegistry.SLIME_SLAB.asItem());
-            BlockRegistry.SlimeSlabRegistry.COLORED_SLIME_SLABS.forEach((block) -> this.getOrCreateTagBuilder(JelloTags.Items.SLIME_SLABS).add(block.asItem()));
+//            BlockRegistry.SlimeSlabRegistry.COLORED_SLIME_SLABS.forEach((block) -> this.getOrCreateTagBuilder(JelloTags.Items.SLIME_SLABS).add(block.asItem()));
 
             this.getOrCreateTagBuilder(JelloTags.Items.SLIME_BLOCKS).add(Blocks.SLIME_BLOCK.asItem());
-            BlockRegistry.SlimeBlockRegistry.COLORED_SLIME_BLOCKS.forEach((block) -> this.getOrCreateTagBuilder(JelloTags.Items.SLIME_BLOCKS).add(block.asItem()));
+            //BlockRegistry.SlimeBlockRegistry.COLORED_SLIME_BLOCKS.forEach((block) -> this.getOrCreateTagBuilder(JelloTags.Items.SLIME_BLOCKS).add(block.asItem()));
 
             this.getOrCreateTagBuilder(JelloTags.Items.SLIME_BALLS).add(Items.SLIME_BALL);
             ItemRegistry.SlimeBallItemRegistry.SLIME_BALLS.forEach((item) -> this.getOrCreateTagBuilder(JelloTags.Items.SLIME_BALLS).add(item));
 
-        }
-    }
-
-    private static final Gson BIG_GSON = new GsonBuilder().setPrettyPrinting().create();
-
-    public static class GeneratedDyeItemTagProvider extends FabricTagProvider.ItemTagProvider {
-
-        public GeneratedDyeItemTagProvider(FabricDataGenerator dataGenerator) {
-            super(dataGenerator);
-        }
-
-        @Override
-        protected void generateTags() {
-            MessageUtil messager = new MessageUtil("JsonToRegistry");
-
-            FabricTagProvider<Item>.FabricTagBuilder<Item> tagBuilder = this.getOrCreateTagBuilder(JelloTags.Items.DYE_ITEMS);
-
-            try {
-                var colorDataBaseFile = DyeColorantRegistry.class.getClassLoader().getResourceAsStream("assets/jello/other/colorDatabase.json");
-
-                JsonArray names = JsonHelper.getArray(BIG_GSON.fromJson(new InputStreamReader(colorDataBaseFile), JsonObject.class), "colors");
-
-                for (var i = 0; i < names.size(); i++) {
-                    JsonObject currentObject = names.get(i).getAsJsonObject();
-
-                    Item dyeItem = Registry.ITEM.get(new Identifier(Jello.MODID + "_dji", currentObject.get("identifierSafeName").getAsString() + "_dye"));
-
-                    if(dyeItem == Items.AIR){
-                        dyeItem = Registry.ITEM.get(new Identifier(Jello.MODID + "_dji", currentObject.get("identifierSafeName").getAsString() + "_2" + "_dye"));
+            for(Map.Entry<DyeColorant, DyedVariants> entry : DyedVariants.DYED_VARIANTS.entrySet()){
+                for(Item item : entry.getValue().dyedItems){
+                    if(item instanceof DyeItem){
+                        this.getOrCreateTagBuilder(JelloTags.Items.DYE_ITEMS).add(item);
                     }
-
-                    tagBuilder.add(dyeItem);
                 }
-
-                messager.stopTimerPrint("Data gen for tags based on DyeColor Database was ");
-            }catch (JsonSyntaxException | JsonIOException e) {
-                messager.failMessage("It seems that tags building has failed!");
-                e.printStackTrace();
             }
-
         }
     }
+
+    //private static final Gson BIG_GSON = new GsonBuilder().setPrettyPrinting().create();
+
+//    public static class GeneratedDyeItemTagProvider extends FabricTagProvider.ItemTagProvider {
+//
+//        public GeneratedDyeItemTagProvider(FabricDataGenerator dataGenerator) {
+//            super(dataGenerator);
+//        }
+//
+//        @Override
+//        protected void generateTags() {
+//            MessageUtil messager = new MessageUtil("JsonToRegistry");
+//
+//            FabricTagProvider<Item>.FabricTagBuilder<Item> tagBuilder = this.getOrCreateTagBuilder(JelloTags.Items.DYE_ITEMS);
+//
+//            try {
+//                var colorDataBaseFile = DyeColorantRegistry.class.getClassLoader().getResourceAsStream("assets/jello/other/colorDatabase.json");
+//
+//                JsonArray names = JsonHelper.getArray(BIG_GSON.fromJson(new InputStreamReader(colorDataBaseFile), JsonObject.class), "colors");
+//
+//                for (var i = 0; i < names.size(); i++) {
+//                    JsonObject currentObject = names.get(i).getAsJsonObject();
+//
+//                    Item dyeItem = Registry.ITEM.get(new Identifier(Jello.MODID, currentObject.get("identifierSafeName").getAsString() + "_dye"));
+//
+//                    if(dyeItem == Items.AIR){
+//                        dyeItem = Registry.ITEM.get(new Identifier(Jello.MODID, currentObject.get("identifierSafeName").getAsString() + "_2" + "_dye"));
+//                    }
+//
+//                    tagBuilder.add(dyeItem);
+//                }
+//
+//                messager.stopTimerPrint("Data gen for tags based on DyeColor Database was ");
+//            }catch (JsonSyntaxException | JsonIOException e) {
+//                messager.failMessage("It seems that tags building has failed!");
+//                e.printStackTrace();
+//            }
+//
+//        }
+//    }
 
     public static class DyeTagProvider extends FabricTagProvider<DyeColorant>{
 

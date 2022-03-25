@@ -5,6 +5,7 @@ import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.mixin.ducks.DyeItemStorage;
 import io.wispforest.jello.api.util.ColorUtil;
 import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvironmentInterface;
 import net.fabricmc.loader.impl.FabricLoaderImpl;
 import net.minecraft.client.color.item.ItemColorProvider;
@@ -23,11 +24,11 @@ import java.util.Random;
 public class DyeItem extends net.minecraft.item.DyeItem implements DyeItemStorage, ItemColorProvider {
 
     public static final String TEXTURE_VARIANT_KEY = "Texture_variant";
-    private static final int NUMBER_OF_TEXTURE_VAR = 9;
+    public static final int NUMBER_OF_TEXTURE_VAR = 9;
+
+    protected int textureVariant = 0;
 
     protected final DyeColorant mainColor;
-
-    protected int texture_varaint = 0;
 
     public DyeItem(DyeColorant mainColor, Settings settings) {
         super(DyeColorantRegistry.Constants.NULL_VALUE_OLD, settings);
@@ -35,27 +36,26 @@ public class DyeItem extends net.minecraft.item.DyeItem implements DyeItemStorag
         this.mainColor = mainColor;
 
         if(mainColor != null){
-//            DyeColorantRegistry.DYE_COLOR_TO_DYEITEM.put(this.mainColor, this);
-
             char[] chracters = mainColor.getName().toCharArray();
 
             Random rand = new Random(Character.getNumericValue(chracters[0]) + Character.getNumericValue(chracters[chracters.length - 1]));
 
-            this.texture_varaint = rand.nextInt(NUMBER_OF_TEXTURE_VAR);
+            this.textureVariant = rand.nextInt(NUMBER_OF_TEXTURE_VAR);
         }
     }
 
-    @Override
-    public Text getName() {
-        return new LiteralText(mainColor.getDisplayName() + " Dye");
-    }
+//    @Override
+//    public Text getName() {
+//        return new LiteralText(mainColor.getDisplayName() + " Dye");
+//    }
+//
+//    @Override
+//    public Text getName(ItemStack stack) {
+//        return getName();
+//    }
 
     @Override
-    public Text getName(ItemStack stack) {
-        return getName();
-    }
-
-    @Override
+    @Environment(EnvType.CLIENT)
     public int getColor(ItemStack stack, int tintIndex) {
         return this.getDyeColor().getBaseColor();
     }
@@ -79,11 +79,12 @@ public class DyeItem extends net.minecraft.item.DyeItem implements DyeItemStorag
     @Override
     public void postProcessNbt(NbtCompound nbt) {
         super.postProcessNbt(nbt);
+
         this.setTextureVariant(nbt);
     }
 
     private void setTextureVariant(NbtCompound nbt){
-        nbt.putInt(TEXTURE_VARIANT_KEY, texture_varaint);
+        nbt.putInt(TEXTURE_VARIANT_KEY, textureVariant);
     }
 
     private static int getTextureValue(ItemStack stack){

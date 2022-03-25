@@ -1,14 +1,14 @@
 package io.wispforest.jello.api.dye.registry;
 
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.mixin.mixins.BlockEntityTypeAccessor;
 import io.wispforest.jello.main.common.Jello;
 import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.jello.api.util.MessageUtil;
 import io.wispforest.jello.main.common.data.tags.JelloTags;
 import com.google.gson.*;
-import net.minecraft.block.Block;
-import net.minecraft.block.entity.BlockEntityType;
+import io.wispforest.owo.itemgroup.OwoItemSettings;
+import net.minecraft.block.MapColor;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.MathHelper;
@@ -17,24 +17,14 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.MutableTriple;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.io.InputStreamReader;
 import java.util.*;
 
 public class DyeColorantJsonTest {
 
-    public static final String JSON_NAMESPACE = "jello_dji";
-
     private static final Gson BIG_GSON = new GsonBuilder().setPrettyPrinting().create();
-
-//    private static final String LETTERS_AND_NUMBERS = "0123456789ABCDEF";
-//    private static final List<Character> VAILID_CHARACTERS = new ArrayList<>();
-//
-//    static{
-//        for(int i = 0; i < LETTERS_AND_NUMBERS.length(); i++){
-//            VAILID_CHARACTERS.add(LETTERS_AND_NUMBERS.charAt(i));
-//        }
-//    }
 
     public static DyeColorant getRandomlyRegisteredDyeColor(){
         boolean nonVanillaDyeColor = false;
@@ -51,6 +41,9 @@ public class DyeColorantJsonTest {
         return dyeColor.value();
     }
 
+    @ApiStatus.Internal public static final OwoItemSettings BASE_BLOCK_ITEM_SETTINGS = new OwoItemSettings().group(ItemGroup.MISC).tab(2);
+    @ApiStatus.Internal public static final OwoItemSettings BASE_ITEM_SETTINGS = new OwoItemSettings().group(ItemGroup.MISC).tab(3);
+
     public static void gatherDyesFromJson(){
         MessageUtil messager = new MessageUtil("JsonToRegistry");
 
@@ -61,19 +54,22 @@ public class DyeColorantJsonTest {
                 JsonObject currentObject = names.get(i).getAsJsonObject();
 
                 Identifier colorIdentifier = new Identifier(Jello.MODID, currentObject.get("identifierSafeName").getAsString());
-                String colorName = currentObject.get("colorName").getAsString();
                 int colorValue = Integer.parseInt(currentObject.get("hexValue").getAsString(), 16);
 
                 if(DyeColorantRegistry.DYE_COLOR.containsId(colorIdentifier)){
                     //continue;
                     colorIdentifier = new Identifier(Jello.MODID, currentObject.get("identifierSafeName").getAsString() + "_2");
-                    colorName = currentObject.get("colorName").getAsString() + " 2";
                 }
 
-                DyeColorant currentDyeColor = DyeColorantRegistry.registerAndCreateVariants(colorIdentifier, colorName, colorValue);
+                if(DyeColorantRegistry.DYE_COLOR.containsId(new Identifier(currentObject.get("identifierSafeName").getAsString()))){
+                    continue;
+                }
 
-//                DyedVariants dyedVariants = DyedVariants.DYE_ITEM_VARIANTS.get(currentDyeColor);
+                DyeColorant currentDyeColor = DyeColorantRegistry.registryDyeColor(colorIdentifier, MapColor.CLEAR, colorValue);
+                DyeColorantRegistry.createDyedVariants(currentDyeColor, BASE_ITEM_SETTINGS, BASE_BLOCK_ITEM_SETTINGS, false);
             }
+
+            DyeColorantRegistry.registerModidModelRedirect(Jello.MODID);
 
             messager.stopTimerPrint("It seems that the registry filling took ");
             messager.infoMessage("Total amount of registered dyes from json are " + DyeColorantRegistry.DYE_COLOR.size());

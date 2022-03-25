@@ -1,5 +1,6 @@
 package io.wispforest.jello.main.common.data.providers;
 
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.mixin.ducks.DyeBlockStorage;
 import io.wispforest.jello.main.common.Jello;
 import io.wispforest.jello.main.common.blocks.BlockRegistry;
@@ -29,12 +30,14 @@ public class JelloRecipeProvider extends FabricRecipesProvider {
 
     @Override
     protected void generateRecipes(Consumer<RecipeJsonProvider> exporter) {
-        for(int i = 0; i < BlockRegistry.SlimeBlockRegistry.COLORED_SLIME_BLOCKS.size(); i++){
-            Block slab = BlockRegistry.SlimeSlabRegistry.COLORED_SLIME_SLABS.get(i);
-            String slabPath = Registry.BLOCK.getId(slab).getPath();
+        for(int i = 0; i < DyeColorantRegistry.Constants.VANILLA_DYES.size(); i++){
+            String slabPath = DyeColorantRegistry.Constants.VANILLA_DYES.get(i).getName() + "_slime_slab";
+            Block slab = Registry.BLOCK.get(new Identifier(Jello.MODID, slabPath));
+            //Block slab = BlockRegistry.SlimeSlabRegistry.COLORED_SLIME_SLABS.get(i);
 
-            SlimeBlockColored block = (SlimeBlockColored) BlockRegistry.SlimeBlockRegistry.COLORED_SLIME_BLOCKS.get(i);
-            String blockPath = Registry.BLOCK.getId(block).getPath();
+            String blockPath = DyeColorantRegistry.Constants.VANILLA_DYES.get(i).getName() + "_slime_block";
+            //SlimeBlockColored block = (SlimeBlockColored) BlockRegistry.SlimeBlockRegistry.COLORED_SLIME_BLOCKS.get(i);
+            Block block = Registry.BLOCK.get(new Identifier(Jello.MODID, blockPath));
 
             Item item = ItemRegistry.SlimeBallItemRegistry.SLIME_BALLS.get(i);
             String itemPath = Registry.ITEM.getId(item).getPath();

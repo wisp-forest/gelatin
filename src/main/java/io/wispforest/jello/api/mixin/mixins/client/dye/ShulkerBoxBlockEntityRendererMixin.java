@@ -29,12 +29,12 @@ public class ShulkerBoxBlockEntityRendererMixin {
     private SpriteIdentifier implementCustomColors(SpriteIdentifier spriteIdentifier, ShulkerBoxBlockEntity shulkerBoxBlockEntity){
         DyeColorant blockEntityDyeColorant = ((DyeBlockEntityStorage)shulkerBoxBlockEntity).getDyeColor();
 
-        if(blockEntityDyeColorant != DyeColorantRegistry.Constants.NULL_VALUE_NEW && !DyeColorantRegistry.Constants.VANILLA_DYES.contains(blockEntityDyeColorant)){
+        if(blockEntityDyeColorant != DyeColorantRegistry.NULL_VALUE_NEW && !DyeColorantRegistry.Constants.VANILLA_DYES.contains(blockEntityDyeColorant)){
             color = blockEntityDyeColorant;
 
             return TexturedRenderLayers.COLORED_SHULKER_BOXES_TEXTURES.get(0);
         }else{
-            color = DyeColorantRegistry.Constants.NULL_VALUE_NEW;
+            color = DyeColorantRegistry.NULL_VALUE_NEW;
         }
 
         return spriteIdentifier;
@@ -42,7 +42,7 @@ public class ShulkerBoxBlockEntityRendererMixin {
 
     @ModifyArgs(method = "render(Lnet/minecraft/block/entity/ShulkerBoxBlockEntity;FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;II)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/model/ShulkerEntityModel;render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;IIFFFF)V"))
     private void changeRenderColor(Args args){
-        if(color != DyeColorantRegistry.Constants.NULL_VALUE_NEW) {
+        if(color != DyeColorantRegistry.NULL_VALUE_NEW) {
             float[] colorComp = color.getColorComponents();
 
             args.set(4, colorComp[0]);

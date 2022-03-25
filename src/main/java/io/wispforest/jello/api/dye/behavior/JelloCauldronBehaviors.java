@@ -40,7 +40,7 @@ public class JelloCauldronBehaviors implements CauldronBehavior{
         if(cauldronType == CauldronEvent.CauldronType.WATER) {
             boolean isStack = false;
 
-            DyeColorant dyeColorant = DyeColorantRegistry.Constants.NULL_VALUE_NEW;
+            DyeColorant dyeColorant = DyeColorantRegistry.NULL_VALUE_NEW;
 
             if(stack.getItem() instanceof DyeItem dyeItem){
                 dyeColorant = ((DyeItemStorage)dyeItem).getDyeColor();
@@ -54,7 +54,7 @@ public class JelloCauldronBehaviors implements CauldronBehavior{
                 }
             }
 
-            if(dyeColorant != DyeColorantRegistry.Constants.NULL_VALUE_NEW) {
+            if(dyeColorant != DyeColorantRegistry.NULL_VALUE_NEW) {
                 ColorStorageBlockEntity blockEntity = (ColorStorageBlockEntity) world.getBlockEntity(pos);
 
                 if (blockEntity != null) {

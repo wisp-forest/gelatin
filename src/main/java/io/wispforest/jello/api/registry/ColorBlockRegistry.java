@@ -2,6 +2,10 @@ package io.wispforest.jello.api.registry;
 
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.DyeColorant;
+import io.wispforest.jello.api.dye.registry.DyedVariants;
+import io.wispforest.jello.api.dye.registry.builder.BaseBlockBuilder;
+import io.wispforest.jello.api.dye.registry.builder.BlockType;
+import io.wispforest.jello.api.dye.registry.builder.VanillaBlockBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
@@ -10,80 +14,74 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class ColorBlockRegistry {
 
     private static final Logger LOGGER = LogManager.getLogger(ColorBlockRegistry.class);
 
-    private static final Map<TagKey<Block>, Map<DyeColorant, Block>> REGISTRY = new HashMap<>();
+    public static final Map<BlockType, BlockTypeEntrysContainer> REGISTRY = new HashMap<>();
 
-    private static final DyeColorant[] VANILLA_DYES = DyeColorantRegistry.Constants.VANILLA_DYES.toArray(new DyeColorant[0]);
+    private static final List<BlockType> CURRENT_TYPES = new ArrayList<>();
 
-    public static void registerBlockSet(List<Block> blockTypes, Block defaultBlock, TagKey<Block> blockTags){
-        if(blockTypes.size() > 16){
-            loggerError("The Block List is greater than 17! Not Registering these blocks" + blockTypes.toString());
-            return;
+    static {
+        for(VanillaBlockBuilder blockBuilder : VanillaBlockBuilder.VANILLA_BUILDERS){
+            CURRENT_TYPES.addAll(blockBuilder.getBlockTypes());
         }
-
-        Map<DyeColorant, Block> map = new HashMap<>();
-
-        for(int z = 0; z < VANILLA_DYES.length; z++){
-            String currentDyeValueName = VANILLA_DYES[z].getName();
-
-            Block colorBlock = blockTypes.get(z);
-
-            if(getDyeColorFromBlock(colorBlock) == VANILLA_DYES[z].getName()){
-                Optional<Block> possibleBlock = blockTypes.stream().filter((block) -> {
-                    String blockDyeColorPrefix = getDyeColorFromBlock(block);
-
-                    return blockDyeColorPrefix == currentDyeValueName;
-                }).findAny();
-
-                if(possibleBlock.isPresent()){
-                    colorBlock = possibleBlock.get();
-                }else{
-                    loggerError("The Block List dose not contain a matching dyeColor Prefix! Not Registering these blocks" + blockTypes.toString());
-                    return;
-                }
-            }
-
-            map.put(VANILLA_DYES[z], colorBlock);
-        }
-
-        map.put(null, defaultBlock);
-
-        REGISTRY.put(blockTags, map);
     }
 
-    public static void registerBlockSetUnsafe(List<Block> blockTypes, Block defaultBlock, TagKey<Block> blockTags){
-        if(blockTypes.size() > 16){
-            loggerError("The Block List is greater than 17! Not Registering these blocks" + blockTypes.toString());
+    public static void registerBlockType(List<BlockType> blockTypes){
+        CURRENT_TYPES.addAll(blockTypes);
+
+        for(BlockType blockType : blockTypes) {
+            for(DyeColorant dyeColorant : DyeColorantRegistry.DYE_COLOR) {
+                DyedVariants dyedVariants = DyedVariants.DYED_VARIANTS.get(dyeColorant);
+
+                if(dyedVariants != null) {
+                    BlockTypeEntrysContainer container = getOrCreateContainer(blockType);
+
+                    container.addDyeBlockPair(dyeColorant, dyedVariants.dyedBlocks.get(blockType));
+
+                    REGISTRY.put(blockType, container);
+                }
+            }
+        }
+    }
+
+    public static void registerDyeColorant(DyeColorant dyeColorant){
+        DyedVariants dyedVariants = DyedVariants.DYED_VARIANTS.get(dyeColorant);
+        if(dyedVariants == null) {
             return;
         }
 
-        Map<DyeColorant, Block> map = new HashMap<>();
+        registerDyeColorant(dyeColorant, dyedVariants);
+    }
 
-        for(int z = 0; z < VANILLA_DYES.length; z++){
-            Block colorBlock = blockTypes.get(z);
+    public static void registerDyeColorant(DyeColorant dyeColorant, DyedVariants dyedVariants){
 
-            map.put(VANILLA_DYES[z], colorBlock);
+        for(BlockType blockType : CURRENT_TYPES) {
+            BlockTypeEntrysContainer container = getOrCreateContainer(blockType);
+
+            container.addDyeBlockPair(dyeColorant, dyedVariants.dyedBlocks.get(blockType));
+
+            REGISTRY.put(blockType, container);
         }
-
-        map.put(null, defaultBlock);
-
-        REGISTRY.put(blockTags, map);
     }
 
     public static Block getVariant(Block block, DyeColorant color) {
-        var map = REGISTRY.keySet().stream().filter(blockTag -> block.getRegistryEntry().isIn(blockTag))
-                .map(REGISTRY::get).findAny();
+        BlockTypeEntrysContainer container = null;
 
-        if (map.isEmpty()) return null;
-        return map.get().get(color);
+        for(Map.Entry<BlockType, BlockTypeEntrysContainer> entry : REGISTRY.entrySet()){
+            if(block.getRegistryEntry().isIn(entry.getValue().blockTag)){
+                container = entry.getValue();
+            }
+        }
+
+        if(container != null){
+            return container.coloredBlocks.get(color);
+        }else{
+            return null;
+        }
     }
 
     //-----------------------------------------------------------------------//
@@ -106,5 +104,32 @@ public class ColorBlockRegistry {
     @ApiStatus.Internal
     private static void loggerError(String message){
         LOGGER.error("[Color Block Registry] Error: " + message);
+    }
+
+    public static BlockTypeEntrysContainer getOrCreateContainer(BlockType blockType){
+        if(REGISTRY.containsKey(blockType)){
+            return REGISTRY.get(blockType);
+        }else{
+            return new BlockTypeEntrysContainer(blockType.blockTag, Registry.BLOCK.get(blockType.defaultBlockID));
+        }
+    }
+
+    public static class BlockTypeEntrysContainer{
+        public final TagKey<Block> blockTag;
+
+        public Map<DyeColorant, Block> coloredBlocks;
+
+        public BlockTypeEntrysContainer(TagKey<Block> blockTag, Block defaultBlock){
+            this.blockTag = blockTag;
+            this.coloredBlocks = new HashMap<>();
+
+            coloredBlocks.put(null, defaultBlock);
+        }
+
+        public void addDyeBlockPair(DyeColorant dyeColorant, Block block){
+            this.coloredBlocks.put(dyeColorant, block);
+        }
+
+
     }
 }

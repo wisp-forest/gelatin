@@ -1,21 +1,43 @@
 package io.wispforest.jello.main.client;
 
+import io.wispforest.jello.api.dye.DyeColorant;
+import io.wispforest.jello.api.dye.block.ColoredGlassBlock;
+import io.wispforest.jello.api.dye.block.ColoredGlassPaneBlock;
+import io.wispforest.jello.api.dye.item.DyeItem;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
+import io.wispforest.jello.api.dye.registry.DyedVariants;
 import io.wispforest.jello.api.events.HotbarMouseEvents;
 import io.wispforest.jello.main.client.render.DyeBundleTooltipRender;
 import io.wispforest.jello.main.common.blocks.BlockRegistry;
+import io.wispforest.jello.main.common.blocks.SlimeBlockColored;
+import io.wispforest.jello.main.common.blocks.SlimeSlabColored;
 import io.wispforest.jello.main.common.items.ItemRegistry;
 import io.wispforest.jello.main.common.items.SpongeItem;
 import io.wispforest.jello.main.common.items.dyebundle.DyeBundleScreenEvent;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
+import net.fabricmc.fabric.impl.blockrenderlayer.BlockRenderLayerMapImpl;
+import net.minecraft.block.BedBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.ShulkerBoxBlock;
+import net.minecraft.block.entity.BedBlockEntity;
+import net.minecraft.block.entity.ShulkerBoxBlockEntity;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.color.block.BlockColorProvider;
 import net.minecraft.client.color.item.ItemColorProvider;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.BundleItem;
+import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
+
+import java.util.Map;
+import java.util.Objects;
 
 public class JelloClient implements ClientModInitializer {
 
@@ -33,29 +55,40 @@ public class JelloClient implements ClientModInitializer {
     //------------------------------------------------------------------------------
 
     private static void blockInit(){
-        BlockRegistry.SlimeBlockRegistry.COLORED_SLIME_BLOCKS.forEach((block)->{
-            ColorProviderRegistry.BLOCK.register((BlockColorProvider)block, block);
-            ColorProviderRegistry.ITEM.register((ItemColorProvider)block.asItem(), block.asItem());
-
-            BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getTranslucent());
-        });
+//        BlockRegistry.SlimeBlockRegistry.COLORED_SLIME_BLOCKS.forEach((block)->{
+//            ColorProviderRegistry.BLOCK.register((BlockColorProvider)block, block);
+//            ColorProviderRegistry.ITEM.register((ItemColorProvider)block.asItem(), block.asItem());
+//
+//            BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getTranslucent());
+//        });
 
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.SlimeSlabRegistry.SLIME_SLAB, RenderLayer.getTranslucent());
 
-        BlockRegistry.SlimeSlabRegistry.COLORED_SLIME_SLABS.forEach((block)->{
-            ColorProviderRegistry.BLOCK.register((BlockColorProvider)block, block);
-            ColorProviderRegistry.ITEM.register((ItemColorProvider)block.asItem(), block.asItem());
+//        BlockRegistry.SlimeSlabRegistry.COLORED_SLIME_SLABS.forEach((block)->{
+//            ColorProviderRegistry.BLOCK.register((BlockColorProvider)block, block);
+//            ColorProviderRegistry.ITEM.register((ItemColorProvider)block.asItem(), block.asItem());
+//
+//            BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getTranslucent());
+//        });
 
-            BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getTranslucent());
-        });
+        for(Map.Entry<DyeColorant, DyedVariants> dyedVariantEntry : DyedVariants.DYED_VARIANTS.entrySet()) {
+            //if (!Objects.equals(dyedVariantEntry.getKey().getId().getNamespace(), "minecraft")) {
+                for (Block block : dyedVariantEntry.getValue().dyedBlocks.values()) {
+                    if (block instanceof SlimeBlockColored || block instanceof SlimeSlabColored) {
+                        ColorProviderRegistry.BLOCK.register((BlockColorProvider)block, block);
+                        ColorProviderRegistry.ITEM.register((ItemColorProvider)block.asItem(), block.asItem());
+
+                        BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getTranslucent());
+                    }
+                }
+            //}
+        }
     }
 
     private static void itemInit(){
         ItemRegistry.SlimeBallItemRegistry.SLIME_BALLS.forEach((item) -> ColorProviderRegistry.ITEM.register((ItemColorProvider)item, item));
 
         ItemRegistry.JelloCupItemRegistry.JELLO_CUP.forEach((item) -> ColorProviderRegistry.ITEM.register((ItemColorProvider)item, item));
-
-        ColorProviderRegistry.ITEM.register((ItemColorProvider)ItemRegistry.MainItemRegistry.DYNAMIC_DYE, ItemRegistry.MainItemRegistry.DYNAMIC_DYE);
     }
 
     //-------------------------------------------------------------------------------------

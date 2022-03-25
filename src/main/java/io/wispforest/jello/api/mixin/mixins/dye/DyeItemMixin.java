@@ -68,7 +68,7 @@ public class DyeItemMixin extends Item implements DyeItemStorage {
 
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
-        if(!Jello.MAIN_CONFIG.enableDyeingBlocks || !this.getDyeColor().getRegistryEntry().isIn(JelloTags.DyeColor.VANILLA_DYES)) {
+        if(!Jello.MAIN_CONFIG.enableDyeingBlocks) {
             return ActionResult.PASS;
         }
 

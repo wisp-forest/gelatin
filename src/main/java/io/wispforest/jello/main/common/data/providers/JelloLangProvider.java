@@ -1,5 +1,7 @@
 package io.wispforest.jello.main.common.data.providers;
 
+import io.wispforest.jello.api.dye.DyeColorant;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.registry.DyedVariants;
 import io.wispforest.jello.forge.LanguageProvider;
 import io.wispforest.jello.main.common.Jello;
@@ -27,13 +29,13 @@ public class JelloLangProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
 
-        BlockRegistry.SlimeBlockRegistry.COLORED_SLIME_BLOCKS.forEach((block) -> {
-            addBlock(() -> block);
-        });
-
-        BlockRegistry.SlimeSlabRegistry.COLORED_SLIME_SLABS.forEach((block) -> {
-            addBlock(() -> block);
-        });
+//        BlockRegistry.SlimeBlockRegistry.COLORED_SLIME_BLOCKS.forEach((block) -> {
+//            addBlock(() -> block);
+//        });
+//
+//        BlockRegistry.SlimeSlabRegistry.COLORED_SLIME_SLABS.forEach((block) -> {
+//            addBlock(() -> block);
+//        });
 
         addBlock(() -> BlockRegistry.SlimeSlabRegistry.SLIME_SLAB);
 
@@ -63,8 +65,8 @@ public class JelloLangProvider extends LanguageProvider {
         add("itemGroup.misc.tab.dyes", "Custom Dyes");
         add("itemGroup.misc.tab.block_vars", "Colored Block Variants");
 
-        for(DyedVariants dyedVariant : DyedVariants.DYE_ITEM_VARIANTS.values()){
-            for(Block block : dyedVariant.dyedBlocks){
+        for(DyedVariants dyedVariant : DyedVariants.DYED_VARIANTS.values()){
+            for(Block block : dyedVariant.dyedBlocks.values()){
                 addBlock(() -> block);
             }
 
@@ -88,15 +90,19 @@ public class JelloLangProvider extends LanguageProvider {
         addEntityType(entity, getAutomaticNameEntityType(entity));
     }
 
-    public String getAutomaticNameItem(Supplier<? extends Item> sup) {
+    public static String getAutomaticNameDyeColorant(Supplier<? extends DyeColorant> sup) {
+        return toEnglishName(DyeColorantRegistry.DYE_COLOR.getId(sup.get()).getPath());
+    }
+
+    public static String getAutomaticNameItem(Supplier<? extends Item> sup) {
         return toEnglishName(Registry.ITEM.getId(sup.get()).getPath());
     }
 
-    public String getAutomaticNameBlock(Supplier<? extends Block> sup) {
+    public static String getAutomaticNameBlock(Supplier<? extends Block> sup) {
         return toEnglishName(Registry.BLOCK.getId(sup.get()).getPath());
     }
 
-    private String getAutomaticNameEntityType(Supplier<? extends EntityType<?>> sup) {
+    private static String getAutomaticNameEntityType(Supplier<? extends EntityType<?>> sup) {
         return toEnglishName(Registry.ENTITY_TYPE.getId(sup.get()).getPath());
     }
 

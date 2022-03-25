@@ -13,7 +13,6 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BedBlockEntityRenderer;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.DyeColor;
 import net.minecraft.util.math.Direction;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -36,7 +35,7 @@ public class BedBlockEntityRendererMixin {
 
             return sprite;
         }else{
-            cachedBedColor = DyeColorantRegistry.Constants.NULL_VALUE_NEW;
+            cachedBedColor = DyeColorantRegistry.NULL_VALUE_NEW;
         }
 
         return spriteIdentifier;
@@ -44,7 +43,7 @@ public class BedBlockEntityRendererMixin {
 
     @Inject(method = "renderPart", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;pop()V"))
     private void renderColoredSheets(MatrixStack matrices, VertexConsumerProvider vertexConsumers, ModelPart part, Direction direction, SpriteIdentifier sprite, int light, int overlay, boolean isFoot, CallbackInfo ci){
-        if(cachedBedColor != DyeColorantRegistry.Constants.NULL_VALUE_NEW){
+        if(cachedBedColor != DyeColorantRegistry.NULL_VALUE_NEW){
             VertexConsumer vertexConsumer2 = new SpriteIdentifier(TexturedRenderLayers.BEDS_ATLAS_TEXTURE, JelloClientAPI.BED_BLANKET_ONLY).getVertexConsumer(vertexConsumers, RenderLayer::getEntityCutout);//identifier -> RenderLayer.getTranslucent());
             float[] colorComp = cachedBedColor.getColorComponents();
             part.render(matrices, vertexConsumer2, light, overlay, colorComp[0], colorComp[1], colorComp[2], 1.0f);

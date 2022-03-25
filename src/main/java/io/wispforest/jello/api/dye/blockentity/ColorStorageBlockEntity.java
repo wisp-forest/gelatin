@@ -23,7 +23,7 @@ public class ColorStorageBlockEntity extends BlockEntity {
 
     public ColorStorageBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.COLOR_STORAGE, pos, state);
-        this.currentColor = DyeColorantRegistry.Constants.NULL_VALUE_NEW;
+        this.currentColor = DyeColorantRegistry.NULL_VALUE_NEW;
     }
 
     public void setDyeColorant(DyeColorant dyeColorant){
@@ -73,6 +73,6 @@ public class ColorStorageBlockEntity extends BlockEntity {
     }
 
     public static boolean isWaterColored(ColorStorageBlockEntity blockEntity){
-        return blockEntity.getDyeColorant() != DyeColorantRegistry.Constants.NULL_VALUE_NEW;
+        return blockEntity.getDyeColorant() != DyeColorantRegistry.NULL_VALUE_NEW;
     }
 }

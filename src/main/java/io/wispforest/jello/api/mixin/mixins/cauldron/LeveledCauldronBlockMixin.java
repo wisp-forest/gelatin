@@ -52,7 +52,7 @@ public class LeveledCauldronBlockMixin extends AbstractCauldronBlock implements 
             int worldColor = pos != null ? BiomeColors.getWaterColor(world, pos) : -1;
 
             ColorStorageBlockEntity blockEntity = (ColorStorageBlockEntity) world.getBlockEntity(pos);
-            if (blockEntity != null && blockEntity.getDyeColorant() != DyeColorantRegistry.Constants.NULL_VALUE_NEW) {
+            if (blockEntity != null && blockEntity.getDyeColorant() != DyeColorantRegistry.NULL_VALUE_NEW) {
                 DyeColorant dyeColor = blockEntity.getDyeColorant();
 
                 float[] colorComp = {1F, 1F, 1F};

@@ -75,7 +75,7 @@ public class ColorEntityEvent implements UseEntityCallback{
 
         if(livingEntity instanceof DyeableEntity dyeableEntity){
             if(dyeableEntity.isDyed()){
-                dyeableEntity.setDyeColor(DyeColorantRegistry.Constants.NULL_VALUE_NEW);
+                dyeableEntity.setDyeColor(DyeColorantRegistry.NULL_VALUE_NEW);
                 washedEntity = true;
             }
         }
@@ -95,7 +95,7 @@ public class ColorEntityEvent implements UseEntityCallback{
         if ((bucketItem != null && bucketItem.fluid == Fluids.WATER) || spongeItemUsed) {
             if(livingEntity instanceof DyeableEntity dyeableEntity){
                 if(dyeableEntity.isDyed()){
-                    dyeableEntity.setDyeColor(DyeColorantRegistry.Constants.NULL_VALUE_NEW);
+                    dyeableEntity.setDyeColor(DyeColorantRegistry.NULL_VALUE_NEW);
                     washedEntity = true;
                 }
             }

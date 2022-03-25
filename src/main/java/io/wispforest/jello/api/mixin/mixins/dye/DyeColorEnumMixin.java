@@ -42,7 +42,7 @@ public class DyeColorEnumMixin {
     @Inject(method = "<init>", at = @At(value = "TAIL"))
     private void importCreatedEnumDyeColor(String internalName, int ordinal, int id, String name, int color, MapColor mapColor, int fireworkColor, int signColor, CallbackInfo ci){
         if(!(Objects.equals(name, "_null") || DyeColorantRegistry.Constants.VANILLA_DYES.stream().anyMatch(dyeColor -> Objects.equals(name, dyeColor.getName())))){
-            DyeColorant convertedDyeColor = DyeColorantRegistry.registryDyeColor(new Identifier(DyeColorantRegistry.Constants.ENUM_NAMESPACE, name), name, mapColor, color, fireworkColor, signColor);
+            DyeColorant convertedDyeColor = DyeColorantRegistry.registryDyeColor(new Identifier(DyeColorantRegistry.Constants.ENUM_NAMESPACE, name), mapColor, color, fireworkColor, signColor);
         }
     }
 }
