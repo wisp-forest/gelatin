@@ -1,11 +1,7 @@
 package io.wispforest.jello.main.client;
 
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.dye.block.ColoredGlassBlock;
-import io.wispforest.jello.api.dye.block.ColoredGlassPaneBlock;
-import io.wispforest.jello.api.dye.item.DyeItem;
-import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.api.dye.registry.DyedVariants;
+import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
 import io.wispforest.jello.api.events.HotbarMouseEvents;
 import io.wispforest.jello.main.client.render.DyeBundleTooltipRender;
 import io.wispforest.jello.main.common.blocks.BlockRegistry;
@@ -16,28 +12,17 @@ import io.wispforest.jello.main.common.items.SpongeItem;
 import io.wispforest.jello.main.common.items.dyebundle.DyeBundleScreenEvent;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
-import net.fabricmc.fabric.impl.blockrenderlayer.BlockRenderLayerMapImpl;
-import net.minecraft.block.BedBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ShulkerBoxBlock;
-import net.minecraft.block.entity.BedBlockEntity;
-import net.minecraft.block.entity.ShulkerBoxBlockEntity;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.color.block.BlockColorProvider;
 import net.minecraft.client.color.item.ItemColorProvider;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.BundleItem;
-import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
 
 import java.util.Map;
-import java.util.Objects;
 
 public class JelloClient implements ClientModInitializer {
 
@@ -71,7 +56,7 @@ public class JelloClient implements ClientModInitializer {
 //            BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getTranslucent());
 //        });
 
-        for(Map.Entry<DyeColorant, DyedVariants> dyedVariantEntry : DyedVariants.DYED_VARIANTS.entrySet()) {
+        for(Map.Entry<DyeColorant, DyedVariantContainer> dyedVariantEntry : DyedVariantContainer.DYED_VARIANTS.entrySet()) {
             //if (!Objects.equals(dyedVariantEntry.getKey().getId().getNamespace(), "minecraft")) {
                 for (Block block : dyedVariantEntry.getValue().dyedBlocks.values()) {
                     if (block instanceof SlimeBlockColored || block instanceof SlimeSlabColored) {

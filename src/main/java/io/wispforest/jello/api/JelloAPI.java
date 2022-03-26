@@ -1,14 +1,12 @@
 package io.wispforest.jello.api;
 
 import io.wispforest.jello.api.dye.behavior.ColorEntityBehavior;
+import io.wispforest.jello.api.dye.behavior.JelloCauldronBehaviors;
 import io.wispforest.jello.api.dye.behavior.WashEntityBehavior;
 import io.wispforest.jello.api.dye.blockentity.BlockEntityRegistry;
 import io.wispforest.jello.api.dye.events.ColorEntityEvent;
 import io.wispforest.jello.api.dye.registry.DyeColorantJsonTest;
-import io.wispforest.jello.api.dye.behavior.JelloCauldronBehaviors;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.api.dye.registry.builder.VanillaBlockBuilder;
-import io.wispforest.jello.api.registry.ColorBlockRegistry;
 import io.wispforest.jello.api.util.TrackedDataHandlerExtended;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
 import io.wispforest.owo.registration.reflect.AutoRegistryContainer;
@@ -45,12 +43,14 @@ public class JelloAPI implements ModInitializer {
 
 //        VanillaBlockBuilder.init();
 
+
         DyeColorantRegistry.initVanillaDyes();
 
         DyeColorantJsonTest.gatherDyesFromJson();
 //        DyeColorantRegistry.initVanillaDyes();
 
         ((OwoItemGroup)ItemGroup.MISC).initialize();
+
 
         JelloCauldronBehaviors.registerJelloBehaviorBypass();
 

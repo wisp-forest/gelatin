@@ -1,11 +1,10 @@
 package io.wispforest.jello.api.registry;
 
-import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.dye.registry.DyedVariants;
-import io.wispforest.jello.api.dye.registry.builder.BaseBlockBuilder;
-import io.wispforest.jello.api.dye.registry.builder.BlockType;
-import io.wispforest.jello.api.dye.registry.builder.VanillaBlockBuilder;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
+import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
+import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
+import io.wispforest.jello.api.dye.registry.variants.VanillaBlockVariants;
 import net.minecraft.block.Block;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
@@ -14,64 +13,63 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ColorBlockRegistry {
 
     private static final Logger LOGGER = LogManager.getLogger(ColorBlockRegistry.class);
 
-    public static final Map<BlockType, BlockTypeEntrysContainer> REGISTRY = new HashMap<>();
+    public static final Map<DyeableBlockVariant, BlockVariantEntrysContainer> REGISTRY = new HashMap<>();
 
-    private static final List<BlockType> CURRENT_TYPES = new ArrayList<>();
+    private static final List<DyeableBlockVariant> CURRENT_TYPES = new ArrayList<>();
 
     static {
-        for(VanillaBlockBuilder blockBuilder : VanillaBlockBuilder.VANILLA_BUILDERS){
-            CURRENT_TYPES.addAll(blockBuilder.getBlockTypes());
-        }
+        CURRENT_TYPES.addAll(VanillaBlockVariants.VANILLA_VARIANTS);
     }
 
-    public static void registerBlockType(List<BlockType> blockTypes){
-        CURRENT_TYPES.addAll(blockTypes);
+    public static void registerBlockType(DyeableBlockVariant dyeableBlockVariant){
+        for(DyeColorant dyeColorant : DyeColorantRegistry.DYE_COLOR) {
+            DyedVariantContainer dyedVariants = DyedVariantContainer.DYED_VARIANTS.get(dyeColorant);
 
-        for(BlockType blockType : blockTypes) {
-            for(DyeColorant dyeColorant : DyeColorantRegistry.DYE_COLOR) {
-                DyedVariants dyedVariants = DyedVariants.DYED_VARIANTS.get(dyeColorant);
+            if(dyedVariants != null) {
+                BlockVariantEntrysContainer container = getOrCreateContainer(dyeableBlockVariant);
 
-                if(dyedVariants != null) {
-                    BlockTypeEntrysContainer container = getOrCreateContainer(blockType);
+                container.addDyeBlockPair(dyeColorant, dyedVariants.dyedBlocks.get(dyeableBlockVariant));
 
-                    container.addDyeBlockPair(dyeColorant, dyedVariants.dyedBlocks.get(blockType));
-
-                    REGISTRY.put(blockType, container);
-                }
+                REGISTRY.put(dyeableBlockVariant, container);
             }
         }
+
+
+        CURRENT_TYPES.add(dyeableBlockVariant);
     }
 
     public static void registerDyeColorant(DyeColorant dyeColorant){
-        DyedVariants dyedVariants = DyedVariants.DYED_VARIANTS.get(dyeColorant);
-        if(dyedVariants == null) {
+        DyedVariantContainer dyedVariant = DyedVariantContainer.DYED_VARIANTS.get(dyeColorant);
+        if(dyedVariant == null) {
             return;
         }
 
-        registerDyeColorant(dyeColorant, dyedVariants);
+        registerDyeColorant(dyeColorant, dyedVariant);
     }
 
-    public static void registerDyeColorant(DyeColorant dyeColorant, DyedVariants dyedVariants){
+    public static void registerDyeColorant(DyeColorant dyeColorant, DyedVariantContainer dyedVariantContainer){
+        for(DyeableBlockVariant blockVariant : CURRENT_TYPES) {
+            BlockVariantEntrysContainer container = getOrCreateContainer(blockVariant);
 
-        for(BlockType blockType : CURRENT_TYPES) {
-            BlockTypeEntrysContainer container = getOrCreateContainer(blockType);
+            container.addDyeBlockPair(dyeColorant, dyedVariantContainer.dyedBlocks.get(blockVariant));
 
-            container.addDyeBlockPair(dyeColorant, dyedVariants.dyedBlocks.get(blockType));
-
-            REGISTRY.put(blockType, container);
+            REGISTRY.put(blockVariant, container);
         }
     }
 
     public static Block getVariant(Block block, DyeColorant color) {
-        BlockTypeEntrysContainer container = null;
+        BlockVariantEntrysContainer container = null;
 
-        for(Map.Entry<BlockType, BlockTypeEntrysContainer> entry : REGISTRY.entrySet()){
+        for(Map.Entry<DyeableBlockVariant, BlockVariantEntrysContainer> entry : REGISTRY.entrySet()){
             if(block.getRegistryEntry().isIn(entry.getValue().blockTag)){
                 container = entry.getValue();
             }
@@ -106,20 +104,20 @@ public class ColorBlockRegistry {
         LOGGER.error("[Color Block Registry] Error: " + message);
     }
 
-    public static BlockTypeEntrysContainer getOrCreateContainer(BlockType blockType){
-        if(REGISTRY.containsKey(blockType)){
-            return REGISTRY.get(blockType);
+    public static BlockVariantEntrysContainer getOrCreateContainer(DyeableBlockVariant dyeableBlockVariant){
+        if(REGISTRY.containsKey(dyeableBlockVariant)){
+            return REGISTRY.get(dyeableBlockVariant);
         }else{
-            return new BlockTypeEntrysContainer(blockType.blockTag, Registry.BLOCK.get(blockType.defaultBlockID));
+            return new BlockVariantEntrysContainer(dyeableBlockVariant.getPrimaryBlockTag(), Registry.BLOCK.get(dyeableBlockVariant.defaultBlock));
         }
     }
 
-    public static class BlockTypeEntrysContainer{
+    public static class BlockVariantEntrysContainer {
         public final TagKey<Block> blockTag;
 
         public Map<DyeColorant, Block> coloredBlocks;
 
-        public BlockTypeEntrysContainer(TagKey<Block> blockTag, Block defaultBlock){
+        public BlockVariantEntrysContainer(TagKey<Block> blockTag, Block defaultBlock){
             this.blockTag = blockTag;
             this.coloredBlocks = new HashMap<>();
 

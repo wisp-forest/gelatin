@@ -2,7 +2,7 @@ package io.wispforest.jello.main.common.data.providers;
 
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.api.dye.registry.DyedVariants;
+import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
 import io.wispforest.jello.forge.LanguageProvider;
 import io.wispforest.jello.main.common.Jello;
 import io.wispforest.jello.main.common.blocks.BlockRegistry;
@@ -65,14 +65,12 @@ public class JelloLangProvider extends LanguageProvider {
         add("itemGroup.misc.tab.dyes", "Custom Dyes");
         add("itemGroup.misc.tab.block_vars", "Colored Block Variants");
 
-        for(DyedVariants dyedVariant : DyedVariants.DYED_VARIANTS.values()){
+        for(DyedVariantContainer dyedVariant : DyedVariantContainer.DYED_VARIANTS.values()){
             for(Block block : dyedVariant.dyedBlocks.values()){
                 addBlock(() -> block);
             }
 
-            for(Item item : dyedVariant.dyedItems){
-                addItem(() -> item);
-            }
+            addItem(() -> dyedVariant.dyeItem);
         }
     }
 

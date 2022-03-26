@@ -4,10 +4,10 @@ import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.block.ColoredGlassBlock;
 import io.wispforest.jello.api.dye.block.ColoredGlassPaneBlock;
 import io.wispforest.jello.api.dye.client.BlockModelRedirect;
-import io.wispforest.jello.api.dye.item.DyeItem;
 import io.wispforest.jello.api.dye.client.DyeModelResourceRedirect;
+import io.wispforest.jello.api.dye.item.DyeItem;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.api.dye.registry.DyedVariants;
+import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
 import io.wispforest.jello.main.common.Jello;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -17,7 +17,10 @@ import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.fabricmc.fabric.impl.blockrenderlayer.BlockRenderLayerMapImpl;
-import net.minecraft.block.*;
+import net.minecraft.block.BedBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.block.entity.BedBlockEntity;
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.client.MinecraftClient;
@@ -28,9 +31,7 @@ import net.minecraft.client.render.TexturedRenderLayers;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.RegistryKey;
 
-import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
 
@@ -69,7 +70,7 @@ public class JelloClientAPI implements ClientModInitializer {
 
 
     private static void registerJsonBlocksForColor(){
-        for(Map.Entry<DyeColorant, DyedVariants> dyedVariantEntry : DyedVariants.DYED_VARIANTS.entrySet()){
+        for(Map.Entry<DyeColorant, DyedVariantContainer> dyedVariantEntry : DyedVariantContainer.DYED_VARIANTS.entrySet()){
             if(!Objects.equals(dyedVariantEntry.getKey().getId().getNamespace(), "minecraft")) {
                 for (Block block : dyedVariantEntry.getValue().dyedBlocks.values()) {
                     if (block instanceof ColoredGlassBlock || block instanceof ColoredGlassPaneBlock) {
@@ -101,11 +102,12 @@ public class JelloClientAPI implements ClientModInitializer {
                     }
                 }
 
-                for (Item item : dyedVariantEntry.getValue().dyedItems) {
-                    ColorProviderRegistry.ITEM.register((DyeItem) item, item);
+                //-----------------------------------------------------------
 
-                    FabricModelPredicateProviderRegistry.register(item, new Identifier("variant"), (stack, world, entity, seed) -> DyeItem.getTextureVariant(stack));
-                }
+                ColorProviderRegistry.ITEM.register((DyeItem) dyedVariantEntry.getValue().dyeItem, dyedVariantEntry.getValue().dyeItem);
+
+                FabricModelPredicateProviderRegistry.register(dyedVariantEntry.getValue().dyeItem, new Identifier("variant"), (stack, world, entity, seed) -> DyeItem.getTextureVariant(stack));
+
             }
         }
     }

@@ -3,12 +3,9 @@ package io.wispforest.jello.api.dye.client;
 import io.wispforest.jello.api.dye.block.ColoredCandleBlock;
 import io.wispforest.jello.api.dye.block.ColoredCandleCakeBlock;
 import io.wispforest.jello.api.dye.block.ColoredGlassPaneBlock;
-import io.wispforest.jello.api.dye.registry.DyeColorantJsonTest;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.api.dye.registry.builder.BaseBlockBuilder;
-import io.wispforest.jello.api.dye.registry.builder.BlockType;
-import io.wispforest.jello.api.dye.registry.builder.VanillaBlockBuilder;
-import io.wispforest.jello.api.registry.ColorBlockRegistry;
+import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
+import io.wispforest.jello.api.dye.registry.variants.VanillaBlockVariants;
 import io.wispforest.jello.api.util.MessageUtil;
 import io.wispforest.jello.main.common.Jello;
 import io.wispforest.jello.main.common.blocks.SlimeBlockColored;
@@ -17,20 +14,11 @@ import net.fabricmc.fabric.api.client.model.ModelProviderContext;
 import net.fabricmc.fabric.api.client.model.ModelProviderException;
 import net.fabricmc.fabric.api.client.model.ModelVariantProvider;
 import net.minecraft.block.Block;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.model.ModelLoader;
 import net.minecraft.client.render.model.UnbakedModel;
-import net.minecraft.client.render.model.json.ModelVariantMap;
 import net.minecraft.client.util.ModelIdentifier;
-import net.minecraft.data.client.Model;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -38,13 +26,13 @@ public class BlockModelRedirect implements ModelVariantProvider {
 
     private static final MessageUtil MESSAGE_TOOL = new MessageUtil("Block Model Redirect");
 
-    private static final Set<BaseBlockBuilder> ALL_BUILDERS = new HashSet<>();
+    private static final Set<DyeableBlockVariant> ALL_VARIANTS = new HashSet<>();
 
     @Override
     public @Nullable UnbakedModel loadModelVariant(ModelIdentifier modelId, ModelProviderContext context) throws ModelProviderException {
-        if(ALL_BUILDERS.isEmpty()){
-            ALL_BUILDERS.addAll(VanillaBlockBuilder.VANILLA_BUILDERS);
-            ALL_BUILDERS.addAll(BaseBlockBuilder.ADDITIONAL_BUILDERS);
+        if(ALL_VARIANTS.isEmpty()){
+            ALL_VARIANTS.addAll(VanillaBlockVariants.VANILLA_VARIANTS);
+            ALL_VARIANTS.addAll(DyeableBlockVariant.ADDITION_BLOCK_VARIANTS);
         }
 
         if (DyeColorantRegistry.shouldRedirectModelResource(new Identifier(modelId.getNamespace(), modelId.getPath()))) {
@@ -60,20 +48,21 @@ public class BlockModelRedirect implements ModelVariantProvider {
             }
 
             String loadFromDirectory;
+            boolean isItemVersion;
             if (Objects.equals(modelId.getVariant(), "inventory")) {
                 loadFromDirectory = "item";
+                isItemVersion = true;
             } else {
                 loadFromDirectory = "block";
+                isItemVersion = false;
             }
 
-//            for(BaseBlockBuilder builder : ALL_BUILDERS){
-//                List<BlockType> blockTypes = builder.getBlockTypes();
-//
-//                for(BlockType type : blockTypes) {
-//                    if (type.isVariantType(modelId)) {
-//                        return context.loadModel(new Identifier(builder.modid, loadFromDirectory + "/" + type.blockType));
-//                    }
+            //TODO: GET WORKING WITH BLOCK VARIANTS!
+//            for(DyeableBlockVariant blockVariant : ALL_VARIANTS){
+//                if (blockVariant.isIdentifierAVariant(modelId, isItemVersion)) {
+//                    return context.loadModel(new Identifier(blockVariant.variantIdentifier.getNamespace(), loadFromDirectory + "/" + blockVariant.variantIdentifier.getPath()));
 //                }
+//
 //            }
 
             if (Objects.equals(stringParts[stringParts.length - 1], "terracotta")) {
@@ -111,11 +100,11 @@ public class BlockModelRedirect implements ModelVariantProvider {
                 return null;
             }else if(Objects.equals(stringParts[stringParts.length - 1], "block")){
                 if (loadFromDirectory.equals("item")) {
-                    return context.loadModel(new Identifier("jello", loadFromDirectory + "/slime_block_multicolor"));
+                    return context.loadModel(new Identifier("jello", loadFromDirectory + "/colored_slime_block"));
                 }
             }else if(Objects.equals(stringParts[stringParts.length - 1], "slab")){
                 if (loadFromDirectory.equals("item")) {
-                    return context.loadModel(new Identifier("jello", loadFromDirectory + "/slime_slab_multicolor"));
+                    return context.loadModel(new Identifier("jello", loadFromDirectory + "/colored_slime_slab"));
                 }
             }
 
@@ -141,7 +130,7 @@ public class BlockModelRedirect implements ModelVariantProvider {
         private static final ResourceRedirectEntryPredicate CANDLE_PREDICATE = new ResourceRedirectEntryPredicate(ColoredCandleBlock.class, new Identifier(Jello.MODID, "candle"));
         private static final ResourceRedirectEntryPredicate CANDLE_CAKE_PREDICATE = new ResourceRedirectEntryPredicate(ColoredCandleCakeBlock.class, new Identifier(Jello.MODID, "candle_cake"));
 
-        private static final ResourceRedirectEntryPredicate SLIME_BLOCK_PREDICATE = new ResourceRedirectEntryPredicate(SlimeBlockColored.class, new Identifier(Jello.MODID, "slime_block"));
+        private static final ResourceRedirectEntryPredicate SLIME_BLOCK_PREDICATE = new ResourceRedirectEntryPredicate(SlimeBlockColored.class, new Identifier(Jello.MODID, "colored_slime_block"));
         private static final ResourceRedirectEntryPredicate SLIME_SLAB_PREDICATE = new ResourceRedirectEntryPredicate(SlimeSlabColored.class, new Identifier(Jello.MODID, "colored_slime_slab"));
 
         private final Class<? extends Block> klazz;

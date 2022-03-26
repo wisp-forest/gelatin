@@ -1,7 +1,7 @@
 package io.wispforest.jello.main.common;
 
 import io.wispforest.jello.main.common.blocks.BlockRegistry;
-import io.wispforest.jello.main.common.compat.JelloBlockBuilders;
+import io.wispforest.jello.main.common.compat.JelloBlockVariants;
 import io.wispforest.jello.main.common.compat.consistencyplus.data.ConsistencyPlusTags;
 import io.wispforest.jello.main.common.config.JelloConfig;
 import io.wispforest.jello.main.common.items.ItemRegistry;
@@ -36,7 +36,7 @@ public class Jello implements ModInitializer{
     public void onInitialize() {
         Jello.initClothConfig();
 
-        FieldRegistrationHandler.processSimple(JelloBlockBuilders.class, false);
+        JelloBlockVariants.init();
 
         //  Block Registry
         FieldRegistrationHandler.register(BlockRegistry.SlimeBlockRegistry.class, MODID, false);

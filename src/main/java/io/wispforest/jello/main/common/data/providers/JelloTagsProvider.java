@@ -1,25 +1,16 @@
 package io.wispforest.jello.main.common.data.providers;
 
-import com.google.gson.*;
-import io.wispforest.jello.api.dye.registry.DyedVariants;
-import io.wispforest.jello.main.common.Jello;
-import io.wispforest.jello.api.util.MessageUtil;
-import io.wispforest.jello.main.common.blocks.BlockRegistry;
-import io.wispforest.jello.main.common.items.ItemRegistry;
-import io.wispforest.jello.main.common.data.tags.JelloTags;
-import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.DyeColorant;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
+import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
+import io.wispforest.jello.main.common.blocks.BlockRegistry;
+import io.wispforest.jello.main.common.data.tags.JelloTags;
+import io.wispforest.jello.main.common.items.ItemRegistry;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.DyeItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.Items;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonHelper;
-import net.minecraft.util.registry.Registry;
 
-import java.io.InputStreamReader;
 import java.util.Map;
 
 public class JelloTagsProvider {
@@ -138,12 +129,8 @@ public class JelloTagsProvider {
             this.getOrCreateTagBuilder(JelloTags.Items.SLIME_BALLS).add(Items.SLIME_BALL);
             ItemRegistry.SlimeBallItemRegistry.SLIME_BALLS.forEach((item) -> this.getOrCreateTagBuilder(JelloTags.Items.SLIME_BALLS).add(item));
 
-            for(Map.Entry<DyeColorant, DyedVariants> entry : DyedVariants.DYED_VARIANTS.entrySet()){
-                for(Item item : entry.getValue().dyedItems){
-                    if(item instanceof DyeItem){
-                        this.getOrCreateTagBuilder(JelloTags.Items.DYE_ITEMS).add(item);
-                    }
-                }
+            for(Map.Entry<DyeColorant, DyedVariantContainer> entry : DyedVariantContainer.DYED_VARIANTS.entrySet()){
+                this.getOrCreateTagBuilder(JelloTags.Items.DYE_ITEMS).add(entry.getValue().dyeItem);
             }
         }
     }

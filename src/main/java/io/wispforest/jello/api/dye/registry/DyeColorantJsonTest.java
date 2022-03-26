@@ -1,6 +1,7 @@
 package io.wispforest.jello.api.dye.registry;
 
 import io.wispforest.jello.api.dye.DyeColorant;
+import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
 import io.wispforest.jello.main.common.Jello;
 import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.jello.api.util.MessageUtil;
@@ -66,7 +67,7 @@ public class DyeColorantJsonTest {
                 }
 
                 DyeColorant currentDyeColor = DyeColorantRegistry.registryDyeColor(colorIdentifier, MapColor.CLEAR, colorValue);
-                DyeColorantRegistry.createDyedVariants(currentDyeColor, BASE_ITEM_SETTINGS, BASE_BLOCK_ITEM_SETTINGS, false);
+                DyedVariantContainer.createVariantContainer(currentDyeColor, new OwoItemSettings().group(ItemGroup.MISC).tab(1), BASE_BLOCK_ITEM_SETTINGS, false,false);
             }
 
             DyeColorantRegistry.registerModidModelRedirect(Jello.MODID);

@@ -1,13 +1,13 @@
 {
   "variants": {
     "type=bottom": {
-      "model": "jello:block/slime_slab_multicolor"
+      "model": "jello:block/colored_slime_slab"
     },
     "type=double": {
-      "model": "jello:block/slime_block_multicolor"
+      "model": "jello:block/colored_slime_block"
     },
     "type=top": {
-      "model": "jello:block/slime_slab_top_multicolor"
+      "model": "jello:block/colored_slime_slab_top"
     }
   }
 }

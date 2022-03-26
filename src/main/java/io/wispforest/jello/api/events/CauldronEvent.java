@@ -56,9 +56,9 @@ public class CauldronEvent {
 
     }
 
-    public static Event<beforeCauldronBehavior> BEFORE_CAULDRON_BEHAVIOR = EventFactory.createArrayBacked(CauldronEvent.beforeCauldronBehavior.class,
+    public static Event<BeforeCauldronBehavior> BEFORE_CAULDRON_BEHAVIOR = EventFactory.createArrayBacked(BeforeCauldronBehavior.class,
         (listeners) -> (state, world, pos, player, hand, stack, cauldronType) -> {
-            for (CauldronEvent.beforeCauldronBehavior event : listeners) {
+            for (BeforeCauldronBehavior event : listeners) {
                 ActionResult result = event.interact(state, world, pos, player, hand, stack, cauldronType);
 
                 if(result != ActionResult.PASS){
@@ -69,7 +69,7 @@ public class CauldronEvent {
             return ActionResult.PASS;
         });
 
-    public interface beforeCauldronBehavior{
+    public interface BeforeCauldronBehavior {
 
         /**
          *  An event before the cauldron behavior map for the Cauldron block is tested within {@link AbstractCauldronBlock#onUse(BlockState, World, BlockPos, PlayerEntity, Hand, BlockHitResult)}
