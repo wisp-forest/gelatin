@@ -13,10 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ColorBlockRegistry {
 
@@ -24,27 +21,41 @@ public class ColorBlockRegistry {
 
     public static final Map<DyeableBlockVariant, BlockVariantEntrysContainer> REGISTRY = new HashMap<>();
 
-    private static final List<DyeableBlockVariant> CURRENT_TYPES = new ArrayList<>();
+    private static final Set<DyeableBlockVariant> CURRENT_TYPES = new HashSet<>();
 
     static {
-        CURRENT_TYPES.addAll(VanillaBlockVariants.VANILLA_VARIANTS);
+        for(DyeableBlockVariant dyeableBlockVariant : VanillaBlockVariants.VANILLA_VARIANTS){
+            addToListWithRecursion(dyeableBlockVariant);
+        }
     }
 
-    public static void registerBlockType(DyeableBlockVariant dyeableBlockVariant){
+    public static void addToListWithRecursion(DyeableBlockVariant parentBlockVariant){
+        CURRENT_TYPES.add(parentBlockVariant);
+
+        if(parentBlockVariant.childVariant != null){
+            addToListWithRecursion(parentBlockVariant.childVariant.get());
+        }
+    }
+
+    public static void registerBlockTypeWithRecursion(DyeableBlockVariant parentBlockVariant){
+        CURRENT_TYPES.add(parentBlockVariant);
+
         for(DyeColorant dyeColorant : DyeColorantRegistry.DYE_COLOR) {
             DyedVariantContainer dyedVariants = DyedVariantContainer.DYED_VARIANTS.get(dyeColorant);
 
             if(dyedVariants != null) {
-                BlockVariantEntrysContainer container = getOrCreateContainer(dyeableBlockVariant);
+                BlockVariantEntrysContainer container = getOrCreateContainer(parentBlockVariant);
 
-                container.addDyeBlockPair(dyeColorant, dyedVariants.dyedBlocks.get(dyeableBlockVariant));
+                container.addDyeBlockPair(dyeColorant, dyedVariants.dyedBlocks.get(parentBlockVariant));
 
-                REGISTRY.put(dyeableBlockVariant, container);
+                REGISTRY.put(parentBlockVariant, container);
             }
         }
 
+        if(parentBlockVariant.childVariant != null){
+            registerBlockTypeWithRecursion(parentBlockVariant.childVariant.get());
+        }
 
-        CURRENT_TYPES.add(dyeableBlockVariant);
     }
 
     public static void registerDyeColorant(DyeColorant dyeColorant){

@@ -14,11 +14,11 @@ public class JelloBlockVariants {
 
     public static final DyeableBlockVariant SLIME_BLOCK = DyeableBlockVariant.of(new Identifier(Jello.MODID, "slime_block"), ItemGroup.REDSTONE, (dyeColorant, parentBlock) -> {
         return new SlimeBlockColored(dyeColorant, FabricBlockSettings.copyOf(Blocks.SLIME_BLOCK));
-    }).setBlockTags(JelloTags.Blocks.COLORED_SLIME_BLOCKS).setItemTags(JelloTags.Items.SLIME_BLOCKS).registerVariant();
+    }).setDefaultBlock(new Identifier("slime_block")).setBlockTags(JelloTags.Blocks.SLIME_BLOCKS, JelloTags.Blocks.COLORED_SLIME_BLOCKS).setItemTags(JelloTags.Items.SLIME_BLOCKS).registerVariant();
 
     public static final DyeableBlockVariant SLIME_SLAB = DyeableBlockVariant.of(new Identifier(Jello.MODID, "slime_slab"), ItemGroup.REDSTONE, (dyeColorant, parentBlock) -> {
         return new SlimeSlabColored(dyeColorant, FabricBlockSettings.copyOf(Blocks.SLIME_BLOCK));
-    }).setBlockTags(JelloTags.Blocks.COLORED_SLIME_SLABS).setItemTags(JelloTags.Items.SLIME_SLABS).registerVariant();
+    }).setDefaultBlock("slime_slab").setBlockTags(JelloTags.Blocks.SLIME_SLABS, JelloTags.Blocks.COLORED_SLIME_SLABS).setItemTags(JelloTags.Items.SLIME_SLABS).registerVariant();
 
     public static void init(){
 

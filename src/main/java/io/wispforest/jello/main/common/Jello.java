@@ -36,12 +36,10 @@ public class Jello implements ModInitializer{
     public void onInitialize() {
         Jello.initClothConfig();
 
-        JelloBlockVariants.init();
-
         //  Block Registry
-        FieldRegistrationHandler.register(BlockRegistry.SlimeBlockRegistry.class, MODID, false);
         FieldRegistrationHandler.register(BlockRegistry.SlimeSlabRegistry.class, MODID, false);
-        FieldRegistrationHandler.register(BlockRegistry.MainBlockRegistry.class, MODID, false);
+
+        JelloBlockVariants.init();
 
         //  StatusEffect Registry
         //FieldRegistrationHandler.register(JelloStatusEffectsRegistry.class, MODID, false);

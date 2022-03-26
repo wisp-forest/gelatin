@@ -3,7 +3,9 @@ package io.wispforest.jello.api.dye.registry.variants;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.registry.ColorBlockRegistry;
+import io.wispforest.jello.main.common.data.tags.JelloTags;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
+import io.wispforest.owo.util.TagInjector;
 import net.minecraft.block.Block;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
@@ -36,14 +38,19 @@ public class DyedVariantContainer {
         for(Map.Entry<DyeColorant, DyedVariantContainer> entry : DYED_VARIANTS.entrySet()){
             DyeColorant dyeColorant = entry.getKey();
 
-            entry.getValue().addToExistingContainer(dyeColorant, dyeableBlockVariant);
+            entry.getValue().addToExistingContainerWithRecursion(dyeColorant, dyeableBlockVariant);
         }
     }
 
-    private DyedVariantContainer addToExistingContainer(DyeColorant dyeColorant, DyeableBlockVariant dyeableBlockVariant){
+    private void addToExistingContainerWithRecursion(DyeColorant dyeColorant, DyeableBlockVariant dyeableBlockVariant){
         this.dyedBlocks.put(dyeableBlockVariant, this.blockBuilder.createNewBlockVariant(dyeColorant, dyeableBlockVariant));
 
-        return this;
+        if(dyeableBlockVariant.childVariant != null){
+            DyeableBlockVariant childBlockVariant = dyeableBlockVariant.childVariant.get();
+
+            this.addToExistingContainerWithRecursion(dyeColorant, childBlockVariant);
+        }
+
     }
 
     @ApiStatus.Internal
@@ -92,38 +99,44 @@ public class DyedVariantContainer {
             Map<DyeableBlockVariant, Block> dyedBlocks = new HashMap<>();
 
             for(DyeableBlockVariant dyeableBlockVariant : VanillaBlockVariants.VANILLA_VARIANTS){
-                DyeableBlockVariant.RegistryInfo info = null;
-                Block block;
-
-                if(!readOnly) {
-                    info = dyeableBlockVariant.makeChildBlock(dyeColorant);
-
-                    if(overrideSettings != null){
-                        info.setOverrideSettings(overrideSettings);
-                    }
-
-                    block = registerBlock(dyeableBlockVariant, info, dyeColorant);
-
-                    dyeableBlockVariant.addToBlockTags(block);
-                    dyeableBlockVariant.addToItemTags(block.asItem());
-                }else{
-                    block = registerBlock(dyeableBlockVariant, info, dyeColorant);
-                }
-
-
-
-                dyedBlocks.put(dyeableBlockVariant, block);
+                this.createBlockFromVariantWithRecursion(dyedBlocks, null, dyeableBlockVariant, dyeColorant, overrideSettings);
             }
 
             this.readOnly = false;
 
-
-
             return dyedBlocks;
         }
 
+        private void createBlockFromVariantWithRecursion(Map<DyeableBlockVariant, Block> dyedBlocks, Block possibleParentBlock, DyeableBlockVariant parentBlockVariant, DyeColorant dyeColorant, @Nullable OwoItemSettings overrideSettings){
+            DyeableBlockVariant.RegistryInfo info = null;
+            Block childBlock;
+
+            if(!readOnly) {
+                info = parentBlockVariant.makeChildBlock(dyeColorant, possibleParentBlock);
+
+                if(overrideSettings != null){
+                    info.setOverrideSettings(overrideSettings);
+                }
+
+                childBlock = registerBlock(parentBlockVariant, info, dyeColorant);
+
+                parentBlockVariant.addToBlockTags(childBlock);
+                parentBlockVariant.addToItemTags(childBlock.asItem());
+            }else{
+                childBlock = registerBlock(parentBlockVariant, info, dyeColorant);
+            }
+
+            dyedBlocks.put(parentBlockVariant, childBlock);
+
+            if(parentBlockVariant.childVariant != null){
+                DyeableBlockVariant childBlockVariant = parentBlockVariant.childVariant.get();
+
+                createBlockFromVariantWithRecursion(dyedBlocks, childBlock, childBlockVariant, dyeColorant, overrideSettings);
+            }
+        }
+
         private Block createNewBlockVariant(DyeColorant dyeColorant, DyeableBlockVariant dyeableBlockVariant){
-            DyeableBlockVariant.RegistryInfo info = dyeableBlockVariant.makeChildBlock(dyeColorant);
+            DyeableBlockVariant.RegistryInfo info = dyeableBlockVariant.makeBlock(dyeColorant);
 
             Block block = registerBlock(dyeableBlockVariant, info, dyeColorant);
 
@@ -178,7 +191,11 @@ public class DyedVariantContainer {
                 return (DyeItem) Registry.ITEM.get(identifier);
             }
 
-            return Registry.register(Registry.ITEM, identifier, new io.wispforest.jello.api.dye.item.DyeItem(dyeColorant, itemSettings));
+            DyeItem dyeItem = Registry.register(Registry.ITEM, identifier, new io.wispforest.jello.api.dye.item.DyeItem(dyeColorant, itemSettings));
+
+            TagInjector.injectItems(JelloTags.Items.DYE_ITEMS.id(), dyeItem);
+
+            return dyeItem;
         }
     }
 }

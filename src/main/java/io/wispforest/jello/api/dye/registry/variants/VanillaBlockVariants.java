@@ -35,7 +35,7 @@ public class VanillaBlockVariants {
 
     private static final DyeableBlockVariant TERRACOTTA = DyeableBlockVariant.of(new Identifier("terracotta"), (dyeColorant, parentBlock) -> {
         return new ColoredBlock(AbstractBlock.Settings.of(Material.STONE, MapColor.CLEAR).requiresTool().strength(1.25F, 4.2F), dyeColorant);
-    }).setBlockTags(BlockTags.TERRACOTTA);
+    }).setBlockTags(BlockTags.TERRACOTTA).setDefaultBlock("terracotta");
 
     //-----------------------------------------------------------------
 
@@ -51,13 +51,13 @@ public class VanillaBlockVariants {
 
     //-----------------------------------------------------------------
 
-    private static final DyeableBlockVariant CANDLE_CAKE = DyeableBlockVariant.of(new Identifier("candle_cake"), (dyeColorant, parentBlock) -> {
-        return new ColoredCandleBlock(dyeColorant, AbstractBlock.Settings.of(Material.DECORATION, MapColor.CLEAR).nonOpaque().strength(0.1F).sounds(BlockSoundGroup.CANDLE).luminance(CandleBlock.STATE_TO_LUMINANCE));
-    }).setBlockTags(BlockTags.CANDLE_CAKES);
+    private static final DyeableBlockVariant CANDLE_CAKE = DyeableBlockVariant.of(new Identifier("candle_cake"), false, (dyeColorant, parentBlock) -> {
+        return new ColoredCandleCakeBlock(dyeColorant, parentBlock, AbstractBlock.Settings.copy(Blocks.CANDLE_CAKE));
+    }).setBlockTags(BlockTags.CANDLE_CAKES).setDefaultBlock("candle_cake");
 
     private static final DyeableBlockVariant CANDLE = DyeableBlockVariant.of(new Identifier("candle"), () -> CANDLE_CAKE, (dyeColorant, parentBlock) -> {
-        return new ColoredCandleCakeBlock(dyeColorant, parentBlock, AbstractBlock.Settings.copy(Blocks.CANDLE_CAKE));
-    }).setBlockTags(BlockTags.CANDLES).setItemTags(ItemTags.CANDLES);
+        return new ColoredCandleBlock(dyeColorant, AbstractBlock.Settings.of(Material.DECORATION, MapColor.CLEAR).nonOpaque().strength(0.1F).sounds(BlockSoundGroup.CANDLE).luminance(CandleBlock.STATE_TO_LUMINANCE));
+    }).setBlockTags(BlockTags.CANDLES).setItemTags(ItemTags.CANDLES).setDefaultBlock("candle");
 
     //-----------------------------------------------------------------
 
@@ -90,7 +90,7 @@ public class VanillaBlockVariants {
         ((DyeBlockStorage) block).setDyeColor(dyeColorant);
 
         return addToBlockEntitySet(block, BlockEntityType.SHULKER_BOX);
-    }).setBlockTags(BlockTags.SHULKER_BOXES).stackCount(1).setBlockItemMaker((dyeColorant, block, settings) -> new BlockItem(block, settings));
+    }).setBlockTags(BlockTags.SHULKER_BOXES).stackCount(1).setBlockItemMaker((dyeColorant, block, settings) -> new BlockItem(block, settings)).setDefaultBlock("shulker_box");
 
     //-----------------------------------------------------------------
 

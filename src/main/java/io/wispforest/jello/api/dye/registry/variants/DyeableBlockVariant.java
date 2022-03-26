@@ -133,6 +133,12 @@ public class DyeableBlockVariant {
         return this;
     }
 
+    public final DyeableBlockVariant setDefaultBlock(Identifier identifier){
+        this.defaultBlock = identifier;
+
+        return this;
+    }
+
     public final DyeableBlockVariant setDefaultBlock(String path){
         this.defaultBlock = new Identifier(variantIdentifier.getNamespace(), path);
 
@@ -206,7 +212,7 @@ public class DyeableBlockVariant {
             DyedVariantContainer.updateExistingContainers(this);
         }
 
-        ColorBlockRegistry.registerBlockType(this);
+        ColorBlockRegistry.registerBlockTypeWithRecursion(this);
         DyeableBlockVariant.ADDITION_BLOCK_VARIANTS.add(this);
 
         return this;
@@ -241,14 +247,18 @@ public class DyeableBlockVariant {
 
     //---------------------------------------------------------------------------------------------------
 
-    public RegistryInfo makeChildBlock(DyeColorant dyeColorant){
+    public RegistryInfo makeBlock(DyeColorant dyeColorant){
         return this.makeChildBlock(dyeColorant, null);
     }
 
     public RegistryInfo makeChildBlock(DyeColorant dyeColorant, @Nullable Block parentBlock){
         Block returnBlock = blockMaker.createBlockFromDyeColor(dyeColorant, parentBlock);
 
-        return RegistryInfo.of(returnBlock, defaultSettings);
+        if(!noBlockItem){
+            return RegistryInfo.of(returnBlock, null);
+        }else {
+            return RegistryInfo.of(returnBlock, defaultSettings);
+        }
     }
 
     public interface BlockMaker {

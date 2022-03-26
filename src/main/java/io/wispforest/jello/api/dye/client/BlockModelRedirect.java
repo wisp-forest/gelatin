@@ -31,8 +31,13 @@ public class BlockModelRedirect implements ModelVariantProvider {
     @Override
     public @Nullable UnbakedModel loadModelVariant(ModelIdentifier modelId, ModelProviderContext context) throws ModelProviderException {
         if(ALL_VARIANTS.isEmpty()){
-            ALL_VARIANTS.addAll(VanillaBlockVariants.VANILLA_VARIANTS);
-            ALL_VARIANTS.addAll(DyeableBlockVariant.ADDITION_BLOCK_VARIANTS);
+            for(DyeableBlockVariant dyeableBlockVariant : VanillaBlockVariants.VANILLA_VARIANTS){
+                addToListWithRecursion(dyeableBlockVariant);
+            }
+
+            for(DyeableBlockVariant dyeableBlockVariant : DyeableBlockVariant.ADDITION_BLOCK_VARIANTS){
+                addToListWithRecursion(dyeableBlockVariant);
+            }
         }
 
         if (DyeColorantRegistry.shouldRedirectModelResource(new Identifier(modelId.getNamespace(), modelId.getPath()))) {
@@ -120,6 +125,14 @@ public class BlockModelRedirect implements ModelVariantProvider {
         }
 
         return null;
+    }
+
+    public static void addToListWithRecursion(DyeableBlockVariant parentBlockVariant){
+        ALL_VARIANTS.add(parentBlockVariant);
+
+        if(parentBlockVariant.childVariant != null){
+            addToListWithRecursion(parentBlockVariant.childVariant.get());
+        }
     }
 
     public static class ResourceRedirectEntryPredicate implements Predicate<Block> {
