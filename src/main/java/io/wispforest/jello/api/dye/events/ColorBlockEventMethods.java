@@ -94,16 +94,17 @@ public class ColorBlockEventMethods {
         } else if (!world.isClient) {
             int stackDecrementAmount = 1;
 
-            if(oldBlock.asItem().getMaxCount() > 1){
+            if (oldBlock.asItem().getMaxCount() > 1) {
                 stackDecrementAmount = Math.min(oldBlockStack.getCount(), 8);
             }
 
             ItemStack changedItemStack = new ItemStack(changedBlock, stackDecrementAmount);
-            oldBlockStack.decrement(stackDecrementAmount);
+
+            if(!player.getAbilities().creativeMode) {
+                oldBlockStack.decrement(stackDecrementAmount);
+            }
 
             ItemScattererExt.spawn(world, cauldronPos.up(), changedItemStack);
-
-//            player.setStackInHand(hand, changedItemStack);
 
             if (washingBlock) {
                 player.incrementStat(JelloAPI.Stats.CLEAN_BLOCK);
