@@ -3,6 +3,7 @@ package io.wispforest.jello.api.dye.blockentity;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.owo.ops.WorldOps;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
@@ -62,7 +63,8 @@ public class ColorStorageBlockEntity extends BlockEntity {
         this.currentColor = DyeColorantRegistry.DYE_COLOR.get(id);
 
         if(world != null && world.isClient) {
-            world.scheduleBlockRerenderIfNeeded(pos, Blocks.AIR.getDefaultState(), this.getCachedState());
+            world.updateListeners(pos, Blocks.AIR.getDefaultState(), this.getCachedState(), Block.REDRAW_ON_MAIN_THREAD);
+            //MinecraftClient.getInstance().worldRenderer.updateBlock(world, pos,  Blocks.AIR.getDefaultState(), this.getCachedState(), Block.REDRAW_ON_MAIN_THREAD);
         }
     }
 

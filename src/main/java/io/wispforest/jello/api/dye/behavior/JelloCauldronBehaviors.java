@@ -77,9 +77,9 @@ public class JelloCauldronBehaviors implements CauldronBehavior{
 
                         world.playSound((PlayerEntity) null, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
                         world.emitGameEvent((Entity) null, GameEvent.FLUID_PLACE, pos);
-
-                        blockEntity.markDirty();
                     }
+
+                    blockEntity.markDirty();
 
                     return ActionResult.success(world.isClient);
                 }
