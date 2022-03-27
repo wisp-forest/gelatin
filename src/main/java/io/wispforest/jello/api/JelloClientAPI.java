@@ -1,14 +1,8 @@
 package io.wispforest.jello.api;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.block.ColoredGlassBlock;
 import io.wispforest.jello.api.dye.block.ColoredGlassPaneBlock;
-import io.wispforest.jello.api.dye.client.BlockModelRedirect;
-import io.wispforest.jello.api.dye.client.DyeModelResourceRedirect;
 import io.wispforest.jello.api.dye.item.DyeItem;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
@@ -17,12 +11,14 @@ import io.wispforest.jello.api.dye.registry.variants.VanillaBlockVariants;
 import io.wispforest.jello.main.common.Jello;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.fabric.impl.blockrenderlayer.BlockRenderLayerMapImpl;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -34,14 +30,14 @@ import net.minecraft.client.color.block.BlockColorProvider;
 import net.minecraft.client.color.item.ItemColorProvider;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.TexturedRenderLayers;
-import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
 
-import java.io.InputStreamReader;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 public class JelloClientAPI implements ClientModInitializer {
 
@@ -60,6 +56,13 @@ public class JelloClientAPI implements ClientModInitializer {
            for(DyeableBlockVariant dyeableBlockVariant : DyeableBlockVariant.ADDITION_BLOCK_VARIANTS){
                addToListWithRecursion(dyeableBlockVariant);
            }
+        }
+
+
+        if(FabricLoader.getInstance().isModLoaded("continuity")) {
+            FabricLoader.getInstance().getModContainer(Jello.MODID).ifPresent(container -> {
+                ResourceManagerHelper.registerBuiltinResourcePack(new Identifier(Jello.MODID, "continuity_comp"), container, ResourcePackActivationType.NORMAL);
+            });
         }
 
         ColorProviderRegistry.BLOCK.register((BlockColorProvider) Blocks.WATER_CAULDRON, Blocks.WATER_CAULDRON);
