@@ -50,13 +50,13 @@ public abstract class ModelLoaderMixin {
 
     @Shadow protected abstract void putModel(Identifier id, UnbakedModel unbakedModel);
 
-    @Shadow @Final private static org.slf4j.Logger LOGGER;
-    @Unique private Identifier cachedRedirectID;
+    @Unique private Identifier cachedBlockStateRedirectID;
+    @Unique private Identifier cachedItemRedirectID;
 
     @ModifyVariable(method = "loadModel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/model/json/ModelVariantMap$DeserializationContext;setStateFactory(Lnet/minecraft/state/StateManager;)V", shift = At.Shift.BY, by = 2), argsOnly = true)
     private Identifier changeIdentifierForBlocks(Identifier value){
-        if(cachedRedirectID != null){
-            return cachedRedirectID;
+        if(cachedBlockStateRedirectID != null){
+            return cachedBlockStateRedirectID;
         }
 
         return value;
@@ -68,10 +68,10 @@ public abstract class ModelLoaderMixin {
 
     @Inject(method = "loadModel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/model/ModelLoader;loadModelFromJson(Lnet/minecraft/util/Identifier;)Lnet/minecraft/client/render/model/json/JsonUnbakedModel;", ordinal = 1), locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
     private void changeIdentifierForItems(Identifier id, CallbackInfo ci, ModelIdentifier modelIdentifier, Identifier identifier) throws Exception{
-        if(cachedRedirectID != null && redirectItemModelIdentifier){
+        if(cachedItemRedirectID != null){
             //LOGGER.info("Loading a item model using redirect id: [" + cachedRedirectID + "] / [" + id + "]");
 
-            Identifier redirectedID = new Identifier(cachedRedirectID.getNamespace(), "item/" + cachedRedirectID.getPath());
+            Identifier redirectedID = new Identifier(cachedItemRedirectID.getNamespace(), "item/" + cachedItemRedirectID.getPath());
             JsonUnbakedModel jsonUnbakedModel = this.loadModelFromJson(redirectedID);
 
             this.putModel(modelIdentifier, jsonUnbakedModel);
@@ -94,8 +94,7 @@ public abstract class ModelLoaderMixin {
 
     @Unique private static final Logger LOGGER_MALD = LogManager.getLogger("Jello");
 
-    private static final Set<DyeableBlockVariant> ALL_VARIANTS = new HashSet<>();
-    private boolean redirectItemModelIdentifier = false;
+    @Unique private static final Set<DyeableBlockVariant> ALL_VARIANTS = new HashSet<>();
 
     @Unique private final Map<String, UnbakedModel> test_map = new HashMap<>();
 
@@ -122,33 +121,39 @@ public abstract class ModelLoaderMixin {
                 isItemVersion = false;
             }
 
-            cachedRedirectID = null;
+            cachedBlockStateRedirectID = null;
+            cachedItemRedirectID = null;
 
             //TODO: GET WORKING WITH BLOCK VARIANTS!
             for(DyeableBlockVariant blockVariant : ALL_VARIANTS){
                 if (blockVariant.isIdentifierAVariant(modelId, isItemVersion)) {
                     String nameSpace = Objects.equals(blockVariant.variantIdentifier.getNamespace(), "minecraft") ? Jello.MODID : blockVariant.variantIdentifier.getNamespace();
 
-                    cachedRedirectID = new Identifier(nameSpace, "colored_" + blockVariant.variantIdentifier.getPath());
+                    Identifier identifier = new Identifier(nameSpace, "colored_" + blockVariant.variantIdentifier.getPath());
 
                     if(!isItemVersion){
-                        if(test_map.get(cachedRedirectID.toString()) != null){
-                            this.unbakedModels.put(modelId, test_map.get(cachedRedirectID.toString()));
-                            this.modelsToBake.put(modelId, test_map.get(cachedRedirectID.toString()));
+                        cachedBlockStateRedirectID = identifier;
+
+
+                        if(test_map.get(cachedBlockStateRedirectID + modelId.getVariant()) != null){
+                            this.unbakedModels.put(modelId, test_map.get(cachedBlockStateRedirectID.toString() + modelId.getVariant()));
+                            this.modelsToBake.put(modelId, test_map.get(cachedBlockStateRedirectID.toString() + modelId.getVariant()));
 
                             ci.cancel();
                         }
 
-                        redirectItemModelIdentifier = false;
+                        cachedItemRedirectID = null;
                     }else{
-                        if(test_map.get(cachedRedirectID + "/item") != null){
-                            this.unbakedModels.put(modelId, test_map.get(cachedRedirectID + "/item"));
-                            this.modelsToBake.put(modelId, test_map.get(cachedRedirectID + "/item"));
+                        cachedItemRedirectID = identifier;
+
+                        if(test_map.get(cachedItemRedirectID + "/item") != null){
+                            this.unbakedModels.put(modelId, test_map.get(cachedItemRedirectID + "/item"));
+                            this.modelsToBake.put(modelId, test_map.get(cachedItemRedirectID + "/item"));
 
                             ci.cancel();
                         }
 
-                        redirectItemModelIdentifier = true;
+                        cachedBlockStateRedirectID = null;
                     }
 
                     return;
@@ -157,35 +162,34 @@ public abstract class ModelLoaderMixin {
 
             if(isItemVersion) {
                 if (Objects.equals(stringParts[stringParts.length - 1], "dye")){
-                    cachedRedirectID = new Identifier(Jello.MODID, "dynamic_dye");
+                    cachedItemRedirectID = new Identifier(Jello.MODID, "dynamic_dye");
 
-                    if(test_map.get(cachedRedirectID + "/item") != null){
-                        this.unbakedModels.put(modelId, test_map.get(cachedRedirectID + "/item"));
-                        this.modelsToBake.put(modelId, test_map.get(cachedRedirectID + "/item"));
+                    if(test_map.get(cachedItemRedirectID + "/item") != null){
+                        this.unbakedModels.put(modelId, test_map.get(cachedItemRedirectID + "/item"));
+                        this.modelsToBake.put(modelId, test_map.get(cachedItemRedirectID + "/item"));
 
                         ci.cancel();
                     }
 
-                    redirectItemModelIdentifier = true;
+                    cachedBlockStateRedirectID = null;
 
                     return;
                 }
             }
 
-            LOGGER_MALD.error(Arrays.toString(stringParts) + " / " + isItemVersion + " / " + cachedRedirectID);
+            LOGGER_MALD.error(Arrays.toString(stringParts) + " / " + isItemVersion + " / " + cachedBlockStateRedirectID);
         }else{
-            cachedRedirectID = null;
+            cachedBlockStateRedirectID = null;
+            cachedItemRedirectID = null;
         }
     }
 
     @Inject(method = "addModel", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/client/render/model/ModelLoader;getOrLoadModel(Lnet/minecraft/util/Identifier;)Lnet/minecraft/client/render/model/UnbakedModel;"), locals = LocalCapture.CAPTURE_FAILHARD)
     private void cacheBlockModel(ModelIdentifier modelId, CallbackInfo ci, UnbakedModel unbakedModel){
-        if(cachedRedirectID != null){
-            if(redirectItemModelIdentifier) {
-                test_map.putIfAbsent(cachedRedirectID + "/item", unbakedModel);
-            }else{
-                test_map.putIfAbsent(cachedRedirectID.toString(), unbakedModel);
-            }
+        if(cachedBlockStateRedirectID != null){
+            test_map.putIfAbsent(cachedBlockStateRedirectID + modelId.getVariant(), unbakedModel);
+        }else if(cachedItemRedirectID != null){
+            test_map.putIfAbsent(cachedItemRedirectID + "/item", unbakedModel);
         }
     }
 

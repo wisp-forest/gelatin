@@ -1,5 +1,6 @@
 {
-  "#comment": "Data was taken from https://chir.ag/projects/ntc/ntc.js, created by Chirag Mehta, under the Creative Commons Licences",
+  "#comment": "Data was taken from https://chir.ag/projects/ntc/ntc.js, created by Chirag Mehta, under the Creative Commons License: Attribution 2.5 http://creativecommons.org/licenses/by/2.5/",
+  "#changes": "This JSON file is adapted with Identifier Safe Name for easy loading and also is now a JSON",
   "colors": [
     {
       "hexValue": "000000",

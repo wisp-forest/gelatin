@@ -7,6 +7,7 @@ import io.wispforest.jello.main.common.data.tags.JelloTags;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
 import io.wispforest.owo.util.TagInjector;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
@@ -14,6 +15,7 @@ import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 
 public class DyedVariantContainer {
@@ -32,6 +34,27 @@ public class DyedVariantContainer {
         this.blockBuilder = blockBuilder;
         this.itemBuilder = itemBuilder;
     }
+
+    public static Block getDyedBlockVariant(@Nonnull DyeColorant dyeColorant, @Nonnull DyeableBlockVariant dyeableBlockVariant){
+        for(Map.Entry<DyeColorant, DyedVariantContainer> variantContainerEntry : DYED_VARIANTS.entrySet()){
+            DyeColorant possibleDyeColorant = variantContainerEntry.getKey();
+
+            if(dyeColorant == possibleDyeColorant){
+                DyedVariantContainer container = variantContainerEntry.getValue();
+
+                for(Map.Entry<DyeableBlockVariant, Block> variantBlockEntry : container.dyedBlocks.entrySet()){
+                    DyeableBlockVariant possibleVariant = variantBlockEntry.getKey();
+
+                    if(dyeableBlockVariant == possibleVariant){
+                        return variantBlockEntry.getValue();
+                    }
+                }
+            }
+        }
+
+        return Blocks.AIR;
+    }
+
 
     //TODO: FILTER THE ENTRY'S TO BE IN A CERTAIN COLOR ORDERED???
     protected static void updateExistingContainers(DyeableBlockVariant dyeableBlockVariant){
