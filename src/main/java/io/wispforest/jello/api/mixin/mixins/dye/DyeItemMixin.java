@@ -23,6 +23,7 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.*;
@@ -31,16 +32,26 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 @Mixin(DyeItem.class)
 public class DyeItemMixin extends Item implements DyeItemStorage {
 
+    @Mutable
+    @Shadow @Final private static Map<DyeColor, DyeItem> DYES;
     @Unique @Mutable @Final private DyeColorant color;
 
     public DyeItemMixin(Settings settings) {
         super(settings);
     }
+
+    @Inject(method = "<clinit>", at = @At(value = "TAIL"))
+    private static void changeDYESmapType(CallbackInfo ci){
+        DYES = new HashMap<>();
+    }
+
 
     @Inject(method = "<init>", at = @At(value = "TAIL"))
     private void fillNewDyeMap(net.minecraft.util.DyeColor color, Item.Settings settings, CallbackInfo ci){
