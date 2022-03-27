@@ -30,15 +30,15 @@ public class BlockModelRedirect implements ModelVariantProvider {
 
     @Override
     public @Nullable UnbakedModel loadModelVariant(ModelIdentifier modelId, ModelProviderContext context) throws ModelProviderException {
-        if(ALL_VARIANTS.isEmpty()){
-            for(DyeableBlockVariant dyeableBlockVariant : VanillaBlockVariants.VANILLA_VARIANTS){
-                addToListWithRecursion(dyeableBlockVariant);
-            }
-
-            for(DyeableBlockVariant dyeableBlockVariant : DyeableBlockVariant.ADDITION_BLOCK_VARIANTS){
-                addToListWithRecursion(dyeableBlockVariant);
-            }
-        }
+//        if(ALL_VARIANTS.isEmpty()){
+//            for(DyeableBlockVariant dyeableBlockVariant : VanillaBlockVariants.VANILLA_VARIANTS){
+//                addToListWithRecursion(dyeableBlockVariant);
+//            }
+//
+//            for(DyeableBlockVariant dyeableBlockVariant : DyeableBlockVariant.ADDITION_BLOCK_VARIANTS){
+//                addToListWithRecursion(dyeableBlockVariant);
+//            }
+//        }
 
         if (DyeColorantRegistry.shouldRedirectModelResource(new Identifier(modelId.getNamespace(), modelId.getPath()))) {
             //if(Objects.equals(modelId.getNamespace(), DyeColorantJsonTest.JSON_NAMESPACE)){
@@ -60,6 +60,8 @@ public class BlockModelRedirect implements ModelVariantProvider {
             } else {
                 loadFromDirectory = "block";
                 isItemVersion = false;
+
+                return null;
             }
 
             //TODO: GET WORKING WITH BLOCK VARIANTS!
@@ -94,7 +96,7 @@ public class BlockModelRedirect implements ModelVariantProvider {
                     return context.loadModel(new Identifier("jello", loadFromDirectory + "/stained_glass_pane"));
                 }
 
-                return null;
+                return context.loadModel(new Identifier(Jello.MODID, "blockstate" + "/stained_glass_pane"));
             }else if(Objects.equals(stringParts[stringParts.length - 1], "candle")){
                 if (loadFromDirectory.equals("item")) {
                     return context.loadModel(new Identifier(loadFromDirectory + "/white_candle"));
@@ -112,16 +114,16 @@ public class BlockModelRedirect implements ModelVariantProvider {
                     return context.loadModel(new Identifier("jello", loadFromDirectory + "/colored_slime_slab"));
                 }
             }
-
-//            UnbakedModel possibleModel = context.loadModel(modelId);
-//            if(MISSING_MODEL == null){
-//                MISSING_MODEL = context.loadModel(ModelLoader.MISSING_ID);
-//            }
 //
-//            if(possibleModel == MISSING_MODEL){
-//                MESSAGE_TOOL.infoMessage(Arrays.toString(stringParts));
-//                MESSAGE_TOOL.failMessage("{Deetz Nuts} Failed to find model for " + modelId.toString());
-//            }
+////            UnbakedModel possibleModel = context.loadModel(modelId);
+////            if(MISSING_MODEL == null){
+////                MISSING_MODEL = context.loadModel(ModelLoader.MISSING_ID);
+////            }
+////
+////            if(possibleModel == MISSING_MODEL){
+////                MESSAGE_TOOL.infoMessage(Arrays.toString(stringParts));
+////                MESSAGE_TOOL.failMessage("{Deetz Nuts} Failed to find model for " + modelId.toString());
+////            }
         }
 
         return null;

@@ -43,7 +43,7 @@ public class DyeableBlockVariant {
 
     public final BlockMaker blockMaker;
     public BlockItemSettings defaultSettings;
-    public final boolean noBlockItem;
+    public final boolean createBlockItem;
 
     public BlockItemMaker blockItemMaker;
 
@@ -56,7 +56,7 @@ public class DyeableBlockVariant {
     public DyeableBlockVariant(Identifier variantIdentifier, @Nullable Supplier<DyeableBlockVariant> possibleChildVariant, boolean noBlockItem, @Nullable ItemGroup defaultGroup, BlockMaker blockMaker){
         this.variantIdentifier = variantIdentifier;
         this.blockMaker = blockMaker;
-        this.noBlockItem = noBlockItem;
+        this.createBlockItem = noBlockItem;
 
         String[] partParts = variantIdentifier.getPath().split("_");
         this.wordCount = partParts.length;
@@ -227,11 +227,15 @@ public class DyeableBlockVariant {
     }
 
     public boolean isIdentifierAVariant(Identifier identifier, boolean isItem){
-        if(isItem && this.noBlockItem){
+        if(isItem && !this.createBlockItem){
             return false;
         }
 
         String[] pathParts = identifier.getPath().split("_");
+
+        if(pathParts.length <= wordCount){
+            return false;
+        }
 
         StringBuilder stringBuilder = new StringBuilder();
         for(int i = pathParts.length - wordCount; i < pathParts.length; i++){
@@ -254,7 +258,7 @@ public class DyeableBlockVariant {
     public RegistryInfo makeChildBlock(DyeColorant dyeColorant, @Nullable Block parentBlock){
         Block returnBlock = blockMaker.createBlockFromDyeColor(dyeColorant, parentBlock);
 
-        if(!noBlockItem){
+        if(!createBlockItem){
             return RegistryInfo.of(returnBlock, null);
         }else {
             return RegistryInfo.of(returnBlock, defaultSettings);

@@ -1,5 +1,9 @@
 package io.wispforest.jello.api;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.block.ColoredGlassBlock;
 import io.wispforest.jello.api.dye.block.ColoredGlassPaneBlock;
@@ -7,7 +11,9 @@ import io.wispforest.jello.api.dye.client.BlockModelRedirect;
 import io.wispforest.jello.api.dye.client.DyeModelResourceRedirect;
 import io.wispforest.jello.api.dye.item.DyeItem;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
+import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
 import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
+import io.wispforest.jello.api.dye.registry.variants.VanillaBlockVariants;
 import io.wispforest.jello.main.common.Jello;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -28,20 +34,34 @@ import net.minecraft.client.color.block.BlockColorProvider;
 import net.minecraft.client.color.item.ItemColorProvider;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.TexturedRenderLayers;
+import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
 
-import java.util.Map;
-import java.util.Objects;
+import java.io.InputStreamReader;
+import java.util.*;
 
 public class JelloClientAPI implements ClientModInitializer {
 
     public static final Identifier BED_BLANKET_ONLY = new Identifier(Jello.MODID, "block/bed/blanket_only");
     public static final Identifier BED_PILLOW_ONLY = new Identifier(Jello.MODID, "block/bed/pillow_only");
 
+    private static final Set<DyeableBlockVariant> ALL_VARIANTS = new HashSet<>();
+
     @Override
     public void onInitializeClient() {
+        if(ALL_VARIANTS.isEmpty()){
+           for(DyeableBlockVariant dyeableBlockVariant : VanillaBlockVariants.VANILLA_VARIANTS){
+               addToListWithRecursion(dyeableBlockVariant);
+           }
+
+           for(DyeableBlockVariant dyeableBlockVariant : DyeableBlockVariant.ADDITION_BLOCK_VARIANTS){
+               addToListWithRecursion(dyeableBlockVariant);
+           }
+        }
+
         ColorProviderRegistry.BLOCK.register((BlockColorProvider) Blocks.WATER_CAULDRON, Blocks.WATER_CAULDRON);
         BlockRenderLayerMap.INSTANCE.putBlock(Blocks.WATER_CAULDRON, RenderLayer.getTranslucent());
 
@@ -55,18 +75,25 @@ public class JelloClientAPI implements ClientModInitializer {
         });
     }
 
+    public static void addToListWithRecursion(DyeableBlockVariant parentBlockVariant){
+        ALL_VARIANTS.add(parentBlockVariant);
+
+        if(parentBlockVariant.childVariant != null){
+            addToListWithRecursion(parentBlockVariant.childVariant.get());
+        }
+    }
+
     //------------------------------------------------------------------------------
 
     private static void initJsonDyeItems(){
-        ModelLoadingRegistry.INSTANCE.registerResourceProvider((manager) -> {
-            return new DyeModelResourceRedirect();
-        });
-
-        ModelLoadingRegistry.INSTANCE.registerVariantProvider(resourceManager -> {
-            return new BlockModelRedirect();
-        });
+//        ModelLoadingRegistry.INSTANCE.registerResourceProvider((manager) -> {
+//            return new DyeModelResourceRedirect();
+//        });
+//
+//        ModelLoadingRegistry.INSTANCE.registerVariantProvider(resourceManager -> {
+//            return new BlockModelRedirect();
+//        });
     }
-
 
 
     private static void registerJsonBlocksForColor(){
