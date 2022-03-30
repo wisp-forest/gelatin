@@ -16,9 +16,9 @@
 
   "license": "LGPL-3.0",
   "contributors": [
-    "Elzra_Hentma - Texture Artist for Jello Cups",
-    "Glisco - Creator of owo and Helped get the Color Mixer GUI working",
-    "Pois1x - Created the Art for the Artist Palette"
+    "glisco - Major Work on the Paint Mixer GUI",
+    "Dr.Zeal - Texture Artist for Jello Cups",
+    "pois1x - Texture Artist for the Artist Palette"
   ],
 
   "icon": "assets/jello/icon.png",
