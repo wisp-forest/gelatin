@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "jello:block/paint_mixer",
+      "y": 180
+    },
+    "facing=north": {
+      "model": "jello:block/paint_mixer",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "jello:block/paint_mixer",
+      "y": 270
+    },
+    "facing=west": {
+      "model": "jello:block/paint_mixer"
+    }
+  }
+}

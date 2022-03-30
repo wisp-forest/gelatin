@@ -121,14 +121,6 @@ public class DyedVariantContainer {
 
     private void addToExistingContainerWithRecursion(DyeColorant dyeColorant, DyeableBlockVariant dyeableBlockVariant){
         this.blockBuilder.recursivelyBuildBlocksFromVariant(this.dyedBlocks, null, dyeableBlockVariant, dyeColorant, null);
-
-//        this.dyedBlocks.put(dyeableBlockVariant, this.blockBuilder.createNewBlockVariant(dyeColorant, dyeableBlockVariant));
-//
-//        if(dyeableBlockVariant.childVariant != null){
-//            DyeableBlockVariant childBlockVariant = dyeableBlockVariant.childVariant.get();
-//
-//            this.addToExistingContainerWithRecursion(dyeColorant, childBlockVariant);
-//        }
     }
 
     public static class BlockBuilder{
@@ -179,17 +171,6 @@ public class DyedVariantContainer {
             }
         }
 
-//        private Block createNewBlockVariant(DyeColorant dyeColorant, DyeableBlockVariant dyeableBlockVariant){
-//            DyeableBlockVariant.RegistryInfo info = dyeableBlockVariant.makeBlock(dyeColorant);
-//
-//            Block block = registerBlock(dyeableBlockVariant, info, dyeColorant);
-//
-//            dyeableBlockVariant.addToBlockTags(block);
-//            dyeableBlockVariant.addToItemTags(block.asItem());
-//
-//            return block;
-//        }
-
         private Block registerBlock(DyeableBlockVariant dyeableBlockVariant, @Nullable DyeableBlockVariant.RegistryInfo registryInfo, DyeColorant dyeColorant) {
             if(readOnly && Objects.equals(dyeColorant.getId().getNamespace(), "minecraft")){
                 return dyeableBlockVariant.getBlockVariant(dyeColorant);
@@ -208,7 +189,7 @@ public class DyedVariantContainer {
             Block block = Registry.register(Registry.BLOCK, identifier, registryInfo.block);
 
             if (!registryInfo.noBlockItem()) {
-                Registry.register(Registry.ITEM, identifier, dyeableBlockVariant.blockItemMaker.createBlockItemFromDyeColor(dyeColorant, block, registryInfo.getItemSettings()));
+                Registry.register(Registry.ITEM, identifier, dyeableBlockVariant.makeBlockItem(dyeColorant, block, registryInfo.getItemSettings()));
             }
 
             return block;

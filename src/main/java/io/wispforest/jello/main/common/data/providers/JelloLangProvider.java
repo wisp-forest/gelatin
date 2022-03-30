@@ -55,6 +55,8 @@ public class JelloLangProvider extends LanguageProvider {
         addItem(() -> ItemRegistry.MainItemRegistry.ARTIST_PALETTE);
         addItem(() -> ItemRegistry.MainItemRegistry.EMPTY_ARTIST_PALETTE, "Empty Palette");
 
+        addBlock(() -> JelloBlockRegistry.PAINT_MIXER);
+
         add(SpongeItem.DIRTINESS_TRANSLATION_KEY, "Dirty Sponge");
 
         addACToolTipAndNameEntry("enableGrayScalingOfEntitys", "Enable GrayScaling of Entitys", "[Warning: Will break texturepacks!] Used to allow for true color when a entity is dyed or color.");
