@@ -36,13 +36,6 @@ public class ArtistPalette extends Item implements ItemColorProvider  {
     }
 
     @Override
-    public void postProcessNbt(NbtCompound nbt) {
-        nbt.putBoolean(COLORED_KEY, false);
-
-        super.postProcessNbt(nbt);
-    }
-
-    @Override
     public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
         if (this.isIn(group)) {
             stacks.add(getDefaultStack());

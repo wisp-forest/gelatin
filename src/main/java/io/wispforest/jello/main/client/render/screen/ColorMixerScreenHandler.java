@@ -103,7 +103,7 @@ public class ColorMixerScreenHandler extends ScreenHandler {
 
     @Override
     public boolean canUse(PlayerEntity player) {
-        return canUse(context, player, JelloBlockRegistry.COLOR_MIXER);
+        return canUse(context, player, JelloBlockRegistry.PAINT_MIXER);
     }
 
     // Shift + Player Inv Slot
