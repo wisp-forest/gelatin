@@ -11,6 +11,7 @@
     "ItemMixin"
   ],
   "client": [
+    "client.ItemModelGeneratorMixin",
     "client.CreativeInventoryMixin",
     "client.InventoryScreenMixin",
     "client.accessors.ItemModelGeneratorAccessor",

@@ -3,14 +3,15 @@ package io.wispforest.jello.main.common.data.providers;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.mixin.ducks.DyeBlockStorage;
 import io.wispforest.jello.main.common.Jello;
-import io.wispforest.jello.main.common.blocks.BlockRegistry;
-import io.wispforest.jello.main.common.blocks.SlimeBlockColored;
+import io.wispforest.jello.main.common.data.JelloComplexRecipeJsonBuilder;
 import io.wispforest.jello.main.common.items.ItemRegistry;
 import io.wispforest.jello.main.common.data.tags.JelloTags;
+import io.wispforest.jello.main.common.recipe.RecipeSerializerRegistry;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipesProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.data.server.recipe.ComplexRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
@@ -18,6 +19,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.tag.ItemTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -98,6 +100,14 @@ public class JelloRecipeProvider extends FabricRecipesProvider {
                 .criterion("has_sponge_item", conditionsFromItem(Items.SPONGE))
                 .criterion("has_shears_item", conditionsFromItem(Items.SHEARS))
                 .offerTo(exporter, new Identifier(Jello.MODID, "sponge_item_from_dry_sponge"));
+
+        JelloComplexRecipeJsonBuilder.create(RecipeSerializerRegistry.ARTIST_PALETTE).offerTo(exporter, new Identifier(Jello.MODID, "fill_artist_palette"));
+
+        ShapelessRecipeJsonBuilder.create(ItemRegistry.MainItemRegistry.EMPTY_ARTIST_PALETTE)
+                .input(Items.SHEARS)
+                .input(ItemTags.WOODEN_PRESSURE_PLATES)
+                .criterion("has_shears_item", conditionsFromItem(Items.SHEARS))
+                .offerTo(exporter, new Identifier(Jello.MODID, "artist_palette"));
     }
 
     public static void offerSlimeBlockDyeingRecipe(Consumer<RecipeJsonProvider> exporter, ItemConvertible output, ItemConvertible input, String blockPath, String dyePath) {

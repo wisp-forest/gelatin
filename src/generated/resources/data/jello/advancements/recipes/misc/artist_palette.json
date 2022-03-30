@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "jello:artist_palette"
+    ]
+  },
+  "criteria": {
+    "has_shears_item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:shears"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "jello:artist_palette"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_shears_item",
+      "has_the_recipe"
+    ]
+  ]
+}

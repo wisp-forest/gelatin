@@ -1,12 +1,20 @@
 package io.wispforest.jello.main.common;
 
-import io.wispforest.jello.main.common.blocks.BlockRegistry;
+import io.wispforest.jello.api.RecipeSpecificRemainderOps;
+import io.wispforest.jello.main.client.render.screen.ColorMixerScreen;
+import io.wispforest.jello.main.client.render.screen.JelloScreenHandlerRegistry;
+import io.wispforest.jello.main.common.blockentity.ColorMixerBlockEntity;
+import io.wispforest.jello.main.common.blockentity.JelloBlockEntityRegistry;
+import io.wispforest.jello.main.common.blocks.JelloBlockRegistry;
 import io.wispforest.jello.main.common.compat.JelloBlockVariants;
 import io.wispforest.jello.main.common.compat.consistencyplus.data.ConsistencyPlusTags;
 import io.wispforest.jello.main.common.config.JelloConfig;
 import io.wispforest.jello.main.common.items.ItemRegistry;
 import io.wispforest.jello.main.common.items.dyebundle.DyeBundlePackets;
+import io.wispforest.jello.main.common.recipe.RecipeSerializerRegistry;
 import io.wispforest.jello.main.mixin.ducks.InInventoryCraftingPacket;
+import io.wispforest.jello.main.network.ColorMixerBufferUpdatePacket;
+import io.wispforest.jello.main.network.ColorMixerRequestPacket;
 import io.wispforest.owo.network.OwoNetChannel;
 import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
 import io.wispforest.owo.util.ModCompatHelpers;
@@ -14,6 +22,7 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.block.Block;
+import net.minecraft.item.Items;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -34,10 +43,17 @@ public class Jello implements ModInitializer{
 
     @Override
     public void onInitialize() {
+        RecipeSpecificRemainderOps.addRemainderToItem(new Identifier(Jello.MODID, "sponge_item_from_wet_sponge"), Items.SHEARS);
+        RecipeSpecificRemainderOps.addRemainderToItem(new Identifier(Jello.MODID, "sponge_item_from_dry_sponge"), Items.SHEARS);
+        RecipeSpecificRemainderOps.addRemainderToItem(new Identifier(Jello.MODID, "artist_palette"), Items.SHEARS);
+
+        JelloScreenHandlerRegistry.init();
+
         Jello.initClothConfig();
 
         //  Block Registry
-        FieldRegistrationHandler.register(BlockRegistry.SlimeSlabRegistry.class, MODID, false);
+        FieldRegistrationHandler.register(JelloBlockRegistry.class, MODID, false);
+        FieldRegistrationHandler.register(JelloBlockEntityRegistry.class, MODID, false);
 
         JelloBlockVariants.init();
 
@@ -49,6 +65,8 @@ public class Jello implements ModInitializer{
         FieldRegistrationHandler.register(ItemRegistry.JelloCupItemRegistry.class, MODID, false);
         FieldRegistrationHandler.register(ItemRegistry.MainItemRegistry.class, MODID, false);
 
+        FieldRegistrationHandler.register(RecipeSerializerRegistry.class, MODID, false);
+
         Jello.ColorBlockRegistryCompat();
 
         Jello.setupOWOPacketStuff();
@@ -59,6 +77,19 @@ public class Jello implements ModInitializer{
     private static void setupOWOPacketStuff(){
         CHANNEL.registerServerbound(InInventoryCraftingPacket.CraftPacket.class, InInventoryCraftingPacket.CraftPacket::craftFromStack);
         CHANNEL.registerServerbound(DyeBundlePackets.ScreenScrollPacket.class, DyeBundlePackets.ScreenScrollPacket::scrollBundle);
+
+        CHANNEL.registerClientbound(ColorMixerBufferUpdatePacket.class, (message, access) -> {
+            if (!(access.runtime().currentScreen instanceof ColorMixerScreen screen)) return;
+
+        });
+
+        CHANNEL.registerServerbound(ColorMixerRequestPacket.class, (message, access) -> {
+            final var world = access.player().world;
+            final var possibleMixer = world.getBlockEntity(message.pos());
+            if (!(possibleMixer instanceof ColorMixerBlockEntity mixer)) return;
+
+
+        });
     }
 
     public static void initClothConfig(){

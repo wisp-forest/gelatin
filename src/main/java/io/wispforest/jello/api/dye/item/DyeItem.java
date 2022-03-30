@@ -28,12 +28,10 @@ public class DyeItem extends net.minecraft.item.DyeItem implements DyeItemStorag
 
     protected int textureVariant = 0;
 
-    protected final DyeColorant mainColor;
-
     public DyeItem(DyeColorant mainColor, Settings settings) {
         super(DyeColorantRegistry.Constants.NULL_VALUE_OLD, settings);
 
-        this.mainColor = mainColor;
+        this.setDyeColor(mainColor);
 
         if(mainColor != null){
             char[] chracters = mainColor.getName().toCharArray();
@@ -58,11 +56,6 @@ public class DyeItem extends net.minecraft.item.DyeItem implements DyeItemStorag
     @Environment(EnvType.CLIENT)
     public int getColor(ItemStack stack, int tintIndex) {
         return this.getDyeColor().getBaseColor();
-    }
-
-    @Override
-    public DyeColorant getDyeColor() {
-        return this.mainColor;
     }
 
     @Override

@@ -43,7 +43,6 @@ public class DyeColorantJsonTest {
     }
 
     @ApiStatus.Internal public static final OwoItemSettings BASE_BLOCK_ITEM_SETTINGS = new OwoItemSettings().group(ItemGroup.MISC).tab(2);
-    @ApiStatus.Internal public static final OwoItemSettings BASE_ITEM_SETTINGS = new OwoItemSettings().group(ItemGroup.MISC).tab(3);
 
     public static void gatherDyesFromJson(){
         MessageUtil messager = new MessageUtil("JsonToRegistry");

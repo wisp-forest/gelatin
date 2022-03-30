@@ -108,6 +108,17 @@ public class DyeColorantRegistry {
         return DyedVariantContainer.createVariantContainer(dyeColorant, itemSettings, identifierModelRedirect);
     }
 
+    /**
+     * [Warning]: This a faster method to identifier Model Redirect but could cause issues loading some models.
+     *
+     * Simple method to add your MODID within the Model Redirect System for your created Variants
+     *
+     * @param modid A string representing your mods Id
+     */
+    public static void registerModidModelRedirect(String modid){
+        NAMESPACE_RESOURCE_REDIRECTS.add(modid);
+    }
+
     //------------------------------------------------------------------------------------
 
     /**
@@ -120,10 +131,6 @@ public class DyeColorantRegistry {
         Constants.VANILLA_DYES.add(dyeColor);
 
         return dyeColor;
-    }
-
-    public static void registerModidModelRedirect(String modid){
-        NAMESPACE_RESOURCE_REDIRECTS.add(modid);
     }
 
     @ApiStatus.Internal
@@ -144,6 +151,4 @@ public class DyeColorantRegistry {
         @ApiStatus.Internal
         public static net.minecraft.util.DyeColor NULL_VALUE_OLD;
     }
-
-
 }

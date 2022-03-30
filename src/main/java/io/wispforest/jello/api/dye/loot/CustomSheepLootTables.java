@@ -26,7 +26,7 @@ public class CustomSheepLootTables {
     public static Map<Identifier, LootTable> initSheepLootTables(Map<Identifier, LootTable> originalTable){
         Map<Identifier, LootTable> tables = new HashMap<>(originalTable);
 
-        for(Map.Entry<DyeColorant, DyedVariantContainer> entry : DyedVariantContainer.DYED_VARIANTS.entrySet()){
+        for(Map.Entry<DyeColorant, DyedVariantContainer> entry : DyedVariantContainer.getVariantMap().entrySet()){
             DyeColorant dyeColorant = entry.getKey();
 
             if(!DyeColorantRegistry.Constants.VANILLA_DYES.contains(dyeColorant)) {

@@ -12,15 +12,17 @@ import net.minecraft.item.ItemGroup;
 
 import java.util.List;
 
-public class BlockRegistry {
+public class JelloBlockRegistry implements BlockRegistryContainer {
 
-    public static class SlimeSlabRegistry implements BlockRegistryContainer{
-        public static final Block SLIME_SLAB = new SlimeSlab(FabricBlockSettings.copyOf(Blocks.SLIME_BLOCK));
+    public static final Block SLIME_SLAB = new SlimeSlab(FabricBlockSettings.copyOf(Blocks.SLIME_BLOCK));
+    public static final Block COLOR_MIXER = new ColorMixerBlock(FabricBlockSettings.copyOf(Blocks.ANVIL));
 
-        @Override
-        public BlockItem createBlockItem(Block block, String identifier) {
-            return new BlockItem(block, new Item.Settings().group(ItemGroup.REDSTONE));
-        }
+
+    @Override
+    public BlockItem createBlockItem(Block block, String identifier) {
+        return new BlockItem(block, new Item.Settings().group(ItemGroup.REDSTONE));
     }
+
+
 
 }

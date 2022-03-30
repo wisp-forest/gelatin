@@ -32,7 +32,6 @@ public class JelloAPI implements ModInitializer {
 
     @Override
     public void onInitialize() {
-
         FieldRegistrationHandler.register(BlockEntityRegistry.class, MODID,false);
 
         //  Ext. TrackedData Registry

@@ -41,7 +41,7 @@ public class DyeItemMixin extends Item implements DyeItemStorage {
 
     @Mutable
     @Shadow @Final private static Map<DyeColor, DyeItem> DYES;
-    @Unique @Mutable @Final private DyeColorant color;
+    @Unique @Mutable private DyeColorant color;
 
     public DyeItemMixin(Settings settings) {
         super(settings);
@@ -52,27 +52,25 @@ public class DyeItemMixin extends Item implements DyeItemStorage {
         DYES = new HashMap<>();
     }
 
-
     @Inject(method = "<init>", at = @At(value = "TAIL"))
     private void fillNewDyeMap(net.minecraft.util.DyeColor color, Item.Settings settings, CallbackInfo ci){
         if(color != DyeColorantRegistry.Constants.NULL_VALUE_OLD) {
             this.color = DyeColorant.byOldDyeColor(((DyeItem) (Object) this).getColor());
 
             if(this.color == null){
-                DyeColorant possibleColor = DyeColorant.byName(color.getName(), null);
-
-                if(possibleColor != null){
-                    this.color = possibleColor;
-                }
+                this.color = DyeColorant.byName(color.getName(), DyeColorantRegistry.NULL_VALUE_NEW);
             }
         }
-
-        //DyeColorantRegistry.DYE_COLOR_TO_DYEITEM.put(this.color, (DyeItem)(Object)this);
     }
 
     @Override
     public DyeColorant getDyeColor() {
         return color;
+    }
+
+    @Override
+    public void setDyeColor(DyeColorant dyeColorant) {
+        this.color = dyeColorant;
     }
 
     //-------------------------------------------------------------------

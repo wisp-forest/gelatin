@@ -1,9 +1,16 @@
 package io.wispforest.jello.api.mixin.ducks;
 
 import io.wispforest.jello.api.dye.DyeColorant;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 
 public interface DyeItemStorage {
 
-    DyeColorant getDyeColor();
+    default DyeColorant getDyeColor(){
+        return DyeColorantRegistry.NULL_VALUE_NEW;
+    }
+
+    default void setDyeColor(DyeColorant dyeColorant){
+
+    };
 
 }

@@ -1,7 +1,7 @@
 package io.wispforest.jello.main.mixin.mixins;
 
 import io.wispforest.jello.api.mixin.ducks.DyeBlockStorage;
-import io.wispforest.jello.main.common.blocks.BlockRegistry;
+import io.wispforest.jello.main.common.blocks.JelloBlockRegistry;
 import io.wispforest.jello.main.common.data.tags.JelloTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -62,7 +62,7 @@ public abstract class PistonHandlerMixin {
 
     @Unique
     private static boolean isSlimeOrHoneyBlock(BlockState state){
-        return state.isOf(Blocks.HONEY_BLOCK) || state.isOf(Blocks.SLIME_BLOCK) || state.isOf(BlockRegistry.SlimeSlabRegistry.SLIME_SLAB);
+        return state.isOf(Blocks.HONEY_BLOCK) || state.isOf(Blocks.SLIME_BLOCK) || state.isOf(JelloBlockRegistry.SLIME_SLAB);
     }
 
     @Unique
@@ -72,11 +72,11 @@ public abstract class PistonHandlerMixin {
 
     @Unique
     private static boolean isRegularSlime(BlockState state, BlockState adjacentState){
-        if(state.isOf(BlockRegistry.SlimeSlabRegistry.SLIME_SLAB) && adjacentState.isOf(BlockRegistry.SlimeSlabRegistry.SLIME_SLAB)){
+        if(state.isOf(JelloBlockRegistry.SLIME_SLAB) && adjacentState.isOf(JelloBlockRegistry.SLIME_SLAB)){
             return true;
-        }else if(state.isOf(BlockRegistry.SlimeSlabRegistry.SLIME_SLAB) && adjacentState.isOf(Blocks.SLIME_BLOCK)){
+        }else if(state.isOf(JelloBlockRegistry.SLIME_SLAB) && adjacentState.isOf(Blocks.SLIME_BLOCK)){
             return true;
-        }else if(state.isOf(Blocks.SLIME_BLOCK) && adjacentState.isOf(BlockRegistry.SlimeSlabRegistry.SLIME_SLAB)){
+        }else if(state.isOf(Blocks.SLIME_BLOCK) && adjacentState.isOf(JelloBlockRegistry.SLIME_SLAB)){
             return true;
         }
         return false;

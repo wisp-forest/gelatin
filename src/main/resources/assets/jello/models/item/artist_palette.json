@@ -1,0 +1,11 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "jello:item/artist_palette/palette_base",
+    "layer1": "jello:item/artist_palette/palette_color_1",
+    "layer2": "jello:item/artist_palette/palette_color_2",
+    "layer3": "jello:item/artist_palette/palette_color_3",
+    "layer4": "jello:item/artist_palette/palette_color_4",
+    "layer5": "jello:item/artist_palette/palette_color_5"
+  }
+}

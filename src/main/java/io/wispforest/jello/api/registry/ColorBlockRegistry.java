@@ -41,7 +41,7 @@ public class ColorBlockRegistry {
         CURRENT_TYPES.add(parentBlockVariant);
 
         for(DyeColorant dyeColorant : DyeColorantRegistry.DYE_COLOR) {
-            DyedVariantContainer dyedVariants = DyedVariantContainer.DYED_VARIANTS.get(dyeColorant);
+            DyedVariantContainer dyedVariants = DyedVariantContainer.getContainer(dyeColorant);
 
             if(dyedVariants != null) {
                 BlockVariantEntrysContainer container = getOrCreateContainer(parentBlockVariant);
@@ -59,7 +59,7 @@ public class ColorBlockRegistry {
     }
 
     public static void registerDyeColorant(DyeColorant dyeColorant){
-        DyedVariantContainer dyedVariant = DyedVariantContainer.DYED_VARIANTS.get(dyeColorant);
+        DyedVariantContainer dyedVariant = DyedVariantContainer.getContainer(dyeColorant);
         if(dyedVariant == null) {
             return;
         }
@@ -119,7 +119,7 @@ public class ColorBlockRegistry {
         if(REGISTRY.containsKey(dyeableBlockVariant)){
             return REGISTRY.get(dyeableBlockVariant);
         }else{
-            return new BlockVariantEntrysContainer(dyeableBlockVariant.getPrimaryBlockTag(), Registry.BLOCK.get(dyeableBlockVariant.defaultBlock));
+            return new BlockVariantEntrysContainer(dyeableBlockVariant.getPrimaryBlockTag(), dyeableBlockVariant.getDefaultBlockVariant());
         }
     }
 

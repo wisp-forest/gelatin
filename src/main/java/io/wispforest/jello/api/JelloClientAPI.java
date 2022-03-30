@@ -100,7 +100,7 @@ public class JelloClientAPI implements ClientModInitializer {
 
 
     private static void registerJsonBlocksForColor(){
-        for(Map.Entry<DyeColorant, DyedVariantContainer> dyedVariantEntry : DyedVariantContainer.DYED_VARIANTS.entrySet()){
+        for(Map.Entry<DyeColorant, DyedVariantContainer> dyedVariantEntry : DyedVariantContainer.getVariantMap().entrySet()){
             if(!Objects.equals(dyedVariantEntry.getKey().getId().getNamespace(), "minecraft")) {
                 for (Block block : dyedVariantEntry.getValue().dyedBlocks.values()) {
                     if (block instanceof ColoredGlassBlock || block instanceof ColoredGlassPaneBlock) {

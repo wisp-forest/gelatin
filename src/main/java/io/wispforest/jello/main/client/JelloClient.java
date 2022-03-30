@@ -4,7 +4,9 @@ import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
 import io.wispforest.jello.api.events.HotbarMouseEvents;
 import io.wispforest.jello.main.client.render.DyeBundleTooltipRender;
-import io.wispforest.jello.main.common.blocks.BlockRegistry;
+import io.wispforest.jello.main.client.render.screen.ColorMixerScreen;
+import io.wispforest.jello.main.client.render.screen.JelloScreenHandlerRegistry;
+import io.wispforest.jello.main.common.blocks.JelloBlockRegistry;
 import io.wispforest.jello.main.common.blocks.SlimeBlockColored;
 import io.wispforest.jello.main.common.blocks.SlimeSlabColored;
 import io.wispforest.jello.main.common.items.ItemRegistry;
@@ -14,6 +16,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.client.color.block.BlockColorProvider;
@@ -28,6 +31,8 @@ public class JelloClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        ScreenRegistry.register(JelloScreenHandlerRegistry.COLOR_MIXER_TYPE, ColorMixerScreen::new);
+
         JelloClient.blockInit();
 
         JelloClient.itemInit();
@@ -47,7 +52,7 @@ public class JelloClient implements ClientModInitializer {
 //            BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getTranslucent());
 //        });
 
-        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.SlimeSlabRegistry.SLIME_SLAB, RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(JelloBlockRegistry.SLIME_SLAB, RenderLayer.getTranslucent());
 
 //        BlockRegistry.SlimeSlabRegistry.COLORED_SLIME_SLABS.forEach((block)->{
 //            ColorProviderRegistry.BLOCK.register((BlockColorProvider)block, block);
@@ -56,7 +61,7 @@ public class JelloClient implements ClientModInitializer {
 //            BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getTranslucent());
 //        });
 
-        for(Map.Entry<DyeColorant, DyedVariantContainer> dyedVariantEntry : DyedVariantContainer.DYED_VARIANTS.entrySet()) {
+        for(Map.Entry<DyeColorant, DyedVariantContainer> dyedVariantEntry : DyedVariantContainer.getVariantMap().entrySet()) {
             //if (!Objects.equals(dyedVariantEntry.getKey().getId().getNamespace(), "minecraft")) {
                 for (Block block : dyedVariantEntry.getValue().dyedBlocks.values()) {
                     if (block instanceof SlimeBlockColored || block instanceof SlimeSlabColored) {
@@ -74,6 +79,8 @@ public class JelloClient implements ClientModInitializer {
         ItemRegistry.SlimeBallItemRegistry.SLIME_BALLS.forEach((item) -> ColorProviderRegistry.ITEM.register((ItemColorProvider)item, item));
 
         ItemRegistry.JelloCupItemRegistry.JELLO_CUP.forEach((item) -> ColorProviderRegistry.ITEM.register((ItemColorProvider)item, item));
+
+        ColorProviderRegistry.ITEM.register((ItemColorProvider)ItemRegistry.MainItemRegistry.ARTIST_PALETTE, ItemRegistry.MainItemRegistry.ARTIST_PALETTE);
     }
 
     //-------------------------------------------------------------------------------------

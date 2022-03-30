@@ -1,9 +1,7 @@
 package io.wispforest.jello.api.dye.events;
 
 import io.wispforest.jello.api.JelloAPI;
-import io.wispforest.jello.main.common.Jello;
 import io.wispforest.jello.api.mixin.mixins.accessors.ShulkerBoxBlockEntityAccessor;
-import io.wispforest.jello.api.util.ItemScattererExt;
 import io.wispforest.owo.ops.ItemOps;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BedBlockEntity;
@@ -14,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -104,7 +103,8 @@ public class ColorBlockEventMethods {
                 oldBlockStack.decrement(stackDecrementAmount);
             }
 
-            ItemScattererExt.spawn(world, cauldronPos.up(), changedItemStack);
+            BlockPos blockPos = cauldronPos.up();
+            ItemScatterer.spawn(world, blockPos.getX(), blockPos.getY(), blockPos.getZ(), changedItemStack);
 
             if (washingBlock) {
                 player.incrementStat(JelloAPI.Stats.CLEAN_BLOCK);

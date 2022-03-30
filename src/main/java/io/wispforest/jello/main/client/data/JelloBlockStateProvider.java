@@ -1,7 +1,6 @@
 package io.wispforest.jello.main.client.data;
 
 import io.wispforest.jello.main.common.Jello;
-import io.wispforest.jello.main.common.blocks.BlockRegistry;
 import io.wispforest.jello.main.common.items.ItemRegistry;
 import io.wispforest.jello.main.mixin.mixins.client.accessors.ItemModelGeneratorAccessor;
 import io.wispforest.jello.main.mixin.mixins.client.accessors.ModelsAccessor;

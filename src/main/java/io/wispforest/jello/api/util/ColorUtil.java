@@ -1,7 +1,6 @@
 package io.wispforest.jello.api.util;
 
 import io.wispforest.jello.api.dye.DyeColorant;
-import me.shedaniel.math.Color;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.SheepEntity;
@@ -9,24 +8,38 @@ import net.minecraft.item.DyeableItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DyeColor;
+import org.checkerframework.checker.units.qual.C;
 
+import java.awt.*;
+import java.awt.color.ColorSpace;
 import java.util.List;
 
 public class ColorUtil {
 
-    public static int getDecimalColor(int R, int G, int B, int A){
-        Color color = Color.ofRGBA(R, G, B, A);
-        return color.getColor();
+
+    public static float[] getCMYFromIntColor(int baseColor){
+        Color rgb = new Color(baseColor);
+
+        return rgb.getColorComponents(ColorSpace.getInstance(ColorSpace.TYPE_CMY), null);
     }
 
-    public static int getDecimalColor(float R, float G, float B, float A){
-        Color color = Color.ofRGBA(R, G, B, A);
-        return color.getColor();
+    public static int getIntColorFromCMY(float[] cmy){
+        return new Color(ColorSpace.getInstance(ColorSpace.TYPE_CMY), cmy, 1).getRGB();
     }
 
-    public static Color getColor(int color){
-        return Color.ofTransparent(color);
-    }
+//    public static int getDecimalColor(int R, int G, int B, int A){
+//        Color color = Color.ofRGBA(R, G, B, A);
+//        return color.getColor();
+//    }
+//
+//    public static int getDecimalColor(float R, float G, float B, float A){
+//        Color color = Color.ofRGBA(R, G, B, A);
+//        return color.getColor();
+//    }
+//
+//    public static Color getColor(int color){
+//        return Color.ofTransparent(color);
+//    }
 
     public static float[] rainbowColorizer(LivingEntity livingEntity) {
         float tickDelta = MinecraftClient.getInstance().getTickDelta();

@@ -5,7 +5,7 @@ import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
 import io.wispforest.jello.forge.LanguageProvider;
 import io.wispforest.jello.main.common.Jello;
-import io.wispforest.jello.main.common.blocks.BlockRegistry;
+import io.wispforest.jello.main.common.blocks.JelloBlockRegistry;
 import io.wispforest.jello.main.common.items.ItemRegistry;
 import io.wispforest.jello.main.common.items.SpongeItem;
 import net.minecraft.block.Block;
@@ -37,7 +37,7 @@ public class JelloLangProvider extends LanguageProvider {
 //            addBlock(() -> block);
 //        });
 
-        addBlock(() -> BlockRegistry.SlimeSlabRegistry.SLIME_SLAB);
+        addBlock(() -> JelloBlockRegistry.SLIME_SLAB);
 
         ItemRegistry.SlimeBallItemRegistry.SLIME_BALLS.forEach((item) -> {
             addItem(() -> item);
@@ -52,6 +52,9 @@ public class JelloLangProvider extends LanguageProvider {
         addItem(() -> ItemRegistry.MainItemRegistry.SPONGE);
         addItem(() -> ItemRegistry.MainItemRegistry.DYE_BUNDLE);
 
+        addItem(() -> ItemRegistry.MainItemRegistry.ARTIST_PALETTE);
+        addItem(() -> ItemRegistry.MainItemRegistry.EMPTY_ARTIST_PALETTE, "Empty Palette");
+
         add(SpongeItem.DIRTINESS_TRANSLATION_KEY, "Dirty Sponge");
 
         addACToolTipAndNameEntry("enableGrayScalingOfEntitys", "Enable GrayScaling of Entitys", "[Warning: Will break texturepacks!] Used to allow for true color when a entity is dyed or color.");
@@ -65,7 +68,7 @@ public class JelloLangProvider extends LanguageProvider {
         add("itemGroup.misc.tab.dyes", "Custom Dyes");
         add("itemGroup.misc.tab.block_vars", "Colored Block Variants");
 
-        for(DyedVariantContainer dyedVariant : DyedVariantContainer.DYED_VARIANTS.values()){
+        for(DyedVariantContainer dyedVariant : DyedVariantContainer.getVariantMap().values()){
             for(Block block : dyedVariant.dyedBlocks.values()){
                 addBlock(() -> block);
             }

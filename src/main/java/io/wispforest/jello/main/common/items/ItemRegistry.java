@@ -5,6 +5,7 @@ import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.main.common.items.dyebundle.DyeBundle;
 import io.wispforest.owo.registration.reflect.ItemRegistryContainer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -76,5 +77,9 @@ public class ItemRegistry {
     public static class MainItemRegistry implements ItemRegistryContainer{
         public static final Item SPONGE = new SpongeItem(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1));
         public static final Item DYE_BUNDLE = new DyeBundle(new FabricItemSettings().group(ItemGroup.TOOLS));
+
+        public static final Item EMPTY_ARTIST_PALETTE = new Item(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1));
+        public static final Item ARTIST_PALETTE = new ArtistPalette(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1).maxDamage(256));
+
     }
 }

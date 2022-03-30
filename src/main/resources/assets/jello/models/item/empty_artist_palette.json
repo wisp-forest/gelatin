@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "jello:item/artist_palette/palette_base"
+  }
+}

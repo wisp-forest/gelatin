@@ -3,7 +3,7 @@ package io.wispforest.jello.main.common.data.providers;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
-import io.wispforest.jello.main.common.blocks.BlockRegistry;
+import io.wispforest.jello.main.common.blocks.JelloBlockRegistry;
 import io.wispforest.jello.main.common.data.tags.JelloTags;
 import io.wispforest.jello.main.common.items.ItemRegistry;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
@@ -102,7 +102,7 @@ public class JelloTagsProvider {
 
             this.getOrCreateTagBuilder(JelloTags.Blocks.COLORED_SLIME_BLOCKS);//BlockRegistry.SlimeBlockRegistry.COLORED_SLIME_BLOCKS.forEach(this.getOrCreateTagBuilder(JelloTags.Blocks.COLORED_SLIME_BLOCKS)::add);
 
-            this.getOrCreateTagBuilder(JelloTags.Blocks.SLIME_SLABS).addTag(JelloTags.Blocks.COLORED_SLIME_SLABS).add(BlockRegistry.SlimeSlabRegistry.SLIME_SLAB);
+            this.getOrCreateTagBuilder(JelloTags.Blocks.SLIME_SLABS).addTag(JelloTags.Blocks.COLORED_SLIME_SLABS).add(JelloBlockRegistry.SLIME_SLAB);
 
             this.getOrCreateTagBuilder(JelloTags.Blocks.SLIME_BLOCKS).addTag(JelloTags.Blocks.COLORED_SLIME_BLOCKS).add(Blocks.SLIME_BLOCK);
 
@@ -120,7 +120,7 @@ public class JelloTagsProvider {
 
         @Override
         protected void generateTags() {
-            this.getOrCreateTagBuilder(JelloTags.Items.SLIME_SLABS).add(BlockRegistry.SlimeSlabRegistry.SLIME_SLAB.asItem());
+            this.getOrCreateTagBuilder(JelloTags.Items.SLIME_SLABS).add(JelloBlockRegistry.SLIME_SLAB.asItem());
 //            BlockRegistry.SlimeSlabRegistry.COLORED_SLIME_SLABS.forEach((block) -> this.getOrCreateTagBuilder(JelloTags.Items.SLIME_SLABS).add(block.asItem()));
 
             this.getOrCreateTagBuilder(JelloTags.Items.SLIME_BLOCKS).add(Blocks.SLIME_BLOCK.asItem());
@@ -129,7 +129,7 @@ public class JelloTagsProvider {
             this.getOrCreateTagBuilder(JelloTags.Items.SLIME_BALLS).add(Items.SLIME_BALL);
             ItemRegistry.SlimeBallItemRegistry.SLIME_BALLS.forEach((item) -> this.getOrCreateTagBuilder(JelloTags.Items.SLIME_BALLS).add(item));
 
-            for(Map.Entry<DyeColorant, DyedVariantContainer> entry : DyedVariantContainer.DYED_VARIANTS.entrySet()){
+            for(Map.Entry<DyeColorant, DyedVariantContainer> entry : DyedVariantContainer.getVariantMap().entrySet()){
                 this.getOrCreateTagBuilder(JelloTags.Items.DYE_ITEMS).add(entry.getValue().dyeItem);
             }
         }
