@@ -1,9 +1,8 @@
 package io.wispforest.jello.main.common;
 
 import io.wispforest.jello.api.RecipeSpecificRemainderOps;
-import io.wispforest.jello.main.client.render.screen.ColorMixerScreen;
+import io.wispforest.jello.main.client.render.screen.ColorMixerScreenHandler;
 import io.wispforest.jello.main.client.render.screen.JelloScreenHandlerRegistry;
-import io.wispforest.jello.main.common.blockentity.ColorMixerBlockEntity;
 import io.wispforest.jello.main.common.blockentity.JelloBlockEntityRegistry;
 import io.wispforest.jello.main.common.blocks.JelloBlockRegistry;
 import io.wispforest.jello.main.common.compat.JelloBlockVariants;
@@ -13,8 +12,8 @@ import io.wispforest.jello.main.common.items.ItemRegistry;
 import io.wispforest.jello.main.common.items.dyebundle.DyeBundlePackets;
 import io.wispforest.jello.main.common.recipe.RecipeSerializerRegistry;
 import io.wispforest.jello.main.mixin.ducks.InInventoryCraftingPacket;
-import io.wispforest.jello.main.network.ColorMixerBufferUpdatePacket;
-import io.wispforest.jello.main.network.ColorMixerRequestPacket;
+import io.wispforest.jello.main.network.ColorMixerScrollPacket;
+import io.wispforest.jello.main.network.ColorMixerSearchPacket;
 import io.wispforest.owo.network.OwoNetChannel;
 import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
 import io.wispforest.owo.util.ModCompatHelpers;
@@ -29,9 +28,10 @@ import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
-public class Jello implements ModInitializer{
+public class Jello implements ModInitializer {
 
     public static final Logger DEBUG_LOGGER = LogManager.getLogger(Jello.class);
 
@@ -39,7 +39,7 @@ public class Jello implements ModInitializer{
 
     public static JelloConfig MAIN_CONFIG;
 
-    public static OwoNetChannel CHANNEL = OwoNetChannel.create(new Identifier(MODID, "main"));
+    public static final OwoNetChannel CHANNEL = OwoNetChannel.create(new Identifier(MODID, "main"));
 
     @Override
     public void onInitialize() {
@@ -74,31 +74,28 @@ public class Jello implements ModInitializer{
 
     //------------------------------------------------------------------------------
 
-    private static void setupOWOPacketStuff(){
+    private static void setupOWOPacketStuff() {
         CHANNEL.registerServerbound(InInventoryCraftingPacket.CraftPacket.class, InInventoryCraftingPacket.CraftPacket::craftFromStack);
         CHANNEL.registerServerbound(DyeBundlePackets.ScreenScrollPacket.class, DyeBundlePackets.ScreenScrollPacket::scrollBundle);
 
-        CHANNEL.registerClientbound(ColorMixerBufferUpdatePacket.class, (message, access) -> {
-            if (!(access.runtime().currentScreen instanceof ColorMixerScreen screen)) return;
-
+        CHANNEL.registerServerbound(ColorMixerSearchPacket.class, (message, access) -> {
+            if (!(access.player().currentScreenHandler instanceof ColorMixerScreenHandler handler)) return;
+            handler.search(message.searchFieldContent());
         });
 
-        CHANNEL.registerServerbound(ColorMixerRequestPacket.class, (message, access) -> {
-            final var world = access.player().world;
-            final var possibleMixer = world.getBlockEntity(message.pos());
-            if (!(possibleMixer instanceof ColorMixerBlockEntity mixer)) return;
-
-
+        CHANNEL.registerServerbound(ColorMixerScrollPacket.class, (message, access) -> {
+            if (!(access.player().currentScreenHandler instanceof ColorMixerScreenHandler handler)) return;
+            handler.scrollItems(message.progress());
         });
     }
 
-    public static void initClothConfig(){
+    public static void initClothConfig() {
         AutoConfig.register(JelloConfig.class, GsonConfigSerializer::new);
 
         MAIN_CONFIG = AutoConfig.getConfigHolder(JelloConfig.class).getConfig();
     }
 
-    private static void ColorBlockRegistryCompat(){
+    private static void ColorBlockRegistryCompat() {
 //        DefaultColorBlockRegistry.init();
 
         ModCompatHelpers.getRegistryHelper(Registry.ITEM).runWhenPresent(new Identifier(ConsistencyPlusTags.CONSISTENCY_PLUS_MODID, "stone_wall"), item -> ConsistencyPlusColorBlockRegistry.init());
@@ -238,7 +235,7 @@ public class Jello implements ModInitializer{
 
     //------------------------------------------------------------------------------
 
-    private static class ConsistencyPlusColorBlockRegistry{
+    private static class ConsistencyPlusColorBlockRegistry {
 
         private static final Logger LOGGER = LogManager.getLogger(ConsistencyPlusColorBlockRegistry.class);
 
@@ -259,12 +256,12 @@ public class Jello implements ModInitializer{
 
         private static final Map<String, Identifier> TERRACOTA_BRICK_REMAP = Map.of(
                 "brick", new Identifier("bricks"),
-                "slabs",  new Identifier("brick_slab"),
-                "stairs",  new Identifier("brick_stairs"),
+                "slabs", new Identifier("brick_slab"),
+                "stairs", new Identifier("brick_stairs"),
                 "walls", new Identifier("brick_wall"),
-                "gates", new Identifier(ConsistencyPlusTags.CONSISTENCY_PLUS_MODID,"brick_gate"));
+                "gates", new Identifier(ConsistencyPlusTags.CONSISTENCY_PLUS_MODID, "brick_gate"));
 
-        private static void init(){
+        private static void init() {
             long startTime = System.currentTimeMillis();
 
             ConsistencyPlusTags.DyeableBlocks.ALL_DYEABLE_BLOCK_TAGS.forEach(ConsistencyPlusColorBlockRegistry::fillRegistryFromTags);
@@ -274,7 +271,7 @@ public class Jello implements ModInitializer{
             System.out.printf("It took %f seconds for ConsistencyPlus Comp ColorBlock Registry to complete\n", (finishTime - startTime) / 1000.0F);
         }
 
-        private static void fillRegistryFromTags(TagKey<Block> identified){
+        private static void fillRegistryFromTags(TagKey<Block> identified) {
 //            String[] nameParts = identified.id().getPath().split("_");
 //
 //            String blockNamePrefix;
@@ -370,9 +367,6 @@ public class Jello implements ModInitializer{
 //            }
         }
     }
-
-
-
 
 
 }

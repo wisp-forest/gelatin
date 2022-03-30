@@ -5,15 +5,16 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "BlockMixin",
+    "ItemMixin",
     "PistonBlockMixin",
     "PistonHandlerMixin",
-    "StatusEffectAccessor",
-    "ItemMixin"
+    "StatusEffectAccessor"
   ],
   "client": [
-    "client.ItemModelGeneratorMixin",
     "client.CreativeInventoryMixin",
     "client.InventoryScreenMixin",
+    "client.ItemModelGeneratorMixin",
+    "client.HandledScreenAccessor",
     "client.accessors.ItemModelGeneratorAccessor",
     "client.accessors.ModelsAccessor"
   ],

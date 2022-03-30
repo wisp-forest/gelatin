@@ -79,7 +79,7 @@ public class ItemRegistry {
         public static final Item DYE_BUNDLE = new DyeBundle(new FabricItemSettings().group(ItemGroup.TOOLS));
 
         public static final Item EMPTY_ARTIST_PALETTE = new Item(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1));
-        public static final Item ARTIST_PALETTE = new ArtistPalette(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1).maxDamage(256));
+        public static final Item ARTIST_PALETTE = new ArtistPalette(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1));
 
     }
 }

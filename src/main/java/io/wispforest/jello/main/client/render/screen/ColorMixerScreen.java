@@ -1,31 +1,28 @@
 package io.wispforest.jello.main.client.render.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import io.wispforest.jello.main.common.Jello;
+import io.wispforest.jello.main.common.items.ArtistPalette;
 import io.wispforest.jello.main.common.items.ItemRegistry;
+import io.wispforest.jello.main.mixin.mixins.client.HandledScreenAccessor;
+import io.wispforest.jello.main.network.ColorMixerSearchPacket;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.search.SearchManager;
-import net.minecraft.client.search.Searchable;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.screen.ScreenHandlerContext;
-import net.minecraft.screen.ScreenHandlerListener;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 public class ColorMixerScreen extends HandledScreen<ColorMixerScreenHandler> {
@@ -41,6 +38,11 @@ public class ColorMixerScreen extends HandledScreen<ColorMixerScreenHandler> {
     public ColorMixerScreen(ColorMixerScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
         this.backgroundHeight = 204;
+
+        this.handler.artistInventory.addListener(sender -> {
+            this.searchBox.active = sender.getStack(0).isOf(ItemRegistry.MainItemRegistry.ARTIST_PALETTE);
+            this.searchBox.setVisible(this.searchBox.active);
+        });
     }
 
     @Override
@@ -92,16 +94,15 @@ public class ColorMixerScreen extends HandledScreen<ColorMixerScreenHandler> {
                 return this.searchBox.isFocused() && this.searchBox.isVisible() && keyCode != GLFW.GLFW_KEY_ESCAPE || super.keyPressed(keyCode, scanCode, modifiers);
             }
         }
-
     }
 
     private boolean isDyeListSlot(@Nullable Slot slot) {
-        return slot != null && slot.inventory == this.getScreenHandler().DYE_INVENTORY;
+        return slot != null && slot.inventory == this.getScreenHandler().dyeInventory;
     }
 
     private void search() {
+        Jello.CHANNEL.clientHandle().send(new ColorMixerSearchPacket(this.searchBox.getText()));
         this.handler.search(this.searchBox.getText());
-        this.handler.scrollItems(0.0F);
     }
 
     @Override
@@ -121,8 +122,8 @@ public class ColorMixerScreen extends HandledScreen<ColorMixerScreenHandler> {
 
         int progress = 0;
 
-        if(stack.isOf(ItemRegistry.MainItemRegistry.ARTIST_PALETTE)){
-            progress = Math.min(MathHelper.floor((64 - stack.getDamage()) * .96), 62);
+        if (stack.isOf(ItemRegistry.MainItemRegistry.ARTIST_PALETTE)) {
+            progress = Math.min(MathHelper.ceil((ArtistPalette.MAX_USES - stack.getOrCreateNbt().getInt("TimesUsed")) * .2421875), 62);
         }
 
         drawTexture(matrices, x + 19, y + 72 - progress, 176, 62 - progress, 6, 62);
@@ -133,7 +134,7 @@ public class ColorMixerScreen extends HandledScreen<ColorMixerScreenHandler> {
         int j = this.y + 24;
         int k = 73;
 
-        this.drawTexture(matrices, i, j + (int)((float)(k) * this.scrollPosition), 232, 0, 12, 15);
+        this.drawTexture(matrices, i, j + (int) ((float) (k) * this.scrollPosition), 232, 0, 12, 15);
         this.searchBox.render(matrices, mouseX, mouseY, delta);
     }
 
@@ -147,10 +148,11 @@ public class ColorMixerScreen extends HandledScreen<ColorMixerScreenHandler> {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (button == 0) {
-
             if (this.isClickInScrollbar(mouseX, mouseY)) {
                 this.scrolling = true;
                 return true;
+            } else {
+                this.scrolling = false;
             }
         }
 
@@ -158,22 +160,15 @@ public class ColorMixerScreen extends HandledScreen<ColorMixerScreenHandler> {
     }
 
     protected boolean isClickInScrollbar(double mouseX, double mouseY) {
-        int i = this.x;
-        int j = this.y;
-        int k = i + 156;
-        int l = j + 24;
-        int m = k + 167;
-        int n = l + 111;
-        return mouseX >= (double)k && mouseY >= (double)l && mouseX < (double)m && mouseY < (double)n;
+        return mouseX >= this.x + 156 && mouseX <= this.x + 167 && mouseY >= this.y + 24 && mouseY <= this.y + 111;
     }
 
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
         if (this.scrolling) {
-            int i = this.y + 18;
-            int j = i + 112;
-            this.scrollPosition = ((float)mouseY - (float)i - 7.5F) / ((float)(j - i) - 15.0F);
-            this.scrollPosition = MathHelper.clamp(this.scrollPosition, 0.0F, 1.0F);
+            int scrollbarTopY = this.y + 24;
+            int scrollbarBottomY = scrollbarTopY + 88;
+            this.scrollPosition = MathHelper.clamp((float) (mouseY - scrollbarTopY - 7.5) / ((scrollbarBottomY - scrollbarTopY) - 15), 0, 1);
             this.handler.scrollItems(this.scrollPosition);
             return true;
         } else {
@@ -183,13 +178,18 @@ public class ColorMixerScreen extends HandledScreen<ColorMixerScreenHandler> {
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
-        int i = (ColorMixerScreenHandler.ALL_DYE_ITEMS.size() + 6 - 1) / 6 - 5;
-        float f = (float)(amount / (double)i);
-        this.scrollPosition = MathHelper.clamp(this.scrollPosition - f, 0.0F, 1.0F);
-        this.handler.scrollItems(this.scrollPosition);
+        if (Screen.hasControlDown() || !this.handler.getCursorStack().isEmpty()) {
+            final var slot = ((HandledScreenAccessor) this).jello$getSlotAt(mouseX, mouseY);
+            if (slot != null) {
+                this.client.interactionManager.clickSlot(this.handler.syncId, slot.id, 0, SlotActionType.PICKUP, this.client.player);
+            }
+        } else {
+            float scrollBy = (float) (amount / Math.max(1, (int) Math.ceil(this.handler.itemList.size() / 6f) - 5));
+            this.scrollPosition = MathHelper.clamp(this.scrollPosition - scrollBy, 0.0F, 1.0F);
+            this.handler.scrollItems(this.scrollPosition);
+        }
         return true;
     }
-
 
     @Override
     protected void init() {
@@ -201,7 +201,7 @@ public class ColorMixerScreen extends HandledScreen<ColorMixerScreenHandler> {
         titleX = 69420;
 
         this.client.keyboard.setRepeatEvents(true);
-        this.searchBox = new TextFieldWidget(this.textRenderer, this.x + 48, this.y + 8, 106, 10, new TranslatableText("itemGroup.search"));
+        this.searchBox = new TextFieldWidget(this.textRenderer, this.x + 44, this.y + 8, 106, 10, new TranslatableText("itemGroup.search"));
         this.searchBox.setMaxLength(50);
         this.searchBox.setDrawsBackground(false);
         this.searchBox.setEditableColor(16777215);
