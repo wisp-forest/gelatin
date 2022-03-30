@@ -27,7 +27,6 @@ import java.util.function.Supplier;
  * to Jello's System so that any {@link DyeColorant}
  * created gets made with your Variant.
  */
-
 public class DyeableBlockVariant {
 
     public static final Set<DyeableBlockVariant> ADDITION_BLOCK_VARIANTS = new HashSet<>();
@@ -49,11 +48,11 @@ public class DyeableBlockVariant {
     public final RecursiveType recursiveType;
     public final @Nullable Supplier<DyeableBlockVariant> childVariant;
 
-    public final BlockMaker blockMaker;
+    private final BlockMaker blockMaker;
     public BlockItemSettings defaultSettings;
 
     public final boolean createBlockItem;
-    public BlockItemMaker blockItemMaker;
+    private BlockItemMaker blockItemMaker;
 
     private TagKey<Block> primaryBlockTag;
     private final Set<TagKey<Block>> secondaryBlockTags = new HashSet<>();
@@ -61,7 +60,7 @@ public class DyeableBlockVariant {
     private TagKey<Item> primaryItemTag;
     private final Set<TagKey<Item>> secondaryItemTags = new HashSet<>();
 
-    public DyeableBlockVariant(Identifier variantIdentifier, @Nullable Supplier<DyeableBlockVariant> possibleChildVariant, boolean noBlockItem, @Nullable ItemGroup defaultGroup, BlockMaker blockMaker){
+    private DyeableBlockVariant(Identifier variantIdentifier, @Nullable Supplier<DyeableBlockVariant> possibleChildVariant, boolean noBlockItem, @Nullable ItemGroup defaultGroup, BlockMaker blockMaker){
         this.variantIdentifier = variantIdentifier;
         this.blockMaker = blockMaker;
         this.createBlockItem = noBlockItem;
@@ -103,42 +102,71 @@ public class DyeableBlockVariant {
 
     //---------------------------------------------------------------------------------------------------
 
+    /**
+     * Sets the stack count of the for the {@link BlockItem} if such will be created
+     * @param maxCount
+     */
     public DyeableBlockVariant stackCount(int maxCount){
         this.defaultSettings.setItemStackCount(maxCount);
 
         return this;
     }
 
+    /**
+     * Sets the BlockItem will be a Fire Proof Item
+     */
     public DyeableBlockVariant isFireProof(){
         this.defaultSettings.fireproof = true;
 
         return this;
     }
 
+    /**
+     * Adds a {@link FoodComponent} to the {@link BlockItem} if such will be created
+     * @param foodComponent The FoodComponent being added to the BlockItem
+     */
     public DyeableBlockVariant setFoodComponent(FoodComponent foodComponent){
         this.defaultSettings.foodComponent = foodComponent;
 
         return this;
     }
 
+    /**
+     * Manually change the {@link #defaultBlock} Identifier
+     * @param identifier The identifier of the block
+     */
     public final DyeableBlockVariant setDefaultBlock(Identifier identifier){
         this.defaultBlock = identifier;
 
         return this;
     }
 
+    /**
+     * Manually change the {@link #defaultBlock} Identifier by combining the Block's path and the variants MODID
+     * @param path The Block's default path
+     */
     public final DyeableBlockVariant setDefaultBlock(String path){
         this.defaultBlock = new Identifier(variantIdentifier.getNamespace(), path);
 
         return this;
     }
 
+    /**
+     * Manually change the {@link #blockItemMaker} if a custom one is needed
+     * @param blockItemMaker Custom BlockItemMaker
+     */
     public final DyeableBlockVariant setBlockItemMaker(BlockItemMaker blockItemMaker){
         this.blockItemMaker = blockItemMaker;
 
         return this;
     }
 
+    /**
+     * Add all tags needed for this Block to be added too.
+     * You will need at least one Tag which this block variant is linked too or the {@link #addToBlockTags} will throw a {@link NullPointerException}
+     *
+     * @param tags Tags to be added to when the block is built
+     */
     @SafeVarargs
     public final DyeableBlockVariant setBlockTags(TagKey<Block>... tags){
         for(int i = 0; i < tags.length; i++){
@@ -151,7 +179,10 @@ public class DyeableBlockVariant {
 
         return this;
     }
-
+    /**
+     * Add all tags needed for the Created {@link BlockItem} if such is made
+     * @param tags Tags to be added to when the {@link BlockItem} is built
+     */
     @SafeVarargs
     public final DyeableBlockVariant setItemTags(TagKey<Item>... tags){
         for(int i = 0; i < tags.length; i++){
@@ -165,6 +196,11 @@ public class DyeableBlockVariant {
         return this;
     }
 
+    /**
+     * Method must be called when the Variant is finished being edited
+     * Will add your variant to the {@link #ADDITION_BLOCK_VARIANTS} and
+     * retroactively add this {@link DyeableBlockVariant} and {@link DyedVariantContainer#updateExistingContainers}
+     */
     public final DyeableBlockVariant registerVariant(){
         if(!DyeableBlockVariant.ADDITION_BLOCK_VARIANTS.contains(this)){
             DyedVariantContainer.updateExistingContainers(this);
@@ -258,10 +294,12 @@ public class DyeableBlockVariant {
         }
     }
 
+    @ApiStatus.Internal
     protected RegistryInfo makeBlock(DyeColorant dyeColorant){
         return this.makeChildBlock(dyeColorant, null);
     }
 
+    @ApiStatus.Internal
     protected RegistryInfo makeChildBlock(DyeColorant dyeColorant, @Nullable Block parentBlock){
         Block returnBlock = blockMaker.createBlockFromDyeColor(dyeColorant, parentBlock);
 
@@ -270,6 +308,11 @@ public class DyeableBlockVariant {
         }else {
             return RegistryInfo.of(returnBlock, defaultSettings);
         }
+    }
+
+    @ApiStatus.Internal
+    protected BlockItem makeBlockItem(DyeColorant dyeColorant, Block block, Item.Settings settings){
+        return this.blockItemMaker.createBlockItemFromDyeColor(dyeColorant, block, settings);
     }
 
     public interface BlockMaker {
@@ -286,53 +329,52 @@ public class DyeableBlockVariant {
 
     //---------------------------------------------------------------------------------------------------
 
-    public static class BlockItemSettings{
+    private static class BlockItemSettings{
         public int maxCount;
         public boolean fireproof;
         @Nullable public FoodComponent foodComponent;
         public ItemGroup group;
 
-        public BlockItemSettings(int maxCount, boolean fireproof, FoodComponent foodComponent, ItemGroup group){
+        private BlockItemSettings(int maxCount, boolean fireproof, FoodComponent foodComponent, ItemGroup group){
             this.maxCount = maxCount;
             this.fireproof = fireproof;
             this.foodComponent = foodComponent;
             this.group = group;
         }
 
-        public static BlockItemSettings of(){
+        private static BlockItemSettings of(){
             return new BlockItemSettings(64, false, null, null);
         }
 
-        public static BlockItemSettings of(ItemGroup group){
+        private static BlockItemSettings of(ItemGroup group){
             return new BlockItemSettings(64, false, null, group);
         }
 
-        public void setItemStackCount(int count){
+        private void setItemStackCount(int count){
             this.maxCount = count;
         }
     }
 
     //---------------------------------------------------------------------------------------------------
 
-    public static class RegistryInfo{
-
+    protected static class RegistryInfo{
         public final Block block;
         public final boolean noBlockItem;
-        public final BlockItemSettings settings;
+        private final BlockItemSettings settings;
 
         protected OwoItemSettings overrideSettings = null;
 
-        public RegistryInfo(Block block, boolean noBlockItem, BlockItemSettings blockItemSettings){
+        private RegistryInfo(Block block, boolean noBlockItem, BlockItemSettings blockItemSettings){
             this.block = block;
             this.noBlockItem = noBlockItem;
             this.settings = blockItemSettings;
         }
 
-        public boolean noBlockItem(){
+        protected boolean noBlockItem(){
             return this.noBlockItem;
         }
 
-        public static RegistryInfo of(Block block, @Nullable BlockItemSettings blockItemSettings){
+        private static RegistryInfo of(Block block, @Nullable BlockItemSettings blockItemSettings){
             if(blockItemSettings == null){
                 return new RegistryInfo(block, true, null);
             }
@@ -344,7 +386,7 @@ public class DyeableBlockVariant {
             this.overrideSettings = owoItemSettings;
         }
 
-        public Item.Settings getItemSettings(){
+        protected Item.Settings getItemSettings(){
             Item.Settings settings = overrideSettings == null ? new Item.Settings() : JelloItemSettings.copyFrom(this.overrideSettings);
 
             settings.maxCount(this.settings.maxCount);
