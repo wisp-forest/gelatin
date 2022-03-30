@@ -42,6 +42,8 @@ public class JelloTags {
 
         public static final TagKey<Item> DYE_ITEMS = register(new Identifier(Jello.MODID, "dyes"));
 
+        public static final TagKey<Item> VANILLA_DYE_ITEMS = register(new Identifier(Jello.MODID, "vanilla_dye_items"));
+
         private static TagKey<Item> register(Identifier id) {
             return TagKey.of(Registry.ITEM_KEY, id);
         }

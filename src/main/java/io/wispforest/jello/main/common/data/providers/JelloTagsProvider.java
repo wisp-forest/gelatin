@@ -131,6 +131,10 @@ public class JelloTagsProvider {
 
             for(Map.Entry<DyeColorant, DyedVariantContainer> entry : DyedVariantContainer.getVariantMap().entrySet()){
                 this.getOrCreateTagBuilder(JelloTags.Items.DYE_ITEMS).add(entry.getValue().dyeItem);
+
+                if(DyeColorantRegistry.Constants.VANILLA_DYES.contains(entry.getKey())){
+                   this.getOrCreateTagBuilder(JelloTags.Items.VANILLA_DYE_ITEMS).add(entry.getValue().dyeItem);
+                }
             }
         }
     }

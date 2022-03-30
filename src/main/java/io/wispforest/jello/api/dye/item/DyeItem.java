@@ -42,16 +42,6 @@ public class DyeItem extends net.minecraft.item.DyeItem implements DyeItemStorag
         }
     }
 
-//    @Override
-//    public Text getName() {
-//        return new LiteralText(mainColor.getDisplayName() + " Dye");
-//    }
-//
-//    @Override
-//    public Text getName(ItemStack stack) {
-//        return getName();
-//    }
-
     @Override
     @Environment(EnvType.CLIENT)
     public int getColor(ItemStack stack, int tintIndex) {
