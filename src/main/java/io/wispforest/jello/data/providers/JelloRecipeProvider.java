@@ -143,6 +143,7 @@ public class JelloRecipeProvider extends FabricRecipesProvider {
                 .offerTo(exporter, Jello.id(blockPath + "_" + dyePath + "_full"));
     }
 
+    //TODO: CONVERT TO SPECIAL RECIPE!!!! CAUSES HUGE LAG
     public static void offerSlimeSlabDyeingRecipe(Consumer<RecipeJsonProvider> exporter, ItemConvertible output, ItemConvertible input, String blockPath, String dyePath) {
         ShapelessRecipeJsonBuilder.create(output)
                 .input(input)

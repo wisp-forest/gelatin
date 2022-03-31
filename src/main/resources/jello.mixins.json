@@ -29,6 +29,7 @@
     "dye.SheepEntityMixin",
     "dye.ShulkerBoxBlockEntityMixin",
     "dye.SimpleRegistryAccessor",
+    "dye.AbstractBlockStateMixin",
     "dye.bugfix.AbstractDonkeyEntityMixin",
     "dye.bugfix.HorseEntityMixin",
     "entitycolor.LivingEntityMixin",

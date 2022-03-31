@@ -84,6 +84,8 @@ public abstract class ModelLoaderMixin {
         if (DyeColorantRegistry.shouldRedirectModelResource(new Identifier(modelId.getNamespace(), modelId.getPath()))) {
             String[] stringParts = modelId.getPath().split("_");
 
+
+
             if (ALL_VARIANTS.isEmpty()) {
                 for (DyeableBlockVariant dyeableBlockVariant : VanillaBlockVariants.VANILLA_VARIANTS) {
                     jello$addToListWithRecursion(dyeableBlockVariant);
@@ -98,6 +100,10 @@ public abstract class ModelLoaderMixin {
 
             this.cachedBlockStateRedirectID = null;
             this.cachedItemRedirectID = null;
+
+            if(Objects.equals(modelId.getPath(), "slime_slab")){
+                return;
+            }
 
             for (DyeableBlockVariant blockVariant : ALL_VARIANTS) {
                 if (blockVariant.isIdentifierAVariant(modelId, isItemVersion)) {

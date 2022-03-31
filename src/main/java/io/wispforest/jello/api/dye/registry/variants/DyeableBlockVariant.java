@@ -272,6 +272,10 @@ public class DyeableBlockVariant {
             return false;
         }
 
+        if(Objects.equals(blockPath, defaultBlock.getPath())){
+            return true;
+        }
+
         String[] pathParts = blockPath.split("_");
 
         if (pathParts.length <= wordCount) {
