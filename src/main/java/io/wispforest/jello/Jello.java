@@ -52,7 +52,7 @@ public class Jello implements ModInitializer {
         FieldRegistrationHandler.register(JelloBlocks.class, MODID, false);
         FieldRegistrationHandler.register(JelloBlockEntityTypes.class, MODID, false);
 
-        JelloBlockVariants.initalize();
+        JelloBlockVariants.initialize();
 
         // StatusEffect Registry
         //FieldRegistrationHandler.register(JelloStatusEffectsRegistry.class, MODID, false);

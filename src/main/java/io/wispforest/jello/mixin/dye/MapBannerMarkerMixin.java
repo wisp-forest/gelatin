@@ -28,7 +28,7 @@ public class MapBannerMarkerMixin implements DyeItemStorage {
     }
 
     @Override
-    public DyeColorant getDyeColor() {
+    public DyeColorant getDyeColorant() {
         return color;
     }
 }

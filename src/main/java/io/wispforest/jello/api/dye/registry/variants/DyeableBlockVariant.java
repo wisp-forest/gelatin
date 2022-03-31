@@ -116,7 +116,7 @@ public class DyeableBlockVariant {
     /**
      * Sets the BlockItem will be a Fire Proof Item
      */
-    public DyeableBlockVariant isFireProof() {
+    public DyeableBlockVariant fireproof() {
         this.defaultSettings.fireproof = true;
 
         return this;
@@ -145,7 +145,7 @@ public class DyeableBlockVariant {
     }
 
     /**
-     * Manually change the {@link #defaultBlock} Identifier by combining the Block's path and the variants MODID
+     * Manually change the {@link #defaultBlock} Identifier by combining the Block's path and the variant's MODID
      *
      * @param path The Block's default path
      */
@@ -208,7 +208,7 @@ public class DyeableBlockVariant {
      * Will add your variant to the {@link #ADDITION_BLOCK_VARIANTS} and
      * retroactively add this {@link DyeableBlockVariant} and {@link DyedVariantContainer#updateExistingContainers}
      */
-    public final DyeableBlockVariant registerVariant() {
+    public final DyeableBlockVariant register() {
         if (!DyeableBlockVariant.ADDITION_BLOCK_VARIANTS.contains(this)) {
             DyedVariantContainer.updateExistingContainers(this);
         }
@@ -327,9 +327,7 @@ public class DyeableBlockVariant {
     }
 
     public interface BlockItemMaker {
-        BlockItemMaker DEFAULT = (dyeColorant, block, settings) -> {
-            return new ColoredBlockItem(block, settings);
-        };
+        BlockItemMaker DEFAULT = (dyeColorant, block, settings) -> new ColoredBlockItem(block, settings);
 
         BlockItem createBlockItemFromDyeColor(DyeColorant dyeColorant, Block block, Item.Settings settings);
     }

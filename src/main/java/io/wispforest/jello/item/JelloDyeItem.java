@@ -20,14 +20,14 @@ import net.minecraft.world.World;
 import java.util.Random;
 
 @EnvironmentInterface(value = EnvType.CLIENT, itf = ItemColorProvider.class)
-public class DyeItem extends net.minecraft.item.DyeItem implements DyeItemStorage, ItemColorProvider {
+public class JelloDyeItem extends net.minecraft.item.DyeItem implements DyeItemStorage, ItemColorProvider {
 
     public static final String TEXTURE_VARIANT_KEY = "Texture_variant";
     public static final int NUMBER_OF_TEXTURE_VAR = 9;
 
     protected int textureVariant = 0;
 
-    public DyeItem(DyeColorant mainColor, Settings settings) {
+    public JelloDyeItem(DyeColorant mainColor, Settings settings) {
         super(DyeColorantRegistry.Constants.NULL_VALUE_OLD, settings);
 
         this.setDyeColor(mainColor);
@@ -44,13 +44,13 @@ public class DyeItem extends net.minecraft.item.DyeItem implements DyeItemStorag
     @Override
     @Environment(EnvType.CLIENT)
     public int getColor(ItemStack stack, int tintIndex) {
-        return this.getDyeColor().getBaseColor();
+        return this.getDyeColorant().getBaseColor();
     }
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (FabricLoaderImpl.INSTANCE.isDevelopmentEnvironment()) {
-            float[] HSL = ColorUtil.rgbToHsl(((DyeItem) user.getMainHandStack().getItem()).getDyeColor().getBaseColor());
+            float[] HSL = ColorUtil.rgbToHsl(((JelloDyeItem) user.getMainHandStack().getItem()).getDyeColorant().getBaseColor());
 
             user.sendMessage(Text.of(String.format("HSL: { %f, %f, %f}", HSL[0], HSL[1], HSL[2])), true);
         }

@@ -1,7 +1,7 @@
 package io.wispforest.jello.api.util;
 
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.item.DyeItem;
+import io.wispforest.jello.item.JelloDyeItem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.SheepEntity;
@@ -86,7 +86,7 @@ public class ColorUtil {
     }
 
     public static Comparator<ItemStack> dyeStackHslComparator(int component) {
-        return Comparator.comparingDouble(stack -> ColorUtil.rgbToHsl(((DyeItem) stack.getItem()).getDyeColor().getBaseColor())[component]);
+        return Comparator.comparingDouble(stack -> ColorUtil.rgbToHsl(((JelloDyeItem) stack.getItem()).getDyeColorant().getBaseColor())[component]);
     }
 
     public static int blendDyeColors(DyeColorant... colors) {

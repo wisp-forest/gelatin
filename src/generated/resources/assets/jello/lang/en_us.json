@@ -25377,6 +25377,8 @@
   "item.jello.spicy_pink_dye": "Spicy Pink Dye",
   "item.jello.spindle_dye": "Spindle Dye",
   "item.jello.sponge": "Sponge",
+  "item.jello.sponge.desc": "Use on a block to remove dye",
+  "item.jello.sponge.desc.dirty": "Clean by using on water cauldron",
   "item.jello.sponge.dirty": "Dirty Sponge",
   "item.jello.spray_dye": "Spray Dye",
   "item.jello.spring_frost_dye": "Spring Frost Dye",

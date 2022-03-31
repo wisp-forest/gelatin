@@ -2,7 +2,7 @@ package io.wispforest.jello.item;
 
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.item.dyebundle.DyeBundle;
+import io.wispforest.jello.item.dyebundle.DyeBundleItem;
 import io.wispforest.owo.registration.reflect.ItemRegistryContainer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.FoodComponent;
@@ -14,9 +14,9 @@ import java.util.List;
 public class JelloItems implements ItemRegistryContainer {
 
     public static final Item SPONGE = new SpongeItem(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1));
-    public static final Item DYE_BUNDLE = new DyeBundle(new FabricItemSettings().group(ItemGroup.TOOLS));
+    public static final Item DYE_BUNDLE = new DyeBundleItem(new FabricItemSettings().group(ItemGroup.TOOLS));
     public static final Item EMPTY_ARTIST_PALETTE = new Item(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1));
-    public static final Item ARTIST_PALETTE = new ArtistPalette(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1));
+    public static final Item ARTIST_PALETTE = new ArtistPaletteItem(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1));
 
     public static class Slimeballs implements ItemRegistryContainer {
         public static final Item WHITE_SLIME_BALL = new MultiColorItem(DyeColorantRegistry.WHITE, (new Item.Settings()).group(ItemGroup.MISC));

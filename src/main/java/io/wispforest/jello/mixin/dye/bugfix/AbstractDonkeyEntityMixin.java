@@ -1,7 +1,7 @@
 package io.wispforest.jello.mixin.dye.bugfix;
 
 import io.wispforest.jello.Jello;
-import io.wispforest.jello.item.dyebundle.DyeBundle;
+import io.wispforest.jello.item.dyebundle.DyeBundleItem;
 import net.minecraft.entity.passive.AbstractDonkeyEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeItem;
@@ -20,7 +20,7 @@ public class AbstractDonkeyEntityMixin {
     private void fixInablityToDyeLlamaAndDonkey(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         Item item = player.getStackInHand(hand).getItem();
 
-        if ((item instanceof DyeItem || item instanceof DyeBundle) && Jello.getConfig().enableDyeingEntities) {
+        if ((item instanceof DyeItem || item instanceof DyeBundleItem) && Jello.getConfig().enableDyeingEntities) {
             cir.setReturnValue(ActionResult.PASS);
         }
     }

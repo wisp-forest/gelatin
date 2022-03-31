@@ -66,7 +66,7 @@ public class DyeItemMixin extends Item implements DyeItemStorage {
     }
 
     @Override
-    public DyeColorant getDyeColor() {
+    public DyeColorant getDyeColorant() {
         return color;
     }
 
@@ -89,7 +89,7 @@ public class DyeItemMixin extends Item implements DyeItemStorage {
             World world = context.getWorld();
             BlockState blockState = world.getBlockState(context.getBlockPos());
 
-            if (!ColorBlockEventMethods.changeBlockColor(world, context.getBlockPos(), blockState, ColorBlockRegistry.getVariant(blockState.getBlock(), this.getDyeColor()), player)) {
+            if (!ColorBlockEventMethods.changeBlockColor(world, context.getBlockPos(), blockState, ColorBlockRegistry.getVariant(blockState.getBlock(), this.getDyeColorant()), player)) {
                 return ActionResult.FAIL;
             }
 
@@ -121,17 +121,17 @@ public class DyeItemMixin extends Item implements DyeItemStorage {
                     }
 
                     if (entity instanceof DyeableEntity dyeableEntity) {
-                        return ColorEntityEvent.dyeEntityEvent(user, hand, dyeableEntity, this.getDyeColor());
+                        return ColorEntityEvent.dyeEntityEvent(user, hand, dyeableEntity, this.getDyeColorant());
                     }
                 }
             }
         }
 
         if (entity instanceof SheepEntity sheepEntity) {
-            if (sheepEntity.isAlive() && !sheepEntity.isSheared() && ((SheepDyeColorStorage) sheepEntity).getWoolDyeColor() != this.getDyeColor()) {
+            if (sheepEntity.isAlive() && !sheepEntity.isSheared() && ((SheepDyeColorStorage) sheepEntity).getWoolDyeColor() != this.getDyeColorant()) {
                 sheepEntity.world.playSoundFromEntity(user, sheepEntity, SoundEvents.ITEM_DYE_USE, SoundCategory.PLAYERS, 1.0F, 1.0F);
                 if (!user.world.isClient) {
-                    ((SheepDyeColorStorage) sheepEntity).setWoolDyeColor(this.getDyeColor());
+                    ((SheepDyeColorStorage) sheepEntity).setWoolDyeColor(this.getDyeColorant());
                     stack.decrement(1);
                 }
 

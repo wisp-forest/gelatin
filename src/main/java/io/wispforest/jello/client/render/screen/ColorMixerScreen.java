@@ -2,7 +2,7 @@ package io.wispforest.jello.client.render.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.wispforest.jello.Jello;
-import io.wispforest.jello.item.ArtistPalette;
+import io.wispforest.jello.item.ArtistPaletteItem;
 import io.wispforest.jello.item.JelloItems;
 import io.wispforest.jello.mixin.client.HandledScreenAccessor;
 import io.wispforest.jello.network.ColorMixerSearchPacket;
@@ -123,7 +123,7 @@ public class ColorMixerScreen extends HandledScreen<ColorMixerScreenHandler> {
         int progress = 0;
 
         if (stack.isOf(JelloItems.ARTIST_PALETTE)) {
-            progress = Math.min(MathHelper.ceil((ArtistPalette.MAX_USES - stack.getOrCreateNbt().getInt("TimesUsed")) * .2421875), 62);
+            progress = Math.min(MathHelper.ceil((ArtistPaletteItem.MAX_USES - stack.getOrCreateNbt().getInt("TimesUsed")) * .2421875), 62);
         }
 
         drawTexture(matrices, x + 19, y + 72 - progress, 176, 62 - progress, 6, 62);

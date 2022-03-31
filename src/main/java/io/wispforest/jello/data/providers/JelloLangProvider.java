@@ -62,6 +62,9 @@ public class JelloLangProvider extends LanguageProvider {
         add("itemGroup.misc.tab.dyes", "Custom Dyes");
         add("itemGroup.misc.tab.block_vars", "Colored Block Variants");
 
+        add("item.jello.sponge.desc", "Use on a block to remove dye");
+        add("item.jello.sponge.desc.dirty", "Clean by using on water cauldron");
+
         for (DyedVariantContainer dyedVariant : DyedVariantContainer.getVariantMap().values()) {
             for (Block block : dyedVariant.dyedBlocks.values()) {
                 addBlock(() -> block);

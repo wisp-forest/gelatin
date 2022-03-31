@@ -1,8 +1,8 @@
 package io.wispforest.jello.client.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import io.wispforest.jello.item.dyebundle.DyeBundleItem;
 import io.wispforest.jello.mixin.client.accessors.ScreenAccessor;
-import io.wispforest.jello.item.dyebundle.DyeBundle;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -17,10 +17,10 @@ public class DyeBundleTooltipRender implements HudRenderCallback {
 
     @Override
     public void onHudRender(MatrixStack matrixStack, float tickDelta) {
-        if (DyeBundle.getTooltipTime() != 0) {
+        if (DyeBundleItem.getTooltipTime() != 0) {
             ItemStack mainHandStack = MinecraftClient.getInstance().player.getMainHandStack();
 
-            if (!(mainHandStack.getItem() instanceof DyeBundle)) {
+            if (!(mainHandStack.getItem() instanceof DyeBundleItem)) {
                 return;
             }
 

@@ -2,7 +2,7 @@ package io.wispforest.jello.data.recipe;
 
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.misc.ducks.DyeItemStorage;
-import io.wispforest.jello.item.ArtistPalette;
+import io.wispforest.jello.item.ArtistPaletteItem;
 import io.wispforest.jello.item.JelloItems;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
@@ -38,8 +38,8 @@ public class ArtistPaletteRecipe extends SpecialCraftingRecipe {
                             return false;
                         }
 
-                        if (itemStack.getItem() instanceof DyeItemStorage dyeItemStorage && ArtistPalette.ALLOWED_COLORS.contains(dyeItemStorage.getDyeColor())) {
-                            switch (dyeItemStorage.getDyeColor().toString()) {
+                        if (itemStack.getItem() instanceof DyeItemStorage dyeItemStorage && ArtistPaletteItem.ALLOWED_COLORS.contains(dyeItemStorage.getDyeColorant())) {
+                            switch (dyeItemStorage.getDyeColorant().toString()) {
                                 case "minecraft:red" -> {
                                     if ((hasColorAlready & 1) == 1) {
                                         return false;
@@ -92,17 +92,17 @@ public class ArtistPaletteRecipe extends SpecialCraftingRecipe {
         } else {
             List<DyeColorant> dyeColors = new ArrayList<>();
 
-            dyeColors.add(((DyeItemStorage) craftingInventory.getStack(3).getItem()).getDyeColor());
+            dyeColors.add(((DyeItemStorage) craftingInventory.getStack(3).getItem()).getDyeColorant());
 
             for (int i = 0; i < 3; i++) {
-                dyeColors.add(((DyeItemStorage) craftingInventory.getStack(i).getItem()).getDyeColor());
+                dyeColors.add(((DyeItemStorage) craftingInventory.getStack(i).getItem()).getDyeColorant());
             }
 
-            dyeColors.add(((DyeItemStorage) craftingInventory.getStack(5).getItem()).getDyeColor());
+            dyeColors.add(((DyeItemStorage) craftingInventory.getStack(5).getItem()).getDyeColorant());
 
             ItemStack itemStack2 = new ItemStack(JelloItems.ARTIST_PALETTE, 1);
 
-            ArtistPalette.setStackColors(itemStack2.getOrCreateNbt(), dyeColors.toArray(new DyeColorant[]{}));
+            ArtistPaletteItem.setStackColors(itemStack2.getOrCreateNbt(), dyeColors.toArray(new DyeColorant[]{}));
 
             return itemStack2;
         }

@@ -2,11 +2,11 @@ package io.wispforest.jello.api.dye.events;
 
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
+import io.wispforest.jello.item.dyebundle.DyeBundleItem;
 import io.wispforest.jello.misc.ducks.entity.ConstantColorEntity;
 import io.wispforest.jello.misc.ducks.entity.DyeableEntity;
 import io.wispforest.jello.misc.ducks.entity.RainbowEntity;
 import io.wispforest.jello.api.registry.ColorizeRegistry;
-import io.wispforest.jello.item.dyebundle.DyeBundle;
 import io.wispforest.owo.ops.ItemOps;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.entity.Entity;
@@ -49,8 +49,8 @@ public class ColorEntityEvent implements UseEntityCallback {
         dyeableEntity.setDyeColor(dyeColor);
 
         if (!player.getAbilities().creativeMode) {
-            if (player.getStackInHand(hand).getItem() instanceof DyeBundle) {
-                DyeBundle.dyeBundleInteraction(player.getStackInHand(hand), dyeColor);
+            if (player.getStackInHand(hand).getItem() instanceof DyeBundleItem) {
+                DyeBundleItem.dyeBundleInteraction(player.getStackInHand(hand), dyeColor);
             } else {
                 decrementPlayerHandItemCC(player, hand);
             }

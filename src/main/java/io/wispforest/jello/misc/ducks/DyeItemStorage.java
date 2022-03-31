@@ -5,14 +5,11 @@ import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 
 public interface DyeItemStorage {
 
-    default DyeColorant getDyeColor() {
+    default DyeColorant getDyeColorant() {
         return DyeColorantRegistry.NULL_VALUE_NEW;
     }
 
     default void setDyeColor(DyeColorant dyeColorant) {
 
     }
-
-    ;
-
 }

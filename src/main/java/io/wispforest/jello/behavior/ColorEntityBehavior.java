@@ -28,7 +28,7 @@ public class ColorEntityBehavior extends FallibleItemDispenserBehavior {
         if (!world.isClient()) {
             if (stack.getItem() instanceof DyeItem dyeItem) {
                 BlockPos blockPos = pointer.getPos().offset(pointer.getBlockState().get(DispenserBlock.FACING));
-                this.setSuccess(tryColorEntity((ServerWorld) world, blockPos, ((DyeItemStorage) dyeItem).getDyeColor()));
+                this.setSuccess(tryColorEntity((ServerWorld) world, blockPos, ((DyeItemStorage) dyeItem).getDyeColorant()));
                 if (this.isSuccess()) {
                     stack.decrement(1);
                 }

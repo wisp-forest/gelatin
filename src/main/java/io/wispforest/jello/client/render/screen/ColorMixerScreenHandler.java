@@ -1,11 +1,11 @@
 package io.wispforest.jello.client.render.screen;
 
-import io.wispforest.jello.item.DyeItem;
+import io.wispforest.jello.item.JelloDyeItem;
 import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
 import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.block.JelloBlocks;
-import io.wispforest.jello.item.ArtistPalette;
+import io.wispforest.jello.item.ArtistPaletteItem;
 import io.wispforest.jello.item.JelloItems;
 import io.wispforest.jello.network.ColorMixerScrollPacket;
 import io.wispforest.owo.client.screens.ScreenUtils;
@@ -26,7 +26,7 @@ import java.util.Locale;
 public class ColorMixerScreenHandler extends ScreenHandler {
 
     public static final List<ItemStack> ALL_DYE_ITEMS = DyedVariantContainer.getVariantMap().values().stream()
-            .filter(dyedVariantContainer -> dyedVariantContainer.dyeItem instanceof DyeItem)
+            .filter(dyedVariantContainer -> dyedVariantContainer.dyeItem instanceof JelloDyeItem)
             .map(dyedVariantContainer -> dyedVariantContainer.dyeItem.getDefaultStack())
             .sorted(ColorUtil.dyeStackHslComparator(2))
             .sorted(ColorUtil.dyeStackHslComparator(1))
@@ -154,7 +154,7 @@ public class ColorMixerScreenHandler extends ScreenHandler {
 
         @Override
         public ItemStack takeStack(int amount) {
-            ColorMixerScreenHandler.this.artistInventory.setStack(0, ArtistPalette.use(artistInventory.getStack(0)));
+            ColorMixerScreenHandler.this.artistInventory.setStack(0, ArtistPaletteItem.use(artistInventory.getStack(0)));
             return this.inventory.getStack(this.getIndex()).copy();
         }
     }

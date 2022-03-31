@@ -1,17 +1,19 @@
 package io.wispforest.jello.item.dyebundle;
 
+import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.events.ColorBlockEventMethods;
 import io.wispforest.jello.api.dye.events.ColorEntityEvent;
-import io.wispforest.jello.misc.ducks.DyeItemStorage;
-import io.wispforest.jello.misc.ducks.entity.ConstantColorEntity;
-import io.wispforest.jello.misc.ducks.entity.DyeableEntity;
 import io.wispforest.jello.api.registry.ColorBlockRegistry;
 import io.wispforest.jello.api.registry.ColorizeRegistry;
-import io.wispforest.jello.Jello;
+import io.wispforest.jello.misc.ducks.DyeItemStorage;
+import io.wispforest.jello.misc.ducks.SheepDyeColorStorage;
+import io.wispforest.jello.misc.ducks.entity.ConstantColorEntity;
+import io.wispforest.jello.misc.ducks.entity.DyeableEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.BundleItem;
@@ -22,6 +24,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
@@ -30,19 +33,13 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class DyeBundle extends BundleItem {
+public class DyeBundleItem extends BundleItem {
 
     private static int tooltipTickCounter = 0;
 
-    private List<DyeBufferEntry> currentBufferEntries = new ArrayList<>();
-    private int selectedSlotNumber;
-
-    private static final String SLOT_SELECTED_KEY = "selected_slot";
-
-    public DyeBundle(Settings settings) {
+    public DyeBundleItem(Settings settings) {
         super(settings);
     }
 
@@ -59,10 +56,10 @@ public class DyeBundle extends BundleItem {
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
         attemptShuffleItemsPacket(user.getWorld());
 
-        DyeItem firstDyeItem = (DyeItem) getFirstStack(stack).getItem();
+        ItemStack firstDyeStack = getFirstStack(stack);
 
-        if (firstDyeItem != null) {
-            DyeColorant dyeColorant = ((DyeItemStorage) firstDyeItem).getDyeColor();
+        if (firstDyeStack.getItem() instanceof DyeItem dyeItem) {
+            DyeColorant dyeColorant = ((DyeItemStorage) dyeItem).getDyeColorant();
 
             if (Jello.getConfig().enableDyeingEntities || (entity instanceof PlayerEntity && Jello.getConfig().enableDyeingPlayers)) {
                 if (ColorizeRegistry.isRegistered(entity)) {
@@ -78,19 +75,17 @@ public class DyeBundle extends BundleItem {
                 }
             }
 
-            //TODO: Get new Dye Color Registry working with sheep!!!!
-//            if (entity instanceof SheepEntity) {
-//                SheepEntity sheepEntity = (SheepEntity) entity;
-//                if (sheepEntity.isAlive() && !sheepEntity.isSheared() && sheepEntity.getColor() != dyeColorant) {
-//                    sheepEntity.world.playSoundFromEntity(user, sheepEntity, SoundEvents.ITEM_DYE_USE, SoundCategory.PLAYERS, 1.0F, 1.0F);
-//                    if (!user.world.isClient) {
-//                        sheepEntity.setColor(dyeColorant);
-//                        stack.decrement(1);
-//                    }
-//
-//                    return ActionResult.success(user.world.isClient);
-//                }
-//            }
+            if (entity instanceof SheepEntity sheepEntity) {
+                if (sheepEntity.isAlive() && !sheepEntity.isSheared() && ((SheepDyeColorStorage) sheepEntity).getWoolDyeColor() != dyeColorant) {
+                    sheepEntity.world.playSoundFromEntity(user, sheepEntity, SoundEvents.ITEM_DYE_USE, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                    if (!user.world.isClient) {
+                        ((SheepDyeColorStorage) sheepEntity).setWoolDyeColor(dyeColorant);
+                        DyeBundleItem.dyeBundleInteraction(firstDyeStack, dyeColorant);
+                    }
+
+                    return ActionResult.success(user.world.isClient);
+                }
+            }
         }
 
         return ActionResult.PASS;
@@ -105,12 +100,15 @@ public class DyeBundle extends BundleItem {
         attemptShuffleItemsPacket(world);
 
         if (Jello.getConfig().enableDyeingBlocks && player != null) {
-            DyeItem firstDyeItem = (DyeItem) getFirstStack(bundleStack).getItem();
+            final var firstStack = getFirstStack(bundleStack);
+            if (firstStack.isEmpty()) return ActionResult.PASS;
+
+            DyeItem firstDyeItem = (DyeItem) firstStack.getItem();
 
             if (firstDyeItem != null) {
-                DyeColorant dyeColorant = ((DyeItemStorage) firstDyeItem).getDyeColor();
+                DyeColorant dyeColorant = ((DyeItemStorage) firstDyeItem).getDyeColorant();
 
-                if (player.shouldCancelInteraction()) {
+                if (!player.shouldCancelInteraction()) {
                     BlockState blockState = world.getBlockState(context.getBlockPos());
 
                     if (!ColorBlockEventMethods.changeBlockColor(world, context.getBlockPos(), blockState, ColorBlockRegistry.getVariant(blockState.getBlock(), dyeColorant), player)) {
@@ -135,7 +133,7 @@ public class DyeBundle extends BundleItem {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         attemptShuffleItemsPacket(world);
 
-        if (!user.shouldCancelInteraction()) {
+        if (user.shouldCancelInteraction()) {
             return super.use(world, user, hand);
         } else {
             return TypedActionResult.pass(user.getStackInHand(hand));
@@ -145,7 +143,7 @@ public class DyeBundle extends BundleItem {
     public static void dyeBundleInteraction(ItemStack bundleStack, DyeColorant dyeColorant) {
         List<DyeBufferEntry> currentDyeBuffers = DyeBufferEntry.readDyeBufferEntries(bundleStack);
 
-        boolean doseBufferExist = false;
+        boolean doesBufferExist = false;
 
         if (!currentDyeBuffers.isEmpty()) {
             for (int i = 0; i < currentDyeBuffers.size(); i++) {
@@ -158,14 +156,14 @@ public class DyeBundle extends BundleItem {
                         decrementFirstStack(bundleStack);
                     }
 
-                    doseBufferExist = true;
+                    doesBufferExist = true;
 
                     break;
                 }
             }
         }
 
-        if (!doseBufferExist) {
+        if (!doesBufferExist) {
             DyeBufferEntry bufferEntry = new DyeBufferEntry(dyeColorant, 7);
 
             currentDyeBuffers.add(bufferEntry);
@@ -177,40 +175,40 @@ public class DyeBundle extends BundleItem {
     //----------------------------------------------------------------------------------------------------
 
     public ItemStack getFirstStack(ItemStack stack) {
-        NbtCompound nbtCompound = stack.getOrCreateNbt();
-        if (!nbtCompound.contains("Items")) {
+        NbtCompound bundleNbt = stack.getOrCreateNbt();
+        if (!bundleNbt.contains("Items")) {
             return null;
         } else {
-            NbtList nbtList = nbtCompound.getList("Items", 10);
-            if (nbtList.isEmpty()) {
+            NbtList bundleItemsList = bundleNbt.getList("Items", 10);
+            if (bundleItemsList.isEmpty()) {
                 return null;
             } else {
-                NbtCompound nbtCompound2 = nbtList.getCompound(0);
-                return ItemStack.fromNbt(nbtCompound2);
+                NbtCompound itemNbt = bundleItemsList.getCompound(0);
+                return ItemStack.fromNbt(itemNbt);
             }
         }
     }
 
     private static boolean decrementFirstStack(ItemStack bundleStack) {
-        NbtCompound nbtCompound = bundleStack.getOrCreateNbt();
-        if (!nbtCompound.contains("Items")) {
+        NbtCompound bundleNbt = bundleStack.getOrCreateNbt();
+        if (!bundleNbt.contains("Items")) {
             return false;
         } else {
-            NbtList nbtList = nbtCompound.getList("Items", 10);
-            if (nbtList.isEmpty()) {
+            NbtList bundleItemsList = bundleNbt.getList("Items", 10);
+            if (bundleItemsList.isEmpty()) {
                 return false;
             } else {
-                NbtCompound nbtCompound2 = nbtList.getCompound(0);
+                NbtCompound itemNbt = bundleItemsList.getCompound(0);
 
-                int currentStackCount = nbtCompound2.getInt("Count") - 1;
+                int currentStackCount = itemNbt.getInt("Count") - 1;
 
-                if (currentStackCount < 0) {
-                    nbtList.remove(0);
+                if (currentStackCount < 1) {
+                    bundleItemsList.remove(0);
                 } else {
-                    nbtCompound2.putInt("Count", currentStackCount);
+                    itemNbt.putInt("Count", currentStackCount);
                 }
 
-                nbtCompound.put("Items", nbtList);
+                bundleNbt.put("Items", bundleItemsList);
 
                 return true;
             }
@@ -227,7 +225,7 @@ public class DyeBundle extends BundleItem {
 
     @Override
     public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
-        return (!otherStack.isEmpty() && otherStack.getItem() instanceof DyeItem)
+        return (otherStack.isEmpty() || otherStack.getItem() instanceof DyeItem)
                 && super.onClicked(stack, otherStack, slot, clickType, player, cursorStackReference);
     }
 
@@ -246,7 +244,7 @@ public class DyeBundle extends BundleItem {
             if (tooltipTickCounter != 0) {
                 ItemStack possibleBundle = player.getMainHandStack();
 
-                if (possibleBundle.getItem() instanceof DyeBundle) {
+                if (possibleBundle.getItem() instanceof DyeBundleItem) {
                     tooltipTickCounter--;
                 } else {
                     tooltipTickCounter -= 2;

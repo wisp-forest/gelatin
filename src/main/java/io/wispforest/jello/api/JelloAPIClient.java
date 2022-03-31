@@ -1,7 +1,7 @@
 package io.wispforest.jello.api;
 
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.item.DyeItem;
+import io.wispforest.jello.item.JelloDyeItem;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
 import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
@@ -134,9 +134,9 @@ public class JelloAPIClient implements ClientModInitializer {
 
                 //-----------------------------------------------------------
 
-                ColorProviderRegistry.ITEM.register((DyeItem) dyedVariantEntry.getValue().dyeItem, dyedVariantEntry.getValue().dyeItem);
+                ColorProviderRegistry.ITEM.register((JelloDyeItem) dyedVariantEntry.getValue().dyeItem, dyedVariantEntry.getValue().dyeItem);
 
-                FabricModelPredicateProviderRegistry.register(dyedVariantEntry.getValue().dyeItem, new Identifier("variant"), (stack, world, entity, seed) -> DyeItem.getTextureVariant(stack));
+                FabricModelPredicateProviderRegistry.register(dyedVariantEntry.getValue().dyeItem, new Identifier("variant"), (stack, world, entity, seed) -> JelloDyeItem.getTextureVariant(stack));
 
             }
         }

@@ -6,11 +6,11 @@ import io.wispforest.jello.blockentity.ColorStorageBlockEntity;
 import io.wispforest.jello.api.dye.events.ColorBlockEventMethods;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.events.CauldronEvent;
+import io.wispforest.jello.item.dyebundle.DyeBundleItem;
 import io.wispforest.jello.misc.ducks.DyeItemStorage;
 import io.wispforest.jello.api.registry.ColorBlockRegistry;
 import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.jello.item.SpongeItem;
-import io.wispforest.jello.item.dyebundle.DyeBundle;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -49,13 +49,13 @@ public class JelloCauldronBehaviors implements CauldronBehavior {
             DyeColorant dyeColorant = DyeColorantRegistry.NULL_VALUE_NEW;
 
             if (stack.getItem() instanceof DyeItem dyeItem) {
-                dyeColorant = ((DyeItemStorage) dyeItem).getDyeColor();
-            } else if (stack.getItem() instanceof DyeBundle dyeBundle) {
+                dyeColorant = ((DyeItemStorage) dyeItem).getDyeColorant();
+            } else if (stack.getItem() instanceof DyeBundleItem dyeBundle) {
                 DyeItem dyeItem = (DyeItem) dyeBundle.getFirstStack(stack).getItem();
                 isStack = true;
 
                 if (dyeItem != null) {
-                    dyeColorant = ((DyeItemStorage) dyeItem).getDyeColor();
+                    dyeColorant = ((DyeItemStorage) dyeItem).getDyeColorant();
                 }
             }
 
@@ -70,7 +70,7 @@ public class JelloCauldronBehaviors implements CauldronBehavior {
                     if (!world.isClient) {
                         if (!player.getAbilities().creativeMode) {
                             if (isStack) {
-                                DyeBundle.dyeBundleInteraction(stack, dyeColorant);
+                                DyeBundleItem.dyeBundleInteraction(stack, dyeColorant);
                             } else {
                                 stack.decrement(1);
                             }

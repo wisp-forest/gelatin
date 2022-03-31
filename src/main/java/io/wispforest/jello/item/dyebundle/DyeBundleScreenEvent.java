@@ -22,7 +22,7 @@ public class DyeBundleScreenEvent implements ScreenMouseEvents.AllowMouseScroll,
             if (focusedSlot != null) {
                 ItemStack possibleBundle = focusedSlot.hasStack() ? focusedSlot.getStack() : Items.AIR.getDefaultStack();
 
-                if (handledScreen.getScreenHandler().getCursorStack().isEmpty() && focusedSlot.getStack().getItem() instanceof DyeBundle) {
+                if (handledScreen.getScreenHandler().getCursorStack().isEmpty() && focusedSlot.getStack().getItem() instanceof DyeBundleItem) {
 
                     cachedVerticalScrollAmount += verticalAmount;
 
@@ -40,7 +40,7 @@ public class DyeBundleScreenEvent implements ScreenMouseEvents.AllowMouseScroll,
     public boolean allowMouseScroll(ClientPlayerEntity player, double horizontalAmount, double verticalAmount) {
         ItemStack possibleBundle = player.getMainHandStack();
 
-        if (possibleBundle.getItem() instanceof DyeBundle dyeBundle && player.shouldCancelInteraction()) {
+        if (possibleBundle.getItem() instanceof DyeBundleItem dyeBundle && player.shouldCancelInteraction()) {
             dyeBundle.startTooltipTimer();
 
             cachedVerticalScrollAmount += verticalAmount;

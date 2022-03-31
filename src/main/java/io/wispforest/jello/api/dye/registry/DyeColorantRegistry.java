@@ -27,7 +27,9 @@ public class DyeColorantRegistry {
 
     //Fix for fabric not allowing for a function to be passed thru
     static {
+        //noinspection unchecked,rawtypes
         ((SimpleRegistryAccessor) DYE_COLOR).setValueToEntryFunction(dyeColor -> ((DyeColorant) dyeColor).getRegistryEntry());
+        //noinspection unchecked,rawtypes
         ((SimpleRegistryAccessor) DYE_COLOR).setUnfrozenValueToEntry(new IdentityHashMap());
     }
 
@@ -36,22 +38,22 @@ public class DyeColorantRegistry {
 
     public static final DyeColorant NULL_VALUE_NEW = registerDyeColor(Jello.id("_null"), MapColor.CLEAR, 0);
 
-    public static final DyeColorant WHITE = registryDyeColorVanilla("white", 0xF9FFFE, MapColor.WHITE, 0xF0F0F0, 0xFFFFFF);
-    public static final DyeColorant ORANGE = registryDyeColorVanilla("orange", 0xF9801D, MapColor.ORANGE, 0xEB8844, 0xFF681F);
-    public static final DyeColorant MAGENTA = registryDyeColorVanilla("magenta", 0xC74EBD, MapColor.MAGENTA, 0xC354CD, 0xFF00FF);
-    public static final DyeColorant LIGHT_BLUE = registryDyeColorVanilla("light_blue", 0x3AB3DA, MapColor.LIGHT_BLUE, 0x6689D3, 0x9AC0CD);
-    public static final DyeColorant YELLOW = registryDyeColorVanilla("yellow", 0xFED83D, MapColor.YELLOW, 0xDECF2A, 0xFFFF00);
-    public static final DyeColorant LIME = registryDyeColorVanilla("lime", 0x80C71F, MapColor.LIME, 0x41CD34, 0xBFFF00);
-    public static final DyeColorant PINK = registryDyeColorVanilla("pink", 0xF38BAA, MapColor.PINK, 14188952, 16738740);
-    public static final DyeColorant GRAY = registryDyeColorVanilla("gray", 4673362, MapColor.GRAY, 4408131, 8421504);
-    public static final DyeColorant LIGHT_GRAY = registryDyeColorVanilla("light_gray", 10329495, MapColor.LIGHT_GRAY, 11250603, 13882323);
-    public static final DyeColorant CYAN = registryDyeColorVanilla("cyan", 1481884, MapColor.CYAN, 2651799, 65535);
-    public static final DyeColorant PURPLE = registryDyeColorVanilla("purple", 8991416, MapColor.PURPLE, 8073150, 10494192);
-    public static final DyeColorant BLUE = registryDyeColorVanilla("blue", 3949738, MapColor.BLUE, 2437522, 255);
-    public static final DyeColorant BROWN = registryDyeColorVanilla("brown", 8606770, MapColor.BROWN, 5320730, 9127187);
-    public static final DyeColorant GREEN = registryDyeColorVanilla("green", 6192150, MapColor.GREEN, 3887386, 65280);
-    public static final DyeColorant RED = registryDyeColorVanilla("red", 11546150, MapColor.RED, 11743532, 16711680);
-    public static final DyeColorant BLACK = registryDyeColorVanilla("black", 1908001, MapColor.BLACK, 1973019, 0);
+    public static final DyeColorant WHITE = registerDyeColorVanilla("white", 0xF9FFFE, MapColor.WHITE, 0xF0F0F0, 0xFFFFFF);
+    public static final DyeColorant ORANGE = registerDyeColorVanilla("orange", 0xF9801D, MapColor.ORANGE, 0xEB8844, 0xFF681F);
+    public static final DyeColorant MAGENTA = registerDyeColorVanilla("magenta", 0xC74EBD, MapColor.MAGENTA, 0xC354CD, 0xFF00FF);
+    public static final DyeColorant LIGHT_BLUE = registerDyeColorVanilla("light_blue", 0x3AB3DA, MapColor.LIGHT_BLUE, 0x6689D3, 0x9AC0CD);
+    public static final DyeColorant YELLOW = registerDyeColorVanilla("yellow", 0xFED83D, MapColor.YELLOW, 0xDECF2A, 0xFFFF00);
+    public static final DyeColorant LIME = registerDyeColorVanilla("lime", 0x80C71F, MapColor.LIME, 0x41CD34, 0xBFFF00);
+    public static final DyeColorant PINK = registerDyeColorVanilla("pink", 0xF38BAA, MapColor.PINK, 14188952, 16738740);
+    public static final DyeColorant GRAY = registerDyeColorVanilla("gray", 4673362, MapColor.GRAY, 4408131, 8421504);
+    public static final DyeColorant LIGHT_GRAY = registerDyeColorVanilla("light_gray", 10329495, MapColor.LIGHT_GRAY, 11250603, 13882323);
+    public static final DyeColorant CYAN = registerDyeColorVanilla("cyan", 1481884, MapColor.CYAN, 2651799, 65535);
+    public static final DyeColorant PURPLE = registerDyeColorVanilla("purple", 8991416, MapColor.PURPLE, 8073150, 10494192);
+    public static final DyeColorant BLUE = registerDyeColorVanilla("blue", 3949738, MapColor.BLUE, 2437522, 255);
+    public static final DyeColorant BROWN = registerDyeColorVanilla("brown", 8606770, MapColor.BROWN, 5320730, 9127187);
+    public static final DyeColorant GREEN = registerDyeColorVanilla("green", 6192150, MapColor.GREEN, 3887386, 65280);
+    public static final DyeColorant RED = registerDyeColorVanilla("red", 11546150, MapColor.RED, 11743532, 16711680);
+    public static final DyeColorant BLACK = registerDyeColorVanilla("black", 1908001, MapColor.BLACK, 1973019, 0);
 
     public static void initVanillaDyes() {
         for (DyeColorant dyeColorant : Constants.VANILLA_DYES) {
@@ -129,7 +131,7 @@ public class DyeColorantRegistry {
      * Only used for vanilla Dye Color Registry to allow for easy dye color int Id conversion
      */
     @ApiStatus.Internal
-    private static DyeColorant registryDyeColorVanilla(String dyeName, int baseColor, MapColor mapColor, int fireworkColor, int signColor) {
+    private static DyeColorant registerDyeColorVanilla(String dyeName, int baseColor, MapColor mapColor, int fireworkColor, int signColor) {
         DyeColorant dyeColor = registerDyeColor(new Identifier(dyeName), mapColor, baseColor, fireworkColor, signColor);
 
         Constants.VANILLA_DYES.add(dyeColor);

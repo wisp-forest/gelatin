@@ -4,6 +4,7 @@ import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.registry.ColorBlockRegistry;
 import io.wispforest.jello.data.tags.JelloTags;
+import io.wispforest.jello.item.JelloDyeItem;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
 import io.wispforest.owo.util.TagInjector;
 import net.minecraft.block.Block;
@@ -215,7 +216,7 @@ public class DyedVariantContainer {
                 return (DyeItem) Registry.ITEM.get(identifier);
             }
 
-            DyeItem dyeItem = Registry.register(Registry.ITEM, identifier, new io.wispforest.jello.item.DyeItem(dyeColorant, itemSettings));
+            DyeItem dyeItem = Registry.register(Registry.ITEM, identifier, new JelloDyeItem(dyeColorant, itemSettings));
 
             TagInjector.injectItems(JelloTags.Items.DYE_ITEMS.id(), dyeItem);
 

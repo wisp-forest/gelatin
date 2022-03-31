@@ -1,15 +1,16 @@
 package io.wispforest.jello.item;
 
+import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.dye.events.ColorBlockEventMethods;
 import io.wispforest.jello.api.dye.events.ColorEntityEvent;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.misc.ducks.entity.ConstantColorEntity;
-import io.wispforest.jello.misc.ducks.entity.DyeableEntity;
 import io.wispforest.jello.api.registry.ColorBlockRegistry;
 import io.wispforest.jello.api.registry.ColorizeRegistry;
-import io.wispforest.jello.Jello;
+import io.wispforest.jello.misc.ducks.entity.ConstantColorEntity;
+import io.wispforest.jello.misc.ducks.entity.DyeableEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FluidDrainable;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -19,15 +20,22 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class SpongeItem extends Item {
 
@@ -46,6 +54,21 @@ public class SpongeItem extends Item {
             return DIRTINESS_TRANSLATION_KEY;
         }
         return super.getTranslationKey(stack);
+    }
+
+    @Override
+    public boolean isItemBarVisible(ItemStack stack) {
+        return getDirtinessValue(stack) > 1;
+    }
+
+    @Override
+    public int getItemBarStep(ItemStack stack) {
+        return Math.round(13f - getDirtinessValue(stack) * 13f / MAX_DIRTINESS);
+    }
+
+    @Override
+    public int getItemBarColor(ItemStack stack) {
+        return MathHelper.hsvToRgb(0.16f, 1f, (12 + Math.round(64f - getDirtinessValue(stack) * 64f / MAX_DIRTINESS)) / 100f);
     }
 
     @Override
@@ -80,13 +103,11 @@ public class SpongeItem extends Item {
                 if (user instanceof DyeableEntity dyeableEntity && dyeableEntity.isDyed()) {
                     dyeableEntity.setDyeColor(DyeColorantRegistry.NULL_VALUE_NEW);
 
-
                     if (!world.isClient) {
                         incrementDirtiness(itemInHand, user);
 
                         world.playSound(null, user.getBlockPos(), SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.PLAYERS, 1.0F, 1.55F);
                     }
-
 
                     return TypedActionResult.success(itemInHand);
                 }
@@ -150,9 +171,9 @@ public class SpongeItem extends Item {
     }
 
     @Override
-    public void postProcessNbt(NbtCompound nbt) {
-        setDirtiness(nbt, 0);
-        super.postProcessNbt(nbt);
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        tooltip.add(new TranslatableText(this.getTranslationKey() + ".desc").formatted(Formatting.GRAY));
+        tooltip.add(new TranslatableText(this.getTranslationKey() + ".desc.dirty").formatted(Formatting.GRAY));
     }
 
     private static void cleanSponge(ItemStack itemStack, PlayerEntity player) {

@@ -19,7 +19,7 @@ import net.minecraft.util.math.MathHelper;
 import java.util.Set;
 
 @EnvironmentInterface(value = EnvType.CLIENT, itf = ItemColorProvider.class)
-public class ArtistPalette extends Item implements ItemColorProvider {
+public class ArtistPaletteItem extends Item implements ItemColorProvider {
 
     private static final String PALETTE_KEY = "PaletteOrder";
     private static final String COLORED_KEY = "Colored";
@@ -33,7 +33,7 @@ public class ArtistPalette extends Item implements ItemColorProvider {
             DyeColorantRegistry.WHITE,
             DyeColorantRegistry.BLACK);
 
-    public ArtistPalette(Settings settings) {
+    public ArtistPaletteItem(Settings settings) {
         super(settings);
     }
 
