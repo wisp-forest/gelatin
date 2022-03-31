@@ -1,12 +1,12 @@
 package io.wispforest.jello.api;
 
+import io.wispforest.jello.api.dye.events.ColorEntityEvent;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
+import io.wispforest.jello.api.util.TrackedDataHandlerExtended;
 import io.wispforest.jello.behavior.ColorEntityBehavior;
 import io.wispforest.jello.behavior.JelloCauldronBehaviors;
 import io.wispforest.jello.behavior.WashEntityBehavior;
-import io.wispforest.jello.api.dye.events.ColorEntityEvent;
 import io.wispforest.jello.misc.DyeColorantLoader;
-import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.api.util.TrackedDataHandlerExtended;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
 import io.wispforest.owo.registration.reflect.AutoRegistryContainer;
 import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
@@ -14,11 +14,9 @@ import io.wispforest.owo.registration.reflect.SimpleFieldProcessingSubject;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.block.DispenserBlock;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Items;
 import net.minecraft.stat.StatFormatter;
-import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.event.GameEvent;
@@ -61,21 +59,18 @@ public class JelloAPI implements ModInitializer {
     //------------------------------------------------------------------------------
 
     private static void registerDispenserBehavior() {
-        DyeColor[] dyeColors = DyeColor.values();
+        final var behavior = new ColorEntityBehavior();
 
-        for (int i = 0; i < dyeColors.length; i++) {
-            Item item = Registry.ITEM.get(new Identifier(dyeColors[i].getName() + "_dye"));
-
-            DispenserBlock.registerBehavior(item, new ColorEntityBehavior());
+        for (var colorant : DyeColorantRegistry.DYE_COLOR) {
+            final var id = colorant.getId();
+            DispenserBlock.registerBehavior(Registry.ITEM.get(new Identifier(id.getNamespace(), id.getPath() + "_dye")), behavior);
         }
 
         DispenserBlock.registerBehavior(Items.WATER_BUCKET, new WashEntityBehavior());
     }
 
     private static void registerEvents() {
-        UseEntityCallback.EVENT.register(
-                (player, world, hand, entity, hitResult) -> new ColorEntityEvent().interact(player, world, hand, entity, hitResult));
-
+        UseEntityCallback.EVENT.register(new ColorEntityEvent());
     }
 
     //------------------------------------------------------------------------------
