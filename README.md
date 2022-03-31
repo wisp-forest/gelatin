@@ -6,7 +6,8 @@
 [![discord](https://img.shields.io/discord/825828008644313089?label=wisp%20forest&logo=discord&logoColor=white&style=for-the-badge)](https://discord.gg/xrwHKktV2d)
 
 ## Overview
-Jello is a Mainly a Mod that makes handling Minecrafts color System easy for Other modders or just to add Quirky new ways of Coloring Blocks, Items and Entities. Within contains some new Content to make using Jello easier for Players and API's for Mod creators looking for a easy solution for hardcoded varaiables within Mojang's code.
+
+Jello is a mainly a mod that makes handling Minecraft's color system easy for modders or just to add quirky new ways of coloring blocks, items and entities. It also contains some new content to make using Jello easier for players and APIs for mod creators looking for an easy solution to hardcoded variables within Mojang's code.
 
 **Build Setup:**
 
@@ -15,41 +16,47 @@ repositories {
     maven { url 'https://maven.wispforest.io' }
 }
 ```
+
 ```groovy
 dependencies {
-  // Recommend creating a Jello version within your gradle.properties 
-  modImplementation "io.wispforest:jello:${project.jello_version}"
+    // Recommend creating a Jello version within your gradle.properties 
+    modImplementation "io.wispforest:jello:${project.jello_version}"
 }
 ```
 
 # Content Features
 
-### New Dye Functionality 
- 1. Jello adds many new ways to get and Create mincrafts many Colorful Blocks(Wool, Concrete, Non-Glazed Terracotta, etc).
-    - You can now Right Click with any Dye Item within Minecraft or Created by Jello to Color the variase Block Variants.
-    - It is now possible to do this with the Dye Bundle, it works similar to the regular Bundle but only stores Dyes allowing you Dye upto 8 blocks using one color before a Dye will be consumed allowing for the ability to change your concrete house to whatever block you want!
+### New Dye Functionality
+
+1. Jello adds new ways to get and create Minecraft's many colorful blocks (Wool, Concrete, Non-Glazed Terracotta, etc)
+    - You can now right-click with any dye to change the color of dyeable blocks in-world
+    - The new *Dye Bundle*, which works similarly to a vanilla bundle, allows you to get up to 8 uses out of a single dye
 
 ### Cauldron Rework
-2. Cauldrons now have parity with the Bedrock Version of the Game allowing for Dyeing of All Leather Armor Types! Right Click with any Dye to Color the water, only one Color can be present at a time.
-    - **Similar to the Block Coloring above with Dyes, you can also do such within Cauldrons too! You can get 24 Dyed Blocks from one Dye!**
+
+2. Cauldrons now have parity with the Bedrock version of the game, allowing you to dye Leather Armor! Right-click with any dye to color the water, but note that only one color can be present at a time.
+    - **Similar to the Dye Bundle above, Cauldrons allow you to get more out of a single dye. In fact, you can get 24 Dyed Blocks from a single piece of colorant!**
 
 ### Slime Block/Slabs
- 3. Adds new Colored Slime Block Varaints and A new slime block slab! Both variants will stick to each other if there the same color.
-    - The Slab version depending on its state will stick to either the top or bottom block and function the same on its other four sides.
 
- ### Entity Dyeing
- 4. All Living Entity's or Mobs can be dyed to a certain color! It is mostly cosmetic and currently have no fuction but to be a cool little edition for Players and is part of the API useful for Mod Creators
+3. New colored Slime Block variants and as well as **Slime Block Slabs**! Both variants will stick to each other if they are the same color
+    - The slab version, depending on its state, will stick to either the top or bottom block and function the same on its other four sides.
 
-## Api's
-  **TODO: REDO API README SECTION AFTER FINISHING NEWLY ADDED DYE COLOR API AND REGISTRY
-  - A Entity Colorizing API: Such is a NBT tag based way of assigning differing DyeColor's, Custom Decimal Or hex based Color's and even the ablity to Rainbow-ify any entity that Implements the Living entity and its render.
-    - Documention is included within the Mod. 
-  - Experimental Gray-Scaling API: Such is used by the above Coloring API to get true color of the set Color value
+### Entity Dyeing
+
+4. All living entities, or mobs if you will, can be dyed a certain color! It is mostly cosmetic and currently has no function but to be a cool little addition for players and being part of the API useful for mod creators
+
+## APIs (this needs updating)
+
+- An Entity Colorizing API: Such is a NBT tag based way of assigning differing DyeColor's, Custom Decimal Or hex based Color's and even the ablity to
+  Rainbow-ify any entity that Implements the Living entity and its render.
+    - Documention is included within the Mod.
+- Experimental Gray-Scaling API: Such is used by the above Coloring API to get true color of the set Color value
     - More Documention will be added in the future.
-    - 
-## Future Plans and Todo's
-   1. The current GrayScaling API is not as fleshed out as the Coloring API and in the future I hope to have the ablity for someone to just register a EntityType and then it will dynamically get and create the texture's 
-      with the teuxture manager requiring no need of registering a gray scale version if your entity
-   2. Maybe add Slime stairs and custom sticky slime block based around a video made By Mumbo Jumbo within the future (His ideas for slime slabs maybe quite difficult).
-      - With this I might add a custom API for adding your own sticky block but I digress and promise nothing yet.
 
+## Future Plans and Todos
+
+1. The current GrayScaling API is not as fleshed out as the Coloring API and in the future I hope to have the ability for someone to just register a EntityType, and then it will dynamically get and create the textures with the texture manager requiring no need of registering a gray scale version if your entity
+
+2. Maybe add Slime stairs and custom sticky slime block based around a video by Mumbo Jumbo within the future (His ideas for slime slabs could prove quite difficult).
+    - With this I might add a custom API for adding your own sticky block, but I digress and promise nothing yet.
