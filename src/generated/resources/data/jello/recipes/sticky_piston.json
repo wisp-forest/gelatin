@@ -9,7 +9,7 @@
       "item": "minecraft:piston"
     },
     "S": {
-      "item": "jello:cyan_slime_ball"
+      "tag": "c:slime_balls"
     }
   },
   "result": {

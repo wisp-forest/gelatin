@@ -41,7 +41,7 @@ public class VanillaBlockVariants {
 
     public static final DyeableBlockVariant WOOL = DyeableBlockVariant.of(new Identifier("wool"), (dyeColorant, parentBlock) -> {
         return new ColoredBlock(AbstractBlock.Settings.of(Material.WOOL, MapColor.CLEAR).strength(0.8F).sounds(BlockSoundGroup.WOOL), dyeColorant);
-    }).setBlockTags(BlockTags.WOOL);
+    }).setBlockTags(BlockTags.WOOL).setItemTags(JelloTags.Items.WOOL);
 
     //-----------------------------------------------------------------
 

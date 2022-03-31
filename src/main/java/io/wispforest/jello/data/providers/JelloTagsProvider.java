@@ -130,10 +130,10 @@ public class JelloTagsProvider {
             JelloItems.Slimeballs.SLIME_BALLS.forEach((item) -> this.getOrCreateTagBuilder(JelloTags.Items.SLIME_BALLS).add(item));
 
             for (Map.Entry<DyeColorant, DyedVariantContainer> entry : DyedVariantContainer.getVariantMap().entrySet()) {
-                this.getOrCreateTagBuilder(JelloTags.Items.DYE_ITEMS).add(entry.getValue().dyeItem);
+                this.getOrCreateTagBuilder(JelloTags.Items.DYE).add(entry.getValue().dyeItem);
 
                 if (DyeColorantRegistry.Constants.VANILLA_DYES.contains(entry.getKey())) {
-                    this.getOrCreateTagBuilder(JelloTags.Items.VANILLA_DYE_ITEMS).add(entry.getValue().dyeItem);
+                    this.getOrCreateTagBuilder(JelloTags.Items.VANILLA_DYE).add(entry.getValue().dyeItem);
                 }
             }
         }

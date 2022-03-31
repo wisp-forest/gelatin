@@ -2,17 +2,17 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "jello:lead_pink_slime_ball"
+      "minecraft:magma_cream"
     ]
   },
   "criteria": {
-    "has_slime_ball": {
+    "has_blaze_powder": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
-              "jello:pink_slime_ball"
+              "minecraft:blaze_powder"
             ]
           }
         ]
@@ -21,13 +21,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "jello:lead_pink_slime_ball"
+        "recipe": "minecraft:magma_cream"
       }
     }
   },
   "requirements": [
     [
-      "has_slime_ball",
+      "has_blaze_powder",
       "has_the_recipe"
     ]
   ]

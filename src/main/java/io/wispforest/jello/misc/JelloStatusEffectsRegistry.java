@@ -10,7 +10,6 @@ public class JelloStatusEffectsRegistry implements AutoRegistryContainer<StatusE
 
     public static final StatusEffect BOUNCE = StatusEffectAccessor.jello$invokeNew(StatusEffectCategory.BENEFICIAL, 2293580);
 
-
     @Override
     public Registry<StatusEffect> getRegistry() {
         return Registry.STATUS_EFFECT;

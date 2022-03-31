@@ -34,15 +34,20 @@ public class JelloTags {
     }
 
     public static class Items {
+
+        public static final TagKey<Item> ALL_COLORED_VARIANTS = register(Jello.id("all_colored_variants"));
+
         public static final TagKey<Item> SLIME_BLOCKS = register(new Identifier(COMMON_NAMESPACE, "slime_blocks"));
 
         public static final TagKey<Item> SLIME_SLABS = register(new Identifier(COMMON_NAMESPACE, "slime_slabs"));
 
         public static final TagKey<Item> SLIME_BALLS = register(new Identifier(COMMON_NAMESPACE, "slime_balls"));
 
-        public static final TagKey<Item> DYE_ITEMS = register(Jello.id("dyes"));
+        public static final TagKey<Item> DYE = register(Jello.id("dyes"));
 
-        public static final TagKey<Item> VANILLA_DYE_ITEMS = register(Jello.id("vanilla_dye_items"));
+        public static final TagKey<Item> WOOL = register(Jello.id("wool"));
+
+        public static final TagKey<Item> VANILLA_DYE = register(Jello.id("vanilla_dye_items"));
 
         private static TagKey<Item> register(Identifier id) {
             return TagKey.of(Registry.ITEM_KEY, id);

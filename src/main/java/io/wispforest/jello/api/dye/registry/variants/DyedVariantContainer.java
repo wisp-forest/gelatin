@@ -149,7 +149,7 @@ public class DyedVariantContainer {
         }
 
         private void recursivelyBuildBlocksFromVariant(Map<DyeableBlockVariant, Block> dyedBlocks, Block possibleParentBlock, DyeableBlockVariant parentBlockVariant, DyeColorant dyeColorant, @Nullable OwoItemSettings overrideSettings) {
-            DyeableBlockVariant.RegistryInfo info;
+            DyeableBlockVariant.RegistryInfo info = null;
             Block childBlock;
 
             if (!readOnly) {
@@ -161,9 +161,13 @@ public class DyedVariantContainer {
                 childBlock = registerBlock(parentBlockVariant, info, dyeColorant);
 
                 parentBlockVariant.addToBlockTags(childBlock);
-                parentBlockVariant.addToItemTags(childBlock.asItem());
+
+                if(!info.noBlockItem()) {
+                    parentBlockVariant.addToItemTags(childBlock.asItem(), false);
+                }
             } else {
                 childBlock = registerBlock(parentBlockVariant, null, dyeColorant);
+                parentBlockVariant.addToItemTags(childBlock.asItem(), true);
             }
 
             dyedBlocks.put(parentBlockVariant, childBlock);
@@ -218,7 +222,7 @@ public class DyedVariantContainer {
 
             DyeItem dyeItem = Registry.register(Registry.ITEM, identifier, new JelloDyeItem(dyeColorant, itemSettings));
 
-            TagInjector.injectItems(JelloTags.Items.DYE_ITEMS.id(), dyeItem);
+            TagInjector.injectItems(JelloTags.Items.DYE.id(), dyeItem);
 
             return dyeItem;
         }

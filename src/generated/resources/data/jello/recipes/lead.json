@@ -10,7 +10,7 @@
       "item": "minecraft:string"
     },
     "O": {
-      "item": "jello:magenta_slime_ball"
+      "tag": "c:slime_balls"
     }
   },
   "result": {

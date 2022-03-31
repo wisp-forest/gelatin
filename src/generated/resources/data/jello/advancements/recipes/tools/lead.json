@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "jello:sticky_piston_pink_slime_ball"
+      "minecraft:lead"
     ]
   },
   "criteria": {
@@ -11,9 +11,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "jello:pink_slime_ball"
-            ]
+            "tag": "c:slime_balls"
           }
         ]
       }
@@ -21,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "jello:sticky_piston_pink_slime_ball"
+        "recipe": "minecraft:lead"
       }
     }
   },

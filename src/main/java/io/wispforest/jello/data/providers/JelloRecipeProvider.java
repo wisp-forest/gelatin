@@ -35,10 +35,8 @@ public class JelloRecipeProvider extends FabricRecipesProvider {
         for (int i = 0; i < DyeColorantRegistry.Constants.VANILLA_DYES.size(); i++) {
             String slabPath = DyeColorantRegistry.Constants.VANILLA_DYES.get(i).getName() + "_slime_slab";
             Block slab = Registry.BLOCK.get(Jello.id(slabPath));
-            //Block slab = BlockRegistry.SlimeSlabRegistry.COLORED_SLIME_SLABS.get(i);
 
             String blockPath = DyeColorantRegistry.Constants.VANILLA_DYES.get(i).getName() + "_slime_block";
-            //SlimeBlockColored block = (SlimeBlockColored) BlockRegistry.SlimeBlockRegistry.COLORED_SLIME_BLOCKS.get(i);
             Block block = Registry.BLOCK.get(Jello.id(blockPath));
 
             Item item = JelloItems.Slimeballs.SLIME_BALLS.get(i);
@@ -49,29 +47,6 @@ public class JelloRecipeProvider extends FabricRecipesProvider {
                     .offerTo(exporter);
 
             offerReversibleCompactingRecipes(exporter, item, block);
-
-            ShapedRecipeJsonBuilder.create(Blocks.STICKY_PISTON)
-                    .input('P', Blocks.PISTON)
-                    .input('S', item)
-                    .pattern("S")
-                    .pattern("P")
-                    .criterion("has_slime_ball", conditionsFromItem(item))
-                    .offerTo(exporter, Jello.id("sticky_piston_" + itemPath));
-
-            ShapedRecipeJsonBuilder.create(Items.LEAD, 2)
-                    .input('~', Items.STRING)
-                    .input('O', item)
-                    .pattern("~~ ")
-                    .pattern("~O ")
-                    .pattern("  ~")
-                    .criterion("has_slime_ball", conditionsFromItem(item))
-                    .offerTo(exporter, Jello.id("lead_" + itemPath));
-
-            ShapelessRecipeJsonBuilder.create(Items.MAGMA_CREAM)
-                    .input(Items.BLAZE_POWDER)
-                    .input(item)
-                    .criterion("has_blaze_powder", conditionsFromItem(Items.BLAZE_POWDER))
-                    .offerTo(exporter, Jello.id("magma_cream" + itemPath));
 
             Item dyeItem = Registry.ITEM.get(new Identifier(((DyeBlockStorage) block).getDyeColor().getName() + "_dye"));
             String dyePath = ((DyeBlockStorage) block).getDyeColor().getName() + "_dye";
@@ -84,6 +59,29 @@ public class JelloRecipeProvider extends FabricRecipesProvider {
 
             offerSlimeBallDyeingRecipe(exporter, item, dyeItem, itemPath, dyePath);
         }
+
+        ShapedRecipeJsonBuilder.create(Blocks.STICKY_PISTON)
+                .input('P', Blocks.PISTON)
+                .input('S', JelloTags.Items.SLIME_BALLS)
+                .pattern("S")
+                .pattern("P")
+                .criterion("has_slime_ball", conditionsFromTag(JelloTags.Items.SLIME_BALLS))
+                .offerTo(exporter, new Identifier("sticky_piston"));
+
+        ShapedRecipeJsonBuilder.create(Items.LEAD, 2)
+                .input('~', Items.STRING)
+                .input('O', JelloTags.Items.SLIME_BALLS)
+                .pattern("~~ ")
+                .pattern("~O ")
+                .pattern("  ~")
+                .criterion("has_slime_ball", conditionsFromTag(JelloTags.Items.SLIME_BALLS))
+                .offerTo(exporter, new Identifier("lead"));
+
+        ShapelessRecipeJsonBuilder.create(Items.MAGMA_CREAM)
+                .input(Items.BLAZE_POWDER)
+                .input(JelloTags.Items.SLIME_BALLS)
+                .criterion("has_blaze_powder", conditionsFromItem(Items.BLAZE_POWDER))
+                .offerTo(exporter, new Identifier("magma_cream"));
 
         ShapelessRecipeJsonBuilder.create(JelloItems.SPONGE)
                 .input(Items.WET_SPONGE)
@@ -102,6 +100,10 @@ public class JelloRecipeProvider extends FabricRecipesProvider {
                 .offerTo(exporter, Jello.id("sponge_item_from_dry_sponge"));
 
         JelloComplexRecipeJsonBuilder.create(JelloRecipeSerializers.ARTIST_PALETTE).offerTo(exporter, Jello.id("fill_artist_palette"));
+
+        JelloComplexRecipeJsonBuilder.create(JelloRecipeSerializers.DYE_BLOCK_VARIANT).offerTo(exporter, Jello.id("dyeing_dyeable_block_variants"));
+
+        JelloComplexRecipeJsonBuilder.create(JelloRecipeSerializers.BED_BLOCK_VARIANT).offerTo(exporter, Jello.id("bed_block_variants"));
 
         ShapelessRecipeJsonBuilder.create(JelloItems.EMPTY_ARTIST_PALETTE)
                 .input(Items.SHEARS)

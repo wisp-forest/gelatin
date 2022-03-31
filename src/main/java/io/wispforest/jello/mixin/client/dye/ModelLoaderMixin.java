@@ -99,7 +99,6 @@ public abstract class ModelLoaderMixin {
             this.cachedBlockStateRedirectID = null;
             this.cachedItemRedirectID = null;
 
-            //TODO: GET WORKING WITH BLOCK VARIANTS!
             for (DyeableBlockVariant blockVariant : ALL_VARIANTS) {
                 if (blockVariant.isIdentifierAVariant(modelId, isItemVersion)) {
                     String nameSpace = Objects.equals(blockVariant.variantIdentifier.getNamespace(), "minecraft") ? Jello.MODID : blockVariant.variantIdentifier.getNamespace();

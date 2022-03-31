@@ -1,0 +1,108 @@
+package io.wispforest.jello.data.recipe;
+
+import io.wispforest.jello.api.dye.DyeColorant;
+import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
+import io.wispforest.jello.api.dye.registry.variants.VanillaBlockVariants;
+import io.wispforest.jello.data.tags.JelloTags;
+import io.wispforest.jello.misc.ducks.DyeItemStorage;
+import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.SpecialCraftingRecipe;
+import net.minecraft.tag.ItemTags;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.World;
+
+public class BedBlockVariantRecipe extends SpecialCraftingRecipe {
+
+    private DyeColorant dyeColorant = null;
+
+    public BedBlockVariantRecipe(Identifier id) {
+        super(id);
+    }
+
+    @Override
+    public boolean matches(CraftingInventory inventory, World world) {
+        boolean woolTop = false;
+        boolean woolMiddle = false;
+
+        DyeableBlockVariant variant = null;
+        DyeColorant dyeColorant = null;
+
+        for(int width = 0; width < inventory.getWidth(); width++){
+            for(int height = 0; height < inventory.getHeight(); height++) {
+                int craftingInvIndex = width + height * inventory.getWidth();
+                ItemStack stack = inventory.getStack(craftingInvIndex);
+
+                if (craftingInvIndex < 3) {
+                    if(woolTop){
+                        if(!stack.isIn(JelloTags.Items.WOOL) || dyeColorant != variant.getDyeColorantFromBlockVariant((BlockItem) stack.getItem())){
+                            return false;
+                        }
+                    }
+                    else if (stack.isIn(JelloTags.Items.WOOL)) {
+                        woolTop = true;
+
+                        variant = DyeableBlockVariant.getVariantFromBlock(((BlockItem) stack.getItem()));
+
+                        if (variant == null || !stack.isIn(JelloTags.Items.ALL_COLORED_VARIANTS)) {
+                            return false;
+                        }
+
+                        dyeColorant = variant.getDyeColorantFromBlockVariant((BlockItem) stack.getItem());
+                    }
+                } else if (craftingInvIndex < 6) {
+                    if(woolTop){
+                        if(!stack.isIn(ItemTags.PLANKS) || woolMiddle){
+                            return false;
+                        }
+                    } else if(woolMiddle){
+                        if(!stack.isIn(JelloTags.Items.WOOL) || dyeColorant != variant.getDyeColorantFromBlockVariant((BlockItem) stack.getItem())){
+                            return false;
+                        }
+                    } else if (stack.isIn(JelloTags.Items.WOOL)) {
+                        woolMiddle = true;
+
+                        variant = DyeableBlockVariant.getVariantFromBlock(((BlockItem) stack.getItem()));
+
+                        if (variant == null || !stack.isIn(JelloTags.Items.ALL_COLORED_VARIANTS)) {
+                            return false;
+                        }
+
+                        dyeColorant = variant.getDyeColorantFromBlockVariant((BlockItem) stack.getItem());
+                    }
+                }else{
+                    if(woolMiddle){
+                        if(!stack.isIn(ItemTags.PLANKS) || woolTop){
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        if(woolTop || woolMiddle){
+            this.dyeColorant = dyeColorant;
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    public ItemStack craft(CraftingInventory inventory) {
+        return new ItemStack(VanillaBlockVariants.BED.getBlockVariant(dyeColorant),1);
+    }
+
+    @Override
+    public boolean fits(int width, int height) {
+        return width >= 3 && height >= 3;
+    }
+
+    @Override
+    public RecipeSerializer<?> getSerializer() {
+        return JelloRecipeSerializers.DYE_BLOCK_VARIANT;
+    }
+}
