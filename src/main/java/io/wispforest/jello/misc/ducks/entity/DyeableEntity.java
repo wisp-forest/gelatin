@@ -13,7 +13,7 @@ public interface DyeableEntity extends ConstantColorEntity, RainbowEntity {
      * A method used to check if the Entity is Dyed or not based on its color ID.
      */
     default boolean isDyed() {
-        return dyeColorOverride() || getDyeColorID() != DyeColorantRegistry.NULL_VALUE_NEW.getId();
+        return dyeColorOverride() || !getDyeColorID().equals(DyeColorantRegistry.NULL_VALUE_NEW.getId());
     }
 
     /**
