@@ -1,4 +1,4 @@
-package io.wispforest.jello.effects;
+package io.wispforest.jello.misc;
 
 import io.wispforest.jello.mixin.StatusEffectAccessor;
 import io.wispforest.owo.registration.reflect.AutoRegistryContainer;

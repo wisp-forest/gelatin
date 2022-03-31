@@ -1,21 +1,21 @@
-package io.wispforest.jello.block;
+package io.wispforest.jello.block.colored;
 
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.misc.ducks.DyeBlockStorage;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvironmentInterface;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.CandleBlock;
 import net.minecraft.client.color.block.BlockColorProvider;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockRenderView;
 import org.jetbrains.annotations.Nullable;
 
 @EnvironmentInterface(value = EnvType.CLIENT, itf = BlockColorProvider.class)
-public class ColoredBlock extends Block implements BlockColorProvider {
+public class ColoredCandleBlock extends CandleBlock implements BlockColorProvider {
 
-    public ColoredBlock(Settings settings, DyeColorant dyeColorant) {
+    public ColoredCandleBlock(DyeColorant dyeColorant, Settings settings) {
         super(settings);
 
         ((DyeBlockStorage) this).setDyeColor(dyeColorant);
@@ -28,4 +28,5 @@ public class ColoredBlock extends Block implements BlockColorProvider {
 
         return dyeColorant.getBaseColor();
     }
+
 }

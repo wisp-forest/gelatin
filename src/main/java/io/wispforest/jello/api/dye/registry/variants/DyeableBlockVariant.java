@@ -3,7 +3,7 @@ package io.wispforest.jello.api.dye.registry.variants;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.item.ColoredBlockItem;
 import io.wispforest.jello.api.registry.ColorBlockRegistry;
-import io.wispforest.jello.misc.JelloItemSettings;
+import io.wispforest.jello.api.item.JelloItemSettings;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
 import io.wispforest.owo.util.TagInjector;
 import net.minecraft.block.Block;

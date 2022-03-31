@@ -1,4 +1,4 @@
-package io.wispforest.jello.misc;
+package io.wispforest.jello.api.item;
 
 import io.wispforest.jello.misc.ducks.JelloItemSettingsExtensions;
 import io.wispforest.jello.mixin.accessors.FabricItemInternalsAccessor;

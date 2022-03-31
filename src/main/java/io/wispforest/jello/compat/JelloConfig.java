@@ -1,4 +1,4 @@
-package io.wispforest.jello.misc;
+package io.wispforest.jello.compat;
 
 import io.wispforest.jello.Jello;
 import me.shedaniel.autoconfig.ConfigData;

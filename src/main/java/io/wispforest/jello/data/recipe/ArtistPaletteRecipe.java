@@ -1,4 +1,4 @@
-package io.wispforest.jello.recipe;
+package io.wispforest.jello.data.recipe;
 
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.misc.ducks.DyeItemStorage;

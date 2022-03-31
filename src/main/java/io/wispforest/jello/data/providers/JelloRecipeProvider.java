@@ -1,12 +1,13 @@
 package io.wispforest.jello.data.providers;
 
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
+import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.misc.ducks.DyeBlockStorage;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.data.JelloComplexRecipeJsonBuilder;
 import io.wispforest.jello.data.tags.JelloTags;
 import io.wispforest.jello.item.JelloItems;
-import io.wispforest.jello.recipe.JelloRecipeSerializers;
+import io.wispforest.jello.data.recipe.JelloRecipeSerializers;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipesProvider;
 import net.minecraft.block.Block;
@@ -107,6 +108,16 @@ public class JelloRecipeProvider extends FabricRecipesProvider {
                 .input(ItemTags.WOODEN_PRESSURE_PLATES)
                 .criterion("has_shears_item", conditionsFromItem(Items.SHEARS))
                 .offerTo(exporter, Jello.id("artist_palette"));
+
+        ShapedRecipeJsonBuilder.create(JelloBlocks.PAINT_MIXER)
+                .input('l', Items.LAPIS_LAZULI)
+                .input('c', Blocks.CAULDRON)
+                .input('p', Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE)
+                .pattern("lpl")
+                .pattern("lcl")
+                .pattern("lll")
+                .criterion("has_cauldron", conditionsFromItem(Blocks.CAULDRON))
+                .offerTo(exporter, Jello.id("paint_mixer"));
     }
 
     public static void offerSlimeBlockDyeingRecipe(Consumer<RecipeJsonProvider> exporter, ItemConvertible output, ItemConvertible input, String blockPath, String dyePath) {

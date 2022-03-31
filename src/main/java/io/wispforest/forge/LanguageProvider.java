@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package io.wispforest.jello.forge;
+package io.wispforest.forge;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

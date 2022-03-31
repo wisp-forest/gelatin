@@ -3,7 +3,7 @@ package io.wispforest.jello.data.providers;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
-import io.wispforest.jello.forge.LanguageProvider;
+import io.wispforest.forge.LanguageProvider;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.item.JelloItems;

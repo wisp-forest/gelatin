@@ -1,4 +1,4 @@
-package io.wispforest.jello.recipe;
+package io.wispforest.jello.data.recipe;
 
 import io.wispforest.owo.registration.reflect.AutoRegistryContainer;
 import net.minecraft.recipe.RecipeSerializer;

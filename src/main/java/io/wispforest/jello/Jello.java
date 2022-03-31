@@ -1,6 +1,6 @@
 package io.wispforest.jello;
 
-import io.wispforest.jello.api.RecipeSpecificRemainders;
+import io.wispforest.jello.api.item.RecipeSpecificRemainders;
 import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.blockentity.JelloBlockEntityTypes;
 import io.wispforest.jello.client.render.screen.ColorMixerScreenHandler;
@@ -9,10 +9,10 @@ import io.wispforest.jello.compat.JelloBlockVariants;
 import io.wispforest.jello.compat.consistencyplus.data.ConsistencyPlusTags;
 import io.wispforest.jello.item.JelloItems;
 import io.wispforest.jello.item.dyebundle.DyeBundlePackets;
-import io.wispforest.jello.misc.JelloConfig;
+import io.wispforest.jello.compat.JelloConfig;
 import io.wispforest.jello.network.ColorMixerScrollPacket;
 import io.wispforest.jello.network.ColorMixerSearchPacket;
-import io.wispforest.jello.recipe.JelloRecipeSerializers;
+import io.wispforest.jello.data.recipe.JelloRecipeSerializers;
 import io.wispforest.owo.network.OwoNetChannel;
 import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
 import io.wispforest.owo.util.ModCompatHelpers;

@@ -1,8 +1,8 @@
 package io.wispforest.jello.api;
 
-import io.wispforest.jello.dye.behavior.ColorEntityBehavior;
-import io.wispforest.jello.dye.behavior.JelloCauldronBehaviors;
-import io.wispforest.jello.dye.behavior.WashEntityBehavior;
+import io.wispforest.jello.behavior.ColorEntityBehavior;
+import io.wispforest.jello.behavior.JelloCauldronBehaviors;
+import io.wispforest.jello.behavior.WashEntityBehavior;
 import io.wispforest.jello.api.dye.events.ColorEntityEvent;
 import io.wispforest.jello.misc.DyeColorantLoader;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;

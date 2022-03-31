@@ -1,9 +1,9 @@
 package io.wispforest.jello.api.dye.registry.variants;
 
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
+import io.wispforest.jello.block.colored.*;
 import io.wispforest.jello.misc.ducks.DyeBlockStorage;
 import io.wispforest.jello.mixin.accessors.BlockEntityTypeAccessor;
-import io.wispforest.jello.block.*;
 import io.wispforest.jello.data.tags.JelloTags;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;

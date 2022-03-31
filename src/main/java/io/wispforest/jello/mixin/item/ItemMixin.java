@@ -1,7 +1,7 @@
 package io.wispforest.jello.mixin.item;
 
 import io.wispforest.jello.misc.ducks.entity.JelloItemExtensions;
-import io.wispforest.jello.misc.JelloItemSettings;
+import io.wispforest.jello.api.item.JelloItemSettings;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Final;

@@ -1,7 +1,7 @@
 package io.wispforest.jello.mixin.dye;
 
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.misc.CustomSheepLootTables;
+import io.wispforest.jello.data.CustomSheepLootTables;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
 import io.wispforest.jello.api.dye.registry.variants.VanillaBlockVariants;

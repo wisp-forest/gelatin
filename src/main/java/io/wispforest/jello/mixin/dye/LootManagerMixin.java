@@ -1,7 +1,7 @@
 package io.wispforest.jello.mixin.dye;
 
 import com.google.gson.JsonElement;
-import io.wispforest.jello.misc.CustomSheepLootTables;
+import io.wispforest.jello.data.CustomSheepLootTables;
 import net.minecraft.loot.LootManager;
 import net.minecraft.loot.LootTable;
 import net.minecraft.resource.ResourceManager;

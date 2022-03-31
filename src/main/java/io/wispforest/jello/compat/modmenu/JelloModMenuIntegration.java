@@ -2,7 +2,7 @@ package io.wispforest.jello.compat.modmenu;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import io.wispforest.jello.misc.JelloConfig;
+import io.wispforest.jello.compat.JelloConfig;
 import me.shedaniel.autoconfig.AutoConfig;
 
 public class JelloModMenuIntegration implements ModMenuApi {
