@@ -1,7 +1,7 @@
 package io.wispforest.jello.api.dye.events;
 
 import io.wispforest.jello.api.JelloAPI;
-import io.wispforest.jello.api.mixin.mixins.accessors.ShulkerBoxBlockEntityAccessor;
+import io.wispforest.jello.mixin.accessors.ShulkerBoxBlockEntityAccessor;
 import io.wispforest.owo.ops.ItemOps;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BedBlockEntity;
@@ -19,8 +19,8 @@ import net.minecraft.world.World;
 
 public class ColorBlockEventMethods {
 
-    public static boolean changeBlockColor(World world, BlockPos blockPos, BlockState oldBlockState, Block changedBlock, PlayerEntity player){
-        if(changedBlock == null || changedBlock == oldBlockState.getBlock()){
+    public static boolean changeBlockColor(World world, BlockPos blockPos, BlockState oldBlockState, Block changedBlock, PlayerEntity player) {
+        if (changedBlock == null || changedBlock == oldBlockState.getBlock()) {
             return false;
         }
 
@@ -36,8 +36,7 @@ public class ColorBlockEventMethods {
             } else {
                 return false;
             }
-        }
-        else if (world.getBlockEntity(blockPos) instanceof BedBlockEntity) {
+        } else if (world.getBlockEntity(blockPos) instanceof BedBlockEntity) {
             BlockPos pos = blockPos;
             BlockState bedPart = world.getBlockState(pos);
 
@@ -58,18 +57,17 @@ public class ColorBlockEventMethods {
                 changedState.getBlock().onPlaced(world, pos, changedState, player, ItemStack.EMPTY);
             }
 
-        }
-        else if (!world.isClient) {
+        } else if (!world.isClient) {
             world.setBlockState(blockPos, changedBlock.getStateWithProperties(oldBlockState));
         }
 
         return true;
     }
 
-    public static boolean changeBlockItemColor(World world, BlockPos cauldronPos, ItemStack oldBlockStack, Block changedBlock, PlayerEntity player, Hand hand, boolean washingBlock){
+    public static boolean changeBlockItemColor(World world, BlockPos cauldronPos, ItemStack oldBlockStack, Block changedBlock, PlayerEntity player, Hand hand, boolean washingBlock) {
         Block oldBlock = Block.getBlockFromItem(oldBlockStack.getItem());
 
-        if(changedBlock == null || changedBlock == oldBlock){
+        if (changedBlock == null || changedBlock == oldBlock) {
             return false;
         }
 
@@ -99,7 +97,7 @@ public class ColorBlockEventMethods {
 
             ItemStack changedItemStack = new ItemStack(changedBlock, stackDecrementAmount);
 
-            if(!player.getAbilities().creativeMode) {
+            if (!player.getAbilities().creativeMode) {
                 oldBlockStack.decrement(stackDecrementAmount);
             }
 

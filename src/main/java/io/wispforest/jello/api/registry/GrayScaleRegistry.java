@@ -1,9 +1,9 @@
 package io.wispforest.jello.api.registry;
 
-import io.wispforest.jello.main.common.Jello;
-import io.wispforest.jello.api.mixin.ducks.entity.DyeableEntity;
-import io.wispforest.jello.api.mixin.ducks.entity.GrayScaleEntity;
-import io.wispforest.jello.api.mixin.ducks.entity.RainbowEntity;
+import io.wispforest.jello.misc.ducks.entity.DyeableEntity;
+import io.wispforest.jello.misc.ducks.entity.GrayScaleEntity;
+import io.wispforest.jello.misc.ducks.entity.RainbowEntity;
+import io.wispforest.jello.Jello;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -31,10 +31,10 @@ public class GrayScaleRegistry {
     /**
      * Registers a give Entity texture and Entity Type for DyeAbility
      *
-     * @param entityTexture     Texture Location for the given entity type
-     * @param entityType        The entity type being enabled for colorization
+     * @param entityTexture Texture Location for the given entity type
+     * @param entityType    The entity type being enabled for colorization
      */
-    public static void registerGrayScalable(Identifier entityTexture, EntityType<?> entityType){
+    public static void registerGrayScalable(Identifier entityTexture, EntityType<?> entityType) {
         GRAYSCALABLE_ENTITIES.put(entityType, entityTexture);
     }
 
@@ -42,12 +42,12 @@ public class GrayScaleRegistry {
      * [Registry Check ONLY] <br>
      * Checks if a given Entity is registered for GrayScaleAbility
      *
-     * @param entity    Possible Dyeable Entity
+     * @param entity Possible Dyeable Entity
      */
-    public static boolean isRegistered(Entity entity){
-        if(GRAYSCALABLE_ENTITIES.containsKey(entity.getType())){
+    public static boolean isRegistered(Entity entity) {
+        if (GRAYSCALABLE_ENTITIES.containsKey(entity.getType())) {
             return true;
-        } else if(Objects.equals(Registry.ENTITY_TYPE.getId(entity.getType()).getNamespace(), "minecraft")) {
+        } else if (Objects.equals(Registry.ENTITY_TYPE.getId(entity.getType()).getNamespace(), "minecraft")) {
             return true;
         }
 
@@ -55,40 +55,39 @@ public class GrayScaleRegistry {
     }
 
     /**
-     *
      * @param entity
      */
-    public static Identifier getTexture(Entity entity){
+    public static Identifier getTexture(Entity entity) {
         return GRAYSCALABLE_ENTITIES.get(entity.getType());
     }
 
-    public static Identifier getOrFindTexture(Entity entity, Identifier defaultIdentifier){
-        if(entity instanceof GrayScaleEntity grayScaleEntity && grayScaleEntity.isGrayScaled(entity)) {
+    public static Identifier getOrFindTexture(Entity entity, Identifier defaultIdentifier) {
+        if (entity instanceof GrayScaleEntity grayScaleEntity && grayScaleEntity.isGrayScaled(entity)) {
             Identifier identifierGrayScale = GRAYSCALABLE_ENTITIES.get(entity.getType());
 
-            if(identifierGrayScale != null){
+            if (identifierGrayScale != null) {
                 return identifierGrayScale;
             }
 
             return createGrayScaleID(defaultIdentifier);
 
-        }else{
+        } else {
             return defaultIdentifier;
         }
     }
 
-    public static Identifier createGrayScaleID(Identifier defaultIdentifier){
+    public static Identifier createGrayScaleID(Identifier defaultIdentifier) {
         String[] array = defaultIdentifier.getPath().split("/");
         String[] array2 = array[array.length - 1].split("\\.");
 
         String path = array[0];
 
-        for(int i = 1; i < array.length - 1; i++){
+        for (int i = 1; i < array.length - 1; i++) {
             path = path.concat("/" + array[i]);
         }
 
         path = path + "/" + array2[0] + "_grayscale.png";
 
-        return new Identifier(Jello.MODID, path);
+        return Jello.id(path);
     }
 }

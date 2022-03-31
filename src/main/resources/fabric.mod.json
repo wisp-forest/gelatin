@@ -26,23 +26,22 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "io.wispforest.jello.api.JelloClientAPI",
-      "io.wispforest.jello.main.client.JelloClient"
+      "io.wispforest.jello.api.JelloAPIClient",
+      "io.wispforest.jello.client.JelloClient"
     ],
     "main": [
       "io.wispforest.jello.api.JelloAPI",
-      "io.wispforest.jello.main.common.Jello"
+      "io.wispforest.jello.Jello"
     ],
     "fabric-datagen": [
-      "io.wispforest.jello.main.common.data.JelloDataEntrypoint"
+      "io.wispforest.jello.data.JelloDataEntrypoint"
     ],
     "modmenu": [
-      "io.wispforest.jello.main.common.compat.modmenu.JelloModMenuIntegration"
+      "io.wispforest.jello.compat.modmenu.JelloModMenuIntegration"
     ]
   },
   "mixins": [
-    "jello.mixins.json",
-    "api.mixins.json"
+    "jello.mixins.json"
   ],
   "depends": {
     "owo": ">=0.5.4+1.18",

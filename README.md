@@ -6,7 +6,7 @@
 [![discord](https://img.shields.io/discord/825828008644313089?label=wisp%20forest&logo=discord&logoColor=white&style=for-the-badge)](https://discord.gg/xrwHKktV2d)
 
 ## Overview
-Jello is a Mainly a Mod that makes handling Minecrafts color System easy for Other modders or just to add Quirky new ways of Coloring Blocks, Items and Entitys. Within contains some new Content to make using Jello easier for Players and API's for Mod creators looking for a easy solution for hardcoded varaiables within Mojang's code.
+Jello is a Mainly a Mod that makes handling Minecrafts color System easy for Other modders or just to add Quirky new ways of Coloring Blocks, Items and Entities. Within contains some new Content to make using Jello easier for Players and API's for Mod creators looking for a easy solution for hardcoded varaiables within Mojang's code.
 
 **Build Setup:**
 

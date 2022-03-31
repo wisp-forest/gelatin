@@ -10,7 +10,7 @@ import net.minecraft.util.registry.RegistryEntry;
 import org.jetbrains.annotations.ApiStatus;
 
 public class DyeColorant {
-    
+
     private final RegistryEntry.Reference<DyeColorant> registryEntry = DyeColorantRegistry.DYE_COLOR.createEntry(this);
 
     private final MapColor mapColor;
@@ -20,7 +20,7 @@ public class DyeColorant {
     private final int fireworkColor;
     private final int signColor;
 
-    public DyeColorant(MapColor mapColor, int baseColor, int fireworkColor, int signColor){
+    public DyeColorant(MapColor mapColor, int baseColor, int fireworkColor, int signColor) {
         this.colorComponents = ColorUtil.getColorComponents(baseColor);
         this.mapColor = mapColor;
         this.baseColor = baseColor;
@@ -49,7 +49,7 @@ public class DyeColorant {
     /**
      * @return the Integer color value given to the DyeColor
      */
-    public int getBaseColor(){
+    public int getBaseColor() {
         return this.baseColor;
     }
 
@@ -108,7 +108,7 @@ public class DyeColorant {
 
     @ApiStatus.Internal
     public static DyeColorant byName(String name, DyeColorant defaultColor) {
-        for(DyeColorant dyeColor : DyeColorantRegistry.DYE_COLOR.stream().toList()) {
+        for (DyeColorant dyeColor : DyeColorantRegistry.DYE_COLOR.stream().toList()) {
             if (dyeColor.getName().equals(name)) {
                 return dyeColor;
             }
@@ -126,7 +126,7 @@ public class DyeColorant {
 
     @ApiStatus.Internal
     public static DyeColorant byFireworkColor(int color) {
-        for(DyeColorant dyeColor : DyeColorantRegistry.DYE_COLOR.stream().toList()) {
+        for (DyeColorant dyeColor : DyeColorantRegistry.DYE_COLOR.stream().toList()) {
             if (dyeColor.getFireworkColor() == color) {
                 return dyeColor;
             }

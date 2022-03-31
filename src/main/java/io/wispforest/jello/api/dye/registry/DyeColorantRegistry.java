@@ -2,14 +2,18 @@ package io.wispforest.jello.api.dye.registry;
 
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
-import io.wispforest.jello.main.common.Jello;
-import io.wispforest.jello.api.mixin.mixins.dye.SimpleRegistryAccessor;
+import io.wispforest.jello.mixin.dye.SimpleRegistryAccessor;
+import io.wispforest.jello.api.util.ColorUtil;
+import io.wispforest.jello.Jello;
+import io.wispforest.jello.data.tags.JelloTags;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.block.MapColor;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.DefaultedRegistry;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryKey;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -17,20 +21,20 @@ import java.util.*;
 
 public class DyeColorantRegistry {
 
-    public static final RegistryKey<Registry<DyeColorant>> DYE_COLOR_KEY = RegistryKey.ofRegistry(new Identifier(Jello.MODID, "dye_color"));
+    public static final RegistryKey<Registry<DyeColorant>> DYE_COLOR_KEY = RegistryKey.ofRegistry(Jello.id("dye_color"));
 
-    public static final DefaultedRegistry<DyeColorant> DYE_COLOR = FabricRegistryBuilder.createDefaulted(DyeColorant.class, DYE_COLOR_KEY.getValue(), new Identifier(Jello.MODID, "_null")).buildAndRegister();
+    public static final DefaultedRegistry<DyeColorant> DYE_COLOR = FabricRegistryBuilder.createDefaulted(DyeColorant.class, DYE_COLOR_KEY.getValue(), Jello.id("_null")).buildAndRegister();
 
     //Fix for fabric not allowing for a function to be passed thru
-    static{
-        ((SimpleRegistryAccessor)DYE_COLOR).setValueToEntryFunction(dyeColor -> ((DyeColorant)dyeColor).getRegistryEntry());
-        ((SimpleRegistryAccessor)DYE_COLOR).setUnfrozenValueToEntry(new IdentityHashMap());
+    static {
+        ((SimpleRegistryAccessor) DYE_COLOR).setValueToEntryFunction(dyeColor -> ((DyeColorant) dyeColor).getRegistryEntry());
+        ((SimpleRegistryAccessor) DYE_COLOR).setUnfrozenValueToEntry(new IdentityHashMap());
     }
 
     public static final Set<Identifier> IDENTIFIER_RESOURCE_REDIRECTS = new HashSet<>();
     public static final Set<String> NAMESPACE_RESOURCE_REDIRECTS = new HashSet<>();
 
-    public static final DyeColorant NULL_VALUE_NEW = registryDyeColor(new Identifier(Jello.MODID, "_null"),  MapColor.CLEAR, 0);
+    public static final DyeColorant NULL_VALUE_NEW = registerDyeColor(Jello.id("_null"), MapColor.CLEAR, 0);
 
     public static final DyeColorant WHITE = registryDyeColorVanilla("white", 0xF9FFFE, MapColor.WHITE, 0xF0F0F0, 0xFFFFFF);
     public static final DyeColorant ORANGE = registryDyeColorVanilla("orange", 0xF9801D, MapColor.ORANGE, 0xEB8844, 0xFF681F);
@@ -50,7 +54,7 @@ public class DyeColorantRegistry {
     public static final DyeColorant BLACK = registryDyeColorVanilla("black", 1908001, MapColor.BLACK, 1973019, 0);
 
     public static void initVanillaDyes() {
-        for(DyeColorant dyeColorant : Constants.VANILLA_DYES){
+        for (DyeColorant dyeColorant : Constants.VANILLA_DYES) {
             DyedVariantContainer.createVariantContainer(dyeColorant);
         }
     }
@@ -59,25 +63,25 @@ public class DyeColorantRegistry {
      * Method used to register and create a custom DyeColorant
      *
      * @param identifier The {@link Identifier} to be registered with your Color
-     * @param mapColor [TODO: Add the ability for custom map colors!] Only use minecraft based {@link MapColor}
-     * @param baseColor The Color as an integer color value(Hex or Decimal)
+     * @param mapColor   [TODO: Add the ability for custom map colors!] Only use minecraft based {@link MapColor}
+     * @param baseColor  The Color as an integer color value(Hex or Decimal)
      * @return {@link DyeColorant} based off your inputted color
      */
-    public static DyeColorant registryDyeColor(Identifier identifier, MapColor mapColor, int baseColor){
-        return registryDyeColor(identifier, mapColor, baseColor, baseColor, baseColor);
+    public static DyeColorant registerDyeColor(Identifier identifier, MapColor mapColor, int baseColor) {
+        return registerDyeColor(identifier, mapColor, baseColor, baseColor, baseColor);
     }
 
     /**
      * Method used to register and create a custom DyeColorant
      *
-     * @param identifier The {@link Identifier} to be registered with your Color
-     * @param mapColor [TODO: Add the ability for custom map colors!] Only use minecraft based {@link MapColor}
-     * @param baseColor The Color as an integer color value(Hex or Decimal)
+     * @param identifier    The {@link Identifier} to be registered with your Color
+     * @param mapColor      [TODO: Add the ability for custom map colors!] Only use minecraft based {@link MapColor}
+     * @param baseColor     The Color as an integer color value(Hex or Decimal)
      * @param fireworkColor The Color as an integer color value(Hex or Decimal) shown within fireworks
-     * @param signColor The Color as an integer color value(Hex or Decimal) shown on signs
+     * @param signColor     The Color as an integer color value(Hex or Decimal) shown on signs
      * @return {@link DyeColorant} based off the inputted color
      */
-    public static DyeColorant registryDyeColor(Identifier identifier, MapColor mapColor, int baseColor, int fireworkColor, int signColor){
+    public static DyeColorant registerDyeColor(Identifier identifier, MapColor mapColor, int baseColor, int fireworkColor, int signColor) {
         DyeColorant dyeColor = new DyeColorant(mapColor, baseColor, fireworkColor, signColor);
 
         return Registry.register(DYE_COLOR, identifier, dyeColor);
@@ -88,45 +92,45 @@ public class DyeColorantRegistry {
     /**
      * Creates a bunch of Dyed Variants of the inputted {@link DyeColorant}
      *
-     * @param dyeColorant The {@link DyeColorant} you want to base all the {@link DyedVariantContainer} off
+     * @param dyeColorant  The {@link DyeColorant} you want to base all the {@link DyedVariantContainer} off
      * @param itemSettings The settings for the DyeItem being created based off your dye
      * @return {@link DyedVariantContainer} based off the inputted {@link DyeColorant}
      */
-    public static DyedVariantContainer createDyedVariants(DyeColorant dyeColorant, Item.Settings itemSettings){
+    public static DyedVariantContainer createDyedVariants(DyeColorant dyeColorant, Item.Settings itemSettings) {
         return createDyedVariants(dyeColorant, itemSettings, true);
     }
 
     /**
      * Creates a bunch of Dyed Variants of the inputted {@link DyeColorant}
      *
-     * @param dyeColorant The {@link DyeColorant} you want to base all the {@link DyedVariantContainer} off
-     * @param itemSettings The settings for the DyeItem being created based off your dye
+     * @param dyeColorant             The {@link DyeColorant} you want to base all the {@link DyedVariantContainer} off
+     * @param itemSettings            The settings for the DyeItem being created based off your dye
      * @param identifierModelRedirect Used to enable or disable model redirect if you're using custom models for the block and item variants
      * @return {@link DyedVariantContainer} based off the inputted {@link DyeColorant}
      */
-    public static DyedVariantContainer createDyedVariants(DyeColorant dyeColorant, Item.Settings itemSettings, boolean identifierModelRedirect){
+    public static DyedVariantContainer createDyedVariants(DyeColorant dyeColorant, Item.Settings itemSettings, boolean identifierModelRedirect) {
         return DyedVariantContainer.createVariantContainer(dyeColorant, itemSettings, identifierModelRedirect);
     }
 
     /**
      * [Warning]: This a faster method to identifier Model Redirect but could cause issues loading some models.
-     *
+     * <p>
      * Simple method to add your MODID within the Model Redirect System for your created Variants
      *
      * @param modid A string representing your mods Id
      */
-    public static void registerModidModelRedirect(String modid){
+    public static void registerModidModelRedirect(String modid) {
         NAMESPACE_RESOURCE_REDIRECTS.add(modid);
     }
 
     //------------------------------------------------------------------------------------
 
     /**
-     *  Only used for vanilla Dye Color Registry to allow for easy dye color int Id conversion
+     * Only used for vanilla Dye Color Registry to allow for easy dye color int Id conversion
      */
     @ApiStatus.Internal
-    private static DyeColorant registryDyeColorVanilla(String dyeName, int baseColor, MapColor mapColor, int fireworkColor, int signColor){
-        DyeColorant dyeColor = registryDyeColor(new Identifier(dyeName), mapColor, baseColor, fireworkColor, signColor);
+    private static DyeColorant registryDyeColorVanilla(String dyeName, int baseColor, MapColor mapColor, int fireworkColor, int signColor) {
+        DyeColorant dyeColor = registerDyeColor(new Identifier(dyeName), mapColor, baseColor, fireworkColor, signColor);
 
         Constants.VANILLA_DYES.add(dyeColor);
 
@@ -134,15 +138,77 @@ public class DyeColorantRegistry {
     }
 
     @ApiStatus.Internal
-    public static boolean shouldRedirectModelResource(Identifier identifier){
-        if(NAMESPACE_RESOURCE_REDIRECTS.contains(identifier.getNamespace())){
+    public static boolean shouldRedirectModelResource(Identifier identifier) {
+        if (NAMESPACE_RESOURCE_REDIRECTS.contains(identifier.getNamespace())) {
             return true;
         }
 
         return IDENTIFIER_RESOURCE_REDIRECTS.contains(identifier);
     }
 
-    public static class Constants{
+    public static DyeColorant getRandomColorant() {
+        boolean nonVanillaDyeColor = false;
+        RegistryEntry<DyeColorant> dyeColor = DYE_COLOR.getRandom(new Random()).get();
+
+        while (!nonVanillaDyeColor) {
+            if (!dyeColor.isIn(JelloTags.DyeColor.VANILLA_DYES)) {
+                nonVanillaDyeColor = true;
+            } else {
+                dyeColor = DYE_COLOR.getRandom(new Random()).get();
+            }
+        }
+
+        return dyeColor.value();
+    }
+
+    /**
+     * Note: Code was based off of/used from <a href="https://chir.ag/projects/ntc/ntc.js">ntc.js</a>, created by Chirag Mehta,
+     * under the <a href="http://creativecommons.org/licenses/by/2.5/">Creative Commons Licences</a> and retrofitted to work with Java
+     */
+    public static DyeColorant getNearestColorant(int colorValue) {
+        var rgb = new int[]{colorValue >> 16, (colorValue >> 8) & 0xFF, colorValue & 0xFF};
+        var r = rgb[0];
+        var g = rgb[1];
+        var b = rgb[2];
+
+        var hsl = ColorUtil.rgbToHsl(colorValue);
+        var h = hsl[0];
+        var s = hsl[1];
+        var l = hsl[2];
+
+        float ndf1;
+        float ndf2;
+        float ndf;
+        int cl = -1;
+        float df = -1;
+
+        List<DyeColorant> dyeColorantList = DYE_COLOR.stream().toList();
+
+        for (var i = 0; i < dyeColorantList.size(); i++) {
+            DyeColorant currentDyeColor = dyeColorantList.get(i);
+
+            int closeColorValue = currentDyeColor.getBaseColor();
+
+            int[] rgbColorArray = new int[]{closeColorValue >> 16, (closeColorValue >> 8) & 0xFF, closeColorValue & 0xFF};
+
+            float[] hslColorArray = ColorUtil.rgbToHsl(closeColorValue);
+
+            if (colorValue == closeColorValue)
+                return currentDyeColor;
+
+            ndf1 = MathHelper.square(r - rgbColorArray[0]) + MathHelper.square(g - rgbColorArray[1]) + MathHelper.square(b - rgbColorArray[2]);//ntc.names[i][2], 2) + Math.pow(g - ntc.names[i][3], 2) + Math.pow(b - ntc.names[i][4], 2);
+            ndf2 = MathHelper.square(h - hslColorArray[0]) + MathHelper.square(s - hslColorArray[1]) + MathHelper.square(l - hslColorArray[2]);//ntc.names[i][5], 2) + Math.pow(s - ntc.names[i][6], 2) + Math.pow(l - ntc.names[i][7], 2);
+            ndf = ndf1 + ndf2 * 2;
+            if (df < 0 || df > ndf) {
+                df = ndf;
+                cl = i;
+            }
+        }
+
+        return dyeColorantList.get(cl);
+    }
+
+    public static class Constants {
 
         public static final List<DyeColorant> VANILLA_DYES = new ArrayList<>();
 

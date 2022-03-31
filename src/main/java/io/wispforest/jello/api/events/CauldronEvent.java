@@ -23,7 +23,7 @@ public class CauldronEvent {
 
         /**
          * An enum of the types of cauldron blocks based on there {@link CauldronBehavior} {@link Map}.
-         *
+         * <p>
          * Used internally for the event as a way to differentiate what cauldron is being used.
          */
 
@@ -34,15 +34,15 @@ public class CauldronEvent {
 
         private final Supplier<Map<Item, CauldronBehavior>> behaviorMap;
 
-        private CauldronType(Supplier<Map<Item, CauldronBehavior>> behaviorMap){
+        private CauldronType(Supplier<Map<Item, CauldronBehavior>> behaviorMap) {
             this.behaviorMap = behaviorMap;
         }
 
-        public static CauldronType getCauldronType(Map<Item, CauldronBehavior> behaviorMap){
+        public static CauldronType getCauldronType(Map<Item, CauldronBehavior> behaviorMap) {
             CauldronType[] cauldronTypes = CauldronType.values();
 
-            for(CauldronType cauldronType : cauldronTypes){
-                if(cauldronType.getBehaviorMap() == behaviorMap){
+            for (CauldronType cauldronType : cauldronTypes) {
+                if (cauldronType.getBehaviorMap() == behaviorMap) {
                     return cauldronType;
                 }
             }
@@ -50,36 +50,36 @@ public class CauldronEvent {
             return null;
         }
 
-        private Map<Item, CauldronBehavior> getBehaviorMap(){
+        private Map<Item, CauldronBehavior> getBehaviorMap() {
             return behaviorMap.get();
         }
 
     }
 
     public static Event<BeforeCauldronBehavior> BEFORE_CAULDRON_BEHAVIOR = EventFactory.createArrayBacked(BeforeCauldronBehavior.class,
-        (listeners) -> (state, world, pos, player, hand, stack, cauldronType) -> {
-            for (BeforeCauldronBehavior event : listeners) {
-                ActionResult result = event.interact(state, world, pos, player, hand, stack, cauldronType);
+            (listeners) -> (state, world, pos, player, hand, stack, cauldronType) -> {
+                for (BeforeCauldronBehavior event : listeners) {
+                    ActionResult result = event.interact(state, world, pos, player, hand, stack, cauldronType);
 
-                if(result != ActionResult.PASS){
-                    return result;
+                    if (result != ActionResult.PASS) {
+                        return result;
+                    }
                 }
-            }
 
-            return ActionResult.PASS;
-        });
+                return ActionResult.PASS;
+            });
 
     public interface BeforeCauldronBehavior {
 
         /**
-         *  An event before the cauldron behavior map for the Cauldron block is tested within {@link AbstractCauldronBlock#onUse(BlockState, World, BlockPos, PlayerEntity, Hand, BlockHitResult)}
+         * An event before the cauldron behavior map for the Cauldron block is tested within {@link AbstractCauldronBlock#onUse(BlockState, World, BlockPos, PlayerEntity, Hand, BlockHitResult)}
          *
-         * @param state The BlockState of the cauldron
-         * @param world The world of the cauldron Block
-         * @param pos The BlockPos of the cauldron
-         * @param player The player of the action
-         * @param hand The hand being used by the player
-         * @param stack The itemstack being used
+         * @param state        The BlockState of the cauldron
+         * @param world        The world of the cauldron Block
+         * @param pos          The BlockPos of the cauldron
+         * @param player       The player of the action
+         * @param hand         The hand being used by the player
+         * @param stack        The itemstack being used
          * @param cauldronType The cauldron type gathered from the map based on the cauldron block
          * @return Whether the cauldron actions will go through or not
          */

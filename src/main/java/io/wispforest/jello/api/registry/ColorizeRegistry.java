@@ -1,7 +1,7 @@
 package io.wispforest.jello.api.registry;
 
-import io.wispforest.jello.api.mixin.ducks.entity.DyeableEntity;
-import io.wispforest.jello.api.mixin.ducks.entity.RainbowEntity;
+import io.wispforest.jello.misc.ducks.entity.DyeableEntity;
+import io.wispforest.jello.misc.ducks.entity.RainbowEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -21,7 +21,6 @@ import java.util.Map;
  * <br> <br>
  * After registering your entity, the default Colorization code will be already in place
  * if your entity extends {@link LivingEntity} in any way, but If you want different effects; just implement either {@link DyeableEntity} or {@link RainbowEntity} and Override the methods to change the effect of your entity.
- *
  */
 public class ColorizeRegistry {
     private static final Logger LOGGER = LogManager.getLogger(ColorizeRegistry.class);
@@ -34,26 +33,24 @@ public class ColorizeRegistry {
     /**
      * Registers a give Mod ID to enable global DyeAbility for a specified namespace
      *
-     * @param modid     String represention of your Mod ID
+     * @param modid String represention of your Mod ID
      */
-    public static void registerColorable(String modid){
-        registerColorable(new Identifier(modid,ALL_ENTITIES), null);
+    public static void registerColorable(String modid) {
+        registerColorable(new Identifier(modid, ALL_ENTITIES), null);
     }
 
     /**
      * Registers a give Entity texture and Entity Type for DyeAbility
      *
-     * @param entityTexture     Texture Location for the given entity type
-     * @param entityType        The entity type being enabled for colorization
+     * @param entityTexture Texture Location for the given entity type
+     * @param entityType    The entity type being enabled for colorization
      */
-    public static void registerColorable(Identifier entityTexture, EntityType<?> entityType){
-        if(entityType == null && entityTexture.getPath().equals(ALL_ENTITIES)){
+    public static void registerColorable(Identifier entityTexture, EntityType<?> entityType) {
+        if (entityType == null && entityTexture.getPath().equals(ALL_ENTITIES)) {
             MODID_WHITELIST.add(entityTexture.getNamespace());
-        }
-        else if(entityType != null && entityTexture != null){
+        } else if (entityType != null && entityTexture != null) {
             COLORABLE_ENTITIES.put(entityTexture, entityType);
-        }
-        else{
+        } else {
             throw new IllegalArgumentException("A Identifier was registered without a Entity Type: " + entityTexture);
         }
     }
@@ -62,14 +59,14 @@ public class ColorizeRegistry {
      * [Registry Check ONLY] <br>
      * Checks if a given Texture Identifier is registered within
      * Entity Map for DyeAbility or within the Mod ID White List
-     * @param entityTexture     Entity Texture Identifier
+     *
+     * @param entityTexture Entity Texture Identifier
      */
     @ApiStatus.Internal
-    public static boolean isRegistered(Identifier entityTexture){
-        if(MODID_WHITELIST.contains(entityTexture.getNamespace())){
+    public static boolean isRegistered(Identifier entityTexture) {
+        if (MODID_WHITELIST.contains(entityTexture.getNamespace())) {
             return true;
-        }
-        else{
+        } else {
             return isTextureRegisterd(entityTexture);
         }
     }
@@ -78,13 +75,13 @@ public class ColorizeRegistry {
      * [Registry Check ONLY] <br>
      * Checks if a given Entity is registered for DyeAbility
      *
-     * @param entity    Possible Dyeable Entity
+     * @param entity Possible Dyeable Entity
      */
     @ApiStatus.Internal
-    public static boolean isRegistered(Entity entity){
-        if(COLORABLE_ENTITIES.containsValue(entity.getType())){
+    public static boolean isRegistered(Entity entity) {
+        if (COLORABLE_ENTITIES.containsValue(entity.getType())) {
             return true;
-        }else{
+        } else {
             return MODID_WHITELIST.contains(Registry.ENTITY_TYPE.getId(entity.getType()).getNamespace());
         }
     }
@@ -93,10 +90,10 @@ public class ColorizeRegistry {
      * [Registry Check ONLY] <br>
      * Checks if a given Texture Identifier is registered within Entity Map for DyeAbility
      *
-     * @param entityTexture      Entity Texture Identifier
+     * @param entityTexture Entity Texture Identifier
      */
     @ApiStatus.Internal
-    public static boolean isTextureRegisterd(Identifier entityTexture){
+    public static boolean isTextureRegisterd(Identifier entityTexture) {
         return COLORABLE_ENTITIES.containsKey(entityTexture);
     }
 
@@ -104,19 +101,18 @@ public class ColorizeRegistry {
      * [Registry Check ONLY] <br>
      * Gets the entity type mapped to the Identifier given if it exists
      *
-     * @param entityTexture      Entity Texture Identifier
+     * @param entityTexture Entity Texture Identifier
      */
     @ApiStatus.Internal
-    public static EntityType<?> getRegisteredEntityType(Identifier entityTexture){
-        if(isTextureRegisterd(entityTexture)){
+    public static EntityType<?> getRegisteredEntityType(Identifier entityTexture) {
+        if (isTextureRegisterd(entityTexture)) {
             return COLORABLE_ENTITIES.get(entityTexture);
-        }
-        else{
+        } else {
             return null;
         }
     }
 
-    static{
+    static {
         registerColorable("minecraft");
     }
 

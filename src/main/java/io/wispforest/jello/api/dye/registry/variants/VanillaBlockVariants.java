@@ -1,10 +1,10 @@
 package io.wispforest.jello.api.dye.registry.variants;
 
-import io.wispforest.jello.api.dye.block.*;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.api.mixin.ducks.DyeBlockStorage;
-import io.wispforest.jello.api.mixin.mixins.BlockEntityTypeAccessor;
-import io.wispforest.jello.main.common.data.tags.JelloTags;
+import io.wispforest.jello.misc.ducks.DyeBlockStorage;
+import io.wispforest.jello.mixin.accessors.BlockEntityTypeAccessor;
+import io.wispforest.jello.block.*;
+import io.wispforest.jello.data.tags.JelloTags;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
@@ -66,7 +66,7 @@ public class VanillaBlockVariants {
                 AbstractBlock.Settings.of(Material.WOOL, state -> state.get(BedBlock.PART) == BedPart.FOOT ? MapColor.CLEAR : MapColor.WHITE_GRAY).sounds(BlockSoundGroup.WOOD).strength(0.2F).nonOpaque());
         ((DyeBlockStorage) block).setDyeColor(dyeColorant);
 
-        return addToBlockEntitySet(block, BlockEntityType.BED);
+        return addToBlockEntitieset(block, BlockEntityType.BED);
     }).setBlockTags(BlockTags.BEDS);
 
     //-----------------------------------------------------------------
@@ -89,7 +89,7 @@ public class VanillaBlockVariants {
         Block block = new ShulkerBoxBlock(DyeColorantRegistry.Constants.NULL_VALUE_OLD, AbstractBlock.Settings.of(Material.SHULKER_BOX, MapColor.CLEAR).strength(2.0F).dynamicBounds().nonOpaque().suffocates(contextPredicate).blockVision(contextPredicate));
         ((DyeBlockStorage) block).setDyeColor(dyeColorant);
 
-        return addToBlockEntitySet(block, BlockEntityType.SHULKER_BOX);
+        return addToBlockEntitieset(block, BlockEntityType.SHULKER_BOX);
     }).setBlockTags(BlockTags.SHULKER_BOXES).stackCount(1).setBlockItemMaker((dyeColorant, block, settings) -> new BlockItem(block, settings)).setDefaultBlock("shulker_box");
 
     //-----------------------------------------------------------------
@@ -105,7 +105,7 @@ public class VanillaBlockVariants {
                     GLASS_PANE,
                     SHULKER_BOX);
 
-    private static Block addToBlockEntitySet(Block block, BlockEntityType<?> blockEntityType){
+    private static Block addToBlockEntitieset(Block block, BlockEntityType<?> blockEntityType) {
         Set<Block> BLOCK_SET = new HashSet<>(((BlockEntityTypeAccessor) blockEntityType).jello$getBlocks());
         BLOCK_SET.add(block);
         ((BlockEntityTypeAccessor) blockEntityType).jello$setBlocks(BLOCK_SET);

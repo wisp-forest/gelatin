@@ -1,7 +1,7 @@
 package io.wispforest.jello.api.util;
 
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.dye.item.DyeItem;
+import io.wispforest.jello.item.DyeItem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.SheepEntity;
@@ -17,34 +17,18 @@ import java.util.List;
 
 public class ColorUtil {
 
-
-    public static float[] getCMYFromIntColor(int baseColor) {
+    public static float[] rgbToCmy(int baseColor) {
         Color rgb = new Color(baseColor);
 
         return rgb.getColorComponents(ColorSpace.getInstance(ColorSpace.TYPE_CMY), null);
     }
 
-    public static int getIntColorFromCMY(float[] cmy) {
+    public static int cmyToRgb(float[] cmy) {
         return new Color(ColorSpace.getInstance(ColorSpace.TYPE_CMY), cmy, 1).getRGB();
     }
 
-//    public static int getDecimalColor(int R, int G, int B, int A){
-//        Color color = Color.ofRGBA(R, G, B, A);
-//        return color.getColor();
-//    }
-//
-//    public static int getDecimalColor(float R, float G, float B, float A){
-//        Color color = Color.ofRGBA(R, G, B, A);
-//        return color.getColor();
-//    }
-//
-//    public static Color getColor(int color){
-//        return Color.ofTransparent(color);
-//    }
-
     public static float[] rainbowColorizer(LivingEntity livingEntity) {
-        float tickDelta = MinecraftClient.getInstance().getTickDelta();
-        return rainbowColorizer(livingEntity, tickDelta);
+        return rainbowColorizer(livingEntity, MinecraftClient.getInstance().getTickDelta());
     }
 
     public static float[] getColorComponents(int baseColor) {
@@ -54,12 +38,12 @@ public class ColorUtil {
         return new float[]{(float) j / 255.0F, (float) k / 255.0F, (float) l / 255.0F};
     }
 
-    public static float[] rainbowColorizer(LivingEntity livingEntity, float g) {
+    public static float[] rainbowColorizer(LivingEntity livingEntity, float tickDelta) {
         int n = livingEntity.age / 25 + livingEntity.getId();
         int dye = DyeColor.values().length;
         int p = n % dye;
         int q = (n + 1) % dye;
-        float r = ((float) (livingEntity.age % 25) + g) / 25.0F;
+        float r = ((float) (livingEntity.age % 25) + tickDelta) / 25.0F;
         float[] fs = SheepEntity.getRgbColor(DyeColor.byId(p));
         float[] gs = SheepEntity.getRgbColor(DyeColor.byId(q));
 
@@ -74,7 +58,7 @@ public class ColorUtil {
      * Note: Code was based off of/used from <a href="https://chir.ag/projects/ntc/ntc.js">ntc.js</a>, created by Chirag Mehta,
      * under the <a href="http://creativecommons.org/licenses/by/2.5/">Creative Commons Licences</a>
      */
-    public static float[] getHSLfromColor(int color) {
+    public static float[] rgbToHsl(int color) {
         var rgb = new float[]{(color >> 16) / 255F, ((color >> 8) & 0xFF) / 255F, (color & 0xFF) / 255F};
 
         var r = rgb[0];
@@ -102,9 +86,8 @@ public class ColorUtil {
     }
 
     public static Comparator<ItemStack> dyeStackHslComparator(int component) {
-        return Comparator.comparingDouble(stack -> ColorUtil.getHSLfromColor(((DyeItem) stack.getItem()).getDyeColor().getBaseColor())[component]);
+        return Comparator.comparingDouble(stack -> ColorUtil.rgbToHsl(((DyeItem) stack.getItem()).getDyeColor().getBaseColor())[component]);
     }
-
 
     public static int blendDyeColors(DyeColorant... colors) {
         int[] is = new int[3];

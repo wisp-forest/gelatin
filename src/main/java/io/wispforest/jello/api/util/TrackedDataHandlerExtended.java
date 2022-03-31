@@ -8,8 +8,9 @@ import net.minecraft.util.Identifier;
 
 import java.lang.reflect.Field;
 
-public class TrackedDataHandlerExtended implements SimpleFieldProcessingSubject<TrackedDataHandler> {
-    public static final TrackedDataHandler<Identifier> IDENTIFIER = new TrackedDataHandler<Identifier>() {
+public class TrackedDataHandlerExtended implements SimpleFieldProcessingSubject<TrackedDataHandler<?>> {
+
+    public static final TrackedDataHandler<Identifier> IDENTIFIER = new TrackedDataHandler<>() {
         public void write(PacketByteBuf packetByteBuf, Identifier identifier) {
             packetByteBuf.writeString(identifier.toString());
         }
@@ -29,7 +30,8 @@ public class TrackedDataHandlerExtended implements SimpleFieldProcessingSubject<
     }
 
     @Override
-    public Class<TrackedDataHandler> getTargetFieldType() {
-        return TrackedDataHandler.class;
+    @SuppressWarnings("unchecked")
+    public Class<TrackedDataHandler<?>> getTargetFieldType() {
+        return (Class<TrackedDataHandler<?>>) (Object) TrackedDataHandler.class;
     }
 }

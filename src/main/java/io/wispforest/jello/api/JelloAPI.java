@@ -1,11 +1,10 @@
 package io.wispforest.jello.api;
 
-import io.wispforest.jello.api.dye.behavior.ColorEntityBehavior;
-import io.wispforest.jello.api.dye.behavior.JelloCauldronBehaviors;
-import io.wispforest.jello.api.dye.behavior.WashEntityBehavior;
-import io.wispforest.jello.api.dye.blockentity.BlockEntityRegistry;
+import io.wispforest.jello.dye.behavior.ColorEntityBehavior;
+import io.wispforest.jello.dye.behavior.JelloCauldronBehaviors;
+import io.wispforest.jello.dye.behavior.WashEntityBehavior;
 import io.wispforest.jello.api.dye.events.ColorEntityEvent;
-import io.wispforest.jello.api.dye.registry.DyeColorantJsonTest;
+import io.wispforest.jello.misc.DyeColorantLoader;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.util.TrackedDataHandlerExtended;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
@@ -32,24 +31,19 @@ public class JelloAPI implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        FieldRegistrationHandler.register(BlockEntityRegistry.class, MODID,false);
-
         //  Ext. TrackedData Registry
         FieldRegistrationHandler.processSimple(TrackedDataHandlerExtended.class, false);
 
-        //DyeColorRegistry.generateJsonFile();
-        //System.exit(0);
-
 //        VanillaBlockBuilder.init();
-
 
         DyeColorantRegistry.initVanillaDyes();
 
-        DyeColorantJsonTest.gatherDyesFromJson();
+        // just leave it here - patpat
+        DyeColorantLoader.loadFromJson();
 //        DyeColorantRegistry.initVanillaDyes();
 
-        ((OwoItemGroup)ItemGroup.MISC).initialize();
-
+        // pogchamp
+        ((OwoItemGroup) ItemGroup.MISC).initialize();
 
         JelloCauldronBehaviors.registerJelloBehaviorBypass();
 
@@ -66,10 +60,10 @@ public class JelloAPI implements ModInitializer {
 
     //------------------------------------------------------------------------------
 
-    private static void registerDispenserBehavior(){
+    private static void registerDispenserBehavior() {
         DyeColor[] dyeColors = DyeColor.values();
 
-        for(int i = 0; i < dyeColors.length; i++){
+        for (int i = 0; i < dyeColors.length; i++) {
             Item item = Registry.ITEM.get(new Identifier(dyeColors[i].getName() + "_dye"));
 
             DispenserBlock.registerBehavior(item, new ColorEntityBehavior());
@@ -78,7 +72,7 @@ public class JelloAPI implements ModInitializer {
         DispenserBlock.registerBehavior(Items.WATER_BUCKET, new WashEntityBehavior());
     }
 
-    private static void registerEvents(){
+    private static void registerEvents() {
         UseEntityCallback.EVENT.register(
                 (player, world, hand, entity, hitResult) -> new ColorEntityEvent().interact(player, world, hand, entity, hitResult));
 
