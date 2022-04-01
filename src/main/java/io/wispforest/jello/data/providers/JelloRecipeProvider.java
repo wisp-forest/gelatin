@@ -60,6 +60,33 @@ public class JelloRecipeProvider extends FabricRecipesProvider {
             offerSlimeBallDyeingRecipe(exporter, item, dyeItem, itemPath, dyePath);
         }
 
+        ShapedRecipeJsonBuilder.create(Items.BUNDLE)
+                .input('~', Items.STRING)
+                .input('H', Items.RABBIT_HIDE)
+                .pattern("~H~")
+                .pattern("H H")
+                .pattern("HHH")
+                .criterion("has_rabbit_hide", conditionsFromItem(Items.RABBIT_HIDE))
+                .offerTo(exporter, new Identifier("bundle_from_rabbit_hide"));
+
+        ShapedRecipeJsonBuilder.create(Items.BUNDLE)
+                .input('~', Items.STRING)
+                .input('H', Items.LEATHER)
+                .pattern("~H~")
+                .pattern("H H")
+                .pattern("HHH")
+                .criterion("has_rabbit_hide", conditionsFromItem(Items.RABBIT_HIDE))
+                .offerTo(exporter, new Identifier("bundle_from_leather"));
+
+        ShapedRecipeJsonBuilder.create(JelloItems.DYE_BUNDLE)
+                .input('b', Items.BUNDLE)
+                .input('~', JelloTags.Items.VANILLA_DYE)
+                .pattern("~~~")
+                .pattern("~b~")
+                .pattern("~~~")
+                .criterion("has_bundle", conditionsFromItem(Items.BUNDLE))
+                .offerTo(exporter, new Identifier("dye_bundle"));
+
         ShapedRecipeJsonBuilder.create(Blocks.STICKY_PISTON)
                 .input('P', Blocks.PISTON)
                 .input('S', JelloTags.Items.SLIME_BALLS)
