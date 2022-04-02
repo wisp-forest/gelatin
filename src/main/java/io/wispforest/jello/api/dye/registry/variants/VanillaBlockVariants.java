@@ -25,11 +25,11 @@ public class VanillaBlockVariants {
 
     public static final DyeableBlockVariant CONCRETE_POWDER = DyeableBlockVariant.of(new Identifier("concrete_powder"), (dyeColorant, parentBlock) -> {
         return new ColoredConcretePowderBlock(parentBlock, AbstractBlock.Settings.of(Material.AGGREGATE, MapColor.CLEAR).strength(0.5F).sounds(BlockSoundGroup.SAND), dyeColorant);
-    }).setBlockTags(JelloTags.Blocks.CONCRETE_POWDER);
+    });//.setBlockTags(JelloTags.Blocks.CONCRETE_POWDER);
 
     public static final DyeableBlockVariant CONCRETE = DyeableBlockVariant.of(new Identifier("concrete"), () -> CONCRETE_POWDER, (dyeColorant, parentBlock) -> {
         return new ColoredBlock(AbstractBlock.Settings.of(Material.STONE, MapColor.CLEAR).requiresTool().strength(1.8F), dyeColorant);
-    }).setBlockTags(JelloTags.Blocks.CONCRETE);
+    });//.setBlockTags(JelloTags.Blocks.CONCRETE);
 
     //-----------------------------------------------------------------
 
@@ -41,7 +41,7 @@ public class VanillaBlockVariants {
 
     public static final DyeableBlockVariant WOOL = DyeableBlockVariant.of(new Identifier("wool"), (dyeColorant, parentBlock) -> {
         return new ColoredBlock(AbstractBlock.Settings.of(Material.WOOL, MapColor.CLEAR).strength(0.8F).sounds(BlockSoundGroup.WOOL), dyeColorant);
-    }).setBlockTags(BlockTags.WOOL).setItemTags(JelloTags.Items.WOOL);
+    }).setBlockTags(BlockTags.WOOL);
 
     //-----------------------------------------------------------------
 
@@ -73,13 +73,13 @@ public class VanillaBlockVariants {
 
     public static final DyeableBlockVariant GLASS = DyeableBlockVariant.of(new Identifier("stained_glass"), (dyeColorant, parentBlock) -> {
         return new ColoredGlassBlock(dyeColorant, AbstractBlock.Settings.of(Material.GLASS).strength(0.3F).sounds(BlockSoundGroup.GLASS).nonOpaque());
-    }).setBlockTags(JelloTags.Blocks.STAINED_GLASS, BlockTags.IMPERMEABLE).setDefaultBlock("glass");
+    }).setBlockTags(BlockTags.IMPERMEABLE).setDefaultBlock("glass");
 
     //-----------------------------------------------------------------
 
     public static final DyeableBlockVariant GLASS_PANE = DyeableBlockVariant.of(new Identifier("stained_glass_pane"), (dyeColorant, parentBlock) -> {
         return new ColoredGlassPaneBlock(dyeColorant, AbstractBlock.Settings.of(Material.GLASS).strength(0.3F).sounds(BlockSoundGroup.GLASS).nonOpaque());
-    }).setBlockTags(JelloTags.Blocks.GLASS_PANES).setDefaultBlock("glass_pane");
+    }).setDefaultBlock("glass_pane");
 
     //-----------------------------------------------------------------
 

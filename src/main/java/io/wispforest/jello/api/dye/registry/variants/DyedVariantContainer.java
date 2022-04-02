@@ -167,6 +167,8 @@ public class DyedVariantContainer {
                 }
             } else {
                 childBlock = registerBlock(parentBlockVariant, null, dyeColorant);
+
+                parentBlockVariant.addToBlockTags(childBlock, true);
                 parentBlockVariant.addToItemTags(childBlock.asItem(), true);
             }
 

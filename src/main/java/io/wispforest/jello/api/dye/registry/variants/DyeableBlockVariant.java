@@ -1,5 +1,6 @@
 package io.wispforest.jello.api.dye.registry.variants;
 
+import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.data.tags.JelloTags;
@@ -20,6 +21,7 @@ import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.ApiStatus;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -60,11 +62,13 @@ public class DyeableBlockVariant {
     public final boolean createBlockItem;
     private BlockItemMaker blockItemMaker;
 
-    private TagKey<Block> primaryBlockTag;
-    private final Set<TagKey<Block>> secondaryBlockTags = new HashSet<>();
+    private boolean addCustomDefaultBlockToTag;
 
-    private TagKey<Item> primaryItemTag;
-    private final Set<TagKey<Item>> secondaryItemTags = new HashSet<>();
+    public final TagKey<Block> primaryBlockTag;
+    public final Set<TagKey<Block>> secondaryBlockTags = new HashSet<>();
+
+    public final TagKey<Item> primaryItemTag;
+    public final Set<TagKey<Item>> secondaryItemTags = new HashSet<>();
 
     private DyeableBlockVariant(Identifier variantIdentifier, @Nullable Supplier<DyeableBlockVariant> possibleChildVariant, boolean noBlockItem, @Nullable ItemGroup defaultGroup, BlockMaker blockMaker) {
         this.variantIdentifier = variantIdentifier;
@@ -86,6 +90,9 @@ public class DyeableBlockVariant {
 
         this.defaultBlock = new Identifier(variantIdentifier.getNamespace(), "white_" + variantIdentifier.getPath());
         this.blockItemMaker = BlockItemMaker.DEFAULT;
+
+        this.primaryBlockTag = TagKey.of(Registry.BLOCK_KEY, Jello.id(variantIdentifier.getPath()));
+        this.primaryItemTag = TagKey.of(Registry.ITEM_KEY, Jello.id(variantIdentifier.getPath()));
     }
 
     //---------------------------------------------------------------------------------------------------
@@ -146,6 +153,7 @@ public class DyeableBlockVariant {
      */
     public final DyeableBlockVariant setDefaultBlock(Identifier identifier) {
         this.defaultBlock = identifier;
+        this.addCustomDefaultBlockToTag = true;
 
         return this;
     }
@@ -156,9 +164,7 @@ public class DyeableBlockVariant {
      * @param path The Block's default path
      */
     public final DyeableBlockVariant setDefaultBlock(String path) {
-        this.defaultBlock = new Identifier(variantIdentifier.getNamespace(), path);
-
-        return this;
+        return this.setDefaultBlock(new Identifier(variantIdentifier.getNamespace(), path));
     }
 
     /**
@@ -180,13 +186,7 @@ public class DyeableBlockVariant {
      */
     @SafeVarargs
     public final DyeableBlockVariant setBlockTags(TagKey<Block>... tags) {
-        for (int i = 0; i < tags.length; i++) {
-            if (i == 0) {
-                primaryBlockTag = tags[i];
-            } else {
-                secondaryBlockTags.add(tags[i]);
-            }
-        }
+        secondaryBlockTags.addAll(Arrays.asList(tags));
 
         return this;
     }
@@ -198,13 +198,7 @@ public class DyeableBlockVariant {
      */
     @SafeVarargs
     public final DyeableBlockVariant setItemTags(TagKey<Item>... tags) {
-        for (int i = 0; i < tags.length; i++) {
-            if (i == 0) {
-                primaryItemTag = tags[i];
-            } else {
-                secondaryItemTags.add(tags[i]);
-            }
-        }
+        secondaryItemTags.addAll(Arrays.asList(tags));
 
         return this;
     }
@@ -229,6 +223,18 @@ public class DyeableBlockVariant {
 
     public final TagKey<Block> getPrimaryBlockTag() {
         return this.primaryBlockTag;
+    }
+
+    public final TagKey<Item> getPrimaryItemTag() {
+        return this.primaryItemTag;
+    }
+
+    public final TagKey<Block> getCommonBlockTag() {
+        return TagKey.of(Registry.BLOCK_KEY, new Identifier("c", primaryBlockTag.id().getPath()));
+    }
+
+    public final TagKey<Item> getCommonItemTag() {
+        return TagKey.of(Registry.ITEM_KEY, new Identifier("c", primaryItemTag.id().getPath()));
     }
 
     public Block getBlockVariant(DyeColorant dyeColorant) {
@@ -325,18 +331,22 @@ public class DyeableBlockVariant {
 
     @Nullable
     private static DyeableBlockVariant getVariantFromBlock(String blockPath){
-        if(ALL_BLOCK_VARIANTS.isEmpty()){
-            ALL_BLOCK_VARIANTS.addAll(VanillaBlockVariants.VANILLA_VARIANTS);
-            ALL_BLOCK_VARIANTS.addAll(ADDITION_BLOCK_VARIANTS);
-        }
-
-        for(DyeableBlockVariant variant : ALL_BLOCK_VARIANTS){
+        for(DyeableBlockVariant variant : getAllVariants()){
             if(variant.isIdentifierAVariant(blockPath, false)){
                 return variant;
             }
         }
 
         return null;
+    }
+
+    public static Set<DyeableBlockVariant> getAllVariants(){
+        if(ALL_BLOCK_VARIANTS.isEmpty()){
+            ALL_BLOCK_VARIANTS.addAll(VanillaBlockVariants.VANILLA_VARIANTS);
+            ALL_BLOCK_VARIANTS.addAll(ADDITION_BLOCK_VARIANTS);
+        }
+
+        return ALL_BLOCK_VARIANTS;
     }
 
     //---------------------------------------------------------------------------------------------------
@@ -363,28 +373,36 @@ public class DyeableBlockVariant {
         }
 
         TagInjector.injectItems(JelloTags.Items.ALL_COLORED_VARIANTS.id(), item);
+        TagInjector.injectItems(primaryItemTag.id(), item);
 
         if(!readOnly) {
-            if (primaryItemTag != null) {
-                TagInjector.injectItems(primaryItemTag.id(), item);
-            }
-
             for (TagKey<Item> tagKey : secondaryItemTags) {
                 TagInjector.injectItems(tagKey.id(), item);
             }
+        }
+
+        if(addCustomDefaultBlockToTag && item != this.getDefaultBlockVariant().asItem()){
+            this.addToItemTags(this.getDefaultBlockVariant().asItem(), true);
         }
     }
 
     @ApiStatus.Internal
     protected final void addToBlockTags(Block block) {
-        if (primaryBlockTag != null) {
-            TagInjector.injectBlocks(primaryBlockTag.id(), block);
-        } else {
-            throw new NullPointerException("You need to at least set one block tag that this variant will use to add all the blocks generated! Variant:" + this.variantIdentifier);
+        this.addToBlockTags(block, false);
+    }
+
+    @ApiStatus.Internal
+    protected final void addToBlockTags(Block block, boolean readOnly) {
+        TagInjector.injectBlocks(primaryBlockTag.id(), block);
+
+        if(!readOnly) {
+            for (TagKey<Block> tagKey : secondaryBlockTags) {
+                TagInjector.injectBlocks(tagKey.id(), block);
+            }
         }
 
-        for (TagKey<Block> tagKey : secondaryBlockTags) {
-            TagInjector.injectBlocks(tagKey.id(), block);
+        if(addCustomDefaultBlockToTag && block != this.getDefaultBlockVariant()) {
+            this.addToBlockTags(this.getDefaultBlockVariant(), true);
         }
     }
 

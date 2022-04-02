@@ -51,11 +51,11 @@ public class JelloRecipeProvider extends FabricRecipesProvider {
             Item dyeItem = Registry.ITEM.get(new Identifier(((DyeBlockStorage) block).getDyeColor().getName() + "_dye"));
             String dyePath = ((DyeBlockStorage) block).getDyeColor().getName() + "_dye";
 
-            offerSlimeBlockDyeingRecipe(exporter, block, dyeItem, blockPath, ((DyeBlockStorage) block).getDyeColor().getName() + "_dye");
-            offerSlimeBlockDyeingFullRecipe(exporter, block, dyeItem, blockPath, ((DyeBlockStorage) block).getDyeColor().getName() + "_dye");
-
-            offerSlimeSlabDyeingRecipe(exporter, slab, dyeItem, slabPath, ((DyeBlockStorage) block).getDyeColor().getName() + "_dye");
-            offerSlimeSlabDyeingFullRecipe(exporter, slab, dyeItem, slabPath, ((DyeBlockStorage) block).getDyeColor().getName() + "_dye");
+//            offerSlimeBlockDyeingRecipe(exporter, block, dyeItem, blockPath, ((DyeBlockStorage) block).getDyeColor().getName() + "_dye");
+//            offerSlimeBlockDyeingFullRecipe(exporter, block, dyeItem, blockPath, ((DyeBlockStorage) block).getDyeColor().getName() + "_dye");
+//
+//            offerSlimeSlabDyeingRecipe(exporter, slab, dyeItem, slabPath, ((DyeBlockStorage) block).getDyeColor().getName() + "_dye");
+//            offerSlimeSlabDyeingFullRecipe(exporter, slab, dyeItem, slabPath, ((DyeBlockStorage) block).getDyeColor().getName() + "_dye");
 
             offerSlimeBallDyeingRecipe(exporter, item, dyeItem, itemPath, dyePath);
         }

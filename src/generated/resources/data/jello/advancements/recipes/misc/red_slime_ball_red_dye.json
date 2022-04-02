@@ -11,7 +11,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "c:slime_blocks"
+            "tag": "jello:slime_blocks"
           }
         ]
       }

@@ -18,6 +18,7 @@ import net.minecraft.util.registry.RegistryKey;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class DyeColorantRegistry {
 
@@ -161,6 +162,10 @@ public class DyeColorantRegistry {
         }
 
         return dyeColor.value();
+    }
+
+    public static Set<DyeColorant> getAllColorants(){
+        return DYE_COLOR.stream().filter(dyeColorant -> dyeColorant != NULL_VALUE_NEW).collect(Collectors.toSet());
     }
 
     /**

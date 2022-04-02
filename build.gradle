@@ -43,6 +43,14 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
+    modImplementation "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei}"
+    modImplementation("me.shedaniel:RoughlyEnoughItems-fabric:${project.rei}"){
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+
+//    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei}"
+//    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei}"
+
     //modLocalRuntime("maven.modrinth:ferrite-core:${project.ferrite_core}")
     modLocalRuntime("maven.modrinth:lithium:${project.lithium}")
     //modLocalRuntime("maven.modrinth:krypton:${project.krypton}")
@@ -54,6 +62,8 @@ dependencies {
 //    modImplementation("dev.architectury:architectury-fabric:${rootProject.architectury}"){ //:sources"){
 //        exclude(group: "net.fabricmc.fabric-api")
 //    }
+
+    //include 'com.github.Chocohead:Fabric-ASM:v2.3'
 }
 
 sourceSets {
@@ -65,6 +75,10 @@ sourceSets {
         }
     }
 }
+
+//minecraft{
+//    AT = file("src/main/resources/access-transformations.txt")
+//}
 
 loom {
     accessWidenerPath = file("src/main/resources/jello.accesswidener")
