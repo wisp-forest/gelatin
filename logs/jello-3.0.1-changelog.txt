@@ -1,0 +1,5 @@
+Minor API change to how tags are used meaning DyeableBlockVariables no longer need tags to be created as it is an automatic process now
+
+Bug fixes:
+    -Inability to Crafted dyed versions of Slime Blocks and Slabs
+    -Large amount of lag when inputting Dyes into the crafting table thanks to Mojank
