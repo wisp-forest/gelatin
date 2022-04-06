@@ -1,0 +1,10 @@
+This update contains some Major Bug fixes and some API Additions useful for anyone using Jello.
+
+Bug Fixes:
+    -Fixed Blocks added by Jello not having any drops due to no Loot Tables
+    -Fixed Problem with getting All Block Variants missing some Child Block Variants
+
+API Changes:
+    -Block Coloring Event is solely handled through DyeableBlockVariants. With this came ways of importing already existing Blocks of other mods and now Vanilla Color Only feature for people who done want modded colors to be used with their variant(I strongly recommend this as a last resort)
+    -Added ways of giving DyeableBlockVariants a custom Loot Table
+
