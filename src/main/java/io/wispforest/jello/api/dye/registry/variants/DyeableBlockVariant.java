@@ -4,7 +4,6 @@ import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.data.tags.JelloTags;
-import io.wispforest.jello.api.registry.ColorBlockRegistry;
 import io.wispforest.jello.api.item.JelloItemSettings;
 import io.wispforest.jello.misc.dye.JelloBlockVariants;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
@@ -21,8 +20,6 @@ import org.jetbrains.annotations.ApiStatus;
 
 import javax.annotation.Nullable;
 import java.util.*;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -167,7 +164,7 @@ public class DyeableBlockVariant {
      *
      * @param identifier The identifier of the block
      */
-    public final DyeableBlockVariant setDefaultBlockIdentifier(Identifier identifier) {
+    public final DyeableBlockVariant setDefaultBlock(Identifier identifier) {
         this.defaultBlockIdentifier = identifier;
         this.addCustomDefaultBlockToTag = true;
 
@@ -180,7 +177,7 @@ public class DyeableBlockVariant {
      * @param path The Block's default path
      */
     public final DyeableBlockVariant setDefaultBlock(String path) {
-        return this.setDefaultBlockIdentifier(new Identifier(variantIdentifier.getNamespace(), path));
+        return this.setDefaultBlock(new Identifier(variantIdentifier.getNamespace(), path));
     }
 
     /**
@@ -238,6 +235,9 @@ public class DyeableBlockVariant {
         return this;
     }
 
+    /**
+     * Change the default Function for automatically generating the {@link LootTable} for this Block Variant
+     */
     public final DyeableBlockVariant setLootTable(Function<Block, LootTable> lootTableBuilder){
         this.lootTableBuilder = lootTableBuilder;
 

@@ -25,17 +25,17 @@ public class VanillaBlockVariants {
 
     public static final DyeableBlockVariant CONCRETE_POWDER = DyeableBlockVariant.of(new Identifier("concrete_powder"), (dyeColorant, parentBlock) -> {
         return new ColoredConcretePowderBlock(parentBlock, AbstractBlock.Settings.of(Material.AGGREGATE, MapColor.CLEAR).strength(0.5F).sounds(BlockSoundGroup.SAND), dyeColorant);
-    });
+    }).setBlockTags(BlockTags.PICKAXE_MINEABLE, BlockTags.NEEDS_STONE_TOOL);
 
     public static final DyeableBlockVariant CONCRETE = DyeableBlockVariant.of(new Identifier("concrete"), () -> CONCRETE_POWDER, (dyeColorant, parentBlock) -> {
         return new ColoredBlock(AbstractBlock.Settings.of(Material.STONE, MapColor.CLEAR).requiresTool().strength(1.8F), dyeColorant);
-    });
+    }).setBlockTags(BlockTags.PICKAXE_MINEABLE, BlockTags.NEEDS_STONE_TOOL);
 
     //-----------------------------------------------------------------
 
     public static final DyeableBlockVariant TERRACOTTA = DyeableBlockVariant.of(new Identifier("terracotta"), (dyeColorant, parentBlock) -> {
         return new ColoredBlock(AbstractBlock.Settings.of(Material.STONE, MapColor.CLEAR).requiresTool().strength(1.25F, 4.2F), dyeColorant);
-    }).setDefaultBlock("terracotta").setBlockTags(BlockTags.TERRACOTTA);
+    }).setDefaultBlock("terracotta").setBlockTags(BlockTags.TERRACOTTA, BlockTags.PICKAXE_MINEABLE, BlockTags.NEEDS_STONE_TOOL);
 
     //-----------------------------------------------------------------
 
