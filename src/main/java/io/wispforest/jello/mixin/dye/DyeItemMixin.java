@@ -4,10 +4,11 @@ import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.events.ColorBlockEventMethods;
 import io.wispforest.jello.api.dye.events.ColorEntityEvent;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.misc.ducks.DyeItemStorage;
+import io.wispforest.jello.api.ducks.DyeItemStorage;
+import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
 import io.wispforest.jello.misc.ducks.SheepDyeColorStorage;
-import io.wispforest.jello.misc.ducks.entity.ConstantColorEntity;
-import io.wispforest.jello.misc.ducks.entity.DyeableEntity;
+import io.wispforest.jello.api.ducks.entity.ConstantColorEntity;
+import io.wispforest.jello.api.ducks.entity.DyeableEntity;
 import io.wispforest.jello.api.registry.ColorBlockRegistry;
 import io.wispforest.jello.api.registry.ColorizeRegistry;
 import io.wispforest.jello.Jello;
@@ -89,7 +90,7 @@ public class DyeItemMixin extends Item implements DyeItemStorage {
             World world = context.getWorld();
             BlockState blockState = world.getBlockState(context.getBlockPos());
 
-            if (!ColorBlockEventMethods.changeBlockColor(world, context.getBlockPos(), blockState, ColorBlockRegistry.getVariant(blockState.getBlock(), this.getDyeColorant()), player)) {
+            if (!ColorBlockEventMethods.changeBlockColor(world, context.getBlockPos(), blockState, DyeableBlockVariant.attemptToGetColoredBlock(blockState.getBlock(), this.getDyeColorant()), player)) {
                 return ActionResult.FAIL;
             }
 

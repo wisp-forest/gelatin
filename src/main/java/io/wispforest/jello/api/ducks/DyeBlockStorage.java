@@ -1,10 +1,12 @@
-package io.wispforest.jello.misc.ducks;
+package io.wispforest.jello.api.ducks;
 
 import io.wispforest.jello.api.dye.DyeColorant;
 
-public interface DyeBlockEntityStorage {
+public interface DyeBlockStorage {
 
     void setDyeColor(DyeColorant dyeColorant);
 
     DyeColorant getDyeColor();
+
+    boolean isBlockDyed();
 }

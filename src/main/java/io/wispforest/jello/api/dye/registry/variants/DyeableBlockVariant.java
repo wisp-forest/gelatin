@@ -4,17 +4,14 @@ import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.data.tags.JelloTags;
-import io.wispforest.jello.item.ColoredBlockItem;
 import io.wispforest.jello.api.registry.ColorBlockRegistry;
 import io.wispforest.jello.api.item.JelloItemSettings;
+import io.wispforest.jello.misc.dye.JelloBlockVariants;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
 import io.wispforest.owo.util.TagInjector;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.FoodComponent;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.item.*;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -36,7 +33,6 @@ import java.util.function.Supplier;
 public class DyeableBlockVariant {
 
     public static final Set<DyeableBlockVariant> ALL_BLOCK_VARIANTS = new HashSet<>();
-
     public static final Set<DyeableBlockVariant> ADDITION_BLOCK_VARIANTS = new HashSet<>();
 
     /**
@@ -51,7 +47,8 @@ public class DyeableBlockVariant {
     public final Identifier variantIdentifier;
     public final int wordCount;
 
-    private Identifier defaultBlock;
+    private Identifier defaultBlockIdentifier;
+    private boolean addCustomDefaultBlockToTag;
 
     public final RecursiveType recursiveType;
     public final @Nullable Supplier<DyeableBlockVariant> childVariant;
@@ -59,10 +56,11 @@ public class DyeableBlockVariant {
     private final BlockMaker blockMaker;
     public BlockItemSettings defaultSettings;
 
-    public final boolean createBlockItem;
+    public boolean createBlockItem = true;
     private BlockItemMaker blockItemMaker;
 
-    private boolean addCustomDefaultBlockToTag;
+    private boolean vanillaDyeableOnly = false;
+    private boolean alwaysReadOnly = false;
 
     public final TagKey<Block> primaryBlockTag;
     public final Set<TagKey<Block>> secondaryBlockTags = new HashSet<>();
@@ -70,13 +68,21 @@ public class DyeableBlockVariant {
     public final TagKey<Item> primaryItemTag;
     public final Set<TagKey<Item>> secondaryItemTags = new HashSet<>();
 
-    private DyeableBlockVariant(Identifier variantIdentifier, @Nullable Supplier<DyeableBlockVariant> possibleChildVariant, boolean noBlockItem, @Nullable ItemGroup defaultGroup, BlockMaker blockMaker) {
+    /**
+     * @param variantIdentifier The {@link Identifier} based off your Modid and the block path for your variant
+     * @param possibleChildVariant Any Variant that needs this Block to create itself from
+     * @param defaultGroup The {@link ItemGroup} of which this block will be put into
+     * @param blockMaker A generalized way of creating your Block Variant (Look at {@link VanillaBlockVariants} or {@link JelloBlockVariants} for a example)
+     */
+    public DyeableBlockVariant(Identifier variantIdentifier, @Nullable Supplier<DyeableBlockVariant> possibleChildVariant, @Nullable ItemGroup defaultGroup, @Nullable BlockMaker blockMaker) {
         this.variantIdentifier = variantIdentifier;
         this.blockMaker = blockMaker;
-        this.createBlockItem = noBlockItem;
 
-        String[] partParts = variantIdentifier.getPath().split("_");
-        this.wordCount = partParts.length;
+        if(blockMaker == null){
+            alwaysReadOnly = true;
+        }
+
+        this.wordCount = variantIdentifier.getPath().split("_").length;
 
         this.defaultSettings = defaultGroup != null ? BlockItemSettings.of(defaultGroup) : BlockItemSettings.of();
 
@@ -88,7 +94,7 @@ public class DyeableBlockVariant {
             this.childVariant = null;
         }
 
-        this.defaultBlock = new Identifier(variantIdentifier.getNamespace(), "white_" + variantIdentifier.getPath());
+        this.defaultBlockIdentifier = new Identifier(variantIdentifier.getNamespace(), "white_" + variantIdentifier.getPath());
         this.blockItemMaker = BlockItemMaker.DEFAULT;
 
         this.primaryBlockTag = TagKey.of(Registry.BLOCK_KEY, Jello.id(variantIdentifier.getPath()));
@@ -97,20 +103,25 @@ public class DyeableBlockVariant {
 
     //---------------------------------------------------------------------------------------------------
 
-    public static DyeableBlockVariant of(Identifier variantIdentifier, Supplier<DyeableBlockVariant> possibleChildVariant, boolean noBlockItem, ItemGroup defaultGroup, BlockMaker blockMaker) {
-        return new DyeableBlockVariant(variantIdentifier, possibleChildVariant, noBlockItem, defaultGroup, blockMaker);
-    }
-
     public static DyeableBlockVariant of(Identifier variantIdentifier, Supplier<DyeableBlockVariant> possibleChildVariant, ItemGroup defaultGroup, BlockMaker blockMaker) {
-        return new DyeableBlockVariant(variantIdentifier, possibleChildVariant, true, defaultGroup, blockMaker);
-    }
-
-    public static DyeableBlockVariant of(Identifier variantIdentifier, boolean noBlockItem, ItemGroup defaultGroup, BlockMaker blockMaker) {
-        return new DyeableBlockVariant(variantIdentifier, null, noBlockItem, defaultGroup, blockMaker);
+        return new DyeableBlockVariant(variantIdentifier, possibleChildVariant, defaultGroup, blockMaker);
     }
 
     public static DyeableBlockVariant of(Identifier variantIdentifier, ItemGroup defaultGroup, BlockMaker blockMaker) {
-        return new DyeableBlockVariant(variantIdentifier, null, true, defaultGroup, blockMaker);
+        return new DyeableBlockVariant(variantIdentifier, null, defaultGroup, blockMaker);
+    }
+
+    /**
+     * A way of using the Coloring Events within Jello with only Vanilla Colors and Blocks added by your Mod
+     *
+     * @param variantIdentifier The {@link Identifier} based off your Modid and the block path for your variant
+     */
+    public static DyeableBlockVariant readOnly(Identifier variantIdentifier) {
+        return new DyeableBlockVariant(variantIdentifier, null, null, null).setVanillaDyeableOnly();
+    }
+
+    public static DyeableBlockVariant readOnly(Identifier variantIdentifier, Supplier<DyeableBlockVariant> possibleChildVariant) {
+        return new DyeableBlockVariant(variantIdentifier, possibleChildVariant, null, null).setVanillaDyeableOnly();
     }
 
     //---------------------------------------------------------------------------------------------------
@@ -118,7 +129,7 @@ public class DyeableBlockVariant {
     /**
      * Sets the stack count of the for the {@link BlockItem} if such will be created
      *
-     * @param maxCount
+     * @param maxCount Maximum Stack Count
      */
     public DyeableBlockVariant stackCount(int maxCount) {
         this.defaultSettings.setItemStackCount(maxCount);
@@ -147,24 +158,34 @@ public class DyeableBlockVariant {
     }
 
     /**
-     * Manually change the {@link #defaultBlock} Identifier
+     * Manually change the {@link #defaultBlockIdentifier} Identifier
      *
      * @param identifier The identifier of the block
      */
-    public final DyeableBlockVariant setDefaultBlock(Identifier identifier) {
-        this.defaultBlock = identifier;
+    public final DyeableBlockVariant setDefaultBlockIdentifier(Identifier identifier) {
+        this.defaultBlockIdentifier = identifier;
         this.addCustomDefaultBlockToTag = true;
 
         return this;
     }
 
     /**
-     * Manually change the {@link #defaultBlock} Identifier by combining the Block's path and the variant's MODID
+     * Manually change the {@link #defaultBlockIdentifier} Identifier by combining the Block's path and the variant's MODID
      *
      * @param path The Block's default path
      */
     public final DyeableBlockVariant setDefaultBlock(String path) {
-        return this.setDefaultBlock(new Identifier(variantIdentifier.getNamespace(), path));
+        return this.setDefaultBlockIdentifier(new Identifier(variantIdentifier.getNamespace(), path));
+    }
+
+    /**
+     * Disables creation of BlockItem for the given variant
+     */
+    public final DyeableBlockVariant noBlockItem(){
+        createBlockItem = false;
+        defaultSettings = null;
+
+        return this;
     }
 
     /**
@@ -204,6 +225,15 @@ public class DyeableBlockVariant {
     }
 
     /**
+     * Disables the creation of Modded Dyed Variants and only allows for Coloring this block with Vanilla Colors
+     */
+    public final DyeableBlockVariant setVanillaDyeableOnly(){
+        this.vanillaDyeableOnly = true;
+
+        return this;
+    }
+
+    /**
      * Method must be called when the Variant is finished being edited
      * Will add your variant to the {@link #ADDITION_BLOCK_VARIANTS} and
      * retroactively add this {@link DyeableBlockVariant} and {@link DyedVariantContainer#updateExistingContainers}
@@ -213,7 +243,7 @@ public class DyeableBlockVariant {
             DyedVariantContainer.updateExistingContainers(this);
         }
 
-        ColorBlockRegistry.registerBlockTypeWithRecursion(this);
+        //ColorBlockRegistry.registerBlockTypeWithRecursion(this);
         DyeableBlockVariant.ADDITION_BLOCK_VARIANTS.add(this);
 
         return this;
@@ -221,72 +251,59 @@ public class DyeableBlockVariant {
 
     //---------------------------------------------------------------------------------------------------
 
-    public final TagKey<Block> getPrimaryBlockTag() {
-        return this.primaryBlockTag;
-    }
-
-    public final TagKey<Item> getPrimaryItemTag() {
-        return this.primaryItemTag;
-    }
-
+    /**
+     * The Common tag based off the {@link #primaryBlockTag} that is made from the {@link #variantIdentifier}
+     *
+     * @return A Block Tag within fabric's common namespace from the variant used
+     */
     public final TagKey<Block> getCommonBlockTag() {
         return TagKey.of(Registry.BLOCK_KEY, new Identifier("c", primaryBlockTag.id().getPath()));
     }
 
+    /**
+     * The Common tag based off the {@link #primaryItemTag} that is made from the {@link #variantIdentifier}
+     *
+     * @return A Item Tag within fabric's common namespace from the variant used
+     */
     public final TagKey<Item> getCommonItemTag() {
         return TagKey.of(Registry.ITEM_KEY, new Identifier("c", primaryItemTag.id().getPath()));
     }
 
-    public Block getBlockVariant(DyeColorant dyeColorant) {
-        String nameSpace = this.variantIdentifier.getNamespace();
-
-        if(!dyeColorant.isIn(JelloTags.DyeColor.VANILLA_DYES)) {
-            if (Objects.equals(nameSpace, "minecraft")) {
-                nameSpace = dyeColorant.getId().getNamespace();
-            }
-        }
-
-        return Registry.BLOCK.get(new Identifier(nameSpace, getBlockVariantPath(dyeColorant)));
+    public final boolean vanillaDyesOnly(){
+        return this.vanillaDyeableOnly;
     }
 
-    public Block getDefaultBlockVariant() {
-        return Registry.BLOCK.get(this.defaultBlock);
+    public final boolean alwaysReadOnly(){
+        return this.alwaysReadOnly;
     }
 
-    public String getBlockVariantPath(DyeColorant dyeColorant) {
-        return dyeColorant.getName() + "_" + this.variantIdentifier.getPath();
+    //---------------------------------------------------------------------------------------------------
+
+    /**
+     * Checks if the given {@link ItemConvertible}, which can be a block or Item, is a Variant of the Given Variant.
+     *
+     * @param convertible possible variant
+     * @return True if the given Entry is a Variant
+     */
+    public boolean isSuchAVariant(ItemConvertible convertible) {
+        return this.isSuchAVariant(JelloItemSettings.getIdFromConvertible(convertible));
     }
 
-    public boolean isIdentifierAVariant(Block block, boolean isItem) {
-        Identifier identifier = Registry.BLOCK.getId(block);
-
-        return this.isIdentifierAVariant(identifier.getPath(), isItem);
-    }
-
-    public boolean isIdentifierAVariant(BlockItem blockItem) {
-        Identifier identifier = Registry.ITEM.getId(blockItem);
-
-        return this.isIdentifierAVariant(identifier.getPath(), true);
-    }
-
-    public boolean isIdentifierAVariant(Identifier identifier, boolean isItem) {
-        return this.isIdentifierAVariant(identifier.getPath(), isItem);
-    }
-
-    private boolean isIdentifierAVariant(String blockPath, boolean isItem) {
-        if (isItem && !this.createBlockItem) {
-            return false;
-        }
-
-        if(Objects.equals(blockPath, defaultBlock.getPath())){
+    /**
+     * Checks if the given {@link Identifier}, which can be a block or Item id, is a Variant of the Given Variant.
+     *
+     * @param identifier possible variant identifier
+     * @return True if the given Entry is a Variant
+     */
+    @ApiStatus.Internal
+    public boolean isSuchAVariant(Identifier identifier) {
+        if(Objects.equals(identifier.getPath(), defaultBlockIdentifier.getPath()))
             return true;
-        }
 
-        String[] pathParts = blockPath.split("_");
+        String[] pathParts = identifier.getPath().split("_");
 
-        if (pathParts.length <= wordCount) {
+        if (pathParts.length <= wordCount)
             return false;
-        }
 
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = pathParts.length - wordCount; i < pathParts.length; i++) {
@@ -300,8 +317,127 @@ public class DyeableBlockVariant {
         return stringBuilder.toString().equals(this.variantIdentifier.getPath());
     }
 
-    public DyeColorant getDyeColorantFromBlockVariant(BlockItem blockItem){
-        Identifier identifier = Registry.ITEM.getId(blockItem);
+    /**
+     * Attempts to check if a Block is Dyeable and if it is will attempt to use the Variant to get the Colored Block passed to it
+     *
+     * @param block Possibly Colorable Block
+     * @param dyeColorant Color being applied to the Block
+     * @return A block if the Variant exists and meets certain parameters within the Variant else it returns null
+     */
+    @Nullable
+    public static Block attemptToGetColoredBlock(Block block, DyeColorant dyeColorant){
+        DyeableBlockVariant variant = DyeableBlockVariant.getVariantFromBlock(block);
+
+        if(variant != null){
+            if(variant.vanillaDyesOnly() && !dyeColorant.isIn(JelloTags.DyeColor.VANILLA_DYES)){
+                return null;
+            }
+
+            return variant.getColoredBlock(dyeColorant);
+        }else{
+            return null;
+        }
+    }
+
+    /**
+     * Gets a Block based off the given {@link DyeColorant} and the {@link #variantIdentifier} of the Variant used
+     * @param dyeColorant Desired Color or default block if it is {@link DyeColorantRegistry#NULL_VALUE_NEW}
+     */
+    public Block getColoredBlock(DyeColorant dyeColorant) {
+        if(dyeColorant == DyeColorantRegistry.NULL_VALUE_NEW)
+            return this.getDefaultBlock();
+
+        String nameSpace = this.variantIdentifier.getNamespace();
+
+        if(!dyeColorant.isIn(JelloTags.DyeColor.VANILLA_DYES)) {
+            if (Objects.equals(nameSpace, "minecraft")) {
+                nameSpace = dyeColorant.getId().getNamespace();
+            }
+        }
+
+        return Registry.BLOCK.get(new Identifier(nameSpace, getColoredBlockPath(dyeColorant)));
+    }
+
+    /**
+     * @return A Block based on the given {@link #defaultBlockIdentifier}.
+     */
+    public Block getDefaultBlock() {
+        return Registry.BLOCK.get(this.defaultBlockIdentifier);
+    }
+
+    /**
+     * Attempts to get a {@link DyeableBlockVariant} from a given {@link ItemConvertible}
+     * @param convertible possible Block or Item of a {@link DyeableBlockVariant}
+     * @return {@link DyeableBlockVariant} or null if the given Entry doesn't have one
+     */
+    @Nullable
+    public static DyeableBlockVariant getVariantFromBlock(ItemConvertible convertible){
+        return getVariantFromBlock(JelloItemSettings.getIdFromConvertible(convertible));
+    }
+
+    /**
+     * Attempts to get a {@link DyeableBlockVariant} from a given {@link Identifier}
+     * @param identifier possible identifier
+     * @return {@link DyeableBlockVariant} or null if the given Entry doesn't have one
+     */
+    @Nullable
+    private static DyeableBlockVariant getVariantFromBlock(Identifier identifier){
+        for(DyeableBlockVariant variant : getAllVariants()){
+            if(variant.isSuchAVariant(identifier)){
+                return variant;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Safe way of making sure all variants are added to the main Set that contains all the Registered Block Variants
+     * @return {@link #ALL_BLOCK_VARIANTS} safely
+     */
+    public static Set<DyeableBlockVariant> getAllVariants(){
+        if(ALL_BLOCK_VARIANTS.isEmpty() || ALL_BLOCK_VARIANTS.size() < DyedVariantContainer.getVariantMap().get(DyeColorantRegistry.WHITE).dyedBlocks.size()){
+            for(DyeableBlockVariant dyeableBlockVariant : VanillaBlockVariants.VANILLA_VARIANTS){
+                addToAllBlockVariantsRecursive(dyeableBlockVariant);
+            }
+
+            for(DyeableBlockVariant dyeableBlockVariant : ADDITION_BLOCK_VARIANTS){
+                addToAllBlockVariantsRecursive(dyeableBlockVariant);
+            }
+        }
+
+        return ALL_BLOCK_VARIANTS;
+    }
+
+    private static void addToAllBlockVariantsRecursive(DyeableBlockVariant dyeableBlockVariant){
+        ALL_BLOCK_VARIANTS.add(dyeableBlockVariant);
+        if(dyeableBlockVariant.childVariant != null){
+            addToAllBlockVariantsRecursive(dyeableBlockVariant.childVariant.get());
+        }
+    }
+
+    /**
+     * Returns a String from the given {@link DyeColorant} and the {@link #variantIdentifier}
+     * @param dyeColorant Desired Color
+     */
+    @ApiStatus.Internal
+    public String getColoredBlockPath(DyeColorant dyeColorant) {
+        return dyeColorant.getName() + "_" + this.variantIdentifier.getPath();
+    }
+
+    /**
+     * Attempts to get the color from a possible Variant.
+     *
+     * @param convertible Possible Block or Item of the given Variant
+     * @return The DyeColorant of the entry or null if the given it isn't a given Variant
+     */
+    @Nullable
+    @ApiStatus.Internal
+    public DyeColorant getColorFromEntry(ItemConvertible convertible){
+        Identifier identifier = JelloItemSettings.getIdFromConvertible(convertible);
+
+        if(!this.isSuchAVariant(identifier))
+            return null;
 
         String[] pathParts = identifier.getPath().split("_");
 
@@ -317,53 +453,24 @@ public class DyeableBlockVariant {
         return DyeColorantRegistry.DYE_COLOR.get(new Identifier(identifier.getNamespace(), stringBuilder.toString()));
     }
 
-    @Nullable
-    public static DyeableBlockVariant getVariantFromBlock(BlockItem blockItem){
-        String blockPath = Registry.ITEM.getId(blockItem).getPath();
-        return getVariantFromBlock(blockPath);
-    }
-
-    @Nullable
-    public static DyeableBlockVariant getVariantFromBlock(Block block){
-        String blockPath = Registry.BLOCK.getId(block).getPath();
-        return getVariantFromBlock(blockPath);
-    }
-
-    @Nullable
-    private static DyeableBlockVariant getVariantFromBlock(String blockPath){
-        for(DyeableBlockVariant variant : getAllVariants()){
-            if(variant.isIdentifierAVariant(blockPath, false)){
-                return variant;
-            }
-        }
-
-        return null;
-    }
-
-    public static Set<DyeableBlockVariant> getAllVariants(){
-        if(ALL_BLOCK_VARIANTS.isEmpty()){
-            ALL_BLOCK_VARIANTS.addAll(VanillaBlockVariants.VANILLA_VARIANTS);
-            ALL_BLOCK_VARIANTS.addAll(ADDITION_BLOCK_VARIANTS);
-        }
-
-        return ALL_BLOCK_VARIANTS;
-    }
-
     //---------------------------------------------------------------------------------------------------
 
     @ApiStatus.Internal
     protected static DyeableBlockVariant of(Identifier variantIdentifier, Supplier<DyeableBlockVariant> possibleChildVariant, BlockMaker blockMaker) {
-        return new DyeableBlockVariant(variantIdentifier, possibleChildVariant, true, null, blockMaker);
-    }
-
-    @ApiStatus.Internal
-    protected static DyeableBlockVariant of(Identifier variantIdentifier, boolean noBlockItem, BlockMaker blockMaker) {
-        return new DyeableBlockVariant(variantIdentifier, null, noBlockItem, null, blockMaker);
+        return new DyeableBlockVariant(variantIdentifier, possibleChildVariant, null, blockMaker);
     }
 
     @ApiStatus.Internal
     protected static DyeableBlockVariant of(Identifier variantIdentifier, BlockMaker blockMaker) {
-        return new DyeableBlockVariant(variantIdentifier, null, true, null, blockMaker);
+        return new DyeableBlockVariant(variantIdentifier, null, null, blockMaker);
+    }
+
+    protected final void addToTags(Block block, boolean readOnly){
+        this.addToBlockTags(block, readOnly);
+
+        if(createBlockItem){
+            this.addToItemTags(block.asItem(), readOnly);
+        }
     }
 
     @ApiStatus.Internal
@@ -381,8 +488,8 @@ public class DyeableBlockVariant {
             }
         }
 
-        if(addCustomDefaultBlockToTag && item != this.getDefaultBlockVariant().asItem()){
-            this.addToItemTags(this.getDefaultBlockVariant().asItem(), true);
+        if(addCustomDefaultBlockToTag && item != this.getDefaultBlock().asItem()){
+            this.addToItemTags(this.getDefaultBlock().asItem(), true);
         }
     }
 
@@ -401,25 +508,14 @@ public class DyeableBlockVariant {
             }
         }
 
-        if(addCustomDefaultBlockToTag && block != this.getDefaultBlockVariant()) {
-            this.addToBlockTags(this.getDefaultBlockVariant(), true);
+        if(addCustomDefaultBlockToTag && block != this.getDefaultBlock()) {
+            this.addToBlockTags(this.getDefaultBlock(), true);
         }
-    }
-
-    @ApiStatus.Internal
-    protected RegistryInfo makeBlock(DyeColorant dyeColorant) {
-        return this.makeChildBlock(dyeColorant, null);
     }
 
     @ApiStatus.Internal
     protected RegistryInfo makeChildBlock(DyeColorant dyeColorant, @Nullable Block parentBlock) {
-        Block returnBlock = blockMaker.createBlockFromDyeColor(dyeColorant, parentBlock);
-
-        if (!createBlockItem) {
-            return RegistryInfo.of(returnBlock, null);
-        } else {
-            return RegistryInfo.of(returnBlock, defaultSettings);
-        }
+        return RegistryInfo.of(blockMaker.createBlockFromDyeColor(dyeColorant, parentBlock), defaultSettings);
     }
 
     @ApiStatus.Internal
@@ -427,19 +523,9 @@ public class DyeableBlockVariant {
         return this.blockItemMaker.createBlockItemFromDyeColor(dyeColorant, block, settings);
     }
 
-    public interface BlockMaker {
-        Block createBlockFromDyeColor(DyeColorant dyeColorant, @Nullable Block parentBlock);
-    }
-
-    public interface BlockItemMaker {
-        BlockItemMaker DEFAULT = (dyeColorant, block, settings) -> new ColoredBlockItem(block, settings);
-
-        BlockItem createBlockItemFromDyeColor(DyeColorant dyeColorant, Block block, Item.Settings settings);
-    }
-
     //---------------------------------------------------------------------------------------------------
 
-    private static class BlockItemSettings {
+    protected static class BlockItemSettings {
         public int maxCount;
         public boolean fireproof;
         @Nullable public FoodComponent foodComponent;
@@ -469,27 +555,17 @@ public class DyeableBlockVariant {
 
     protected static class RegistryInfo {
         public final Block block;
-        public final boolean noBlockItem;
         private final BlockItemSettings settings;
 
         protected OwoItemSettings overrideSettings = null;
 
-        private RegistryInfo(Block block, boolean noBlockItem, BlockItemSettings blockItemSettings) {
+        protected RegistryInfo(Block block, BlockItemSettings blockItemSettings) {
             this.block = block;
-            this.noBlockItem = noBlockItem;
             this.settings = blockItemSettings;
         }
 
-        protected boolean noBlockItem() {
-            return this.noBlockItem;
-        }
-
-        private static RegistryInfo of(Block block, @Nullable BlockItemSettings blockItemSettings) {
-            if (blockItemSettings == null) {
-                return new RegistryInfo(block, true, null);
-            }
-
-            return new RegistryInfo(block, false, blockItemSettings);
+        protected static RegistryInfo of(Block block, @Nullable BlockItemSettings blockItemSettings) {
+            return new RegistryInfo(block, blockItemSettings);
         }
 
         protected void setOverrideSettings(OwoItemSettings owoItemSettings) {

@@ -3,7 +3,7 @@ package io.wispforest.jello.mixin.client.dye;
 import io.wispforest.jello.api.JelloAPIClient;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.misc.ducks.DyeBlockStorage;
+import io.wispforest.jello.api.ducks.DyeBlockStorage;
 import net.minecraft.block.entity.BedBlockEntity;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.RenderLayer;

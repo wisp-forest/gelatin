@@ -1,4 +1,4 @@
-package io.wispforest.jello.compat;
+package io.wispforest.jello.misc.dye;
 
 import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
 import io.wispforest.jello.Jello;
@@ -14,7 +14,7 @@ public class JelloBlockVariants {
 
     public static final DyeableBlockVariant SLIME_BLOCK = DyeableBlockVariant.of(Jello.id("slime_block"), ItemGroup.REDSTONE, (dyeColorant, parentBlock) -> {
         return new SlimeBlockColored(dyeColorant, FabricBlockSettings.copyOf(Blocks.SLIME_BLOCK));
-    }).setDefaultBlock(new Identifier("slime_block")).setBlockTags(JelloTags.Blocks.COLORED_SLIME_BLOCKS, JelloTags.Blocks.STICKY_BLOCKS).register();
+    }).setDefaultBlockIdentifier(new Identifier("slime_block")).setBlockTags(JelloTags.Blocks.COLORED_SLIME_BLOCKS, JelloTags.Blocks.STICKY_BLOCKS).register();
 
     public static final DyeableBlockVariant SLIME_SLAB = DyeableBlockVariant.of(Jello.id("slime_slab"), ItemGroup.REDSTONE, (dyeColorant, parentBlock) -> {
         return new SlimeSlabColored(dyeColorant, FabricBlockSettings.copyOf(Blocks.SLIME_BLOCK));

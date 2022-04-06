@@ -1,4 +1,4 @@
-package io.wispforest.jello.misc.ducks.entity;
+package io.wispforest.jello.api.ducks.entity;
 
 import io.wispforest.jello.api.dye.events.ColorEntityEvent;
 

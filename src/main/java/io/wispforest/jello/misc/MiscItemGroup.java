@@ -1,8 +1,7 @@
 package io.wispforest.jello.misc;
 
 import io.wispforest.jello.Jello;
-import io.wispforest.jello.api.JelloAPI;
-import io.wispforest.jello.misc.ducks.DyeBlockStorage;
+import io.wispforest.jello.api.ducks.DyeBlockStorage;
 import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.owo.itemgroup.Icon;
 import io.wispforest.owo.itemgroup.OwoItemGroup;

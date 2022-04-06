@@ -1,7 +1,7 @@
-package io.wispforest.jello.behavior;
+package io.wispforest.jello.misc.behavior;
 
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.misc.ducks.entity.DyeableEntity;
+import io.wispforest.jello.api.ducks.entity.DyeableEntity;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
 import net.minecraft.entity.LivingEntity;

@@ -2,7 +2,7 @@ package io.wispforest.jello.mixin.dye;
 
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.misc.ducks.DyeBlockStorage;
+import io.wispforest.jello.api.ducks.DyeBlockStorage;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.util.registry.RegistryEntry;

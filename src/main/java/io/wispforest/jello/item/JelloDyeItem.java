@@ -2,7 +2,7 @@ package io.wispforest.jello.item;
 
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.misc.ducks.DyeItemStorage;
+import io.wispforest.jello.api.ducks.DyeItemStorage;
 import io.wispforest.jello.api.util.ColorUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

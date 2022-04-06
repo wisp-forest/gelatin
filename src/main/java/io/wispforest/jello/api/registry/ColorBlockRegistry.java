@@ -122,7 +122,7 @@ public class ColorBlockRegistry {
         if (REGISTRY.containsKey(dyeableBlockVariant)) {
             return REGISTRY.get(dyeableBlockVariant);
         } else {
-            return new BlockVariantEntriesContainer(dyeableBlockVariant.getPrimaryBlockTag(), dyeableBlockVariant.getDefaultBlockVariant());
+            return new BlockVariantEntriesContainer(dyeableBlockVariant.primaryBlockTag, dyeableBlockVariant.getDefaultBlock());
         }
     }
 

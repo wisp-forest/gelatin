@@ -1,7 +1,7 @@
 package io.wispforest.jello.data.recipe;
 
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.misc.ducks.DyeItemStorage;
+import io.wispforest.jello.api.ducks.DyeItemStorage;
 import io.wispforest.jello.item.ArtistPaletteItem;
 import io.wispforest.jello.item.JelloItems;
 import net.minecraft.inventory.CraftingInventory;

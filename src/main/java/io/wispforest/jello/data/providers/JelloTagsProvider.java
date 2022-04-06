@@ -5,7 +5,6 @@ import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
 import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
 import io.wispforest.jello.block.JelloBlocks;
-import io.wispforest.jello.compat.JelloBlockVariants;
 import io.wispforest.jello.data.tags.JelloTags;
 import io.wispforest.jello.item.JelloItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
@@ -35,17 +34,17 @@ public class JelloTagsProvider {
             for(DyeableBlockVariant blockVariant : DyeableBlockVariant.getAllVariants()){
                 Set<Block> blockSet = new HashSet<>();
                 for(DyeColorant dyeColorant : DyeColorantRegistry.DYE_COLOR){
-                    Block block = blockVariant.getBlockVariant(dyeColorant);
+                    Block block = blockVariant.getColoredBlock(dyeColorant);
                     blockSet.add(block);
                 }
 
-                this.getOrCreateTagBuilder(blockVariant.getPrimaryBlockTag())
+                this.getOrCreateTagBuilder(blockVariant.primaryBlockTag)
                         .add(blockSet.toArray(new Block[]{}));
 
-                this.getOrCreateTagBuilder(blockVariant.getCommonBlockTag()).addTag(blockVariant.getPrimaryBlockTag());
+                this.getOrCreateTagBuilder(blockVariant.getCommonBlockTag()).addTag(blockVariant.primaryBlockTag);
 
                 for(TagKey<Block> tag : blockVariant.secondaryBlockTags){
-                    this.getOrCreateTagBuilder(tag).addTag(blockVariant.getPrimaryBlockTag());
+                    this.getOrCreateTagBuilder(tag).addTag(blockVariant.primaryBlockTag);
                 }
             }
 
@@ -64,17 +63,17 @@ public class JelloTagsProvider {
             for(DyeableBlockVariant blockVariant : DyeableBlockVariant.getAllVariants()){
                 Set<BlockItem> blockSet = new HashSet<>();
                 for(DyeColorant dyeColorant : DyeColorantRegistry.getAllColorants()){
-                    Block block = blockVariant.getBlockVariant(dyeColorant);
+                    Block block = blockVariant.getColoredBlock(dyeColorant);
                     blockSet.add((BlockItem)block.asItem());
                 }
 
-                this.getOrCreateTagBuilder(blockVariant.getPrimaryItemTag())
+                this.getOrCreateTagBuilder(blockVariant.primaryItemTag)
                         .add(blockSet.toArray(new Item[]{}));
 
-                this.getOrCreateTagBuilder(blockVariant.getCommonItemTag()).addTag(blockVariant.getPrimaryItemTag());
+                this.getOrCreateTagBuilder(blockVariant.getCommonItemTag()).addTag(blockVariant.primaryItemTag);
 
                 for(TagKey<Item> tag : blockVariant.secondaryItemTags){
-                    this.getOrCreateTagBuilder(tag).addTag(blockVariant.getPrimaryItemTag());
+                    this.getOrCreateTagBuilder(tag).addTag(blockVariant.primaryItemTag);
                 }
             }
 

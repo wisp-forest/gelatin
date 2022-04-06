@@ -2,7 +2,7 @@ package io.wispforest.jello.data.providers;
 
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.block.JelloBlocks;
-import io.wispforest.jello.misc.ducks.DyeBlockStorage;
+import io.wispforest.jello.api.ducks.DyeBlockStorage;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.data.JelloComplexRecipeJsonBuilder;
 import io.wispforest.jello.data.tags.JelloTags;

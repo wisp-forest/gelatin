@@ -1,4 +1,4 @@
-package io.wispforest.jello.misc.ducks.entity;
+package io.wispforest.jello.misc.ducks;
 
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;

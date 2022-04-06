@@ -1,7 +1,7 @@
 package io.wispforest.jello.api.registry;
 
-import io.wispforest.jello.misc.ducks.entity.DyeableEntity;
-import io.wispforest.jello.misc.ducks.entity.RainbowEntity;
+import io.wispforest.jello.api.ducks.entity.DyeableEntity;
+import io.wispforest.jello.api.ducks.entity.RainbowEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;

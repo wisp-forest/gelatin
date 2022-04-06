@@ -106,7 +106,7 @@ public abstract class ModelLoaderMixin {
             }
 
             for (DyeableBlockVariant blockVariant : ALL_VARIANTS) {
-                if (blockVariant.isIdentifierAVariant(modelId, isItemVersion)) {
+                if (blockVariant.isSuchAVariant(modelId)) {
                     String nameSpace = Objects.equals(blockVariant.variantIdentifier.getNamespace(), "minecraft") ? Jello.MODID : blockVariant.variantIdentifier.getNamespace();
 
                     Identifier identifier = new Identifier(nameSpace, "colored_" + blockVariant.variantIdentifier.getPath());

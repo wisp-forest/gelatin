@@ -1,10 +1,11 @@
-package io.wispforest.jello.misc;
+package io.wispforest.jello.misc.dye;
 
 import com.google.gson.*;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
 import io.wispforest.jello.Jello;
+import io.wispforest.jello.api.util.VersatileLogger;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
 import net.minecraft.block.MapColor;
 import net.minecraft.item.ItemGroup;

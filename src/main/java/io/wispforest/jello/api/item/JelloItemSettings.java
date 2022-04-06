@@ -6,8 +6,12 @@ import io.wispforest.jello.mixin.accessors.FabricItemInternalsAccessor.ExtraData
 import io.wispforest.jello.mixin.accessors.SettingsAccessor;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 import java.util.Map;
 
@@ -51,5 +55,13 @@ public class JelloItemSettings extends OwoItemSettings {
         }
 
         return settingsNew;
+    }
+
+    public static Identifier getIdFromConvertible(ItemConvertible itemConvertible){
+        if(itemConvertible.asItem() != Blocks.AIR.asItem()){
+            return Registry.ITEM.getId(itemConvertible.asItem());
+        }
+
+        return Registry.BLOCK.getId((Block) itemConvertible);
     }
 }

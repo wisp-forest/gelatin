@@ -2,7 +2,7 @@ package io.wispforest.jello.mixin.client.dye;
 
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.misc.ducks.DyeBlockEntityStorage;
+import io.wispforest.jello.api.ducks.DyeBlockEntityStorage;
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.client.render.TexturedRenderLayers;
 import net.minecraft.client.render.block.entity.ShulkerBoxBlockEntityRenderer;

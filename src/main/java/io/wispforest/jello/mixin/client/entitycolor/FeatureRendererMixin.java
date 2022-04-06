@@ -1,9 +1,9 @@
 package io.wispforest.jello.mixin.client.entitycolor;
 
-import io.wispforest.jello.misc.ducks.entity.ConstantColorEntity;
-import io.wispforest.jello.misc.ducks.entity.DyeableEntity;
-import io.wispforest.jello.misc.ducks.entity.GrayScaleEntity;
-import io.wispforest.jello.misc.ducks.entity.RainbowEntity;
+import io.wispforest.jello.api.ducks.entity.ConstantColorEntity;
+import io.wispforest.jello.api.ducks.entity.DyeableEntity;
+import io.wispforest.jello.api.ducks.entity.GrayScaleEntity;
+import io.wispforest.jello.api.ducks.entity.RainbowEntity;
 import io.wispforest.jello.api.registry.ColorizeRegistry;
 import io.wispforest.jello.api.registry.GrayScaleRegistry;
 import io.wispforest.jello.api.util.ColorUtil;

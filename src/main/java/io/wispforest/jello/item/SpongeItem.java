@@ -4,10 +4,11 @@ import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.dye.events.ColorBlockEventMethods;
 import io.wispforest.jello.api.dye.events.ColorEntityEvent;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
+import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
 import io.wispforest.jello.api.registry.ColorBlockRegistry;
 import io.wispforest.jello.api.registry.ColorizeRegistry;
-import io.wispforest.jello.misc.ducks.entity.ConstantColorEntity;
-import io.wispforest.jello.misc.ducks.entity.DyeableEntity;
+import io.wispforest.jello.api.ducks.entity.ConstantColorEntity;
+import io.wispforest.jello.api.ducks.entity.DyeableEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FluidDrainable;
 import net.minecraft.client.item.TooltipContext;
@@ -79,7 +80,7 @@ public class SpongeItem extends Item {
         BlockState blockState = world.getBlockState(context.getBlockPos());
 
         if (canClean(context.getStack())) {
-            if (!ColorBlockEventMethods.changeBlockColor(world, context.getBlockPos(), blockState, ColorBlockRegistry.getVariant(blockState.getBlock(), null), user)) {
+            if (!ColorBlockEventMethods.changeBlockColor(world, context.getBlockPos(), blockState, DyeableBlockVariant.attemptToGetColoredBlock(blockState.getBlock(), DyeColorantRegistry.NULL_VALUE_NEW), user)) {
                 return ActionResult.PASS;
             }
 

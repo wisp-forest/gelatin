@@ -4,7 +4,6 @@ import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
 import io.wispforest.jello.api.dye.registry.variants.VanillaBlockVariants;
 import io.wispforest.jello.data.tags.JelloTags;
-import io.wispforest.jello.misc.ducks.DyeItemStorage;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -12,17 +11,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
 import net.minecraft.tag.ItemTags;
-import net.minecraft.tag.Tag;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 public class BedBlockVariantRecipe extends SpecialCraftingRecipe {
 
     private DyeColorant dyeColorant = null;
 
-    private static final TagKey<Item> WOOL_BLOCK_TAG = VanillaBlockVariants.WOOL.getPrimaryItemTag();
+    private static final TagKey<Item> WOOL_BLOCK_TAG = VanillaBlockVariants.WOOL.primaryItemTag;
 
     public BedBlockVariantRecipe(Identifier id) {
         super(id);
@@ -43,7 +40,7 @@ public class BedBlockVariantRecipe extends SpecialCraftingRecipe {
 
                 if (craftingInvIndex < 3) {
                     if(woolTop){
-                        if(!stack.isIn(WOOL_BLOCK_TAG) || dyeColorant != variant.getDyeColorantFromBlockVariant((BlockItem) stack.getItem())){
+                        if(!stack.isIn(WOOL_BLOCK_TAG) || dyeColorant != variant.getColorFromEntry((BlockItem) stack.getItem())){
                             return false;
                         }
                     }
@@ -56,7 +53,7 @@ public class BedBlockVariantRecipe extends SpecialCraftingRecipe {
                             return false;
                         }
 
-                        dyeColorant = variant.getDyeColorantFromBlockVariant((BlockItem) stack.getItem());
+                        dyeColorant = variant.getColorFromEntry((BlockItem) stack.getItem());
                     }
                 } else if (craftingInvIndex < 6) {
                     if(woolTop){
@@ -64,7 +61,7 @@ public class BedBlockVariantRecipe extends SpecialCraftingRecipe {
                             return false;
                         }
                     } else if(woolMiddle){
-                        if(!stack.isIn(WOOL_BLOCK_TAG) || dyeColorant != variant.getDyeColorantFromBlockVariant((BlockItem) stack.getItem())){
+                        if(!stack.isIn(WOOL_BLOCK_TAG) || dyeColorant != variant.getColorFromEntry((BlockItem) stack.getItem())){
                             return false;
                         }
                     } else if (stack.isIn(WOOL_BLOCK_TAG)) {
@@ -76,7 +73,7 @@ public class BedBlockVariantRecipe extends SpecialCraftingRecipe {
                             return false;
                         }
 
-                        dyeColorant = variant.getDyeColorantFromBlockVariant((BlockItem) stack.getItem());
+                        dyeColorant = variant.getColorFromEntry((BlockItem) stack.getItem());
                     }
                 }else{
                     if(woolMiddle){
@@ -98,7 +95,7 @@ public class BedBlockVariantRecipe extends SpecialCraftingRecipe {
 
     @Override
     public ItemStack craft(CraftingInventory inventory) {
-        return new ItemStack(VanillaBlockVariants.BED.getBlockVariant(dyeColorant),1);
+        return new ItemStack(VanillaBlockVariants.BED.getColoredBlock(dyeColorant),1);
     }
 
     @Override

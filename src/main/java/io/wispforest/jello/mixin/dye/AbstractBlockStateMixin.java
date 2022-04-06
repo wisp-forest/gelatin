@@ -2,7 +2,7 @@ package io.wispforest.jello.mixin.dye;
 
 import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
 import io.wispforest.jello.item.dyebundle.DyeBundleItem;
-import io.wispforest.jello.misc.ducks.DyeItemStorage;
+import io.wispforest.jello.api.ducks.DyeItemStorage;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;

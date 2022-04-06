@@ -1,6 +1,6 @@
 package io.wispforest.jello.mixin;
 
-import io.wispforest.jello.misc.ducks.DyeBlockStorage;
+import io.wispforest.jello.api.ducks.DyeBlockStorage;
 import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.data.tags.JelloTags;
 import net.minecraft.block.BlockState;

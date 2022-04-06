@@ -1,6 +1,6 @@
 package io.wispforest.jello.mixin.dye;
 
-import io.wispforest.jello.misc.ducks.DyeBlockStorage;
+import io.wispforest.jello.api.ducks.DyeBlockStorage;
 import io.wispforest.jello.block.colored.ColoredGlassBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BeaconBlockEntity;

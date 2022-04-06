@@ -1,6 +1,6 @@
 package io.wispforest.jello.mixin;
 
-import io.wispforest.jello.misc.ducks.entity.JelloItemExtensions;
+import io.wispforest.jello.misc.ducks.JelloItemExtensions;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

@@ -3,7 +3,7 @@ package io.wispforest.jello.data.recipe;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
 import io.wispforest.jello.data.tags.JelloTags;
-import io.wispforest.jello.misc.ducks.DyeItemStorage;
+import io.wispforest.jello.api.ducks.DyeItemStorage;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
@@ -55,7 +55,7 @@ public class DyeBlockVariantRecipe extends SpecialCraftingRecipe {
                         }
                     }else{
                         stackReturnCount++;
-                        if(!variant.isIdentifierAVariant(((BlockItem) stack.getItem()))){
+                        if(!variant.isSuchAVariant(((BlockItem) stack.getItem()))){
                             return false;
                         }
                     }
@@ -78,7 +78,7 @@ public class DyeBlockVariantRecipe extends SpecialCraftingRecipe {
 
     @Override
     public ItemStack craft(CraftingInventory inventory) {
-        return new ItemStack(this.variant.getBlockVariant(this.dyeColorant), this.stackReturnCount);
+        return new ItemStack(this.variant.getColoredBlock(this.dyeColorant), this.stackReturnCount);
     }
 
     @Override

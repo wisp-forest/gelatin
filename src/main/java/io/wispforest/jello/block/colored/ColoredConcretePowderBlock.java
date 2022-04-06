@@ -1,7 +1,7 @@
 package io.wispforest.jello.block.colored;
 
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.misc.ducks.DyeBlockStorage;
+import io.wispforest.jello.api.ducks.DyeBlockStorage;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvironmentInterface;

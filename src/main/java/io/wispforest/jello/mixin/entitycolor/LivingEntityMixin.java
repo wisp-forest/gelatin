@@ -2,8 +2,8 @@ package io.wispforest.jello.mixin.entitycolor;
 
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.misc.ducks.entity.DyeableEntity;
-import io.wispforest.jello.misc.ducks.entity.RainbowEntity;
+import io.wispforest.jello.api.ducks.entity.DyeableEntity;
+import io.wispforest.jello.api.ducks.entity.RainbowEntity;
 import io.wispforest.jello.api.util.DataConstants;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.TrackedData;

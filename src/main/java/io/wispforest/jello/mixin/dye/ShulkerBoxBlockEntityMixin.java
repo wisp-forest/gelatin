@@ -1,8 +1,8 @@
 package io.wispforest.jello.mixin.dye;
 
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.misc.ducks.DyeBlockEntityStorage;
-import io.wispforest.jello.misc.ducks.DyeBlockStorage;
+import io.wispforest.jello.api.ducks.DyeBlockEntityStorage;
+import io.wispforest.jello.api.ducks.DyeBlockStorage;
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

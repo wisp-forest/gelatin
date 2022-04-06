@@ -1,6 +1,6 @@
 package io.wispforest.jello.api.item;
 
-import io.wispforest.jello.misc.ducks.entity.JelloItemExtensions;
+import io.wispforest.jello.misc.ducks.JelloItemExtensions;
 import io.wispforest.owo.util.ModCompatHelpers;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;

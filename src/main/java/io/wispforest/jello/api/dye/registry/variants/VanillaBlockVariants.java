@@ -2,9 +2,8 @@ package io.wispforest.jello.api.dye.registry.variants;
 
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.block.colored.*;
-import io.wispforest.jello.misc.ducks.DyeBlockStorage;
+import io.wispforest.jello.api.ducks.DyeBlockStorage;
 import io.wispforest.jello.mixin.accessors.BlockEntityTypeAccessor;
-import io.wispforest.jello.data.tags.JelloTags;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
@@ -29,7 +28,7 @@ public class VanillaBlockVariants {
 
     public static final DyeableBlockVariant CONCRETE = DyeableBlockVariant.of(new Identifier("concrete"), () -> CONCRETE_POWDER, (dyeColorant, parentBlock) -> {
         return new ColoredBlock(AbstractBlock.Settings.of(Material.STONE, MapColor.CLEAR).requiresTool().strength(1.8F), dyeColorant);
-    });//.setBlockTags(JelloTags.Blocks.CONCRETE);
+    });
 
     //-----------------------------------------------------------------
 
@@ -51,9 +50,9 @@ public class VanillaBlockVariants {
 
     //-----------------------------------------------------------------
 
-    public static final DyeableBlockVariant CANDLE_CAKE = DyeableBlockVariant.of(new Identifier("candle_cake"), false, (dyeColorant, parentBlock) -> {
+    public static final DyeableBlockVariant CANDLE_CAKE = DyeableBlockVariant.of(new Identifier("candle_cake"), (dyeColorant, parentBlock) -> {
         return new ColoredCandleCakeBlock(dyeColorant, parentBlock, AbstractBlock.Settings.copy(Blocks.CANDLE_CAKE));
-    }).setBlockTags(BlockTags.CANDLE_CAKES).setDefaultBlock("candle_cake");
+    }).setBlockTags(BlockTags.CANDLE_CAKES).setDefaultBlock("candle_cake").noBlockItem();
 
     public static final DyeableBlockVariant CANDLE = DyeableBlockVariant.of(new Identifier("candle"), () -> CANDLE_CAKE, (dyeColorant, parentBlock) -> {
         return new ColoredCandleBlock(dyeColorant, AbstractBlock.Settings.of(Material.DECORATION, MapColor.CLEAR).nonOpaque().strength(0.1F).sounds(BlockSoundGroup.CANDLE).luminance(CandleBlock.STATE_TO_LUMINANCE));

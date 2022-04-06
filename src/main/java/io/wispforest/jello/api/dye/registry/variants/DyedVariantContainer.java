@@ -107,7 +107,7 @@ public class DyedVariantContainer {
 
         DYED_VARIANTS.put(dyeColorant, dyedVariantContainer);
 
-        ColorBlockRegistry.registerDyeColorant(dyeColorant, dyedVariantContainer);
+        //ColorBlockRegistry.registerDyeColorant(dyeColorant, dyedVariantContainer);
 
         return dyedVariantContainer;
     }
@@ -118,6 +118,10 @@ public class DyedVariantContainer {
     protected static void updateExistingContainers(DyeableBlockVariant dyeableBlockVariant) {
         for (Map.Entry<DyeColorant, DyedVariantContainer> entry : DYED_VARIANTS.entrySet()) {
             DyeColorant dyeColorant = entry.getKey();
+
+            //Skips if the DyeableBlockVariant doesn't want any modded dyes to be added
+            if(!dyeColorant.isIn(JelloTags.DyeColor.VANILLA_DYES) && dyeableBlockVariant.vanillaDyesOnly())
+                continue;
 
             entry.getValue().addToExistingContainerWithRecursion(dyeColorant, dyeableBlockVariant);
         }
@@ -150,27 +154,17 @@ public class DyedVariantContainer {
 
         private void recursivelyBuildBlocksFromVariant(Map<DyeableBlockVariant, Block> dyedBlocks, Block possibleParentBlock, DyeableBlockVariant parentBlockVariant, DyeColorant dyeColorant, @Nullable OwoItemSettings overrideSettings) {
             DyeableBlockVariant.RegistryInfo info = null;
-            Block childBlock;
 
             if (!readOnly) {
                 info = parentBlockVariant.makeChildBlock(dyeColorant, possibleParentBlock);
 
                 if (overrideSettings != null)
                     info.setOverrideSettings(overrideSettings);
-
-                childBlock = registerBlock(parentBlockVariant, info, dyeColorant);
-
-                parentBlockVariant.addToBlockTags(childBlock);
-
-                if(!info.noBlockItem()) {
-                    parentBlockVariant.addToItemTags(childBlock.asItem(), false);
-                }
-            } else {
-                childBlock = registerBlock(parentBlockVariant, null, dyeColorant);
-
-                parentBlockVariant.addToBlockTags(childBlock, true);
-                parentBlockVariant.addToItemTags(childBlock.asItem(), true);
             }
+
+            Block childBlock = registerBlock(parentBlockVariant, info, dyeColorant);
+
+            parentBlockVariant.addToTags(childBlock, readOnly);
 
             dyedBlocks.put(parentBlockVariant, childBlock);
 
@@ -182,27 +176,29 @@ public class DyedVariantContainer {
         }
 
         private Block registerBlock(DyeableBlockVariant dyeableBlockVariant, @Nullable DyeableBlockVariant.RegistryInfo registryInfo, DyeColorant dyeColorant) {
-            if (readOnly && Objects.equals(dyeColorant.getId().getNamespace(), "minecraft")) {
-                return dyeableBlockVariant.getBlockVariant(dyeColorant);
-            }
+            if (readOnly && Objects.equals(dyeColorant.getId().getNamespace(), "minecraft") || dyeableBlockVariant.alwaysReadOnly())
+                return dyeableBlockVariant.getColoredBlock(dyeColorant);
 
             String nameSpace = Objects.equals(dyeableBlockVariant.variantIdentifier.getNamespace(), "minecraft") ?
                     dyeColorant.getId().getNamespace() :
                     dyeableBlockVariant.variantIdentifier.getNamespace();
 
-            Identifier identifier = new Identifier(nameSpace, dyeableBlockVariant.getBlockVariantPath(dyeColorant));
+            Identifier identifier = new Identifier(nameSpace, dyeableBlockVariant.getColoredBlockPath(dyeColorant));
 
-            if (this.useModelRedirectSystem) {
-                DyeColorantRegistry.IDENTIFIER_RESOURCE_REDIRECTS.add(identifier);
-            }
+            addToModelRedirectSystem(identifier);
 
             Block block = Registry.register(Registry.BLOCK, identifier, registryInfo.block);
 
-            if (!registryInfo.noBlockItem()) {
+            if (dyeableBlockVariant.createBlockItem) {
                 Registry.register(Registry.ITEM, identifier, dyeableBlockVariant.makeBlockItem(dyeColorant, block, registryInfo.getItemSettings()));
             }
 
             return block;
+        }
+
+        private void addToModelRedirectSystem(Identifier identifier){
+            if (this.useModelRedirectSystem)
+                DyeColorantRegistry.IDENTIFIER_RESOURCE_REDIRECTS.add(identifier);
         }
     }
 

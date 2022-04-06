@@ -1,7 +1,7 @@
 package io.wispforest.jello.mixin.entitycolor;
 
 import io.wispforest.jello.api.dye.events.ColorEntityEvent;
-import io.wispforest.jello.misc.ducks.entity.ConstantColorEntity;
+import io.wispforest.jello.api.ducks.entity.ConstantColorEntity;
 import io.wispforest.jello.api.registry.ColorizeRegistry;
 import io.wispforest.jello.Jello;
 import net.minecraft.entity.LivingEntity;

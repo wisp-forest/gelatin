@@ -5,7 +5,7 @@ import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.blockentity.JelloBlockEntityTypes;
 import io.wispforest.jello.client.render.screen.ColorMixerScreenHandler;
 import io.wispforest.jello.client.render.screen.JelloScreenHandlerTypes;
-import io.wispforest.jello.compat.JelloBlockVariants;
+import io.wispforest.jello.misc.dye.JelloBlockVariants;
 import io.wispforest.jello.compat.consistencyplus.data.ConsistencyPlusTags;
 import io.wispforest.jello.item.JelloItems;
 import io.wispforest.jello.item.dyebundle.DyeBundlePackets;

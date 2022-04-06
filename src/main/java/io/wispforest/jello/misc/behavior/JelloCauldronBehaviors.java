@@ -1,13 +1,14 @@
-package io.wispforest.jello.behavior;
+package io.wispforest.jello.misc.behavior;
 
 import io.wispforest.jello.api.JelloAPI;
 import io.wispforest.jello.api.dye.DyeColorant;
+import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
 import io.wispforest.jello.blockentity.ColorStorageBlockEntity;
 import io.wispforest.jello.api.dye.events.ColorBlockEventMethods;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.events.CauldronEvent;
 import io.wispforest.jello.item.dyebundle.DyeBundleItem;
-import io.wispforest.jello.misc.ducks.DyeItemStorage;
+import io.wispforest.jello.api.ducks.DyeItemStorage;
 import io.wispforest.jello.api.registry.ColorBlockRegistry;
 import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.jello.item.SpongeItem;
@@ -132,9 +133,9 @@ public class JelloCauldronBehaviors implements CauldronBehavior {
             ColorStorageBlockEntity blockEntity = (ColorStorageBlockEntity) world.getBlockEntity(pos);
 
             if (blockEntity != null && ColorStorageBlockEntity.isWaterColored(blockEntity)) {
-                changedBlock = ColorBlockRegistry.getVariant(block, blockEntity.getDyeColorant());
+                changedBlock = DyeableBlockVariant.attemptToGetColoredBlock(block, blockEntity.getDyeColorant());
             } else {
-                changedBlock = ColorBlockRegistry.getVariant(block, null);
+                changedBlock = DyeableBlockVariant.attemptToGetColoredBlock(block, null);
             }
 
             if (changedBlock == null) {

@@ -6,7 +6,7 @@
 //import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 //import io.wispforest.jello.api.dye.registry.DyedVariants;
 //import io.wispforest.jello.misc.ducks.DyeBlockEntitiestorage;
-//import io.wispforest.jello.misc.ducks.DyeBlockStorage;
+//import io.wispforest.jello.api.ducks.DyeBlockStorage;
 //import net.minecraft.block.AbstractBannerBlock;
 //import net.minecraft.block.BannerBlock;
 //import net.minecraft.block.Block;
