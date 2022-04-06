@@ -48,13 +48,14 @@ public class ColorEntityEvent implements UseEntityCallback {
 
         dyeableEntity.setDyeColor(dyeColor);
 
-        if (!player.getAbilities().creativeMode) {
+        if(!player.getWorld().isClient) {
             if (player.getStackInHand(hand).getItem() instanceof DyeBundleItem) {
                 DyeBundleItem.dyeBundleInteraction(player.getStackInHand(hand), dyeColor);
             } else {
                 decrementPlayerHandItemCC(player, hand);
             }
         }
+
 
         return ActionResult.SUCCESS;
     }
@@ -65,7 +66,10 @@ public class ColorEntityEvent implements UseEntityCallback {
         }
 
         rainbowEntity.setRainbowTime(true);
-        decrementPlayerHandItemCC(player, hand);
+
+        if(!player.getWorld().isClient) {
+            decrementPlayerHandItemCC(player, hand);
+        }
 
         return ActionResult.SUCCESS;
     }

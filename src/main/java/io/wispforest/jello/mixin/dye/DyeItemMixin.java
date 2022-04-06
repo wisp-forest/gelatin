@@ -96,7 +96,7 @@ public class DyeItemMixin extends Item implements DyeItemStorage {
 
             world.playSound(player, context.getBlockPos(), blockState.getBlock().getSoundGroup(blockState).getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
 
-            if (!player.getAbilities().creativeMode) {
+            if(!world.isClient) {
                 Random random = new Random();
                 if (random.nextInt(10) == 0) {
                     ColorBlockEventMethods.decrementPlayerHandItemCC(player, context.getHand());

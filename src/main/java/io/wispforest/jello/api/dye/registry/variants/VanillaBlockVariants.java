@@ -3,12 +3,12 @@ package io.wispforest.jello.api.dye.registry.variants;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.block.colored.*;
 import io.wispforest.jello.api.ducks.DyeBlockStorage;
+import io.wispforest.jello.data.loot.JelloLootTables;
 import io.wispforest.jello.mixin.accessors.BlockEntityTypeAccessor;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.block.enums.BedPart;
-import net.minecraft.data.server.BlockLootTableGenerator;
 import net.minecraft.item.BlockItem;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.tag.BlockTags;
@@ -53,11 +53,11 @@ public class VanillaBlockVariants {
 
     public static final DyeableBlockVariant CANDLE_CAKE = DyeableBlockVariant.of(new Identifier("candle_cake"), (dyeColorant, parentBlock) -> {
         return new ColoredCandleCakeBlock(dyeColorant, parentBlock, AbstractBlock.Settings.copy(Blocks.CANDLE_CAKE));
-    }).setDefaultBlock("candle_cake").setBlockTags(BlockTags.CANDLE_CAKES).noBlockItem().setLootTable(block -> BlockLootTableGenerator.candleCakeDrops(block).build());
+    }).setDefaultBlock("candle_cake").setBlockTags(BlockTags.CANDLE_CAKES).noBlockItem().setLootTable(block -> JelloLootTables.candleCakeDrops(block).build());
 
     public static final DyeableBlockVariant CANDLE = DyeableBlockVariant.of(new Identifier("candle"), () -> CANDLE_CAKE, (dyeColorant, parentBlock) -> {
         return new ColoredCandleBlock(dyeColorant, AbstractBlock.Settings.of(Material.DECORATION, MapColor.CLEAR).nonOpaque().strength(0.1F).sounds(BlockSoundGroup.CANDLE).luminance(CandleBlock.STATE_TO_LUMINANCE));
-    }).setDefaultBlock("candle").setBlockTags(BlockTags.CANDLES).setItemTags(ItemTags.CANDLES).setLootTable(block -> BlockLootTableGenerator.candleDrops(block).build());
+    }).setDefaultBlock("candle").setBlockTags(BlockTags.CANDLES).setItemTags(ItemTags.CANDLES).setLootTable(block -> JelloLootTables.candleDrops(block).build());
 
     //-----------------------------------------------------------------
 
@@ -67,19 +67,19 @@ public class VanillaBlockVariants {
         ((DyeBlockStorage) block).setDyeColor(dyeColorant);
 
         return addToBlockEntitieset(block, BlockEntityType.BED);
-    }).setBlockTags(BlockTags.BEDS).setLootTable(block -> BlockLootTableGenerator.dropsWithProperty(block, BedBlock.PART, BedPart.HEAD).build());
+    }).setBlockTags(BlockTags.BEDS).setLootTable(block -> JelloLootTables.dropsWithProperty(block, BedBlock.PART, BedPart.HEAD).build());
 
     //-----------------------------------------------------------------
 
     public static final DyeableBlockVariant GLASS = DyeableBlockVariant.of(new Identifier("stained_glass"), (dyeColorant, parentBlock) -> {
         return new ColoredGlassBlock(dyeColorant, AbstractBlock.Settings.of(Material.GLASS).strength(0.3F).sounds(BlockSoundGroup.GLASS).nonOpaque());
-    }).setDefaultBlock("glass").setBlockTags(BlockTags.IMPERMEABLE).setLootTable(block -> BlockLootTableGenerator.dropsWithSilkTouch(block).build());
+    }).setDefaultBlock("glass").setBlockTags(BlockTags.IMPERMEABLE).setLootTable(block -> JelloLootTables.dropsWithSilkTouch(block).build());
 
     //-----------------------------------------------------------------
 
     public static final DyeableBlockVariant GLASS_PANE = DyeableBlockVariant.of(new Identifier("stained_glass_pane"), (dyeColorant, parentBlock) -> {
         return new ColoredGlassPaneBlock(dyeColorant, AbstractBlock.Settings.of(Material.GLASS).strength(0.3F).sounds(BlockSoundGroup.GLASS).nonOpaque());
-    }).setDefaultBlock("glass_pane").setLootTable(block -> BlockLootTableGenerator.dropsWithSilkTouch(block).build());
+    }).setDefaultBlock("glass_pane").setLootTable(block -> JelloLootTables.dropsWithSilkTouch(block).build());
 
     //-----------------------------------------------------------------
 
@@ -90,7 +90,7 @@ public class VanillaBlockVariants {
         ((DyeBlockStorage) block).setDyeColor(dyeColorant);
 
         return addToBlockEntitieset(block, BlockEntityType.SHULKER_BOX);
-    }).setDefaultBlock("shulker_box").setBlockTags(BlockTags.SHULKER_BOXES).stackCount(1).setBlockItemMaker((dyeColorant, block, settings) -> new BlockItem(block, settings)).setLootTable(block -> BlockLootTableGenerator.shulkerBoxDrops(block).build());
+    }).setDefaultBlock("shulker_box").setBlockTags(BlockTags.SHULKER_BOXES).stackCount(1).setBlockItemMaker((dyeColorant, block, settings) -> new BlockItem(block, settings)).setLootTable(block -> JelloLootTables.shulkerBoxDrops(block).build());
 
     //-----------------------------------------------------------------
 

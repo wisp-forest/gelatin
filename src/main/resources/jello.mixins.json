@@ -4,7 +4,6 @@
   "package": "io.wispforest.jello.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "BlockLootTableGeneratorAccessor",
     "BlockMixin",
     "PistonHandlerMixin",
     "RecipeMixin",

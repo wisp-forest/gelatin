@@ -3,6 +3,7 @@ package io.wispforest.jello.api.dye.registry.variants;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
+import io.wispforest.jello.data.loot.JelloLootTables;
 import io.wispforest.jello.data.tags.JelloTags;
 import io.wispforest.jello.api.item.JelloItemSettings;
 import io.wispforest.jello.misc.dye.JelloBlockVariants;
@@ -67,7 +68,7 @@ public class DyeableBlockVariant {
     public final TagKey<Item> primaryItemTag;
     public final Set<TagKey<Item>> secondaryItemTags = new HashSet<>();
 
-    private Function<Block, LootTable> lootTableBuilder = (block) -> BlockLootTableGenerator.drops(block).build();
+    private Function<Block, LootTable> lootTableBuilder = (block) -> JelloLootTables.drops(block).build();
 
 
     /**
