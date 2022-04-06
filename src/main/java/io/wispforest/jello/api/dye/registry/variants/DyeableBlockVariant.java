@@ -11,17 +11,19 @@ import io.wispforest.owo.itemgroup.OwoItemSettings;
 import io.wispforest.owo.util.TagInjector;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.data.server.BlockLootTableGenerator;
 import net.minecraft.item.*;
+import net.minecraft.loot.LootTable;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.ApiStatus;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -67,6 +69,9 @@ public class DyeableBlockVariant {
 
     public final TagKey<Item> primaryItemTag;
     public final Set<TagKey<Item>> secondaryItemTags = new HashSet<>();
+
+    private Function<Block, LootTable> lootTableBuilder = (block) -> BlockLootTableGenerator.drops(block).build();
+
 
     /**
      * @param variantIdentifier The {@link Identifier} based off your Modid and the block path for your variant
@@ -229,6 +234,12 @@ public class DyeableBlockVariant {
      */
     public final DyeableBlockVariant setVanillaDyeableOnly(){
         this.vanillaDyeableOnly = true;
+
+        return this;
+    }
+
+    public final DyeableBlockVariant setLootTable(Function<Block, LootTable> lootTableBuilder){
+        this.lootTableBuilder = lootTableBuilder;
 
         return this;
     }
@@ -494,11 +505,6 @@ public class DyeableBlockVariant {
     }
 
     @ApiStatus.Internal
-    protected final void addToBlockTags(Block block) {
-        this.addToBlockTags(block, false);
-    }
-
-    @ApiStatus.Internal
     protected final void addToBlockTags(Block block, boolean readOnly) {
         TagInjector.injectBlocks(primaryBlockTag.id(), block);
 
@@ -510,6 +516,26 @@ public class DyeableBlockVariant {
 
         if(addCustomDefaultBlockToTag && block != this.getDefaultBlock()) {
             this.addToBlockTags(this.getDefaultBlock(), true);
+        }
+    }
+
+    public void generateAllLootTables(Map<Identifier, LootTable> tables){
+        if(alwaysReadOnly){
+            return;
+        }
+
+        Set<DyeColorant> dyeColorants = new HashSet<>();
+
+        if(vanillaDyeableOnly){
+            dyeColorants.addAll(DyeColorantRegistry.Constants.VANILLA_DYES);
+        }else{
+            dyeColorants.addAll(DyeColorantRegistry.DYE_COLOR.stream().toList());
+        }
+
+        for(DyeColorant dyeColorant : dyeColorants){
+            Block block = this.getColoredBlock(dyeColorant);
+
+            tables.put(block.getLootTableId(), this.lootTableBuilder.apply(block));
         }
     }
 

@@ -61,6 +61,9 @@ public class JelloTagsProvider {
         @Override
         protected void generateTags() {
             for(DyeableBlockVariant blockVariant : DyeableBlockVariant.getAllVariants()){
+                if(!blockVariant.createBlockItem)
+                    continue;
+
                 Set<BlockItem> blockSet = new HashSet<>();
                 for(DyeColorant dyeColorant : DyeColorantRegistry.getAllColorants()){
                     Block block = blockVariant.getColoredBlock(dyeColorant);

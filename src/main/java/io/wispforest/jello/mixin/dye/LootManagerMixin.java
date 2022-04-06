@@ -2,6 +2,7 @@ package io.wispforest.jello.mixin.dye;
 
 import com.google.gson.JsonElement;
 import io.wispforest.jello.data.CustomSheepLootTables;
+import io.wispforest.jello.data.loot.JelloLootTables;
 import net.minecraft.loot.LootManager;
 import net.minecraft.loot.LootTable;
 import net.minecraft.resource.ResourceManager;
@@ -13,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Mixin(LootManager.class)
@@ -22,7 +24,12 @@ public class LootManagerMixin {
 
     @Inject(method = "apply(Ljava/util/Map;Lnet/minecraft/resource/ResourceManager;Lnet/minecraft/util/profiler/Profiler;)V", at = @At("TAIL"))
     private void jello$addExtraSheepTables(Map<Identifier, JsonElement> map, ResourceManager resourceManager, Profiler profiler, CallbackInfo ci) {
-        this.tables = CustomSheepLootTables.initSheepLootTables(this.tables);
+        //this.tables = CustomSheepLootTables.initSheepLootTables(this.tables);
+        Map<Identifier, LootTable> currentMap = new HashMap<>(this.tables);
+
+        JelloLootTables.ADD_LOOT_TABLES_EVENT.invoker().afterResourceLoad(currentMap);
+
+        this.tables = Map.copyOf(currentMap);
     }
 
 }

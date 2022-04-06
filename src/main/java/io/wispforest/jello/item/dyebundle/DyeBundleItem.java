@@ -48,7 +48,7 @@ public class DyeBundleItem extends BundleItem {
     public Text getName(ItemStack stack) {
         ItemStack firstStack = getFirstStack(stack);
 
-        return firstStack != null ? new TranslatableText("text.jello.dye_bundle_pattern", super.getName(), firstStack.getName()) : super.getName(stack);
+        return !firstStack.isEmpty() ? new TranslatableText("text.jello.dye_bundle_pattern", super.getName(), firstStack.getName()) : super.getName(stack);
     }
 
     //----------------------------------------------------------------------------------------------------
@@ -57,10 +57,10 @@ public class DyeBundleItem extends BundleItem {
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
         attemptShuffleItemsPacket(user.getWorld());
 
-        ItemStack firstDyeStack = getFirstStack(stack);
+        ItemStack firstStack = getFirstStack(stack);
 
-        if (firstDyeStack.getItem() instanceof DyeItem dyeItem) {
-            DyeColorant dyeColorant = ((DyeItemStorage) dyeItem).getDyeColorant();
+        if (!firstStack.isEmpty()) {
+            DyeColorant dyeColorant = ((DyeItemStorage) firstStack.getItem()).getDyeColorant();
 
             if (Jello.getConfig().enableDyeingEntities || (entity instanceof PlayerEntity && Jello.getConfig().enableDyeingPlayers)) {
                 if (ColorizeRegistry.isRegistered(entity)) {
@@ -81,7 +81,7 @@ public class DyeBundleItem extends BundleItem {
                     sheepEntity.world.playSoundFromEntity(user, sheepEntity, SoundEvents.ITEM_DYE_USE, SoundCategory.PLAYERS, 1.0F, 1.0F);
                     if (!user.world.isClient) {
                         ((SheepDyeColorStorage) sheepEntity).setWoolDyeColor(dyeColorant);
-                        DyeBundleItem.dyeBundleInteraction(firstDyeStack, dyeColorant);
+                        DyeBundleItem.dyeBundleInteraction(firstStack, dyeColorant);
                     }
 
                     return ActionResult.success(user.world.isClient);
@@ -102,12 +102,9 @@ public class DyeBundleItem extends BundleItem {
 
         if (Jello.getConfig().enableDyeingBlocks && player != null) {
             final var firstStack = getFirstStack(bundleStack);
-            if (firstStack == null || firstStack.isEmpty()) return ActionResult.PASS;
 
-            DyeItem firstDyeItem = (DyeItem) firstStack.getItem();
-
-            if (firstDyeItem != null) {
-                DyeColorant dyeColorant = ((DyeItemStorage) firstDyeItem).getDyeColorant();
+            if (!firstStack.isEmpty()) {
+                DyeColorant dyeColorant = ((DyeItemStorage) firstStack.getItem()).getDyeColorant();
 
                 if (!player.shouldCancelInteraction()) {
                     BlockState blockState = world.getBlockState(context.getBlockPos());
@@ -178,11 +175,11 @@ public class DyeBundleItem extends BundleItem {
     public ItemStack getFirstStack(ItemStack stack) {
         NbtCompound bundleNbt = stack.getOrCreateNbt();
         if (!bundleNbt.contains("Items")) {
-            return null;
+            return ItemStack.EMPTY;
         } else {
             NbtList bundleItemsList = bundleNbt.getList("Items", 10);
             if (bundleItemsList.isEmpty()) {
-                return null;
+                return ItemStack.EMPTY;
             } else {
                 NbtCompound itemNbt = bundleItemsList.getCompound(0);
                 return ItemStack.fromNbt(itemNbt);

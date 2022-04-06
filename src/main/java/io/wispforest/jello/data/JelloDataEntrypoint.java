@@ -3,6 +3,7 @@ package io.wispforest.jello.data;
 import io.wispforest.jello.client.data.JelloBlockStateProvider;
 import io.wispforest.jello.compat.consistencyplus.data.ConsistencyPlusTags;
 import io.wispforest.jello.compat.consistencyplus.data.providers.ConsistencyPlusTagProvider;
+import io.wispforest.jello.data.providers.JelloBlockLootTable;
 import io.wispforest.jello.data.providers.JelloLangProvider;
 import io.wispforest.jello.data.providers.JelloRecipeProvider;
 import io.wispforest.jello.data.providers.JelloTagsProvider;
@@ -26,6 +27,8 @@ public class JelloDataEntrypoint implements DataGeneratorEntrypoint {
         fabricDataGenerator.addProvider(new JelloRecipeProvider(fabricDataGenerator));
 
         fabricDataGenerator.addProvider(new JelloLangProvider(fabricDataGenerator));
+
+        fabricDataGenerator.addProvider(new JelloBlockLootTable(fabricDataGenerator));
 
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
             fabricDataGenerator.addProvider(new JelloBlockStateProvider(fabricDataGenerator));

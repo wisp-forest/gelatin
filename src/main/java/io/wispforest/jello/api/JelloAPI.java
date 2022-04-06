@@ -3,6 +3,7 @@ package io.wispforest.jello.api;
 import io.wispforest.jello.api.dye.events.ColorEntityEvent;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.util.TrackedDataHandlerExtended;
+import io.wispforest.jello.data.loot.JelloLootTables;
 import io.wispforest.jello.misc.behavior.ColorEntityBehavior;
 import io.wispforest.jello.misc.behavior.JelloCauldronBehaviors;
 import io.wispforest.jello.misc.behavior.WashEntityBehavior;
@@ -39,6 +40,8 @@ public class JelloAPI implements ModInitializer {
         // just leave it here - patpat
         DyeColorantLoader.loadFromJson();
 //        DyeColorantRegistry.initVanillaDyes();
+
+        JelloLootTables.registerLootTablesGeneration();
 
         // pogchamp
         ((OwoItemGroup) ItemGroup.MISC).initialize();

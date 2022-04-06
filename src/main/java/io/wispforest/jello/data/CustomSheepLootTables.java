@@ -4,6 +4,7 @@ import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
 import io.wispforest.jello.api.dye.registry.variants.VanillaBlockVariants;
+import io.wispforest.jello.data.loot.JelloLootTables;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
@@ -20,9 +21,7 @@ import java.util.Map;
 
 public class CustomSheepLootTables {
 
-    public static Map<Identifier, LootTable> initSheepLootTables(Map<Identifier, LootTable> originalTable) {
-        Map<Identifier, LootTable> tables = new HashMap<>(originalTable);
-
+    public static Map<Identifier, LootTable> initSheepLootTables(Map<Identifier, LootTable> tables) {
         for (Map.Entry<DyeColorant, DyedVariantContainer> entry : DyedVariantContainer.getVariantMap().entrySet()) {
             DyeColorant dyeColorant = entry.getKey();
 
@@ -49,4 +48,7 @@ public class CustomSheepLootTables {
                 .pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0F)).with(LootTableEntry.builder(EntityType.SHEEP.getLootTableId())));
     }
 
+    public static void init(){
+        JelloLootTables.ADD_LOOT_TABLES_EVENT.register(CustomSheepLootTables::initSheepLootTables);
+    }
 }
