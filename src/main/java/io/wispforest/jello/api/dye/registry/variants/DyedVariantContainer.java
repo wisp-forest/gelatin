@@ -2,7 +2,6 @@ package io.wispforest.jello.api.dye.registry.variants;
 
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.api.registry.ColorBlockRegistry;
 import io.wispforest.jello.data.tags.JelloTags;
 import io.wispforest.jello.item.JelloDyeItem;
 import io.wispforest.owo.itemgroup.OwoItemSettings;

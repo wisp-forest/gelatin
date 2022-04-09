@@ -55,8 +55,11 @@ dependencies {
     modLocalRuntime("maven.modrinth:lithium:${project.lithium}")
     //modLocalRuntime("maven.modrinth:krypton:${project.krypton}")
     //modLocalRuntime("maven.modrinth:phosphor:${project.phosphor}")
-    modImplementation("maven.modrinth:modmenu:${project.modmenu}")
-    modImplementation("maven.modrinth:starlight:${project.starlight}")
+
+    modCompileOnly("maven.modrinth:modmenu:${project.modmenu}")
+    modLocalRuntime("maven.modrinth:modmenu:${project.modmenu}")
+    
+    modLocalRuntime("maven.modrinth:starlight:${project.starlight}")
 
     //modImplementation "maven.modrinth:consistencyplus:${project.consistencyplus}"
 //    modImplementation("dev.architectury:architectury-fabric:${rootProject.architectury}"){ //:sources"){

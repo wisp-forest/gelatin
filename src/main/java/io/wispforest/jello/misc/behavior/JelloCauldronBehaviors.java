@@ -1,17 +1,16 @@
 package io.wispforest.jello.misc.behavior;
 
 import io.wispforest.jello.api.JelloAPI;
+import io.wispforest.jello.api.ducks.DyeItemStorage;
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
-import io.wispforest.jello.blockentity.ColorStorageBlockEntity;
 import io.wispforest.jello.api.dye.events.ColorBlockEventMethods;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
+import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
 import io.wispforest.jello.api.events.CauldronEvent;
-import io.wispforest.jello.item.dyebundle.DyeBundleItem;
-import io.wispforest.jello.api.ducks.DyeItemStorage;
-import io.wispforest.jello.api.registry.ColorBlockRegistry;
 import io.wispforest.jello.api.util.ColorUtil;
+import io.wispforest.jello.blockentity.ColorStorageBlockEntity;
 import io.wispforest.jello.item.SpongeItem;
+import io.wispforest.jello.item.dyebundle.DyeBundleItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;

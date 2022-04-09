@@ -1,17 +1,16 @@
 package io.wispforest.jello.mixin.dye;
 
+import io.wispforest.jello.Jello;
+import io.wispforest.jello.api.ducks.DyeItemStorage;
+import io.wispforest.jello.api.ducks.entity.ConstantColorEntity;
+import io.wispforest.jello.api.ducks.entity.DyeableEntity;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.events.ColorBlockEventMethods;
 import io.wispforest.jello.api.dye.events.ColorEntityEvent;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.api.ducks.DyeItemStorage;
 import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
-import io.wispforest.jello.misc.ducks.SheepDyeColorStorage;
-import io.wispforest.jello.api.ducks.entity.ConstantColorEntity;
-import io.wispforest.jello.api.ducks.entity.DyeableEntity;
-import io.wispforest.jello.api.registry.ColorBlockRegistry;
 import io.wispforest.jello.api.registry.ColorizeRegistry;
-import io.wispforest.jello.Jello;
+import io.wispforest.jello.misc.ducks.SheepDyeColorStorage;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.SheepEntity;
@@ -25,6 +24,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -76,38 +76,31 @@ public class DyeItemMixin extends Item implements DyeItemStorage {
         this.color = dyeColorant;
     }
 
+//    @Override
+//    public ActionResult attemptToDyeBlock(World world, BlockPos blockPos, PlayerEntity player, ItemStack stack, Hand hand) {
+//        if(player.shouldCancelInteraction()) {
+//            BlockState blockState = world.getBlockState(blockPos);
+//
+//            if (!ColorBlockEventMethods.changeBlockColor(world, blockPos, blockState, DyeableBlockVariant.attemptToGetColoredBlock(blockState.getBlock(), this.getDyeColorant()), player)) {
+//                return ActionResult.FAIL;
+//            }
+//
+//            world.playSound(player, blockPos, blockState.getBlock().getSoundGroup(blockState).getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+//
+//            if (!world.isClient) {
+//                Random random = new Random();
+//                if (random.nextInt(10) == 0) {
+//                    ColorBlockEventMethods.decrementPlayerHandItemCC(player, hand);
+//                }
+//            }
+//
+//            return ActionResult.SUCCESS;
+//        }
+//
+//        return ActionResult.PASS;
+//    }
+
     //-------------------------------------------------------------------
-
-    @Override
-    public ActionResult useOnBlock(ItemUsageContext context) {
-        if (!Jello.getConfig().enableDyeingBlocks) {
-            return ActionResult.PASS;
-        }
-
-        PlayerEntity player = context.getPlayer();
-
-        if (player.shouldCancelInteraction()) {
-            World world = context.getWorld();
-            BlockState blockState = world.getBlockState(context.getBlockPos());
-
-            if (!ColorBlockEventMethods.changeBlockColor(world, context.getBlockPos(), blockState, DyeableBlockVariant.attemptToGetColoredBlock(blockState.getBlock(), this.getDyeColorant()), player)) {
-                return ActionResult.FAIL;
-            }
-
-            world.playSound(player, context.getBlockPos(), blockState.getBlock().getSoundGroup(blockState).getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-
-            if(!world.isClient) {
-                Random random = new Random();
-                if (random.nextInt(10) == 0) {
-                    ColorBlockEventMethods.decrementPlayerHandItemCC(player, context.getHand());
-                }
-            }
-
-            return ActionResult.SUCCESS;
-        }
-
-        return ActionResult.PASS;
-    }
 
     /**
      * @author Dragon_Seeker
@@ -142,9 +135,4 @@ public class DyeItemMixin extends Item implements DyeItemStorage {
 
         return super.useOnEntity(stack, user, entity, hand);
     }
-
-//    @Inject(method = "useOnEntity", at = @At(value = "HEAD"), cancellable = true)
-//    private void useOnEntity_ColorEntityEvent(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand, CallbackInfoReturnable<ActionResult> cir){
-//
-//    }
 }

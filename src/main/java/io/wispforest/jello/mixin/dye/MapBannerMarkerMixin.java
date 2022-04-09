@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MapBannerMarker.class)
-public class MapBannerMarkerMixin implements DyeItemStorage {
+public class MapBannerMarkerMixin {}/*implements DyeItemStorage {
 
     @Unique
     @Mutable
@@ -32,3 +32,4 @@ public class MapBannerMarkerMixin implements DyeItemStorage {
         return color;
     }
 }
+*/

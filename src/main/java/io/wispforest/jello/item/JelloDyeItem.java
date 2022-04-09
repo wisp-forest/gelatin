@@ -10,17 +10,20 @@ import net.fabricmc.api.EnvironmentInterface;
 import net.fabricmc.loader.impl.FabricLoaderImpl;
 import net.minecraft.client.color.item.ItemColorProvider;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Random;
 
 @EnvironmentInterface(value = EnvType.CLIENT, itf = ItemColorProvider.class)
-public class JelloDyeItem extends net.minecraft.item.DyeItem implements DyeItemStorage, ItemColorProvider {
+public class JelloDyeItem extends DyeItem implements DyeItemStorage, ItemColorProvider {
 
     public static final String TEXTURE_VARIANT_KEY = "Texture_variant";
     public static final int NUMBER_OF_TEXTURE_VAR = 9;

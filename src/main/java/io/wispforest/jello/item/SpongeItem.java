@@ -1,14 +1,13 @@
 package io.wispforest.jello.item;
 
 import io.wispforest.jello.Jello;
+import io.wispforest.jello.api.ducks.entity.ConstantColorEntity;
+import io.wispforest.jello.api.ducks.entity.DyeableEntity;
 import io.wispforest.jello.api.dye.events.ColorBlockEventMethods;
 import io.wispforest.jello.api.dye.events.ColorEntityEvent;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
-import io.wispforest.jello.api.registry.ColorBlockRegistry;
 import io.wispforest.jello.api.registry.ColorizeRegistry;
-import io.wispforest.jello.api.ducks.entity.ConstantColorEntity;
-import io.wispforest.jello.api.ducks.entity.DyeableEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FluidDrainable;
 import net.minecraft.client.item.TooltipContext;

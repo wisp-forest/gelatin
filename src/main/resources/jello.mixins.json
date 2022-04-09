@@ -26,6 +26,7 @@
     "dye.FireworkStarItemMixin",
     "dye.ItemGroupMixin",
     "dye.ItemsMixin",
+    "dye.ItemStackMixin",
     "dye.LootManagerMixin",
     "dye.MapBannerMarkerMixin",
     "dye.SheepEntityMixin",

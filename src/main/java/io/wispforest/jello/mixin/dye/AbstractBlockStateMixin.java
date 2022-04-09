@@ -26,7 +26,7 @@ public abstract class AbstractBlockStateMixin {
     private void testForDyeOrDyeBundle(World world, PlayerEntity player, Hand hand, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir) {
         ItemStack stack = player.getStackInHand(hand);
 
-        if (stack.getItem() instanceof DyeBundleItem || stack.getItem() instanceof DyeItemStorage) {
+        if (stack.getItem() instanceof DyeItemStorage) {
             if (DyeableBlockVariant.getVariantFromBlock(this.getBlock()) != null) {
                 cir.setReturnValue(ActionResult.PASS);
             }
