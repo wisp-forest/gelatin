@@ -2,15 +2,11 @@ package io.wispforest.jello.item.dyebundle;
 
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.ducks.DyeItemStorage;
-import io.wispforest.jello.api.ducks.entity.ConstantColorEntity;
+import io.wispforest.jello.api.ducks.DyeTool;
 import io.wispforest.jello.api.ducks.entity.DyeableEntity;
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.dye.events.ColorBlockEventMethods;
-import io.wispforest.jello.api.dye.events.ColorEntityEvent;
-import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
-import io.wispforest.jello.api.registry.ColorizeRegistry;
+import io.wispforest.jello.api.dye.ColorManipulators;
 import io.wispforest.jello.misc.ducks.SheepDyeColorStorage;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.SheepEntity;
@@ -19,7 +15,6 @@ import net.minecraft.inventory.StackReference;
 import net.minecraft.item.BundleItem;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.screen.slot.Slot;
@@ -36,7 +31,7 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class DyeBundleItem extends BundleItem implements DyeItemStorage {
+public class DyeBundleItem extends BundleItem implements DyeTool {
 
     private static int tooltipTickCounter = 0;
 
@@ -53,39 +48,38 @@ public class DyeBundleItem extends BundleItem implements DyeItemStorage {
 
     //----------------------------------------------------------------------------------------------------
 
+
+    @Override
+    public ActionResult attemptToDyeEntity(World world, PlayerEntity user, DyeableEntity entity, ItemStack stack, Hand hand) {
+        DyeColorant dyeColorant = getDyeColorantFromBundle(user, stack);
+
+        if (dyeColorant != null) {
+            if (user.shouldCancelInteraction()) {
+                if(ColorManipulators.dyeEntityEvent(entity, dyeColorant)) {
+
+                    DyeBundleItem.dyeBundleInteraction(user.getStackInHand(hand), dyeColorant);
+                }
+
+                return ActionResult.SUCCESS;
+            }
+        }
+
+        return ActionResult.PASS;
+    }
+
     @Override
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
-        attemptShuffleItemsPacket(user.getWorld());
+        DyeColorant dyeColorant = getDyeColorantFromBundle(user, stack);
 
-        ItemStack firstStack = getFirstStack(stack);
-
-        if (!firstStack.isEmpty()) {
-            DyeColorant dyeColorant = ((DyeItemStorage) firstStack.getItem()).getDyeColorant();
-
-            if (Jello.getConfig().enableDyeingEntities || (entity instanceof PlayerEntity && Jello.getConfig().enableDyeingPlayers)) {
-                if (ColorizeRegistry.isRegistered(entity)) {
-                    if ((entity instanceof ConstantColorEntity constantColorEntity && constantColorEntity.isColored())) {
-                        return ActionResult.PASS;
-                    }
-
-                    if (user.shouldCancelInteraction()) {
-                        if (entity instanceof DyeableEntity dyeableEntity) {
-                            return ColorEntityEvent.dyeEntityEvent(user, hand, dyeableEntity, dyeColorant);
-                        }
-                    }
+        if (dyeColorant != null && entity instanceof SheepEntity sheepEntity) {
+            if (sheepEntity.isAlive() && !sheepEntity.isSheared() && ((SheepDyeColorStorage) sheepEntity).getWoolDyeColor() != dyeColorant) {
+                sheepEntity.world.playSoundFromEntity(user, sheepEntity, SoundEvents.ITEM_DYE_USE, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                if (!user.world.isClient) {
+                    ((SheepDyeColorStorage) sheepEntity).setWoolDyeColor(dyeColorant);
+                    DyeBundleItem.dyeBundleInteraction(stack, dyeColorant);
                 }
-            }
 
-            if (entity instanceof SheepEntity sheepEntity) {
-                if (sheepEntity.isAlive() && !sheepEntity.isSheared() && ((SheepDyeColorStorage) sheepEntity).getWoolDyeColor() != dyeColorant) {
-                    sheepEntity.world.playSoundFromEntity(user, sheepEntity, SoundEvents.ITEM_DYE_USE, SoundCategory.PLAYERS, 1.0F, 1.0F);
-                    if (!user.world.isClient) {
-                        ((SheepDyeColorStorage) sheepEntity).setWoolDyeColor(dyeColorant);
-                        DyeBundleItem.dyeBundleInteraction(firstStack, dyeColorant);
-                    }
-
-                    return ActionResult.success(user.world.isClient);
-                }
+                return ActionResult.success(user.world.isClient);
             }
         }
 
@@ -94,74 +88,36 @@ public class DyeBundleItem extends BundleItem implements DyeItemStorage {
 
 
     @Override
-    public ActionResult attemptToDyeBlock(World world, BlockPos blockPos, PlayerEntity player, ItemStack stack, Hand hand) {
-        attemptShuffleItemsPacket(world);
+    public ActionResult attemptToDyeBlock(World world, PlayerEntity player, BlockPos blockPos, ItemStack stack, Hand hand) {
+        DyeColorant dyeColorant = getDyeColorantFromBundle(player, stack);
 
-        if (player != null) {
-            final var firstStack = getFirstStack(stack);
+        if (dyeColorant != null) {
+            if (!player.shouldCancelInteraction()) {
 
-            if (!firstStack.isEmpty()) {
-                DyeColorant dyeColorant = ((DyeItemStorage) firstStack.getItem()).getDyeColorant();
-
-                if (!player.shouldCancelInteraction()) {
-                    BlockState blockState = world.getBlockState(blockPos);
-
-                    if (!ColorBlockEventMethods.changeBlockColor(world, blockPos, blockState, DyeableBlockVariant.attemptToGetColoredBlock(blockState.getBlock(), dyeColorant), player)) {
-                        return ActionResult.FAIL;
-                    }
-
-                    world.playSound(player, blockPos, blockState.getBlock().getSoundGroup(blockState).getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-
-                    if(!world.isClient) {
-                        if (!player.getAbilities().creativeMode) {
-                            dyeBundleInteraction(stack, dyeColorant);
-                        }
-                    }
-
-                    return ActionResult.SUCCESS;
+                //TODO: Possible change this so it just Passes?
+                if (!ColorManipulators.changeBlockColor(world, blockPos, dyeColorant, player, true)) {
+                    return ActionResult.FAIL;
                 }
+
+                if (!world.isClient) {
+                    if (!player.getAbilities().creativeMode) {
+                        dyeBundleInteraction(stack, dyeColorant);
+                    }
+                }
+
+                return ActionResult.SUCCESS;
             }
         }
 
         return ActionResult.PASS;
     }
 
-//    @Override
-//    public ActionResult useOnBlock(ItemUsageContext context) {
-//        PlayerEntity player = context.getPlayer();
-//        ItemStack bundleStack = context.getStack();
-//        World world = context.getWorld();
-//
-//        attemptShuffleItemsPacket(world);
-//
-//        if (Jello.getConfig().enableDyeingBlocks && player != null) {
-//            final var firstStack = getFirstStack(bundleStack);
-//
-//            if (!firstStack.isEmpty()) {
-//                DyeColorant dyeColorant = ((DyeItemStorage) firstStack.getItem()).getDyeColorant();
-//
-//                if (!player.shouldCancelInteraction()) {
-//                    BlockState blockState = world.getBlockState(context.getBlockPos());
-//
-//                    if (!ColorBlockEventMethods.changeBlockColor(world, context.getBlockPos(), blockState, DyeableBlockVariant.attemptToGetColoredBlock(blockState.getBlock(), dyeColorant), player)) {
-//                        return ActionResult.FAIL;
-//                    }
-//
-//                    world.playSound(player, context.getBlockPos(), blockState.getBlock().getSoundGroup(blockState).getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-//
-//                    if(!world.isClient) {
-//                        if (!player.getAbilities().creativeMode) {
-//                            dyeBundleInteraction(bundleStack, dyeColorant);
-//                        }
-//                    }
-//
-//                    return ActionResult.SUCCESS;
-//                }
-//            }
-//        }
-//
-//        return ActionResult.PASS;
-//    }
+    @Override
+    public DyeColorant attemptToDyeCauldron(World world, PlayerEntity player, BlockPos blockPos, ItemStack stack, Hand hand) {
+        //TODO: Add advancement when doing such labeled "Ultimate Efficiency"
+
+        return this.getDyeColorantFromBundle(player, stack);
+    }
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
@@ -172,6 +128,20 @@ public class DyeBundleItem extends BundleItem implements DyeItemStorage {
         } else {
             return TypedActionResult.pass(user.getStackInHand(hand));
         }
+    }
+
+    //----------------------------------------------------------------------------------------------------
+
+    public DyeColorant getDyeColorantFromBundle(PlayerEntity player, ItemStack bundleStack){
+        attemptShuffleItemsPacket(player.getWorld());
+
+        final var firstStack = getFirstStack(bundleStack);
+
+        if (!firstStack.isEmpty()) {
+            return ((DyeItemStorage) firstStack.getItem()).getDyeColorant();
+        }
+
+        return null;
     }
 
     public static void dyeBundleInteraction(ItemStack bundleStack, DyeColorant dyeColorant) {

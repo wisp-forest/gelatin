@@ -1,12 +1,16 @@
 package io.wispforest.jello.api.ducks.entity;
 
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.dye.events.ColorEntityEvent;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
+import io.wispforest.jello.mixin.dye.item.EnchantedGoldenAppleMixin;
 import io.wispforest.jello.mixin.entitycolor.LivingEntityMixin;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
 
+/**
+ * An interface used within {@link LivingEntityMixin} to add Colorization to all of Minecrafts many {@link LivingEntity}
+ */
 public interface DyeableEntity extends ConstantColorEntity, RainbowEntity {
 
     /**
@@ -24,7 +28,7 @@ public interface DyeableEntity extends ConstantColorEntity, RainbowEntity {
     }
 
     /**
-     * A method already implemented by {@link LivingEntityMixin} to change the Dye Color of entity based on {@link ColorEntityEvent} logic.
+     * A method already implemented by {@link LivingEntityMixin} to change the Dye Color of entity based on {@link EnchantedGoldenAppleMixin} logic.
      */
     void setDyeColor(DyeColorant dyeColorID);
 

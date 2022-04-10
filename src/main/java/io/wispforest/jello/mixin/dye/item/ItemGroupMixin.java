@@ -1,4 +1,4 @@
-package io.wispforest.jello.mixin.dye;
+package io.wispforest.jello.mixin.dye.item;
 
 import io.wispforest.jello.misc.MiscItemGroup;
 import net.minecraft.item.ItemGroup;

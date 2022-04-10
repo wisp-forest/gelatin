@@ -1,6 +1,5 @@
 package io.wispforest.jello.api;
 
-import io.wispforest.jello.api.dye.events.ColorEntityEvent;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.util.TrackedDataHandlerExtended;
 import io.wispforest.jello.data.loot.JelloLootTables;
@@ -13,7 +12,6 @@ import io.wispforest.owo.registration.reflect.AutoRegistryContainer;
 import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
 import io.wispforest.owo.registration.reflect.SimpleFieldProcessingSubject;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Items;
@@ -56,7 +54,7 @@ public class JelloAPI implements ModInitializer {
 
         JelloAPI.registerDispenserBehavior();
 
-        JelloAPI.registerEvents();
+//        JelloAPI.registerEvents();
     }
 
     //------------------------------------------------------------------------------
@@ -72,9 +70,9 @@ public class JelloAPI implements ModInitializer {
         DispenserBlock.registerBehavior(Items.WATER_BUCKET, new WashEntityBehavior());
     }
 
-    private static void registerEvents() {
-        UseEntityCallback.EVENT.register(new ColorEntityEvent());
-    }
+//    private static void registerEvents() {
+//        UseEntityCallback.EVENT.register(new EnchantedGoldenAppleEvent());
+//    }
 
     //------------------------------------------------------------------------------
 

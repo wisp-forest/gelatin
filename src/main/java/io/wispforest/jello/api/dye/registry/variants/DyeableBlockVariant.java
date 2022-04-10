@@ -2,6 +2,7 @@ package io.wispforest.jello.api.dye.registry.variants;
 
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.dye.DyeColorant;
+import io.wispforest.jello.api.dye.ColorManipulators;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.data.loot.JelloLootTables;
 import io.wispforest.jello.data.tags.JelloTags;
@@ -11,11 +12,11 @@ import io.wispforest.owo.itemgroup.OwoItemSettings;
 import io.wispforest.owo.util.TagInjector;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.data.server.BlockLootTableGenerator;
 import net.minecraft.item.*;
 import net.minecraft.loot.LootTable;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -70,6 +71,7 @@ public class DyeableBlockVariant {
 
     private Function<Block, LootTable> lootTableBuilder = (block) -> JelloLootTables.drops(block).build();
 
+    private ColorManipulators.AlterBlockColor colorChangeMethod = null;
 
     /**
      * @param variantIdentifier The {@link Identifier} based off your Modid and the block path for your variant
@@ -246,6 +248,18 @@ public class DyeableBlockVariant {
     }
 
     /**
+     * This method sets the {@link ColorManipulators.AlterBlockColor} for this variant, which is used
+     * internally for when a player is going to Dye a Colorable block of this Variant using a DyeItem or such.
+     * <br><br>
+     * Allows for blocks that are two parts like bed or BlockEntity's that need special things like NBT data to be copyied to change states properly
+     */
+    public final DyeableBlockVariant setBlockStateChangeMethod(ColorManipulators.AlterBlockColor method){
+        this.colorChangeMethod = method;
+
+        return this;
+    }
+
+    /**
      * Method must be called when the Variant is finished being edited
      * Will add your variant to the {@link #ADDITION_BLOCK_VARIANTS} and
      * retroactively add this {@link DyeableBlockVariant} and {@link DyedVariantContainer#updateExistingContainers}
@@ -346,6 +360,23 @@ public class DyeableBlockVariant {
             }
 
             return variant.getColoredBlock(dyeColorant);
+        }else{
+            return null;
+        }
+    }
+
+    @Nullable
+    public static Pair<Block, DyeableBlockVariant> attemptToGetColoredBlockPair(Block block, DyeColorant dyeColorant){
+        DyeableBlockVariant variant = DyeableBlockVariant.getVariantFromBlock(block);
+
+        if(variant != null){
+            DyeColorant blockCurrentColor = variant.getColorFromEntry(block);
+
+            if(blockCurrentColor == dyeColorant || (variant.vanillaDyesOnly() && !dyeColorant.isIn(JelloTags.DyeColor.VANILLA_DYES))){
+                return null;
+            }
+
+            return new Pair(variant.getColoredBlock(dyeColorant), variant);
         }else{
             return null;
         }
@@ -465,6 +496,10 @@ public class DyeableBlockVariant {
         return DyeColorantRegistry.DYE_COLOR.get(new Identifier(identifier.getNamespace(), stringBuilder.toString()));
     }
 
+    public ColorManipulators.AlterBlockColor getOrDefault(){
+        return this.colorChangeMethod != null ? this.colorChangeMethod : ColorManipulators.AlterBlockColor.DEFAULT;
+    }
+
     //---------------------------------------------------------------------------------------------------
 
     @ApiStatus.Internal
@@ -550,8 +585,10 @@ public class DyeableBlockVariant {
         return this.blockItemMaker.createBlockItemFromDyeColor(dyeColorant, block, settings);
     }
 
+
     //---------------------------------------------------------------------------------------------------
 
+    @ApiStatus.Internal
     protected static class BlockItemSettings {
         public int maxCount;
         public boolean fireproof;
@@ -580,6 +617,7 @@ public class DyeableBlockVariant {
 
     //---------------------------------------------------------------------------------------------------
 
+    @ApiStatus.Internal
     protected static class RegistryInfo {
         public final Block block;
         private final BlockItemSettings settings;

@@ -1,9 +1,9 @@
 package io.wispforest.jello.misc.behavior;
 
 import io.wispforest.jello.api.JelloAPI;
-import io.wispforest.jello.api.ducks.DyeItemStorage;
+import io.wispforest.jello.api.ducks.DyeTool;
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.dye.events.ColorBlockEventMethods;
+import io.wispforest.jello.api.dye.ColorManipulators;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
 import io.wispforest.jello.api.events.CauldronEvent;
@@ -18,7 +18,6 @@ import net.minecraft.block.LeveledCauldronBlock;
 import net.minecraft.block.cauldron.CauldronBehavior;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.DyeItem;
 import net.minecraft.item.DyeableItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -46,47 +45,38 @@ public class JelloCauldronBehaviors implements CauldronBehavior {
         if (cauldronType == CauldronEvent.CauldronType.WATER) {
             boolean isStack = false;
 
-            DyeColorant dyeColorant = DyeColorantRegistry.NULL_VALUE_NEW;
+            if(stack.getItem() instanceof DyeTool dyeTool) {
+                DyeColorant dyeColorant = dyeTool.attemptToDyeCauldron(world, player, pos, stack, hand);
 
-            if (stack.getItem() instanceof DyeItem dyeItem) {
-                dyeColorant = ((DyeItemStorage) dyeItem).getDyeColorant();
-            } else if (stack.getItem() instanceof DyeBundleItem dyeBundle) {
-                DyeItem dyeItem = (DyeItem) dyeBundle.getFirstStack(stack).getItem();
-                isStack = true;
+                if (dyeColorant != DyeColorantRegistry.NULL_VALUE_NEW || dyeColorant != null) {
+                    ColorStorageBlockEntity blockEntity = (ColorStorageBlockEntity) world.getBlockEntity(pos);
 
-                if (dyeItem != null) {
-                    dyeColorant = ((DyeItemStorage) dyeItem).getDyeColorant();
-                }
-            }
-
-            if (dyeColorant != DyeColorantRegistry.NULL_VALUE_NEW) {
-                ColorStorageBlockEntity blockEntity = (ColorStorageBlockEntity) world.getBlockEntity(pos);
-
-                if (blockEntity != null) {
-                    if (dyeColorant == blockEntity.getDyeColorant()) {
-                        return ActionResult.PASS;
-                    }
-
-                    if (!world.isClient) {
-                        if (!player.getAbilities().creativeMode) {
-                            if (isStack) {
-                                DyeBundleItem.dyeBundleInteraction(stack, dyeColorant);
-                            } else {
-                                stack.decrement(1);
-                            }
+                    if (blockEntity != null) {
+                        if (dyeColorant == blockEntity.getDyeColorant()) {
+                            return ActionResult.PASS;
                         }
 
-                        player.incrementStat(Stats.USED.getOrCreateStat(stack.getItem()));
+                        if (!world.isClient) {
+                            if (!player.getAbilities().creativeMode) {
+                                if (isStack) {
+                                    DyeBundleItem.dyeBundleInteraction(stack, dyeColorant);
+                                } else {
+                                    stack.decrement(1);
+                                }
+                            }
 
-                        blockEntity.setDyeColorant(dyeColorant);
+                            player.incrementStat(Stats.USED.getOrCreateStat(stack.getItem()));
 
-                        world.playSound((PlayerEntity) null, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                        world.emitGameEvent((Entity) null, GameEvent.FLUID_PLACE, pos);
+                            blockEntity.setDyeColorant(dyeColorant);
+
+                            world.playSound((PlayerEntity) null, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                            world.emitGameEvent((Entity) null, GameEvent.FLUID_PLACE, pos);
+                        }
+
+                        blockEntity.markDirty();
+
+                        return ActionResult.success(world.isClient);
                     }
-
-                    blockEntity.markDirty();
-
-                    return ActionResult.success(world.isClient);
                 }
             }
         }
@@ -134,14 +124,14 @@ public class JelloCauldronBehaviors implements CauldronBehavior {
             if (blockEntity != null && ColorStorageBlockEntity.isWaterColored(blockEntity)) {
                 changedBlock = DyeableBlockVariant.attemptToGetColoredBlock(block, blockEntity.getDyeColorant());
             } else {
-                changedBlock = DyeableBlockVariant.attemptToGetColoredBlock(block, null);
+                changedBlock = DyeableBlockVariant.attemptToGetColoredBlock(block, DyeColorantRegistry.NULL_VALUE_NEW);
             }
 
             if (changedBlock == null) {
                 return ActionResult.PASS;
             }
 
-            if (!ColorBlockEventMethods.changeBlockItemColor(world, pos, stack, changedBlock, player, hand, true)) {
+            if (!ColorManipulators.changeBlockItemColor(world, pos, stack, changedBlock, player, hand, true)) {
                 return player.shouldCancelInteraction() ? ActionResult.FAIL : ActionResult.CONSUME_PARTIAL;
             }
 

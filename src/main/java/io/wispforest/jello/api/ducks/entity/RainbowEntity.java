@@ -1,6 +1,6 @@
 package io.wispforest.jello.api.ducks.entity;
 
-import io.wispforest.jello.api.dye.events.ColorEntityEvent;
+import io.wispforest.jello.mixin.dye.item.EnchantedGoldenAppleMixin;
 
 /**
  * RainbowEntity Interface is used to give your entity a Rainbow effect like the _Jeb easter Egg.
@@ -20,7 +20,7 @@ public interface RainbowEntity {
     ;
 
     /**
-     * Used by the {@link ColorEntityEvent} to disable rainbow event,
+     * Used by the {@link EnchantedGoldenAppleMixin} to disable rainbow event,
      *
      * @param value boolean value for either turning on or off rainbow
      */

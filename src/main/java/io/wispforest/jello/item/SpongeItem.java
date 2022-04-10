@@ -1,21 +1,14 @@
 package io.wispforest.jello.item;
 
-import io.wispforest.jello.Jello;
-import io.wispforest.jello.api.ducks.entity.ConstantColorEntity;
+import io.wispforest.jello.api.ducks.DyeTool;
 import io.wispforest.jello.api.ducks.entity.DyeableEntity;
-import io.wispforest.jello.api.dye.events.ColorBlockEventMethods;
-import io.wispforest.jello.api.dye.events.ColorEntityEvent;
+import io.wispforest.jello.api.dye.ColorManipulators;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
-import io.wispforest.jello.api.registry.ColorizeRegistry;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.FluidDrainable;
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -37,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class SpongeItem extends Item {
+public class SpongeItem extends Item implements DyeTool {
 
     public static final String DIRTINESS_TRANSLATION_KEY = "item.jello.sponge.dirty";
 
@@ -72,19 +65,29 @@ public class SpongeItem extends Item {
     }
 
     @Override
-    @SuppressWarnings("ConstantConditions")
-    public ActionResult useOnBlock(ItemUsageContext context) {
-        PlayerEntity user = context.getPlayer();
-        World world = context.getWorld();
-        BlockState blockState = world.getBlockState(context.getBlockPos());
-
-        if (canClean(context.getStack())) {
-            if (!ColorBlockEventMethods.changeBlockColor(world, context.getBlockPos(), blockState, DyeableBlockVariant.attemptToGetColoredBlock(blockState.getBlock(), DyeColorantRegistry.NULL_VALUE_NEW), user)) {
+    public ActionResult attemptToDyeBlock(World world, PlayerEntity player, BlockPos blockPos, ItemStack stack, Hand hand) {
+        if (canClean(stack)) {
+            if (!ColorManipulators.changeBlockColor(world, blockPos, DyeColorantRegistry.NULL_VALUE_NEW, player, false)) {
                 return ActionResult.PASS;
             }
 
             if (!world.isClient) {
-                incrementDirtiness(context.getStack(), user);
+                incrementDirtiness(stack, player);
+                world.playSound(null, player.getBlockPos(), SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.PLAYERS, 1.0F, 1.55F);
+            }
+
+            return ActionResult.SUCCESS;
+        } else {
+            return ActionResult.FAIL;
+        }
+    }
+
+    @Override
+    public ActionResult attemptToDyeEntity(World world, PlayerEntity user, DyeableEntity entity, ItemStack stack, Hand hand) {
+        if (stack.getDamage() != -1 && ColorManipulators.washEntityEvent(entity)) {
+            if (!user.world.isClient) {
+                incrementDirtiness(stack, user);
+
                 world.playSound(null, user.getBlockPos(), SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.PLAYERS, 1.0F, 1.55F);
             }
 
@@ -140,34 +143,6 @@ public class SpongeItem extends Item {
         }
 
         return TypedActionResult.pass(user.getStackInHand(hand));
-    }
-
-    @Override
-    public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
-        if (!Jello.getConfig().enableDyeingEntities || (entity instanceof PlayerEntity && !Jello.getConfig().enableDyeingPlayers)) {
-            return ActionResult.PASS;
-        }
-
-        if (ColorizeRegistry.isRegistered(entity)) {
-            if (entity instanceof ConstantColorEntity constantColorEntity && constantColorEntity.isColored()) {
-                return ActionResult.PASS;
-            }
-
-            if (stack.getDamage() != -1 && ColorEntityEvent.washEntityEvent(user, entity, user.getMainHandStack())) {
-
-                if (!user.world.isClient) {
-                    incrementDirtiness(stack, user);
-
-                    entity.getWorld().playSound(null, user.getBlockPos(), SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.PLAYERS, 1.0F, 1.55F);
-                }
-
-                return ActionResult.SUCCESS;
-            } else {
-                return ActionResult.FAIL;
-            }
-        }
-
-        return ActionResult.PASS;
     }
 
     @Override

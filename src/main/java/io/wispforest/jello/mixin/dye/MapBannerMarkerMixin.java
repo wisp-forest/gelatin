@@ -1,7 +1,6 @@
 package io.wispforest.jello.mixin.dye;
 
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.ducks.DyeItemStorage;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.map.MapBannerMarker;
 import net.minecraft.text.Text;
