@@ -119,7 +119,7 @@ public class DyedVariantContainer {
             DyeColorant dyeColorant = entry.getKey();
 
             //Skips if the DyeableBlockVariant doesn't want any modded dyes to be added
-            if(!dyeColorant.isIn(JelloTags.DyeColor.VANILLA_DYES) && dyeableBlockVariant.vanillaDyesOnly())
+            if(!DyeColorantRegistry.Constants.VANILLA_DYES.contains(dyeColorant) && dyeableBlockVariant.vanillaDyesOnly())
                 continue;
 
             entry.getValue().addToExistingContainerWithRecursion(dyeColorant, dyeableBlockVariant);
@@ -154,7 +154,7 @@ public class DyedVariantContainer {
         private void recursivelyBuildBlocksFromVariant(Map<DyeableBlockVariant, Block> dyedBlocks, Block possibleParentBlock, DyeableBlockVariant parentBlockVariant, DyeColorant dyeColorant, @Nullable OwoItemSettings overrideSettings) {
             DyeableBlockVariant.RegistryInfo info = null;
 
-            if (!readOnly) {
+            if (!isReadOnly(parentBlockVariant)) {
                 info = parentBlockVariant.makeChildBlock(dyeColorant, possibleParentBlock);
 
                 if (overrideSettings != null)
@@ -163,7 +163,7 @@ public class DyedVariantContainer {
 
             Block childBlock = registerBlock(parentBlockVariant, info, dyeColorant);
 
-            parentBlockVariant.addToTags(childBlock, readOnly);
+            parentBlockVariant.addToTags(childBlock, isReadOnly(parentBlockVariant));
 
             dyedBlocks.put(parentBlockVariant, childBlock);
 
@@ -175,7 +175,7 @@ public class DyedVariantContainer {
         }
 
         private Block registerBlock(DyeableBlockVariant dyeableBlockVariant, @Nullable DyeableBlockVariant.RegistryInfo registryInfo, DyeColorant dyeColorant) {
-            if (readOnly && Objects.equals(dyeColorant.getId().getNamespace(), "minecraft") || dyeableBlockVariant.alwaysReadOnly())
+            if ((readOnly && Objects.equals(dyeColorant.getId().getNamespace(), "minecraft")) || isReadOnly(dyeableBlockVariant))
                 return dyeableBlockVariant.getColoredBlock(dyeColorant);
 
             String nameSpace = Objects.equals(dyeableBlockVariant.variantIdentifier.getNamespace(), "minecraft") ?
@@ -198,6 +198,10 @@ public class DyedVariantContainer {
         private void addToModelRedirectSystem(Identifier identifier){
             if (this.useModelRedirectSystem)
                 DyeColorantRegistry.IDENTIFIER_RESOURCE_REDIRECTS.add(identifier);
+        }
+
+        private boolean isReadOnly(DyeableBlockVariant variant){
+            return readOnly || variant.alwaysReadOnly();
         }
     }
 
