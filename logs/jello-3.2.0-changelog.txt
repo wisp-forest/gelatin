@@ -1,0 +1,4 @@
+Another Update for Jello bringing some internal API Changes:
+
+- Added the new DyeTool Interface for items which Mod Creators would want to use to Dye Entity's or Blocks
+- Changed how DyeItemStorage Interface works meaning you can now specify if A Item is a DyeItem or not
