@@ -1,7 +1,6 @@
 package io.wispforest.jello.misc.behavior;
 
 import io.wispforest.jello.api.JelloAPI;
-import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.ducks.DyeItemStorage;
 import io.wispforest.jello.api.ducks.entity.DyeableEntity;
 import net.minecraft.block.DispenserBlock;
@@ -9,7 +8,6 @@ import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.world.ServerWorld;
@@ -26,9 +24,9 @@ public class ColorEntityBehavior extends FallibleItemDispenserBehavior {
     protected ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
         World world = pointer.getWorld();
         if (!world.isClient()) {
-            if (stack.getItem() instanceof DyeItem dyeItem) {
+            if(stack.getItem() instanceof DyeItemStorage dyeItemStorage) {
                 BlockPos blockPos = pointer.getPos().offset(pointer.getBlockState().get(DispenserBlock.FACING));
-                this.setSuccess(tryColorEntity((ServerWorld) world, blockPos, ((DyeItemStorage) dyeItem).getDyeColorant()));
+                this.setSuccess(tryColorEntity((ServerWorld) world, blockPos, dyeItemStorage));
                 if (this.isSuccess()) {
                     stack.decrement(1);
                 }
@@ -39,10 +37,14 @@ public class ColorEntityBehavior extends FallibleItemDispenserBehavior {
         return stack;
     }
 
-    private static boolean tryColorEntity(ServerWorld world, BlockPos pos, DyeColorant dyeColor) {
+    private static boolean tryColorEntity(ServerWorld world, BlockPos pos, DyeItemStorage dyeItemStorage) {
+        if(!dyeItemStorage.isDyeItem()){
+            return false;
+        }
+
         for (LivingEntity livingEntity : world.getEntitiesByClass(LivingEntity.class, new Box(pos), EntityPredicates.EXCEPT_SPECTATOR)) {
-            if (livingEntity instanceof DyeableEntity dyeableEntity && dyeableEntity.getDyeColor() != dyeColor) {
-                dyeableEntity.setDyeColor(dyeColor);
+            if (livingEntity instanceof DyeableEntity dyeableEntity && dyeableEntity.getDyeColor() != dyeItemStorage.getDyeColorant()) {
+                dyeableEntity.setDyeColor(dyeItemStorage.getDyeColorant());
 
                 livingEntity.world.playSoundFromEntity((PlayerEntity) null, livingEntity, SoundEvents.ITEM_DYE_USE, SoundCategory.NEUTRAL, 1.0F, 1.0F);
                 world.emitGameEvent((Entity) null, JelloAPI.GameEvents.DYE_ENTITY, pos);

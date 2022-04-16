@@ -4,8 +4,8 @@ import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.ducks.DyeItemStorage;
 import io.wispforest.jello.api.ducks.DyeTool;
 import io.wispforest.jello.api.ducks.entity.DyeableEntity;
-import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.ColorManipulators;
+import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.misc.ducks.SheepDyeColorStorage;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -13,7 +13,6 @@ import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.BundleItem;
-import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
@@ -223,14 +222,20 @@ public class DyeBundleItem extends BundleItem implements DyeTool {
 
     @Override
     public boolean onStackClicked(ItemStack stack, Slot slot, ClickType clickType, PlayerEntity player) {
-        return slot.getStack().getItem() instanceof DyeItem
-                && super.onStackClicked(stack, slot, clickType, player);
+        if(slot.getStack().getItem() instanceof DyeItemStorage dyeItemStorage && dyeItemStorage.isDyeItem()){
+            return super.onStackClicked(stack, slot, clickType, player);
+        }
+
+        return false;
     }
 
     @Override
     public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
-        return (otherStack.isEmpty() || otherStack.getItem() instanceof DyeItem)
-                && super.onClicked(stack, otherStack, slot, clickType, player, cursorStackReference);
+        if(otherStack.isEmpty() || (otherStack.getItem() instanceof DyeItemStorage dyeItemStorage && dyeItemStorage.isDyeItem())){
+            return super.onClicked(stack, otherStack, slot, clickType, player, cursorStackReference);
+        }
+
+        return false;
     }
 
     private static void attemptShuffleItemsPacket(World world) {

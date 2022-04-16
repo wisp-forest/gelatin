@@ -2,7 +2,7 @@ package io.wispforest.jello.item;
 
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.api.ducks.DyeItemStorage;
+import io.wispforest.jello.misc.ducks.JelloDyeItemExtension;
 import io.wispforest.jello.api.util.ColorUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -14,16 +14,14 @@ import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Random;
 
 @EnvironmentInterface(value = EnvType.CLIENT, itf = ItemColorProvider.class)
-public class JelloDyeItem extends DyeItem implements DyeItemStorage, ItemColorProvider {
+public class JelloDyeItem extends DyeItem implements JelloDyeItemExtension, ItemColorProvider {
 
     public static final String TEXTURE_VARIANT_KEY = "Texture_variant";
     public static final int NUMBER_OF_TEXTURE_VAR = 9;

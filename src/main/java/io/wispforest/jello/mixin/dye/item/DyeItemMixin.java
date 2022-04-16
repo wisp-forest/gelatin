@@ -1,6 +1,7 @@
 package io.wispforest.jello.mixin.dye.item;
 
 import io.wispforest.jello.api.ducks.DyeItemStorage;
+import io.wispforest.jello.misc.ducks.JelloDyeItemExtension;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.misc.ducks.SheepDyeColorStorage;
@@ -24,11 +25,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Mixin(DyeItem.class)
-public class DyeItemMixin extends Item implements DyeItemStorage {
+public class DyeItemMixin extends Item implements JelloDyeItemExtension {
 
     @Mutable @Shadow @Final private static Map<DyeColor, DyeItem> DYES;
-
-    @Unique @Mutable private DyeColorant color;
 
     public DyeItemMixin(Settings settings) {
         super(settings);
@@ -42,22 +41,12 @@ public class DyeItemMixin extends Item implements DyeItemStorage {
     @Inject(method = "<init>", at = @At(value = "TAIL"))
     private void fillNewDyeMap(net.minecraft.util.DyeColor color, Item.Settings settings, CallbackInfo ci) {
         if (color != DyeColorantRegistry.Constants.NULL_VALUE_OLD) {
-            this.color = DyeColorant.byOldDyeColor(((DyeItem) (Object) this).getColor());
+            this.setDyeColor(DyeColorant.byOldDyeColor(((DyeItem) (Object) this).getColor()));
 
-            if (this.color == null) {
-                this.color = DyeColorant.byName(color.getName(), DyeColorantRegistry.NULL_VALUE_NEW);
+            if (this.getDyeColorant() == null) {
+                this.setDyeColor(DyeColorant.byName(color.getName(), DyeColorantRegistry.NULL_VALUE_NEW));
             }
         }
-    }
-
-    @Override
-    public DyeColorant getDyeColorant() {
-        return color;
-    }
-
-    @Override
-    public void setDyeColor(DyeColorant dyeColorant) {
-        this.color = dyeColorant;
     }
 
     /**

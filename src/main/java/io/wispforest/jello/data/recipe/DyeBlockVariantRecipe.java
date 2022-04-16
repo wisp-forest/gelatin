@@ -1,9 +1,9 @@
 package io.wispforest.jello.data.recipe;
 
+import io.wispforest.jello.api.ducks.DyeItemStorage;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
 import io.wispforest.jello.data.tags.JelloTags;
-import io.wispforest.jello.api.ducks.DyeItemStorage;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
@@ -36,7 +36,7 @@ public class DyeBlockVariantRecipe extends SpecialCraftingRecipe {
                 ItemStack stack = inventory.getStack(width + height * inventory.getWidth());
 
                 if (stack.isIn(JelloTags.Items.VANILLA_DYE) || stack.isIn(JelloTags.Items.DYE)) {
-                    if(alreadyHasDye) {
+                    if(alreadyHasDye || !((DyeItemStorage)stack.getItem()).isDyeItem()) {
                         return false;
                     }
 
@@ -47,7 +47,7 @@ public class DyeBlockVariantRecipe extends SpecialCraftingRecipe {
                     hasBlockVariant = true;
 
                     if(variant == null) {
-                        DyeableBlockVariant possibleVariant = DyeableBlockVariant.getVariantFromBlock(((BlockItem) stack.getItem()));
+                        DyeableBlockVariant possibleVariant = DyeableBlockVariant.getVariantFromBlock(stack.getItem());
 
                         if (possibleVariant != null) {
                             stackReturnCount = 1;
@@ -55,7 +55,7 @@ public class DyeBlockVariantRecipe extends SpecialCraftingRecipe {
                         }
                     }else{
                         stackReturnCount++;
-                        if(!variant.isSuchAVariant(((BlockItem) stack.getItem()))){
+                        if(!variant.isSuchAVariant(stack.getItem())){
                             return false;
                         }
                     }

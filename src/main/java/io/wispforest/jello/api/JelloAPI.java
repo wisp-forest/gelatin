@@ -59,6 +59,7 @@ public class JelloAPI implements ModInitializer {
 
     //------------------------------------------------------------------------------
 
+    //TODO: Change this to a event based system
     private static void registerDispenserBehavior() {
         final var behavior = new ColorEntityBehavior();
 

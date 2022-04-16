@@ -26,6 +26,7 @@
     "dye.FireworkStarItemMixin",
     "dye.item.ItemGroupMixin",
     "dye.item.ItemsMixin",
+    "dye.item.ItemMixin",
     "dye.item.ItemStackMixin",
     "dye.item.EnchantedGoldenAppleMixin",
     "dye.LootManagerMixin",

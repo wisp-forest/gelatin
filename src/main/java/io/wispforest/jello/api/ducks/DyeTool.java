@@ -38,8 +38,6 @@ public interface DyeTool {
         return ActionResult.PASS;
     }
 
-    //-----------------------------------------------------------------------------------------------------------------------------------
-
     /**
      * Main method call for Dyeing any Entity before the items {@link Item#useOnEntity(ItemStack, PlayerEntity, LivingEntity, Hand)} method call. Override this for custom DyeColoring for an Item
      *
@@ -48,6 +46,8 @@ public interface DyeTool {
     default ActionResult attemptToDyeEntity(World world, PlayerEntity player, DyeableEntity entity, ItemStack stack, Hand hand){
         return ActionResult.PASS;
     }
+
+    //-----------------------------------------------------------------------------------------------------------------------------------
 
     default DyeColorant attemptToDyeCauldron(World world, PlayerEntity player, BlockPos blockPos, ItemStack stack, Hand hand){
         return null;

@@ -1,5 +1,6 @@
 package io.wispforest.jello.item;
 
+import io.wispforest.jello.api.ducks.DyeItemStorage;
 import io.wispforest.jello.api.dye.DyeColorant;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -11,25 +12,25 @@ import net.minecraft.item.ItemStack;
 import java.util.function.IntPredicate;
 
 @EnvironmentInterface(value = EnvType.CLIENT, itf = ItemColorProvider.class)
-public class MultiColorItem extends Item implements ItemColorProvider {
+public class ColoredItem extends Item implements ItemColorProvider {
 
-    private final DyeColorant dyeColor;
     private final IntPredicate tintAbove;
 
-    public MultiColorItem(DyeColorant dyeColor, Settings settings, IntPredicate tintAbove) {
+    public ColoredItem(DyeColorant dyeColor, Settings settings, IntPredicate tintAbove) {
         super(settings);
 
-        this.dyeColor = dyeColor;
         this.tintAbove = tintAbove;
+
+        ((DyeItemStorage)this).setDyeColor(dyeColor);
     }
 
-    public MultiColorItem(DyeColorant dyeColor, Settings settings) {
+    public ColoredItem(DyeColorant dyeColor, Settings settings) {
         this(dyeColor, settings, (number) -> true);
     }
 
     @Override
     @Environment(EnvType.CLIENT)
     public int getColor(ItemStack stack, int tintIndex) {
-        return tintAbove.test(tintIndex) ? dyeColor.getBaseColor() : -1;
+        return tintAbove.test(tintIndex) ? ((DyeItemStorage)this).getDyeColorant().getBaseColor() : -1;
     }
 }

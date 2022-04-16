@@ -1,7 +1,7 @@
 package io.wispforest.jello.data.recipe;
 
-import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.ducks.DyeItemStorage;
+import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.item.ArtistPaletteItem;
 import io.wispforest.jello.item.JelloItems;
 import net.minecraft.inventory.CraftingInventory;
@@ -38,37 +38,39 @@ public class ArtistPaletteRecipe extends SpecialCraftingRecipe {
                             return false;
                         }
 
-                        if (itemStack.getItem() instanceof DyeItemStorage dyeItemStorage && ArtistPaletteItem.ALLOWED_COLORS.contains(dyeItemStorage.getDyeColorant())) {
-                            switch (dyeItemStorage.getDyeColorant().toString()) {
-                                case "minecraft:red" -> {
-                                    if ((hasColorAlready & 1) == 1) {
-                                        return false;
+                        if (itemStack.getItem() instanceof DyeItemStorage dyeItemStorage) {
+                            if(dyeItemStorage.isDyeItem() && ArtistPaletteItem.ALLOWED_COLORS.contains(dyeItemStorage.getDyeColorant())) {
+                                switch (dyeItemStorage.getDyeColorant().toString()) {
+                                    case "minecraft:red" -> {
+                                        if ((hasColorAlready & 1) == 1) {
+                                            return false;
+                                        }
+                                        hasColorAlready = (byte) (hasColorAlready | 1);
                                     }
-                                    hasColorAlready = (byte) (hasColorAlready | 1);
-                                }
-                                case "minecraft:green" -> {
-                                    if ((hasColorAlready & 2) == 2) {
-                                        return false;
+                                    case "minecraft:green" -> {
+                                        if ((hasColorAlready & 2) == 2) {
+                                            return false;
+                                        }
+                                        hasColorAlready = (byte) (hasColorAlready | 2);
                                     }
-                                    hasColorAlready = (byte) (hasColorAlready | 2);
-                                }
-                                case "minecraft:blue" -> {
-                                    if ((hasColorAlready & 4) == 4) {
-                                        return false;
+                                    case "minecraft:blue" -> {
+                                        if ((hasColorAlready & 4) == 4) {
+                                            return false;
+                                        }
+                                        hasColorAlready = (byte) (hasColorAlready | 4);
                                     }
-                                    hasColorAlready = (byte) (hasColorAlready | 4);
-                                }
-                                case "minecraft:white" -> {
-                                    if ((hasColorAlready & 8) == 8) {
-                                        return false;
+                                    case "minecraft:white" -> {
+                                        if ((hasColorAlready & 8) == 8) {
+                                            return false;
+                                        }
+                                        hasColorAlready = (byte) (hasColorAlready | 8);
                                     }
-                                    hasColorAlready = (byte) (hasColorAlready | 8);
-                                }
-                                case "minecraft:black" -> {
-                                    if ((hasColorAlready & 16) == 16) {
-                                        return false;
+                                    case "minecraft:black" -> {
+                                        if ((hasColorAlready & 16) == 16) {
+                                            return false;
+                                        }
+                                        hasColorAlready = (byte) (hasColorAlready | 16);
                                     }
-                                    hasColorAlready = (byte) (hasColorAlready | 16);
                                 }
                             }
                         } else {
