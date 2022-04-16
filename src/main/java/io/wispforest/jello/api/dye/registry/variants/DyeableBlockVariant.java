@@ -370,6 +370,10 @@ public class DyeableBlockVariant {
         DyeableBlockVariant variant = DyeableBlockVariant.getVariantFromBlock(block);
 
         if(variant != null){
+            if(!block.getRegistryEntry().isIn(variant.primaryBlockTag)){
+                return null;
+            }
+
             DyeColorant blockCurrentColor = variant.getColorFromEntry(block);
 
             if(blockCurrentColor == dyeColorant || (variant.vanillaDyesOnly() && !dyeColorant.isIn(JelloTags.DyeColor.VANILLA_DYES))){
@@ -520,6 +524,8 @@ public class DyeableBlockVariant {
         }
     }
 
+    private boolean alreadInitDefaultBlocksItemTag = false;
+
     @ApiStatus.Internal
     protected final void addToItemTags(Item item, boolean readOnly) {
         if(item == Blocks.AIR.asItem()){
@@ -535,10 +541,13 @@ public class DyeableBlockVariant {
             }
         }
 
-        if(addCustomDefaultBlockToTag && item != this.getDefaultBlock().asItem()){
+        if(addCustomDefaultBlockToTag && item != this.getDefaultBlock().asItem() && !alreadInitDefaultBlocksItemTag){
             this.addToItemTags(this.getDefaultBlock().asItem(), true);
+            alreadInitDefaultBlocksItemTag = true;
         }
     }
+
+    private boolean alreadInitDefaultBlocksBlockTag = false;
 
     @ApiStatus.Internal
     protected final void addToBlockTags(Block block, boolean readOnly) {
@@ -550,8 +559,9 @@ public class DyeableBlockVariant {
             }
         }
 
-        if(addCustomDefaultBlockToTag && block != this.getDefaultBlock()) {
+        if(addCustomDefaultBlockToTag && block != this.getDefaultBlock() && !alreadInitDefaultBlocksBlockTag) {
             this.addToBlockTags(this.getDefaultBlock(), true);
+            alreadInitDefaultBlocksBlockTag = true;
         }
     }
 
