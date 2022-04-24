@@ -214,17 +214,5 @@ public class ColorMixerScreen extends HandledScreen<ColorMixerScreenHandler> {
         this.searchBox.setText("");
 
         this.search();
-
-//        this.listener =  new ScreenHandlerListener() {
-//            @Override
-//            public void onSlotUpdate(ScreenHandler handler, int slotId, ItemStack stack) {
-//
-//            }
-//
-//            @Override
-//            public void onPropertyUpdate(ScreenHandler handler, int property, int value) {
-//
-//            }
-//        }
     }
 }

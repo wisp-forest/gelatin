@@ -9,6 +9,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.RegistryEntry;
 import org.jetbrains.annotations.ApiStatus;
 
+/**
+ * A replacement for Minecrafts {@link DyeColor} Enum with mostly the exact same functions (Planned).
+ */
 public class DyeColorant {
 
     private final RegistryEntry.Reference<DyeColorant> registryEntry = DyeColorantRegistry.DYE_COLOR.createEntry(this);

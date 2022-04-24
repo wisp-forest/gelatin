@@ -17,8 +17,6 @@ public interface RainbowEntity {
         return rainbowOverride();
     }
 
-    ;
-
     /**
      * Used by the {@link EnchantedGoldenAppleMixin} to disable rainbow event,
      *

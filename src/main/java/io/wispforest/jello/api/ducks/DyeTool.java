@@ -3,6 +3,8 @@ package io.wispforest.jello.api.ducks;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.ducks.entity.DyeableEntity;
 import io.wispforest.jello.api.dye.DyeColorant;
+import io.wispforest.jello.api.dye.registry.variants.VanillaBlockVariants;
+import io.wispforest.jello.misc.dye.JelloBlockVariants;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -13,8 +15,11 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+/**
+ * Interface used to store Color Data within A Colorable Item.
+ * <p>Look at {@link VanillaBlockVariants} and {@link JelloBlockVariants} as an example of some blocks by default</p>
+ */
 public interface DyeTool {
-
     /**
      * Main method call for Dyeing any block before the items {@link Item#useOnBlock(ItemUsageContext)} method call. Override this for custom DyeColoring for an Item
      *

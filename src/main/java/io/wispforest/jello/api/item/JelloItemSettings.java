@@ -12,9 +12,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Map;
 
+@ApiStatus.Experimental
 public class JelloItemSettings extends OwoItemSettings {
 
     public void addRecipeSpecificRemainder(Identifier recipeID, Item recipeRemainder) {

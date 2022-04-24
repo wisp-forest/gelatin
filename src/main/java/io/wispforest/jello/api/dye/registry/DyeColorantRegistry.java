@@ -9,6 +9,7 @@ import io.wispforest.jello.data.tags.JelloTags;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.block.MapColor;
 import net.minecraft.item.Item;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.DefaultedRegistry;
@@ -20,10 +21,12 @@ import org.jetbrains.annotations.ApiStatus;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Registry designed as a replacement for minecrafts {@link DyeColor} Enum allowing for better support for adding any DyeColor to minecraft
+ */
 public class DyeColorantRegistry {
 
     public static final RegistryKey<Registry<DyeColorant>> DYE_COLOR_KEY = RegistryKey.ofRegistry(Jello.id("dye_color"));
-
     public static final DefaultedRegistry<DyeColorant> DYE_COLOR = FabricRegistryBuilder.createDefaulted(DyeColorant.class, DYE_COLOR_KEY.getValue(), Jello.id("_null")).buildAndRegister();
 
     //Fix for fabric not allowing for a function to be passed thru
@@ -171,6 +174,8 @@ public class DyeColorantRegistry {
     /**
      * Note: Code was based off of/used from <a href="https://chir.ag/projects/ntc/ntc.js">ntc.js</a>, created by Chirag Mehta,
      * under the <a href="http://creativecommons.org/licenses/by/2.5/">Creative Commons Licences</a> and retrofitted to work with Java
+     *
+     *<p>The method is designed to take in a integer Color value and approximate the closest color found within {@link DyeColorantRegistry#DYE_COLOR}</p>
      */
     public static DyeColorant getNearestColorant(int colorValue) {
         var rgb = new int[]{colorValue >> 16, (colorValue >> 8) & 0xFF, colorValue & 0xFF};

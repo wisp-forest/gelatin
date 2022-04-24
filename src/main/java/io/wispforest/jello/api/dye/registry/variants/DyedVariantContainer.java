@@ -20,6 +20,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Main Class for storing all data on all registered {@link DyeColorant} used to create colored {@link DyeableBlockVariant}
+ * <p>Look at {@link DyeColorantRegistry#createDyedVariants(DyeColorant, Item.Settings, boolean)} if you want to create variants off of your {@link DyeColorant}</p>
+ */
 public class DyedVariantContainer {
 
     protected static final Map<DyeColorant, DyedVariantContainer> DYED_VARIANTS = new HashMap<>();
@@ -91,10 +95,12 @@ public class DyedVariantContainer {
         return createVariantContainer(dyeColorant, null, null, true, false);
     }
 
+    @ApiStatus.Internal
     public static DyedVariantContainer createVariantContainer(DyeColorant dyeColorant, Item.Settings dyeItemSettings, boolean useModelRedirectSystem) {
         return createVariantContainer(dyeColorant, dyeItemSettings, null, false, useModelRedirectSystem);
     }
 
+    @ApiStatus.Internal
     public static DyedVariantContainer createVariantContainer(DyeColorant dyeColorant, Item.Settings dyeItemSettings, OwoItemSettings owoItemSettings, boolean readOnly, boolean useModelRedirectSystem) {
         BlockBuilder blockBuilder = new BlockBuilder(readOnly, useModelRedirectSystem);
         ItemBuilder itemBuilder = new ItemBuilder(readOnly, useModelRedirectSystem);
@@ -130,6 +136,9 @@ public class DyedVariantContainer {
         this.blockBuilder.recursivelyBuildBlocksFromVariant(this.dyedBlocks, null, dyeableBlockVariant, dyeColorant, null);
     }
 
+    /**
+     * Block Builder class used for the Initial creation of the {@link DyeableBlockVariant} and furthermore when a new {@link DyeColorant} is registered if the variant allows for it
+     */
     public static class BlockBuilder {
         public boolean readOnly;
         public final boolean useModelRedirectSystem;
@@ -205,6 +214,9 @@ public class DyedVariantContainer {
         }
     }
 
+    /**
+     * Will be similar to Block Builder within the future
+     */
     public static class ItemBuilder {
         public boolean readOnly;
         public final boolean useModelRedirectSystem;

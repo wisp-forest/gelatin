@@ -1,11 +1,15 @@
 package io.wispforest.jello.api.events;
 
+import io.wispforest.jello.item.dyebundle.DyeBundleScreenEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.client.network.ClientPlayerEntity;
 
+/**
+ * Event useful for getting Scrolling within the HotBar Screen. Look at {@link DyeBundleScreenEvent} for an Example of use.
+ */
 public class HotbarMouseEvents {
 
     /**

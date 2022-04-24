@@ -50,12 +50,6 @@ public class ColorMixerBlock extends BlockWithEntity {
         return BlockRenderType.MODEL;
     }
 
-    @Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, JelloBlockEntityTypes.COLOR_MIXER, ColorMixerBlockEntity::tick);
-    }
-
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {

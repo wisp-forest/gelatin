@@ -1,5 +1,6 @@
 package io.wispforest.jello.api.dye.registry.variants;
 
+import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.block.colored.*;
 import io.wispforest.jello.api.ducks.DyeBlockStorage;
@@ -24,6 +25,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * An implementation of all vanilla Dyeable blocks used when a {@link DyeColorant} is registered for Variant creation
+ */
 public class VanillaBlockVariants {
 
     //-----------------------------------------------------------------

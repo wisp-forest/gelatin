@@ -1,5 +1,6 @@
 package io.wispforest.jello.api.events;
 
+import io.wispforest.jello.mixin.cauldron.AbstractCauldronBlockMixin;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.block.AbstractCauldronBlock;
@@ -17,6 +18,9 @@ import net.minecraft.world.World;
 import java.util.Map;
 import java.util.function.Supplier;
 
+/**
+ * Event for custom cauldron interactions before Vanillas system. See {@link AbstractCauldronBlockMixin} for reference to its injection
+ */
 public class CauldronEvent {
 
     public enum CauldronType {

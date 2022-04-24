@@ -1,6 +1,6 @@
 package io.wispforest.jello.misc.behavior;
 
-import io.wispforest.jello.api.JelloAPI;
+import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.ducks.DyeTool;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.ColorManipulators;
@@ -11,6 +11,7 @@ import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.jello.blockentity.ColorStorageBlockEntity;
 import io.wispforest.jello.item.SpongeItem;
 import io.wispforest.jello.item.dyebundle.DyeBundleItem;
+import io.wispforest.jello.misc.JelloStats;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -166,7 +167,7 @@ public class JelloCauldronBehaviors implements CauldronBehavior {
                     }
 
                     LeveledCauldronBlock.decrementFluidLevel(state, world, pos);
-                    player.incrementStat(JelloAPI.Stats.DYE_ARMOR);
+                    player.incrementStat(JelloStats.DYE_ARMOR);
 
                     world.playSound((PlayerEntity) null, pos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.4F);
                 }

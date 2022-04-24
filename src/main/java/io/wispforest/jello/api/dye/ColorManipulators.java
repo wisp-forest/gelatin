@@ -1,22 +1,22 @@
 package io.wispforest.jello.api.dye;
 
-import io.wispforest.jello.api.JelloAPI;
+import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.ducks.entity.DyeableEntity;
 import io.wispforest.jello.api.ducks.entity.RainbowEntity;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
-import io.wispforest.jello.item.dyebundle.DyeBundleItem;
+import io.wispforest.jello.misc.JelloStats;
 import io.wispforest.owo.ops.ItemOps;
 import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.ApiStatus;
 
 public class ColorManipulators {
 
@@ -44,6 +44,11 @@ public class ColorManipulators {
         return coloredPair.getRight().getOrDefault().changeState(world, blockPos, currentBlockState, coloredPair.getLeft(), player);
     }
 
+    /**
+     * Method used to change the color of a item used on a Cauldron
+     */
+    @ApiStatus.Experimental
+    @ApiStatus.Internal
     public static boolean changeBlockItemColor(World world, BlockPos cauldronPos, ItemStack oldStack, Block changedBlock, PlayerEntity player, Hand hand, boolean washingBlock) {
         Block oldBlock = Block.getBlockFromItem(oldStack.getItem());
 
@@ -68,15 +73,19 @@ public class ColorManipulators {
             ItemScatterer.spawn(world, blockPos.getX(), blockPos.getY(), blockPos.getZ(), changedItemStack);
 
             if (washingBlock) {
-                player.incrementStat(JelloAPI.Stats.CLEAN_BLOCK);
+                player.incrementStat(JelloStats.CLEAN_BLOCK);
             } else {
-                player.incrementStat(JelloAPI.Stats.DYE_BLOCK);
+                player.incrementStat(JelloStats.DYE_BLOCK);
             }
         }
 
         return true;
     }
 
+
+    /**
+     * Interface that allows for {@link DyeableBlockVariant} to allow for custom data to be transfered when a variant Block is colored
+     */
     public interface AlterBlockColor {
         AlterBlockColor DEFAULT = (world, blockPos, currentState, newBlock, player) -> {
             if(!world.isClient) world.setBlockState(blockPos, newBlock.getStateWithProperties(currentState));

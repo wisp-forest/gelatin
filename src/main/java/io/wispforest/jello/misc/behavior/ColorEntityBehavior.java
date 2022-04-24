@@ -1,8 +1,9 @@
 package io.wispforest.jello.misc.behavior;
 
-import io.wispforest.jello.api.JelloAPI;
+import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.ducks.DyeItemStorage;
 import io.wispforest.jello.api.ducks.entity.DyeableEntity;
+import io.wispforest.jello.misc.JelloGameEvents;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
 import net.minecraft.entity.Entity;
@@ -47,7 +48,7 @@ public class ColorEntityBehavior extends FallibleItemDispenserBehavior {
                 dyeableEntity.setDyeColor(dyeItemStorage.getDyeColorant());
 
                 livingEntity.world.playSoundFromEntity((PlayerEntity) null, livingEntity, SoundEvents.ITEM_DYE_USE, SoundCategory.NEUTRAL, 1.0F, 1.0F);
-                world.emitGameEvent((Entity) null, JelloAPI.GameEvents.DYE_ENTITY, pos);
+                world.emitGameEvent((Entity) null, JelloGameEvents.DYE_ENTITY, pos);
 
                 return true;
             }

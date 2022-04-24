@@ -3,14 +3,30 @@ package io.wispforest.jello.mixin.dye;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.ducks.DyeBlockEntityStorage;
 import io.wispforest.jello.api.ducks.DyeBlockStorage;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
+import net.minecraft.util.DyeColor;
+import net.minecraft.util.math.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ShulkerBoxBlockEntity.class)
 public class ShulkerBoxBlockEntityMixin implements DyeBlockEntityStorage {
 
     @Unique private DyeColorant cachedDyeColorant = null;
+
+    @Inject(method = "<init>(Lnet/minecraft/util/DyeColor;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;)V", at = @At("TAIL"))
+    private void setCachedDyeColorant1(DyeColor color, BlockPos pos, BlockState state, CallbackInfo ci){
+        cachedDyeColorant = ((DyeBlockStorage) state.getBlock()).getDyeColor();
+    }
+
+    @Inject(method = "<init>(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;)V", at = @At("TAIL"))
+    private void setCachedDyeColorant2(BlockPos pos, BlockState state, CallbackInfo ci){
+        cachedDyeColorant = ((DyeBlockStorage) state.getBlock()).getDyeColor();
+    }
 
     //Disallowing anyone to change the color of a shulker box as it is a static value for now
     @Override
@@ -18,10 +34,6 @@ public class ShulkerBoxBlockEntityMixin implements DyeBlockEntityStorage {
 
     @Override
     public DyeColorant getDyeColor() {
-        if (cachedDyeColorant == null) {
-            cachedDyeColorant = ((DyeBlockStorage) ((ShulkerBoxBlockEntity) (Object) this).getCachedState().getBlock()).getDyeColor();
-        }
-
         return this.cachedDyeColorant;
     }
 }
