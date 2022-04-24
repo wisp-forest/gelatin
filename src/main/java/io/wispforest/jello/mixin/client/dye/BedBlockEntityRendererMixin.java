@@ -1,9 +1,9 @@
 package io.wispforest.jello.mixin.client.dye;
 
-import io.wispforest.jello.api.JelloAPIClient;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.ducks.DyeBlockStorage;
+import io.wispforest.jello.client.JelloClient;
 import net.minecraft.block.entity.BedBlockEntity;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.RenderLayer;
@@ -30,7 +30,7 @@ public class BedBlockEntityRendererMixin {
         if (((DyeBlockStorage) bedBlockEntity.getCachedState().getBlock()).isBlockDyed()) {
             cachedBedColor = ((DyeBlockStorage) bedBlockEntity.getCachedState().getBlock()).getDyeColor();
 
-            SpriteIdentifier sprite = new SpriteIdentifier(TexturedRenderLayers.BEDS_ATLAS_TEXTURE, JelloAPIClient.BED_PILLOW_ONLY);
+            SpriteIdentifier sprite = new SpriteIdentifier(TexturedRenderLayers.BEDS_ATLAS_TEXTURE, JelloClient.BED_PILLOW_ONLY);
             sprite.getVertexConsumer(vertexConsumerProvider, RenderLayer::getEntityCutout);
 
             return sprite;
@@ -44,7 +44,7 @@ public class BedBlockEntityRendererMixin {
     @Inject(method = "renderPart", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;pop()V"))
     private void renderColoredSheets(MatrixStack matrices, VertexConsumerProvider vertexConsumers, ModelPart part, Direction direction, SpriteIdentifier sprite, int light, int overlay, boolean isFoot, CallbackInfo ci) {
         if (cachedBedColor != DyeColorantRegistry.NULL_VALUE_NEW) {
-            VertexConsumer vertexConsumer2 = new SpriteIdentifier(TexturedRenderLayers.BEDS_ATLAS_TEXTURE, JelloAPIClient.BED_BLANKET_ONLY).getVertexConsumer(vertexConsumers, RenderLayer::getEntityCutout);//identifier -> RenderLayer.getTranslucent());
+            VertexConsumer vertexConsumer2 = new SpriteIdentifier(TexturedRenderLayers.BEDS_ATLAS_TEXTURE, JelloClient.BED_BLANKET_ONLY).getVertexConsumer(vertexConsumers, RenderLayer::getEntityCutout);//identifier -> RenderLayer.getTranslucent());
             float[] colorComp = cachedBedColor.getColorComponents();
             part.render(matrices, vertexConsumer2, light, overlay, colorComp[0], colorComp[1], colorComp[2], 1.0f);
         }

@@ -26,11 +26,9 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "io.wispforest.jello.api.JelloAPIClient",
       "io.wispforest.jello.client.JelloClient"
     ],
     "main": [
-      "io.wispforest.jello.api.JelloAPI",
       "io.wispforest.jello.Jello"
     ],
     "fabric-datagen": [

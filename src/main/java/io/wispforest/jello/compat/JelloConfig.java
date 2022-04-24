@@ -23,6 +23,10 @@ public class JelloConfig implements ConfigData {
     @ConfigEntry.Category("common")
     @ConfigEntry.Gui.Tooltip
     public boolean enableDyeingBlocks = true;
+
+    @ConfigEntry.Category("Client")
+    @ConfigEntry.Gui.Tooltip
+    public boolean enableTransparencyFixCauldrons = true;
 }
 
 
