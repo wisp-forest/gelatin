@@ -26,7 +26,13 @@ public class JelloConfig implements ConfigData {
 
     @ConfigEntry.Category("Client")
     @ConfigEntry.Gui.Tooltip
+    @ConfigEntry.Gui.RequiresRestart
+    public boolean addCustomJsonColors = true;
+
+    @ConfigEntry.Category("Client")
+    @ConfigEntry.Gui.Tooltip
     public boolean enableTransparencyFixCauldrons = true;
+
 }
 
 

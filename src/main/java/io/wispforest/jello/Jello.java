@@ -82,7 +82,11 @@ public class Jello implements ModInitializer {
         FieldRegistrationHandler.processSimple(TrackedDataHandlerExtended.class, false);
         FieldRegistrationHandler.processSimple(JelloStats.class, false);
 
-        DyeColorantLoader.loadFromJson();
+        //TODO: Add warning when connecting to a server with just disabled or when the client connects with it disabled
+        if(getConfig().addCustomJsonColors) {
+            DyeColorantLoader.loadFromJson();
+        }
+
         ((OwoItemGroup) ItemGroup.MISC).initialize();
 
         registerDispenserBehavior();
