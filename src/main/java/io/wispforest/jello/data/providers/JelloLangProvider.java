@@ -57,6 +57,12 @@ public class JelloLangProvider extends LanguageProvider {
         addACToolTipAndNameEntry("enableDyeingPlayers", "Enable Dyeing of Players", "Allow for the dyeing of players using any dye.");
         addACToolTipAndNameEntry("enableDyeingBlocks", "Enable Dyeing of Blocks", "Allow for the dyeing of blocks using any vanilla dye.");
 
+        addACToolTipAndNameEntry("addCustomJsonColors", "Enable Json Colors", "Whether or not Jello will add it's included 1822 colors to Minecraft internally.");
+        addACToolTipAndNameEntry("enableTransparencyFixCauldrons", "Enable Transparency Fix for Cauldrons", "Enables a fix for water within cauldrons just being Opaque rather than translucent.");
+
+        addACCategoryName("common", "Main Config");
+        addACCategoryName("client", "Client Config");
+
         add("text.jello.dye_bundle_pattern", "%1$s [%2$s]");
 
         add("itemGroup.misc.tab.dyes", "Custom Dyes");
@@ -108,6 +114,10 @@ public class JelloLangProvider extends LanguageProvider {
         return Arrays.stream(internalName.toLowerCase(Locale.ROOT).split("_"))
                 .map(StringUtils::capitalize)
                 .collect(Collectors.joining(" "));
+    }
+
+    private void addACCategoryName(String keyName, String nameTranslation) {
+        add("text.autoconfig.jello.category." + keyName, nameTranslation);
     }
 
     private void addACToolTipAndNameEntry(String keyName, String nameTranslation, String tooltipTranslation) {
