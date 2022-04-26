@@ -24,6 +24,10 @@ public class ColoredCandleCakeBlock extends CandleCakeBlock implements BlockColo
     @Override
     @Environment(EnvType.CLIENT)
     public int getColor(BlockState state, @Nullable BlockRenderView world, @Nullable BlockPos pos, int tintIndex) {
+        //Small patch to fix particles being tinted
+        if(tintIndex == 0)
+            return -1;
+
         DyeColorant dyeColorant = ((DyeBlockStorage) this).getDyeColor();
 
         return dyeColorant.getBaseColor();

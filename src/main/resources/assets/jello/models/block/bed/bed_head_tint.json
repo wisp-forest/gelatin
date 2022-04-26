@@ -3,8 +3,7 @@
 	"texture_size": [64, 64],
 	"ambientocclusion": false,
 	"textures": {
-	    "0": "jello:block/bed/pillow_only",
-        "1": "jello:block/bed/blanket_only",
+	    "0": "entity/bed/white",
 		"particle": "block/oak_planks"
 	},
 	"elements": [
@@ -61,11 +60,11 @@
 			"to": [16, 9, 8],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 11, 8]},
 			"faces": {
-				"east": {"uv": [0.5, 3.5, 1.5, 5.5], "rotation": 270, "texture": "#1", "cullface": "east", "tintindex": 0},
-				"south": {"uv": [0, 0, 0, 0], "rotation": 180, "texture": "#1", "cullface": "south"},
-				"west": {"uv": [5.5, 3.5, 6.5, 5.5], "rotation": 90, "texture": "#1", "cullface": "west", "tintindex": 0},
-				"up": {"uv": [1.5, 3.5, 5.5, 5.5], "rotation": 180, "texture": "#1", "tintindex": 0},
-				"down": {"uv": [0, 0, 0, 0], "texture": "#1", "cullface": "down"}
+				"east": {"uv": [0.5, 3.5, 1.5, 5.5], "rotation": 270, "texture": "#0", "cullface": "east", "tintindex": 1},
+				"south": {"uv": [0, 0, 0, 0], "rotation": 180, "texture": "#0", "cullface": "south"},
+				"west": {"uv": [5.5, 3.5, 6.5, 5.5], "rotation": 90, "texture": "#0", "cullface": "west", "tintindex": 1},
+				"up": {"uv": [1.5, 3.5, 5.5, 5.5], "rotation": 180, "texture": "#0", "tintindex": 1},
+				"down": {"uv": [0, 0, 0, 0], "texture": "#0", "cullface": "down"}
 			}
 		}
 	]

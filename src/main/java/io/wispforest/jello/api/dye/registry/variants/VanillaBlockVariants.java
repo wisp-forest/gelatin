@@ -127,8 +127,7 @@ public class VanillaBlockVariants {
         (dyeColorant, parentBlock) -> {
             AbstractBlock.ContextPredicate contextPredicate = (state, world, pos) -> !(world.getBlockEntity(pos) instanceof ShulkerBoxBlockEntity shulkerBoxBlockEntity) || shulkerBoxBlockEntity.suffocates();
 
-            Block block = new ShulkerBoxBlock(DyeColorantRegistry.Constants.NULL_VALUE_OLD, AbstractBlock.Settings.of(Material.SHULKER_BOX, MapColor.CLEAR).strength(2.0F).dynamicBounds().nonOpaque().suffocates(contextPredicate).blockVision(contextPredicate));
-            ((DyeBlockStorage) block).setDyeColor(dyeColorant);
+            Block block = new ColoredShulkerBoxBlock(dyeColorant, AbstractBlock.Settings.of(Material.SHULKER_BOX, MapColor.CLEAR).strength(2.0F).dynamicBounds().nonOpaque().suffocates(contextPredicate).blockVision(contextPredicate));
 
             return addToBlockEntitieset(block, BlockEntityType.SHULKER_BOX);
         }).setBlockStateChangeMethod(
