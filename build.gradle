@@ -61,6 +61,9 @@ dependencies {
     
     modLocalRuntime("maven.modrinth:starlight:${project.starlight}")
 
+    include "maven.modrinth:better-beds:${project.better_beds}"
+    modImplementation("maven.modrinth:better-beds:${project.better_beds}")
+
     //modImplementation "maven.modrinth:consistencyplus:${project.consistencyplus}"
 //    modImplementation("dev.architectury:architectury-fabric:${rootProject.architectury}"){ //:sources"){
 //        exclude(group: "net.fabricmc.fabric-api")

@@ -78,9 +78,9 @@ public class VanillaBlockVariants {
     //-----------------------------------------------------------------
 
     public static final DyeableBlockVariant BED = DyeableBlockVariant.of(new Identifier("bed"), (dyeColorant, parentBlock) -> {
-        Block block = new BedBlock(DyeColorantRegistry.Constants.NULL_VALUE_OLD,
+        Block block = new ColoredBedBlock(dyeColorant,
                 AbstractBlock.Settings.of(Material.WOOL, state -> state.get(BedBlock.PART) == BedPart.FOOT ? MapColor.CLEAR : MapColor.WHITE_GRAY).sounds(BlockSoundGroup.WOOD).strength(0.2F).nonOpaque());
-        ((DyeBlockStorage) block).setDyeColor(dyeColorant);
+//        ((DyeBlockStorage) block).setDyeColor(dyeColorant);
 
         return addToBlockEntitieset(block, BlockEntityType.BED);
     }).setBlockStateChangeMethod(

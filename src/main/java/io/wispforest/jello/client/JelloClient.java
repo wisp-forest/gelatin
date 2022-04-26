@@ -148,13 +148,15 @@ public class JelloClient implements ClientModInitializer {
 
                             MinecraftClient.getInstance().getBlockEntityRenderDispatcher().get(shulkerBoxBlockEntity).render(shulkerBoxBlockEntity, 0.0F, matrices, vertexConsumers, light, overlay);
                         });
-                    } else if (block instanceof BedBlock) {
-                        BuiltinItemRendererRegistry.INSTANCE.register(block, (stack, mode, matrices, vertexConsumers, light, overlay) -> {
-                            BedBlockEntity renderBed = new BedBlockEntity(BlockPos.ORIGIN, block.getDefaultState());
-
-                            MinecraftClient.getInstance().getBlockEntityRenderDispatcher().get(renderBed).render(renderBed, 0.0F, matrices, vertexConsumers, light, overlay);
-                        });
-                    } else {
+                    }
+//                    else if (block instanceof BedBlock) {
+//                        BuiltinItemRendererRegistry.INSTANCE.register(block, (stack, mode, matrices, vertexConsumers, light, overlay) -> {
+//                            BedBlockEntity renderBed = new BedBlockEntity(BlockPos.ORIGIN, block.getDefaultState());
+//
+//                            MinecraftClient.getInstance().getBlockEntityRenderDispatcher().get(renderBed).render(renderBed, 0.0F, matrices, vertexConsumers, light, overlay);
+//                        });
+//                    }
+                    else {
                         ColorProviderRegistry.BLOCK.register((BlockColorProvider) block, block);
 
                         Item item = block.asItem();
