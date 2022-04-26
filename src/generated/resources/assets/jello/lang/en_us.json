@@ -25691,6 +25691,10 @@
   "item.minecraft.yellow_dye": "Yellow Dye",
   "itemGroup.misc.tab.block_vars": "Colored Block Variants",
   "itemGroup.misc.tab.dyes": "Custom Dyes",
+  "text.autoconfig.jello.category.client": "Client Config",
+  "text.autoconfig.jello.category.common": "Main Config",
+  "text.autoconfig.jello.option.addCustomJsonColors": "Enable Json Colors",
+  "text.autoconfig.jello.option.addCustomJsonColors.@Tooltip": "Whether or not Jello will add it's included 1822 colors to Minecraft internally.",
   "text.autoconfig.jello.option.enableDyeingBlocks": "Enable Dyeing of Blocks",
   "text.autoconfig.jello.option.enableDyeingBlocks.@Tooltip": "Allow for the dyeing of blocks using any vanilla dye.",
   "text.autoconfig.jello.option.enableDyeingEntities": "Enable Dyeing of Entities",
@@ -25699,5 +25703,7 @@
   "text.autoconfig.jello.option.enableDyeingPlayers.@Tooltip": "Allow for the dyeing of players using any dye.",
   "text.autoconfig.jello.option.enableGrayScalingOfEntities": "Enable GrayScaling of Entities",
   "text.autoconfig.jello.option.enableGrayScalingOfEntities.@Tooltip": "[Warning: Will break texturepacks!] Used to allow for true color when a entity is dyed or color.",
+  "text.autoconfig.jello.option.enableTransparencyFixCauldrons": "Enable Transparency Fix for Cauldrons",
+  "text.autoconfig.jello.option.enableTransparencyFixCauldrons.@Tooltip": "Enables a fix for water within cauldrons just being Opaque rather than translucent.",
   "text.jello.dye_bundle_pattern": "%1$s [%2$s]"
 }
