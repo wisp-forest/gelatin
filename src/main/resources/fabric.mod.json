@@ -51,5 +51,8 @@
   "suggests": {
     "modmenu": "*",
     "consistency_plus": "*"
+  },
+  "breaks": {
+    "cauldron_dyeing": "*"
   }
 }
