@@ -61,13 +61,15 @@ public class ColorStorageBlockEntity extends BlockEntity {
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
-        Identifier id = Identifier.tryParse(nbt.getString(DYE_COLOR_KEY));
 
-        this.currentColor = DyeColorantRegistry.DYE_COLOR.get(id);
+        if(nbt.contains(DYE_COLOR_KEY)){
+            Identifier id = Identifier.tryParse(nbt.getString(DYE_COLOR_KEY));
+
+            this.currentColor = DyeColorantRegistry.DYE_COLOR.get(id);
+        }
 
         if (world != null && world.isClient) {
             world.updateListeners(pos, Blocks.AIR.getDefaultState(), this.getCachedState(), Block.REDRAW_ON_MAIN_THREAD);
-            //MinecraftClient.getInstance().worldRenderer.updateBlock(world, pos,  Blocks.AIR.getDefaultState(), this.getCachedState(), Block.REDRAW_ON_MAIN_THREAD);
         }
     }
 
