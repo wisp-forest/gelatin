@@ -49,7 +49,7 @@ public class JelloCauldronBehaviors implements CauldronBehavior {
             if(stack.getItem() instanceof DyeTool dyeTool) {
                 DyeColorant dyeColorant = dyeTool.attemptToDyeCauldron(world, player, pos, stack, hand);
 
-                if (dyeColorant != DyeColorantRegistry.NULL_VALUE_NEW || dyeColorant != null) {
+                if (dyeColorant != DyeColorantRegistry.NULL_VALUE_NEW) {
                     ColorStorageBlockEntity blockEntity = (ColorStorageBlockEntity) world.getBlockEntity(pos);
 
                     if (blockEntity != null) {

@@ -3,6 +3,7 @@ package io.wispforest.jello.api.ducks;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.ducks.entity.DyeableEntity;
 import io.wispforest.jello.api.dye.DyeColorant;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.registry.variants.VanillaBlockVariants;
 import io.wispforest.jello.misc.dye.JelloBlockVariants;
 import net.minecraft.entity.LivingEntity;
@@ -55,6 +56,6 @@ public interface DyeTool {
     //-----------------------------------------------------------------------------------------------------------------------------------
 
     default DyeColorant attemptToDyeCauldron(World world, PlayerEntity player, BlockPos blockPos, ItemStack stack, Hand hand){
-        return null;
+        return DyeColorantRegistry.NULL_VALUE_NEW;
     }
 }

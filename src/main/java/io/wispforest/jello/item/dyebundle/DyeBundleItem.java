@@ -6,6 +6,7 @@ import io.wispforest.jello.api.ducks.DyeTool;
 import io.wispforest.jello.api.ducks.entity.DyeableEntity;
 import io.wispforest.jello.api.dye.ColorManipulators;
 import io.wispforest.jello.api.dye.DyeColorant;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.misc.ducks.SheepDyeColorStorage;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -52,7 +53,7 @@ public class DyeBundleItem extends BundleItem implements DyeTool {
     public ActionResult attemptToDyeEntity(World world, PlayerEntity user, DyeableEntity entity, ItemStack stack, Hand hand) {
         DyeColorant dyeColorant = getDyeColorantFromBundle(user, stack);
 
-        if (dyeColorant != null) {
+        if (dyeColorant != DyeColorantRegistry.NULL_VALUE_NEW) {
             if (user.shouldCancelInteraction()) {
                 if(ColorManipulators.dyeEntityEvent(entity, dyeColorant)) {
 
@@ -70,7 +71,7 @@ public class DyeBundleItem extends BundleItem implements DyeTool {
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
         DyeColorant dyeColorant = getDyeColorantFromBundle(user, stack);
 
-        if (dyeColorant != null && entity instanceof SheepEntity sheepEntity) {
+        if (dyeColorant != DyeColorantRegistry.NULL_VALUE_NEW && entity instanceof SheepEntity sheepEntity) {
             if (sheepEntity.isAlive() && !sheepEntity.isSheared() && ((SheepDyeColorStorage) sheepEntity).getWoolDyeColor() != dyeColorant) {
                 sheepEntity.world.playSoundFromEntity(user, sheepEntity, SoundEvents.ITEM_DYE_USE, SoundCategory.PLAYERS, 1.0F, 1.0F);
                 if (!user.world.isClient) {
@@ -90,7 +91,7 @@ public class DyeBundleItem extends BundleItem implements DyeTool {
     public ActionResult attemptToDyeBlock(World world, PlayerEntity player, BlockPos blockPos, ItemStack stack, Hand hand) {
         DyeColorant dyeColorant = getDyeColorantFromBundle(player, stack);
 
-        if (dyeColorant != null) {
+        if (dyeColorant != DyeColorantRegistry.NULL_VALUE_NEW) {
             if (!player.shouldCancelInteraction()) {
 
                 //TODO: Possible change this so it just Passes?
@@ -140,7 +141,7 @@ public class DyeBundleItem extends BundleItem implements DyeTool {
             return ((DyeItemStorage) firstStack.getItem()).getDyeColorant();
         }
 
-        return null;
+        return DyeColorantRegistry.NULL_VALUE_NEW;
     }
 
     public static void dyeBundleInteraction(ItemStack bundleStack, DyeColorant dyeColorant) {

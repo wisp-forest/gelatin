@@ -18,13 +18,12 @@ import javax.annotation.Nullable;
 
 public class ColorStorageBlockEntity extends BlockEntity {
 
-    private DyeColorant currentColor;
+    private DyeColorant currentColor = DyeColorantRegistry.NULL_VALUE_NEW;
 
     private static final String DYE_COLOR_KEY = "DyeColor";
 
     public ColorStorageBlockEntity(BlockPos pos, BlockState state) {
         super(JelloBlockEntityTypes.COLOR_STORAGE, pos, state);
-        this.currentColor = DyeColorantRegistry.NULL_VALUE_NEW;
     }
 
     public void setDyeColorant(DyeColorant dyeColorant) {
