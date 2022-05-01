@@ -16,6 +16,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface used to store Color Data within A Colorable Item.
  * <p>Look at {@link VanillaBlockVariants} and {@link JelloBlockVariants} as an example of some blocks by default</p>
@@ -55,6 +57,7 @@ public interface DyeTool {
 
     //-----------------------------------------------------------------------------------------------------------------------------------
 
+    @Nonnull
     default DyeColorant attemptToDyeCauldron(World world, PlayerEntity player, BlockPos blockPos, ItemStack stack, Hand hand){
         return DyeColorantRegistry.NULL_VALUE_NEW;
     }

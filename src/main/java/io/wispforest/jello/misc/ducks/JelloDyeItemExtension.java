@@ -17,6 +17,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
@@ -67,6 +68,7 @@ public interface JelloDyeItemExtension extends DyeTool, DyeItemStorage {
     }
 
     @Override
+    @NotNull
     default DyeColorant attemptToDyeCauldron(World world, PlayerEntity player, BlockPos blockPos, ItemStack stack, Hand hand) {
         return this.getDyeColorant();
     }

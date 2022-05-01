@@ -27,7 +27,11 @@ public class ColorStorageBlockEntity extends BlockEntity {
     }
 
     public void setDyeColorant(DyeColorant dyeColorant) {
-        this.currentColor = dyeColorant;
+        if(dyeColorant == null){
+            this.currentColor = DyeColorantRegistry.NULL_VALUE_NEW;
+        }else{
+            this.currentColor = dyeColorant;
+        }
     }
 
     public DyeColorant getDyeColorant() {

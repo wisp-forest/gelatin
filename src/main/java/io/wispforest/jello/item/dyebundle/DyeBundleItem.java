@@ -28,6 +28,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -113,6 +114,7 @@ public class DyeBundleItem extends BundleItem implements DyeTool {
     }
 
     @Override
+    @NotNull
     public DyeColorant attemptToDyeCauldron(World world, PlayerEntity player, BlockPos blockPos, ItemStack stack, Hand hand) {
         //TODO: Add advancement when doing such labeled "Ultimate Efficiency"
 
