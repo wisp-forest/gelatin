@@ -9,14 +9,14 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 import java.util.WeakHashMap;
 
-@Mixin(FabricItemInternals.class)
+@Mixin(value = FabricItemInternals.class, remap = false)
 public interface FabricItemInternalsAccessor {
     @Accessor
     static WeakHashMap<Item.Settings, FabricItemInternals.ExtraData> getExtraData() {
         throw new UnsupportedOperationException();
     }
 
-    @Mixin(FabricItemInternals.ExtraData.class)
+    @Mixin(value = FabricItemInternals.ExtraData.class, remap = false)
     interface ExtraDataAccessor {
         @Accessor
         EquipmentSlotProvider getEquipmentSlotProvider();

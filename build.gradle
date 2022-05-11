@@ -51,25 +51,29 @@ dependencies {
 //    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei}"
 //    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei}"
 
-    //modLocalRuntime("maven.modrinth:ferrite-core:${project.ferrite_core}")
-    modLocalRuntime("maven.modrinth:lithium:${project.lithium}")
-    //modLocalRuntime("maven.modrinth:krypton:${project.krypton}")
-    //modLocalRuntime("maven.modrinth:phosphor:${project.phosphor}")
 
     modCompileOnly("maven.modrinth:modmenu:${project.modmenu}")
     modLocalRuntime("maven.modrinth:modmenu:${project.modmenu}")
-    
-    modLocalRuntime("maven.modrinth:starlight:${project.starlight}")
 
     include "maven.modrinth:better-beds:${project.better_beds}"
     modImplementation("maven.modrinth:better-beds:${project.better_beds}")
+
+    modLocalRuntime("maven.modrinth:ferrite-core:${project.ferrite_core}-fabric")
+    modLocalRuntime("maven.modrinth:starlight:${project.starlight}")
+
+    modLocalRuntime("maven.modrinth:lithium:${project.lithium}")
+
+    //TODO: TEMPORARY IMPLEMENTATION
+    modImplementation("maven.modrinth:sodium:${project.sodium}")
+    modLocalRuntime("maven.modrinth:sodium:${project.sodium}")
+
+    implementation 'org.joml:joml:1.10.2'
+    include 'org.joml:joml:1.10.2'
 
     //modImplementation "maven.modrinth:consistencyplus:${project.consistencyplus}"
 //    modImplementation("dev.architectury:architectury-fabric:${rootProject.architectury}"){ //:sources"){
 //        exclude(group: "net.fabricmc.fabric-api")
 //    }
-
-    //include 'com.github.Chocohead:Fabric-ASM:v2.3'
 }
 
 sourceSets {

@@ -235,7 +235,7 @@ public class DyedVariantContainer {
 
             DyeItem dyeItem = Registry.register(Registry.ITEM, identifier, new JelloDyeItem(dyeColorant, itemSettings));
 
-            TagInjector.injectItems(JelloTags.Items.DYE.id(), dyeItem);
+            TagInjector.inject(Registry.ITEM, JelloTags.Items.DYE.id(), dyeItem);
 
             return dyeItem;
         }

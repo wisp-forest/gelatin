@@ -42,7 +42,7 @@
     "jello.mixins.json"
   ],
   "depends": {
-    "owo": ">=0.5.4+1.18",
+    "owo": ">=0.7.2+1.18",
     "cloth-config": ">=6.2.57",
     "fabricloader": ">=0.13.3",
     "fabric": "*",

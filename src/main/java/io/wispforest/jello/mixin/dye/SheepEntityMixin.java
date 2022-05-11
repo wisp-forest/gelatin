@@ -76,6 +76,7 @@ public abstract class SheepEntityMixin extends AnimalEntity implements SheepDyeC
 
     /**
      * @author Dragon_seeker
+     * @reason As it really makes no sense not too
      */
     @Overwrite
     public Identifier getLootTableId() {
@@ -92,6 +93,7 @@ public abstract class SheepEntityMixin extends AnimalEntity implements SheepDyeC
 
     /**
      * @author Dragon_seeker
+     * @reason As it really makes no sense not too
      */
     @Overwrite
     public void readCustomDataFromNbt(NbtCompound nbt) {
@@ -113,6 +115,7 @@ public abstract class SheepEntityMixin extends AnimalEntity implements SheepDyeC
 
     /**
      * @author Dragon_seeker
+     * @reason As it really makes no sense not too
      */
     @Overwrite
     public void sheared(SoundCategory shearedSoundCategory) {
@@ -144,6 +147,7 @@ public abstract class SheepEntityMixin extends AnimalEntity implements SheepDyeC
 
     /**
      * @author Dragon_seeker
+     * @reason As it really makes no sense not too
      */
     @Nullable
     @Overwrite
@@ -154,6 +158,7 @@ public abstract class SheepEntityMixin extends AnimalEntity implements SheepDyeC
 
     /**
      * @author Dragon_seeker
+     * @reason As it really makes no sense not too
      */
     @Nullable
     @Overwrite

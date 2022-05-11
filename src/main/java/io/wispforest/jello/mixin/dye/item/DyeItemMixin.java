@@ -51,6 +51,7 @@ public class DyeItemMixin extends Item implements JelloDyeItemExtension {
 
     /**
      * @author Dragon_Seeker
+     * @reason As it really makes no sense not too
      */
     @Overwrite
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {

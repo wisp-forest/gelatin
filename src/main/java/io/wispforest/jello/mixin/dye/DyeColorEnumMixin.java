@@ -48,7 +48,8 @@ public class DyeColorEnumMixin {
     }
 
     /**
-     * @author
+     * @author Dragon_Slayer
+     * @reason Because I have too as to prevent people from getting Jellos null Value for this enum
      */
     @Overwrite
     public static DyeColor[] values() {

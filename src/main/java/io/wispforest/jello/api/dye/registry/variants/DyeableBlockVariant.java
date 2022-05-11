@@ -532,12 +532,12 @@ public class DyeableBlockVariant {
             return;
         }
 
-        TagInjector.injectItems(JelloTags.Items.ALL_COLORED_VARIANTS.id(), item);
-        TagInjector.injectItems(primaryItemTag.id(), item);
+        TagInjector.inject(Registry.ITEM, JelloTags.Items.ALL_COLORED_VARIANTS.id(), item);
+        TagInjector.inject(Registry.ITEM, primaryItemTag.id(), item);
 
         if(!readOnly) {
             for (TagKey<Item> tagKey : secondaryItemTags) {
-                TagInjector.injectItems(tagKey.id(), item);
+                TagInjector.inject(Registry.ITEM, tagKey.id(), item);
             }
         }
 
@@ -551,11 +551,11 @@ public class DyeableBlockVariant {
 
     @ApiStatus.Internal
     protected final void addToBlockTags(Block block, boolean readOnly) {
-        TagInjector.injectBlocks(primaryBlockTag.id(), block);
+        TagInjector.inject(Registry.BLOCK, primaryBlockTag.id(), block);
 
         if(!readOnly) {
             for (TagKey<Block> tagKey : secondaryBlockTags) {
-                TagInjector.injectBlocks(tagKey.id(), block);
+                TagInjector.inject(Registry.BLOCK, tagKey.id(), block);
             }
         }
 
