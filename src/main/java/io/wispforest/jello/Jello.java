@@ -21,23 +21,21 @@ import io.wispforest.jello.compat.JelloConfig;
 import io.wispforest.jello.network.ColorMixerScrollPacket;
 import io.wispforest.jello.network.ColorMixerSearchPacket;
 import io.wispforest.jello.data.recipe.JelloRecipeSerializers;
+import io.wispforest.jello.network.CustomJsonColorSync;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
 import io.wispforest.owo.network.OwoNetChannel;
-import io.wispforest.owo.registration.reflect.AutoRegistryContainer;
 import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
-import io.wispforest.owo.registration.reflect.SimpleFieldProcessingSubject;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerLoginConnectionEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerLoginNetworking;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Items;
-import net.minecraft.stat.StatFormatter;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.event.GameEvent;
-
-import java.lang.reflect.Field;
 
 public class Jello implements ModInitializer {
 
@@ -115,6 +113,17 @@ public class Jello implements ModInitializer {
             if (!(access.player().currentScreenHandler instanceof ColorMixerScreenHandler handler)) return;
             handler.scrollItems(message.progress());
         });
+
+        //------------------------------------------------------------------
+
+        ServerLoginConnectionEvents.QUERY_START.register((handler, server, sender, synchronizer) -> {
+            sender.sendPacket(id("json_color_sync"), PacketByteBufs.create());
+        });
+
+        ServerLoginNetworking.registerGlobalReceiver(id("json_color_sync"), (server, handler, understood, buf, synchronizer, responseSender) -> {
+            CustomJsonColorSync.confirmMatchingConfigOptions(buf.getBoolean(0), handler);
+        });
+
     }
 
     //TODO: Change this to a event based system

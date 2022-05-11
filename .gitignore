@@ -103,6 +103,7 @@ $RECYCLE.BIN/
 .gradle
 build/
 .run/
+.runServer/
 
 # Ignore Gradle GUI config
 gradle-app.setting
@@ -117,3 +118,4 @@ run/
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
+/runServer/

@@ -1,5 +1,6 @@
 package io.wispforest.jello.client;
 
+import io.netty.buffer.ByteBuf;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
@@ -18,13 +19,17 @@ import io.wispforest.jello.item.JelloDyeItem;
 import io.wispforest.jello.item.JelloItems;
 import io.wispforest.jello.item.SpongeItem;
 import io.wispforest.jello.item.dyebundle.DyeBundleScreenEvent;
+import io.wispforest.jello.network.CustomJsonColorSync;
+import io.wispforest.owo.network.serialization.RecordSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.networking.v1.ClientLoginNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
@@ -40,13 +45,14 @@ import net.minecraft.client.color.item.ItemColorProvider;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.TexturedRenderLayers;
 import net.minecraft.item.BundleItem;
-import net.minecraft.item.Item;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 public class JelloClient implements ClientModInitializer {
 
@@ -130,6 +136,13 @@ public class JelloClient implements ClientModInitializer {
         HotbarMouseEvents.ALLOW_MOUSE_SCROLL.register(
                 (player, horizontalAmount, verticalAmount) -> new DyeBundleScreenEvent().allowMouseScroll(player, horizontalAmount, verticalAmount));
 
+        ClientLoginNetworking.registerGlobalReceiver(Jello.id("json_color_sync"), (client, handler, buf, listenerAdder) -> {
+            PacketByteBuf buffer = PacketByteBufs.create();
+
+            buffer.writeBoolean(Jello.getConfig().addCustomJsonColors);
+
+            return CompletableFuture.completedFuture(buffer);
+        });
     }
 
     public static void registerColorProvidersForBlockVariants() {
