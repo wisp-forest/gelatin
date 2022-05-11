@@ -1,5 +1,6 @@
 package io.wispforest.jello.api.dye.registry;
 
+import com.mojang.serialization.Lifecycle;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
 import io.wispforest.jello.mixin.dye.SimpleRegistryAccessor;
@@ -27,15 +28,7 @@ import java.util.stream.Collectors;
 public class DyeColorantRegistry {
 
     public static final RegistryKey<Registry<DyeColorant>> DYE_COLOR_KEY = RegistryKey.ofRegistry(Jello.id("dye_color"));
-    public static final DefaultedRegistry<DyeColorant> DYE_COLOR = FabricRegistryBuilder.createDefaulted(DyeColorant.class, DYE_COLOR_KEY.getValue(), Jello.id("_null")).buildAndRegister();
-
-    //Fix for fabric not allowing for a function to be passed thru
-    static {
-        //noinspection unchecked,rawtypes
-        ((SimpleRegistryAccessor) DYE_COLOR).setValueToEntryFunction(dyeColor -> ((DyeColorant) dyeColor).getRegistryEntry());
-        //noinspection unchecked,rawtypes
-        ((SimpleRegistryAccessor) DYE_COLOR).setUnfrozenValueToEntry(new IdentityHashMap());
-    }
+    public static final DefaultedRegistry<DyeColorant> DYE_COLOR = FabricRegistryBuilder.from(new DefaultedRegistry<>(Jello.id("_null").toString(), DYE_COLOR_KEY, Lifecycle.stable(), DyeColorant::getRegistryEntry)).buildAndRegister();
 
     public static final Set<Identifier> IDENTIFIER_RESOURCE_REDIRECTS = new HashSet<>();
     public static final Set<String> NAMESPACE_RESOURCE_REDIRECTS = new HashSet<>();
