@@ -29,7 +29,7 @@ public class ColorMixerScreenHandler extends ScreenHandler {
     public static final List<ItemStack> ALL_DYE_ITEMS;
 
     static{
-        if(!Jello.getConfig().addCustomJsonColors){
+        if(Jello.getConfig().addCustomJsonColors){
             ALL_DYE_ITEMS = DyedVariantContainer.getVariantMap().values().stream()
                     .filter(dyedVariantContainer -> dyedVariantContainer.dyeItem instanceof JelloDyeItem)
                     .map(dyedVariantContainer -> dyedVariantContainer.dyeItem.getDefaultStack())
