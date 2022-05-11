@@ -19,7 +19,6 @@ public class ItemGroupMixin {
     public static ItemGroup MISC;
 
     @Inject(method = "<clinit>", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemGroup$8;<init>(ILjava/lang/String;)V", shift = At.Shift.BY, by = 2))
-    //
     private static void testMethod(CallbackInfo ci) {
         MISC = new MiscItemGroup();
     }

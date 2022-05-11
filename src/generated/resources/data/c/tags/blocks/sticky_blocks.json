@@ -1,8 +1,6 @@
 {
   "replace": false,
   "values": [
-    "#jello:slime_block",
-    "#jello:slime_slab",
     "minecraft:honey_block"
   ]
 }

@@ -44,8 +44,6 @@ public class DyeColorantLoader {
                 DyedVariantContainer.createVariantContainer(currentDyeColor, new OwoItemSettings().group(ItemGroup.MISC).tab(1), BASE_BLOCK_ITEM_SETTINGS, false, false);
             }
 
-            DyeColorantRegistry.registerModidModelRedirect(Jello.MODID);
-
             logger.stopTimerPrint("It seems that the registry filling took ");
             logger.infoMessage("Total amount of registered dyes from json are " + DyeColorantRegistry.DYE_COLOR.size());
         } catch (JsonSyntaxException | JsonIOException e) {

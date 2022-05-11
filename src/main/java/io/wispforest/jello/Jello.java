@@ -84,6 +84,7 @@ public class Jello implements ModInitializer {
         if(getConfig().addCustomJsonColors) {
             DyeColorantLoader.loadFromJson();
         }
+        DyeColorantRegistry.registerModidModelRedirect(Jello.MODID);
 
         ((OwoItemGroup) ItemGroup.MISC).initialize();
 

@@ -45,19 +45,22 @@ public class VanillaBlockVariants {
     public static final DyeableBlockVariant TERRACOTTA = DyeableBlockVariant.of(new Identifier("terracotta"), (dyeColorant, parentBlock) -> {
         return new ColoredBlock(AbstractBlock.Settings.of(Material.STONE, MapColor.CLEAR).requiresTool().strength(1.25F, 4.2F), dyeColorant);
     }).setDefaultBlock("terracotta")
-        .setBlockTags(BlockTags.TERRACOTTA, BlockTags.PICKAXE_MINEABLE, BlockTags.NEEDS_STONE_TOOL);
+        .setBlockTags(BlockTags.TERRACOTTA, BlockTags.PICKAXE_MINEABLE, BlockTags.NEEDS_STONE_TOOL)
+        .setItemTags(ItemTags.TERRACOTTA);
 
     //-----------------------------------------------------------------
 
     public static final DyeableBlockVariant WOOL = DyeableBlockVariant.of(new Identifier("wool"), (dyeColorant, parentBlock) -> {
         return new ColoredBlock(AbstractBlock.Settings.of(Material.WOOL, MapColor.CLEAR).strength(0.8F).sounds(BlockSoundGroup.WOOL), dyeColorant);
-    }).setBlockTags(BlockTags.WOOL);
+    }).setBlockTags(BlockTags.WOOL)
+        .setItemTags(ItemTags.WOOL);
 
     //-----------------------------------------------------------------
 
     public static final DyeableBlockVariant CARPET = DyeableBlockVariant.of(new Identifier("carpet"), (dyeColorant, parentBlock) -> {
         return new ColoredCarpetBlock(AbstractBlock.Settings.of(Material.CARPET, MapColor.CLEAR).strength(0.1F).sounds(BlockSoundGroup.WOOL), dyeColorant);
-    }).setBlockTags(BlockTags.CARPETS);
+    }).setBlockTags(BlockTags.CARPETS)
+        .setItemTags(ItemTags.CARPETS);
 
     //-----------------------------------------------------------------
 
@@ -104,6 +107,7 @@ public class VanillaBlockVariants {
             }
             return true;
     }).setBlockTags(BlockTags.BEDS)
+        .setItemTags(ItemTags.BEDS)
         .setLootTable(block -> JelloLootTables.dropsWithProperty(block, BedBlock.PART, BedPart.HEAD).build());
 
     //-----------------------------------------------------------------

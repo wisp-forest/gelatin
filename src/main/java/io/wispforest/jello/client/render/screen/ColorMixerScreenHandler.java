@@ -14,6 +14,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.screen.ScreenHandler;
@@ -25,12 +26,25 @@ import java.util.Locale;
 
 public class ColorMixerScreenHandler extends ScreenHandler {
 
-    public static final List<ItemStack> ALL_DYE_ITEMS = DyedVariantContainer.getVariantMap().values().stream()
-            .filter(dyedVariantContainer -> dyedVariantContainer.dyeItem instanceof JelloDyeItem)
-            .map(dyedVariantContainer -> dyedVariantContainer.dyeItem.getDefaultStack())
-            .sorted(ColorUtil.dyeStackHslComparator(2))
-            .sorted(ColorUtil.dyeStackHslComparator(1))
-            .sorted(ColorUtil.dyeStackHslComparator(0)).toList();
+    public static final List<ItemStack> ALL_DYE_ITEMS;
+
+    static{
+        if(!Jello.getConfig().addCustomJsonColors){
+            ALL_DYE_ITEMS = DyedVariantContainer.getVariantMap().values().stream()
+                    .filter(dyedVariantContainer -> dyedVariantContainer.dyeItem instanceof JelloDyeItem)
+                    .map(dyedVariantContainer -> dyedVariantContainer.dyeItem.getDefaultStack())
+                    .sorted(ColorUtil.dyeStackHslComparator(2))
+                    .sorted(ColorUtil.dyeStackHslComparator(1))
+                    .sorted(ColorUtil.dyeStackHslComparator(0)).toList();
+        }else{
+            ALL_DYE_ITEMS = DyedVariantContainer.getVariantMap().values().stream()
+                    .map(dyedVariantContainer -> dyedVariantContainer.dyeItem.getDefaultStack())
+                    .sorted(ColorUtil.dyeStackHslComparator(2))
+                    .sorted(ColorUtil.dyeStackHslComparator(1))
+                    .sorted(ColorUtil.dyeStackHslComparator(0)).toList();
+        }
+    }
+
 
     public final SimpleInventory dyeInventory;
     public final SimpleInventory artistInventory;

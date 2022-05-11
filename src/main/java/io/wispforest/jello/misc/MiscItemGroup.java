@@ -2,6 +2,7 @@ package io.wispforest.jello.misc;
 
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.ducks.DyeBlockStorage;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.owo.itemgroup.Icon;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
@@ -25,8 +26,11 @@ public class MiscItemGroup extends OwoItemGroup {
     @Override
     protected void setup() {
         this.addTab(Icon.of(Items.LAVA_BUCKET), "misc", null, ItemGroupTab.DEFAULT_TEXTURE);
-        this.addTab(Icon.of(Registry.ITEM.get(new Identifier(Jello.MODID, "cold_turkey_dye"))), "dyes", null, ItemGroupTab.DEFAULT_TEXTURE);
-        this.addTab(Icon.of(Items.WHITE_CONCRETE), "block_vars", null, ItemGroupTab.DEFAULT_TEXTURE);
+
+        if(DyeColorantRegistry.DYE_COLOR.size() > 17) {
+            this.addTab(Icon.of(Registry.ITEM.get(new Identifier(Jello.MODID, "cold_turkey_dye"))), "dyes", null, ItemGroupTab.DEFAULT_TEXTURE);
+            this.addTab(Icon.of(Items.WHITE_CONCRETE), "block_vars", null, ItemGroupTab.DEFAULT_TEXTURE);
+        }
     }
 
     @Override

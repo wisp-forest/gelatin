@@ -31,22 +31,22 @@ public class JelloTagsProvider {
         @Override
         protected void generateTags() {
 
-            for(DyeableBlockVariant blockVariant : DyeableBlockVariant.getAllVariants()){
-                Set<Block> blockSet = new HashSet<>();
-                for(DyeColorant dyeColorant : DyeColorantRegistry.DYE_COLOR){
-                    Block block = blockVariant.getColoredBlock(dyeColorant);
-                    blockSet.add(block);
-                }
-
-                this.getOrCreateTagBuilder(blockVariant.primaryBlockTag)
-                        .add(blockSet.toArray(new Block[]{}));
-
-                this.getOrCreateTagBuilder(blockVariant.getCommonBlockTag()).addTag(blockVariant.primaryBlockTag);
-
-                for(TagKey<Block> tag : blockVariant.secondaryBlockTags){
-                    this.getOrCreateTagBuilder(tag).addTag(blockVariant.primaryBlockTag);
-                }
-            }
+//            for(DyeableBlockVariant blockVariant : DyeableBlockVariant.getAllVariants()){
+//                Set<Block> blockSet = new HashSet<>();
+//                for(DyeColorant dyeColorant : DyeColorantRegistry.DYE_COLOR){
+//                    Block block = blockVariant.getColoredBlock(dyeColorant);
+//                    blockSet.add(block);
+//                }
+//
+//                this.getOrCreateTagBuilder(blockVariant.primaryBlockTag)
+//                        .add(blockSet.toArray(new Block[]{}));
+//
+//                this.getOrCreateTagBuilder(blockVariant.getCommonBlockTag()).addTag(blockVariant.primaryBlockTag);
+//
+//                for(TagKey<Block> tag : blockVariant.secondaryBlockTags){
+//                    this.getOrCreateTagBuilder(tag).addTag(blockVariant.primaryBlockTag);
+//                }
+//            }
 
             this.getOrCreateTagBuilder(JelloTags.Blocks.STICKY_BLOCKS).add(Blocks.HONEY_BLOCK);
         }
@@ -60,35 +60,35 @@ public class JelloTagsProvider {
 
         @Override
         protected void generateTags() {
-            for(DyeableBlockVariant blockVariant : DyeableBlockVariant.getAllVariants()){
-                if(!blockVariant.createBlockItem)
-                    continue;
+//            for(DyeableBlockVariant blockVariant : DyeableBlockVariant.getAllVariants()){
+//                if(!blockVariant.createBlockItem)
+//                    continue;
+//
+//                Set<BlockItem> blockSet = new HashSet<>();
+//                for(DyeColorant dyeColorant : DyeColorantRegistry.getAllColorants()){
+//                    Block block = blockVariant.getColoredBlock(dyeColorant);
+//                    blockSet.add((BlockItem)block.asItem());
+//                }
+//
+//                this.getOrCreateTagBuilder(blockVariant.primaryItemTag)
+//                        .add(blockSet.toArray(new Item[]{}));
+//
+//                this.getOrCreateTagBuilder(blockVariant.getCommonItemTag()).addTag(blockVariant.primaryItemTag);
+//
+//                for(TagKey<Item> tag : blockVariant.secondaryItemTags){
+//                    this.getOrCreateTagBuilder(tag).addTag(blockVariant.primaryItemTag);
+//                }
+//            }
 
-                Set<BlockItem> blockSet = new HashSet<>();
-                for(DyeColorant dyeColorant : DyeColorantRegistry.getAllColorants()){
-                    Block block = blockVariant.getColoredBlock(dyeColorant);
-                    blockSet.add((BlockItem)block.asItem());
-                }
-
-                this.getOrCreateTagBuilder(blockVariant.primaryItemTag)
-                        .add(blockSet.toArray(new Item[]{}));
-
-                this.getOrCreateTagBuilder(blockVariant.getCommonItemTag()).addTag(blockVariant.primaryItemTag);
-
-                for(TagKey<Item> tag : blockVariant.secondaryItemTags){
-                    this.getOrCreateTagBuilder(tag).addTag(blockVariant.primaryItemTag);
-                }
-            }
-
-            this.getOrCreateTagBuilder(JelloTags.Items.SLIME_SLABS).add(JelloBlocks.SLIME_SLAB.asItem());
-
-            this.getOrCreateTagBuilder(JelloTags.Items.SLIME_BLOCKS).add(Blocks.SLIME_BLOCK.asItem());
+//            this.getOrCreateTagBuilder(JelloTags.Items.SLIME_SLABS).add(JelloBlocks.SLIME_SLAB.asItem());
+//
+//            this.getOrCreateTagBuilder(JelloTags.Items.SLIME_BLOCKS).add(Blocks.SLIME_BLOCK.asItem());
 
             this.getOrCreateTagBuilder(JelloTags.Items.SLIME_BALLS).add(Items.SLIME_BALL);
             JelloItems.Slimeballs.SLIME_BALLS.forEach((item) -> this.getOrCreateTagBuilder(JelloTags.Items.SLIME_BALLS).add(item));
 
             for (Map.Entry<DyeColorant, DyedVariantContainer> entry : DyedVariantContainer.getVariantMap().entrySet()) {
-                this.getOrCreateTagBuilder(JelloTags.Items.DYE).add(entry.getValue().dyeItem);
+                //this.getOrCreateTagBuilder(JelloTags.Items.DYE).add(entry.getValue().dyeItem);
 
                 if (DyeColorantRegistry.Constants.VANILLA_DYES.contains(entry.getKey())) {
                     this.getOrCreateTagBuilder(JelloTags.Items.VANILLA_DYE).add(entry.getValue().dyeItem);
