@@ -1,0 +1,1 @@
+Another small update to patch an issue involved with Sodium's Biome Blending that would crash or break terrain rendering when trying to blend Custom cauldron Block Entity
