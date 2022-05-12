@@ -1,0 +1,4 @@
+Add better support for disabling Custom Json Dye Colors with new Disconnection message and simple bug fix.
+
+Bug Fixes:
+    - Redundant Tags causing Tag loading problems and problems for some gameplay elements
