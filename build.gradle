@@ -24,6 +24,15 @@ repositories {
         }
     }
     maven { url 'https://jitpack.io' }
+
+    repositories {
+        maven {
+            url "https://cursemaven.com"
+            content {
+                includeGroup "curse.maven"
+            }
+        }
+    }
 }
 
 dependencies {
@@ -69,6 +78,9 @@ dependencies {
 
     implementation 'org.joml:joml:1.10.2'
     include 'org.joml:joml:1.10.2'
+
+    //include "curse.maven:sheep-consistency-386175:3692536"
+    //modImplementation "curse.maven:sheep-consistency-386175:3692536"
 
     //modImplementation "maven.modrinth:consistencyplus:${project.consistencyplus}"
 //    modImplementation("dev.architectury:architectury-fabric:${rootProject.architectury}"){ //:sources"){

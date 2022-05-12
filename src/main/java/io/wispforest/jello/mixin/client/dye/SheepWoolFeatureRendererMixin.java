@@ -50,7 +50,7 @@ public abstract class SheepWoolFeatureRendererMixin extends FeatureRenderer<Shee
             t = colorComp[1];
             u = colorComp[2];
         } else {
-            float[] hs = getDyedColor(((SheepDyeColorStorage) sheepEntity).getWoolDyeColor());
+            float[] hs = SheepDyeColorStorage.getDyedColor(((SheepDyeColorStorage)sheepEntity).getWoolDyeColor());
             s = hs[0];
             t = hs[1];
             u = hs[2];
@@ -59,15 +59,5 @@ public abstract class SheepWoolFeatureRendererMixin extends FeatureRenderer<Shee
         render(this.getContextModel(), this.model, SKIN, matrixStack, vertexConsumerProvider, i, sheepEntity, f, g, j, k, l, h, s, t, u);
 
         ci.cancel();
-    }
-
-    private static float[] getDyedColor(DyeColorant dyeColorant) {
-        if (dyeColorant == DyeColorantRegistry.WHITE) {
-            return new float[]{0.9019608F, 0.9019608F, 0.9019608F};
-        } else {
-            float[] fs = dyeColorant.getColorComponents();
-            float f = 0.75F;
-            return new float[]{fs[0] * 0.75F, fs[1] * 0.75F, fs[2] * 0.75F};
-        }
     }
 }

@@ -57,6 +57,7 @@
     "client.dye.ModelLoaderMixin",
     "client.dye.SheepWoolFeatureRendererMixin",
     "client.dye.ShulkerBoxBlockEntityRendererMixin",
+    "client.dye.sheep_consistency.SheepShearedFeatureRendererMixin",
     "client.entitycolor.FeatureRendererMixin",
     "client.entitycolor.LivingEntityRenderMixin",
     "client.entitycolor.SlimeOverlayFeatureRendererMixin"
