@@ -116,6 +116,7 @@ loom {
 
             ideConfigGenerated = true
         }
+
         datagenClient {
             client()
             name "Data Generation"
