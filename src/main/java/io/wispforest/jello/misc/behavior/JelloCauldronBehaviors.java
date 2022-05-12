@@ -119,7 +119,6 @@ public class JelloCauldronBehaviors implements CauldronBehavior {
             }
 
             Block changedBlock;
-
             ColorStorageBlockEntity blockEntity = (ColorStorageBlockEntity) world.getBlockEntity(pos);
 
             if (blockEntity != null && ColorStorageBlockEntity.isWaterColored(blockEntity)) {

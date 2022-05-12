@@ -63,11 +63,11 @@ public class ColorManipulators {
 
             ItemStack changedItemStack = new ItemStack(changedBlock, stackDecrementAmount);
 
-            if (!player.getAbilities().creativeMode || oldBlock instanceof ShulkerBoxBlock)
-                oldStack.decrement(stackDecrementAmount);
-
             if (oldStack.hasNbt())
                 changedItemStack.setNbt(oldStack.getNbt().copy());
+
+            if (!player.getAbilities().creativeMode || oldBlock instanceof ShulkerBoxBlock)
+                oldStack.decrement(stackDecrementAmount);
 
             BlockPos blockPos = cauldronPos.up();
             ItemScatterer.spawn(world, blockPos.getX(), blockPos.getY(), blockPos.getZ(), changedItemStack);
