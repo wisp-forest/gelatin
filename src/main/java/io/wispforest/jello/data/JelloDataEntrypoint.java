@@ -34,10 +34,10 @@ public class JelloDataEntrypoint implements DataGeneratorEntrypoint {
             fabricDataGenerator.addProvider(new JelloBlockStateProvider(fabricDataGenerator));
         }
 
-        if (FabricLoaderImpl.INSTANCE.isModLoaded("consistency_plus")) {
-            System.out.println("TEST TEST TEST");
-            ConsistencyPlusTags.init();
-            fabricDataGenerator.addProvider(new ConsistencyPlusTagProvider.BlockTagProvider(fabricDataGenerator));
-        }
+//        if (FabricLoaderImpl.INSTANCE.isModLoaded("consistency_plus")) {
+//            System.out.println("TEST TEST TEST");
+//            ConsistencyPlusTags.init();
+//            fabricDataGenerator.addProvider(new ConsistencyPlusTagProvider.BlockTagProvider(fabricDataGenerator));
+//        }
     }
 }

@@ -98,10 +98,6 @@ sourceSets {
     }
 }
 
-//minecraft{
-//    AT = file("src/main/resources/access-transformations.txt")
-//}
-
 loom {
     accessWidenerPath = file("src/main/resources/jello.accesswidener")
 
@@ -125,17 +121,12 @@ loom {
             name "Data Generation"
             vmArg "-Dfabric-api.datagen"
             vmArg "-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}"
-//            vmArg "-Dfabric-api.datagen.strict-validation"
 
             ideConfigGenerated = true
             runDir "build/datagen"
             source sourceSets.main
         }
     }
-}
-
-tasks.withType(JavaCompile).each {
-    it.options.compilerArgs.add('--enable-preview')
 }
 
 processResources {
@@ -146,7 +137,6 @@ processResources {
     }
 }
 
-def targetJavaVersion = 17
 tasks.withType(JavaCompile).configureEach {
     // Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
     it.options.release = 17
@@ -181,10 +171,6 @@ publishing {
                 username ENV.MAVEN_USER
                 password ENV.MAVEN_PASSWORD
             }
-
-//            authentication {
-//                digest(DigestAuthentication)
-//            }
         }
     }
 }
