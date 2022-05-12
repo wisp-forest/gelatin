@@ -1,0 +1,8 @@
+Fix issue with not up-to-date cache adding possible invalid tags to the mod
+
+Features:
+    -Add support for Sheep Consistency
+
+Bug Fixes:
+    -Finally fixed tag problems(I hope)
+    -Fix issue with NBT data not copying when Dyeing a item with such data (i.e. A Shulker box full of items)
