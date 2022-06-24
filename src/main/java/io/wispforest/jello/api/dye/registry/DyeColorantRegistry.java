@@ -3,7 +3,6 @@ package io.wispforest.jello.api.dye.registry;
 import com.mojang.serialization.Lifecycle;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
-import io.wispforest.jello.mixin.dye.SimpleRegistryAccessor;
 import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.data.tags.JelloTags;
@@ -13,13 +12,18 @@ import net.minecraft.item.Item;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.DefaultedRegistry;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryKey;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -146,14 +150,16 @@ public class DyeColorantRegistry {
     }
 
     public static DyeColorant getRandomColorant() {
+        Random rand = Random.create();
+
         boolean nonVanillaDyeColor = false;
-        RegistryEntry<DyeColorant> dyeColor = DYE_COLOR.getRandom(new Random()).get();
+        RegistryEntry<DyeColorant> dyeColor = DYE_COLOR.getRandom(rand).get();
 
         while (!nonVanillaDyeColor) {
             if (!dyeColor.isIn(JelloTags.DyeColor.VANILLA_DYES)) {
                 nonVanillaDyeColor = true;
             } else {
-                dyeColor = DYE_COLOR.getRandom(new Random()).get();
+                dyeColor = DYE_COLOR.getRandom(rand).get();
             }
         }
 

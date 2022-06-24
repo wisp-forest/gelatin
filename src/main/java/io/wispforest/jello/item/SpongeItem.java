@@ -14,7 +14,6 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
@@ -147,8 +146,8 @@ public class SpongeItem extends Item implements DyeTool {
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        tooltip.add(new TranslatableText(this.getTranslationKey() + ".desc").formatted(Formatting.GRAY));
-        tooltip.add(new TranslatableText(this.getTranslationKey() + ".desc.dirty").formatted(Formatting.GRAY));
+        tooltip.add(Text.translatable(this.getTranslationKey() + ".desc").formatted(Formatting.GRAY));
+        tooltip.add(Text.translatable(this.getTranslationKey() + ".desc.dirty").formatted(Formatting.GRAY));
     }
 
     private static void cleanSponge(ItemStack itemStack, PlayerEntity player) {

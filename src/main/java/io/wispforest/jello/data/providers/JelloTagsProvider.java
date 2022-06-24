@@ -140,7 +140,7 @@ public class JelloTagsProvider {
     public static class DyeTagProvider extends FabricTagProvider<DyeColorant> {
 
         public DyeTagProvider(FabricDataGenerator dataGenerator) {
-            super(dataGenerator, DyeColorantRegistry.DYE_COLOR, "Dye Tags");
+            super(dataGenerator, DyeColorantRegistry.DYE_COLOR);
         }
 
         @Override

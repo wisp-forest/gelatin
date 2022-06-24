@@ -3,7 +3,6 @@ package io.wispforest.jello.mixin.dye;
 import io.wispforest.jello.api.dye.DyeColorant;
 import net.minecraft.item.FireworkStarItem;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -15,8 +14,8 @@ public class FireworkStarItemMixin {
     private static Text dyeRegistry$getColorText(int color) {
         DyeColorant dyeColor = DyeColorant.byFireworkColor(color);
         return dyeColor == null
-                ? new TranslatableText("item.minecraft.firework_star.custom_color")
-                : new TranslatableText("item.minecraft.firework_star." + dyeColor.getName());
+                ? Text.translatable("item.minecraft.firework_star.custom_color")
+                : Text.translatable("item.minecraft.firework_star." + dyeColor.getName());
     }
 
 

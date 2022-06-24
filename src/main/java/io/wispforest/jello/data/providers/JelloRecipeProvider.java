@@ -9,7 +9,7 @@ import io.wispforest.jello.data.tags.JelloTags;
 import io.wispforest.jello.item.JelloItems;
 import io.wispforest.jello.data.recipe.JelloRecipeSerializers;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipesProvider;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
@@ -25,7 +25,7 @@ import net.minecraft.util.registry.Registry;
 
 import java.util.function.Consumer;
 
-public class JelloRecipeProvider extends FabricRecipesProvider {
+public class JelloRecipeProvider extends FabricRecipeProvider {
     public JelloRecipeProvider(FabricDataGenerator dataGenerator) {
         super(dataGenerator);
     }

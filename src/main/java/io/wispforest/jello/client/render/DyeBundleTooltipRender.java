@@ -96,7 +96,7 @@ public class DyeBundleTooltipRender implements HudRenderCallback {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         bufferBuilder.end();
-        BufferRenderer.draw(bufferBuilder);
+        BufferRenderer.drawWithShader(bufferBuilder.end());
         RenderSystem.disableBlend();
         RenderSystem.enableTexture();
         VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());

@@ -21,7 +21,6 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ClickType;
 import net.minecraft.util.Hand;
@@ -44,7 +43,7 @@ public class DyeBundleItem extends BundleItem implements DyeTool {
     public Text getName(ItemStack stack) {
         ItemStack firstStack = getFirstStack(stack);
 
-        return !firstStack.isEmpty() ? new TranslatableText("text.jello.dye_bundle_pattern", super.getName(), firstStack.getName()) : super.getName(stack);
+        return !firstStack.isEmpty() ? Text.translatable("text.jello.dye_bundle_pattern", super.getName(), firstStack.getName()) : super.getName(stack);
     }
 
     //----------------------------------------------------------------------------------------------------

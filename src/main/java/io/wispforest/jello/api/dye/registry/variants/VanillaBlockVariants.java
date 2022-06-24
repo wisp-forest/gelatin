@@ -59,8 +59,8 @@ public class VanillaBlockVariants {
 
     public static final DyeableBlockVariant CARPET = DyeableBlockVariant.of(new Identifier("carpet"), (dyeColorant, parentBlock) -> {
         return new ColoredCarpetBlock(AbstractBlock.Settings.of(Material.CARPET, MapColor.CLEAR).strength(0.1F).sounds(BlockSoundGroup.WOOL), dyeColorant);
-    }).setBlockTags(BlockTags.CARPETS)
-        .setItemTags(ItemTags.CARPETS);
+    }).setBlockTags(BlockTags.WOOL_CARPETS)
+        .setItemTags(ItemTags.WOOL_CARPETS);
 
     //-----------------------------------------------------------------
 

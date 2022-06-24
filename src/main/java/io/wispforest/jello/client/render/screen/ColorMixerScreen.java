@@ -17,7 +17,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
@@ -201,7 +200,7 @@ public class ColorMixerScreen extends HandledScreen<ColorMixerScreenHandler> {
         titleX = 69420;
 
         this.client.keyboard.setRepeatEvents(true);
-        this.searchBox = new TextFieldWidget(this.textRenderer, this.x + 44, this.y + 8, 106, 10, new TranslatableText("itemGroup.search"));
+        this.searchBox = new TextFieldWidget(this.textRenderer, this.x + 44, this.y + 8, 106, 10, Text.translatable("itemGroup.search"));
         this.searchBox.setMaxLength(50);
         this.searchBox.setDrawsBackground(false);
         this.searchBox.setEditableColor(16777215);

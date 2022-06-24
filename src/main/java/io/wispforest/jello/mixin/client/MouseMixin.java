@@ -27,7 +27,7 @@ public class MouseMixin {
     @Inject(method = "onMouseScroll", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerInventory;scrollInHotbar(D)V"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
     private void beforePlayerScrollHotbar(long window, double horizontal, double vertical, CallbackInfo ci, double verticalAmount, int i) {
 
-        this.horizontalScrollAmount = this.client.options.discreteMouseScroll ? Math.signum(horizontal) : horizontal * this.client.options.mouseWheelSensitivity;
+        this.horizontalScrollAmount = this.client.options.getDiscreteMouseScroll().getValue() ? Math.signum(horizontal) : horizontal * this.client.options.getMouseWheelSensitivity().getValue();
 
         //System.out.println("Horizontal: " + horizontalScrollAmount + " / Vertical: " + verticalAmount);
 
