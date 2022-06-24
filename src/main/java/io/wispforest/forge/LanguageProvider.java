@@ -1,39 +1,31 @@
 /*
- * Minecraft Forge
- * Copyright (c) 2016-2021.
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation version 2.1
- * of the License.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * Copyright (c) Forge Development LLC and contributors
+ * SPDX-License-Identifier: LGPL-2.1-only
  */
 
 package io.wispforest.forge;
 
+import com.google.common.hash.Hashing;
+import com.google.common.hash.HashingOutputStream;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataCache;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
+import net.minecraft.data.DataWriter;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.JsonHelper;
 import org.apache.commons.lang3.text.translate.JavaUnicodeEscaper;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
@@ -43,7 +35,7 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("deprecation")
 public abstract class LanguageProvider implements DataProvider {
-    private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().disableHtmlEscaping().create();
+    private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().disableHtmlEscaping().setLenient().create();
     private final Map<String, String> data = new TreeMap<>();
     private final DataGenerator gen;
     private final String modid;
@@ -58,10 +50,10 @@ public abstract class LanguageProvider implements DataProvider {
     protected abstract void addTranslations();
 
     @Override
-    public void run(DataCache cache) throws IOException {
+    public void run(DataWriter writer) throws IOException {
         addTranslations();
         if (!data.isEmpty())
-            save(cache, data, this.gen.getOutput().resolve("assets/" + modid + "/lang/" + locale + ".json"));
+            save(writer, data, this.gen.getOutput().resolve("assets/" + modid + "/lang/" + locale + ".json"));
     }
 
     @Override
@@ -69,19 +61,14 @@ public abstract class LanguageProvider implements DataProvider {
         return "Languages: " + locale;
     }
 
-    private void save(DataCache cache, Object object, Path target) throws IOException {
-        String data = GSON.toJson(object);
-        data = JavaUnicodeEscaper.outsideOf(0, 0x7f).translate(data); // Escape unicode after the fact so that it's not double escaped by GSON
-        String hash = DataProvider.SHA1.hashUnencodedChars(data).toString();
-        if (!Objects.equals(cache.getOldSha1(target), hash) || !Files.exists(target)) {
-            Files.createDirectories(target.getParent());
-
-            try (BufferedWriter bufferedwriter = Files.newBufferedWriter(target)) {
-                bufferedwriter.write(data);
-            }
+    private void save(DataWriter writer, Object object, Path target) throws IOException {
+        // TODO: DataProvider.saveStable handles the caching and hashing already, but creating the JSON Object this way seems unreliable. -C
+        JsonObject json = new JsonObject();
+        for (Map.Entry<String, String> pair : data.entrySet()) {
+            json.addProperty(pair.getKey(), pair.getValue());
         }
 
-        cache.updateSha1(target, hash);
+        DataProvider.writeToPath(writer, json, target);
     }
 
     public void addBlock(Supplier<? extends Block> key, String name) {
