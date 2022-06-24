@@ -14,8 +14,9 @@ group = project.maven_group
 def ENV = System.getenv()
 
 repositories {
-    maven { url 'https://maven.wispforest.io' }
+    maven { url "https://maven.wispforest.io" }
     maven { url "https://maven.shedaniel.me/" }
+    maven { url "https://jitpack.io"}
     maven {
         name = "Modrinth"
         url = "https://api.modrinth.com/maven"
@@ -23,14 +24,16 @@ repositories {
             includeGroup "maven.modrinth"
         }
     }
-    maven { url 'https://jitpack.io' }
-
-    repositories {
-        maven {
-            url "https://cursemaven.com"
-            content {
-                includeGroup "curse.maven"
-            }
+    maven {
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+    maven {
+        url "https://maven.terraformersmc.com/releases/"
+        content {
+            includeGroup "com.terraformersmc"
         }
     }
 }
@@ -42,7 +45,8 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-    // Fabric API. This is technically optional, but you probably want it anyway.
+    // Library's
+
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     modImplementation "io.wispforest:owo-lib:${project.owo_version}"
@@ -52,6 +56,13 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
+    modImplementation "io.wispforest:condensed_creative:${project.cci}"
+
+    modImplementation("maven.modrinth:better-beds:${project.better_beds}")
+    include "maven.modrinth:better-beds:${project.better_beds}"
+
+    // Local Mods
+
 //    modImplementation "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei}"
 //    modImplementation("me.shedaniel:RoughlyEnoughItems-fabric:${project.rei}"){
 //        exclude(group: "net.fabricmc.fabric-api")
@@ -60,29 +71,22 @@ dependencies {
 //    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei}"
 //    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei}"
 
-
-    modCompileOnly("maven.modrinth:modmenu:${project.modmenu}")
-    modLocalRuntime("maven.modrinth:modmenu:${project.modmenu}")
-
-    include "maven.modrinth:better-beds:${project.better_beds}"
-    modImplementation("maven.modrinth:better-beds:${project.better_beds}")
-
     modLocalRuntime("maven.modrinth:ferrite-core:${project.ferrite_core}-fabric")
-    modLocalRuntime("maven.modrinth:starlight:${project.starlight}")
 
     modLocalRuntime("maven.modrinth:lithium:${project.lithium}")
 
-    //TODO: TEMPORARY IMPLEMENTATION
     modImplementation("maven.modrinth:sodium:${project.sodium}")
     modLocalRuntime("maven.modrinth:sodium:${project.sodium}")
 
+    modLocalRuntime("maven.modrinth:starlight:${project.starlight}")
+
+    modCompileOnly("com.terraformersmc:modmenu:${project.modmenu}")
+    modLocalRuntime("com.terraformersmc:modmenu:${project.modmenu}")
+
     implementation 'org.joml:joml:1.10.2'
-    include 'org.joml:joml:1.10.2'
+    modLocalRuntime 'org.joml:joml:1.10.2'
 
-    //include "curse.maven:sheep-consistency-386175:3692536"
-    //modImplementation "curse.maven:sheep-consistency-386175:3692536"
-
-    //modImplementation "maven.modrinth:consistencyplus:${project.consistencyplus}"
+//    modImplementation "maven.modrinth:consistencyplus:${project.consistencyplus}"
 //    modImplementation("dev.architectury:architectury-fabric:${rootProject.architectury}"){ //:sources"){
 //        exclude(group: "net.fabricmc.fabric-api")
 //    }
