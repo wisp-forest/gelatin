@@ -63,11 +63,19 @@ public class JelloClient implements ClientModInitializer {
     public void onInitializeClient() {
         //  Api Stuff
 
+        // Resource Pack loading
+
         if (FabricLoader.getInstance().isModLoaded("continuity")) {
             FabricLoader.getInstance().getModContainer(Jello.MODID).ifPresent(container -> {
                 ResourceManagerHelper.registerBuiltinResourcePack(Jello.id("continuity_comp"), container, ResourcePackActivationType.NORMAL);
             });
         }
+
+        FabricLoader.getInstance().getModContainer(Jello.MODID).ifPresent(container -> {
+            ResourceManagerHelper.registerBuiltinResourcePack(Jello.id("cauldron_cull_fix"), container, ResourcePackActivationType.DEFAULT_ENABLED);
+        });
+
+        //-----------------------------------------------------------------------------------------
 
         JelloClient.registerColorProvidersForBlockVariants();
 
