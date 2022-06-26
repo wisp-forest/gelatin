@@ -51,28 +51,24 @@ public class LeveledCauldronBlockMixin extends AbstractCauldronBlock implements 
     @Override
     @Environment(EnvType.CLIENT)
     public int getColor(BlockState state, @Nullable BlockRenderView world, @Nullable BlockPos pos, int tintIndex) {
-        if (world != null) {
-            int worldColor = pos != null ? BiomeColors.getWaterColor(world, pos) : -1;
+        if (world != null && pos != null) {
+            int worldColor = BiomeColors.getWaterColor(world, pos);
 
-            if(world.getBlockEntity(pos) instanceof ColorStorageBlockEntity blockEntity) {
-                if (blockEntity != null && blockEntity.getDyeColorant() != DyeColorantRegistry.NULL_VALUE_NEW) {
-                    DyeColorant dyeColor = blockEntity.getDyeColorant();
+            if (world.getBlockEntity(pos) instanceof ColorStorageBlockEntity colorBlockEntity && colorBlockEntity.getDyeColorant() != DyeColorantRegistry.NULL_VALUE_NEW) {
+                DyeColorant dyeColor = colorBlockEntity.getDyeColorant();
 
-                    float[] colorComp = {1F, 1F, 1F};
+                float[] colorComp = {1F, 1F, 1F};
 
-                    if (dyeColor != null) {
-                        colorComp = dyeColor.getColorComponents();
-                    }
-
-                    return (int) (colorComp[0] * 255) << 16 | (int) (colorComp[1] * 255) << 8 | (int) (colorComp[2] * 255);
+                if (dyeColor != null) {
+                    colorComp = dyeColor.getColorComponents();
                 }
 
-                return worldColor;
-            } else {
-                return -1;
+                return (int) (colorComp[0] * 255) << 16 | (int) (colorComp[1] * 255) << 8 | (int) (colorComp[2] * 255);
             }
-        }
 
-        return 0;
+            return worldColor;
+        } else {
+            return -1;
+        }
     }
 }
