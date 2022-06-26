@@ -61,6 +61,7 @@
     "client.entitycolor.LivingEntityRenderMixin",
     "client.entitycolor.SlimeOverlayFeatureRendererMixin"
   ],
+  "plugin": "io.wispforest.jello.mixin.plugins.JelloMixinPlugin",
   "injectors": {
     "defaultRequire": 1
   }
