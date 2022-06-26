@@ -18,7 +18,7 @@ import java.util.*;
 @Pseudo
 public class LinearColorBlenderMixin  {
 
-    @Inject(method = "getColors", at = @At(value = "HEAD"), cancellable = true)
+    @Inject(method = "getColors(Lnet/minecraft/world/BlockRenderView;Lnet/minecraft/util/math/BlockPos;Lme/jellysquid/mods/sodium/client/model/quad/ModelQuadView;Lme/jellysquid/mods/sodium/client/model/quad/blender/ColorSampler;Ljava/lang/Object;)[I", at = @At(value = "HEAD"), cancellable = true)
     public <T> void jello$redirectToLinears(BlockRenderView world, BlockPos origin, ModelQuadView quad, ColorSampler<T> sampler, T state, CallbackInfoReturnable<int[]> cir){
         if(world.getBlockEntity(origin) instanceof ColorStorageBlockEntity){
             int[] colorArray = new int[4];
