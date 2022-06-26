@@ -10,6 +10,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
+/**
+ * Simple mixin to allow more than 5 total texture layers specifically for items
+ */
+
 @Mixin(ItemModelGenerator.class)
 public class ItemModelGeneratorMixin {
 

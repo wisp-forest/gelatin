@@ -73,7 +73,8 @@ dependencies {
 
     modLocalRuntime("maven.modrinth:ferrite-core:${project.ferrite_core}-fabric")
 
-    modLocalRuntime("maven.modrinth:lithium:${project.lithium}")
+//    modImplementation("maven.modrinth:lithium:${project.lithium}")
+//    modLocalRuntime("maven.modrinth:lithium:${project.lithium}")
 
     modImplementation("maven.modrinth:sodium:${project.sodium}")
     modLocalRuntime("maven.modrinth:sodium:${project.sodium}")

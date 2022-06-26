@@ -5,7 +5,6 @@ import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
 import io.wispforest.jello.api.dye.registry.variants.VanillaBlockVariants;
 import io.wispforest.jello.data.loot.JelloLootTables;
-import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemConvertible;
@@ -16,7 +15,6 @@ import net.minecraft.loot.entry.LootTableEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.util.Identifier;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class CustomSheepLootTables {
@@ -42,8 +40,8 @@ public class CustomSheepLootTables {
         return new Identifier("entities/sheep/" + dyeColorant.getName());
     }
 
-    private static FabricLootSupplierBuilder createForSheep(ItemConvertible item) {
-        return FabricLootSupplierBuilder.builder()
+    private static LootTable.Builder createForSheep(ItemConvertible item) {
+        return LootTable.builder()
                 .pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0F)).with(ItemEntry.builder(item)))
                 .pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0F)).with(LootTableEntry.builder(EntityType.SHEEP.getLootTableId())));
     }

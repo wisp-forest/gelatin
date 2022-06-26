@@ -16,11 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 @Mixin(Mouse.class)
 public class MouseMixin {
 
-    @Shadow
-    @Final
-    private MinecraftClient client;
-
-    @Unique private Screen currentScreen;
+    @Shadow @Final private MinecraftClient client;
 
     @Unique private Double horizontalScrollAmount;
 
@@ -28,8 +24,6 @@ public class MouseMixin {
     private void beforePlayerScrollHotbar(long window, double horizontal, double vertical, CallbackInfo ci, double verticalAmount, int i) {
 
         this.horizontalScrollAmount = this.client.options.getDiscreteMouseScroll().getValue() ? Math.signum(horizontal) : horizontal * this.client.options.getMouseWheelSensitivity().getValue();
-
-        //System.out.println("Horizontal: " + horizontalScrollAmount + " / Vertical: " + verticalAmount);
 
         if (!HotbarMouseEvents.ALLOW_MOUSE_SCROLL.invoker().allowMouseScroll(this.client.player, horizontalScrollAmount, verticalAmount)) {
             this.horizontalScrollAmount = null;
