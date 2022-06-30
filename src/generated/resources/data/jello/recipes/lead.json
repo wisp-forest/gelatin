@@ -1,20 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "O": {
+      "tag": "jello:slime_balls"
+    },
+    "~": {
+      "item": "minecraft:string"
+    }
+  },
   "pattern": [
     "~~ ",
     "~O ",
     "  ~"
   ],
-  "key": {
-    "~": {
-      "item": "minecraft:string"
-    },
-    "O": {
-      "tag": "jello:slime_balls"
-    }
-  },
   "result": {
-    "item": "minecraft:lead",
-    "count": 2
+    "count": 2,
+    "item": "minecraft:lead"
   }
 }

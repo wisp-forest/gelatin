@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "jello:white_slime_slab"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_white_slime_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "jello:white_slime_block"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_white_slime_block",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "jello:white_slime_slab"
+    ]
+  }
+}

@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "jello:yellow_slime_ball",
-    "count": 9
+    "count": 9,
+    "item": "jello:yellow_slime_ball"
   }
 }

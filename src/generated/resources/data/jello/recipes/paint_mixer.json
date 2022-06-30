@@ -1,21 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "lpl",
-    "lcl",
-    "lll"
-  ],
   "key": {
-    "l": {
-      "item": "minecraft:lapis_lazuli"
-    },
     "c": {
       "item": "minecraft:cauldron"
+    },
+    "l": {
+      "item": "minecraft:lapis_lazuli"
     },
     "p": {
       "item": "minecraft:heavy_weighted_pressure_plate"
     }
   },
+  "pattern": [
+    "lpl",
+    "lcl",
+    "lll"
+  ],
   "result": {
     "item": "jello:paint_mixer"
   }

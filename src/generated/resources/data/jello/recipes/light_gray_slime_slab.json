@@ -1,15 +1,15 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "###"
-  ],
   "key": {
     "#": {
       "item": "jello:light_gray_slime_block"
     }
   },
+  "pattern": [
+    "###"
+  ],
   "result": {
-    "item": "jello:light_gray_slime_slab",
-    "count": 6
+    "count": 6,
+    "item": "jello:light_gray_slime_slab"
   }
 }

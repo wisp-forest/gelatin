@@ -1,18 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "H": {
+      "item": "minecraft:leather"
+    },
+    "~": {
+      "item": "minecraft:string"
+    }
+  },
   "pattern": [
     "~H~",
     "H H",
     "HHH"
   ],
-  "key": {
-    "~": {
-      "item": "minecraft:string"
-    },
-    "H": {
-      "item": "minecraft:leather"
-    }
-  },
   "result": {
     "item": "minecraft:bundle"
   }

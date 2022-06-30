@@ -1,10 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "~~~",
-    "~b~",
-    "~~~"
-  ],
   "key": {
     "b": {
       "item": "minecraft:bundle"
@@ -13,6 +8,11 @@
       "tag": "jello:vanilla_dye_items"
     }
   },
+  "pattern": [
+    "~~~",
+    "~b~",
+    "~~~"
+  ],
   "result": {
     "item": "jello:dye_bundle"
   }
