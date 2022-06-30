@@ -1,10 +1,11 @@
 package io.wispforest.jello.data.providers;
 
-import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
 import io.wispforest.forge.LanguageProvider;
 import io.wispforest.jello.Jello;
+import io.wispforest.jello.api.dye.DyeColorant;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
+import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
+import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
 import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.item.JelloItems;
 import io.wispforest.jello.item.SpongeItem;
@@ -13,7 +14,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.util.registry.Registry;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.Arrays;
 import java.util.Locale;
@@ -71,11 +72,20 @@ public class JelloLangProvider extends LanguageProvider {
         add("item.jello.sponge.desc", "Use on a block to remove dye");
         add("item.jello.sponge.desc.dirty", "Clean by using on water cauldron");
 
+        add("vanilla_slime_slabs_condensed", "Slime Slabs");
+        add("vanilla_slime_blocks_condensed", "Slime Blocks");
+
+        add("tooltip.vanilla_slime_slabs_condensed", "Only contains Vanilla Colors");
+        add("tooltip.vanilla_slime_blocks_condensed", "Only contains Vanilla Colors");
 
         add("itemGroup.jello.jello_group", "Jello");
 
         add("itemGroup.jello.jello_group.tab.jello_items", "Jello Items");
         add("itemGroup.jello.jello_group.tab.dyed_block_variants", "Jello Block Variants");
+
+        DyeableBlockVariant.getAllVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.alwaysReadOnly() && dyeableBlockVariant.createBlockItem()).forEach(dyeableBlockVariant -> {
+            add(dyeableBlockVariant.variantIdentifier.getPath() + "_condensed", capitalizeEachWord(dyeableBlockVariant.variantIdentifier.getPath()) + "s");
+        });
 
         for (DyedVariantContainer dyedVariant : DyedVariantContainer.getVariantMap().values()) {
             for (Block block : dyedVariant.dyedBlocks.values()) {
@@ -84,6 +94,10 @@ public class JelloLangProvider extends LanguageProvider {
 
             addItem(() -> dyedVariant.dyeItem);
         }
+    }
+
+    public static String capitalizeEachWord(String path){
+        return  Arrays.stream(path.split("_")).map(WordUtils::capitalize).collect(Collectors.joining(" "));
     }
 
     //-----------------------------------------------//
@@ -118,7 +132,7 @@ public class JelloLangProvider extends LanguageProvider {
 
     public static final String toEnglishName(String internalName) {
         return Arrays.stream(internalName.toLowerCase(Locale.ROOT).split("_"))
-                .map(StringUtils::capitalize)
+                .map(WordUtils::capitalize)
                 .collect(Collectors.joining(" "));
     }
 
