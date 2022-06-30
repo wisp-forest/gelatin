@@ -71,6 +71,12 @@ public class JelloLangProvider extends LanguageProvider {
         add("item.jello.sponge.desc", "Use on a block to remove dye");
         add("item.jello.sponge.desc.dirty", "Clean by using on water cauldron");
 
+
+        add("itemGroup.jello.jello_group", "Jello");
+
+        add("itemGroup.jello.jello_group.tab.jello_items", "Jello Items");
+        add("itemGroup.jello.jello_group.tab.dyed_block_variants", "Jello Block Variants");
+
         for (DyedVariantContainer dyedVariant : DyedVariantContainer.getVariantMap().values()) {
             for (Block block : dyedVariant.dyedBlocks.values()) {
                 addBlock(() -> block);

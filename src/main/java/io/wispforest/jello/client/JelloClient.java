@@ -61,6 +61,9 @@ public class JelloClient implements ClientModInitializer {
     
     @Override
     public void onInitializeClient() {
+
+        Jello.MAIN_ITEM_GROUP.initialize();
+
         //  Api Stuff
 
         // Resource Pack loading
@@ -176,7 +179,7 @@ public class JelloClient implements ClientModInitializer {
 
                         ColorProviderRegistry.BLOCK.register((BlockColorProvider) block, block);
 
-                        if (blockVariantEntry.getKey().createBlockItem && block.asItem() instanceof ItemColorProvider) {
+                        if (blockVariantEntry.getKey().createBlockItem() && block.asItem() instanceof ItemColorProvider) {
                             ColorProviderRegistry.ITEM.register((ItemColorProvider) block.asItem(), block.asItem());
                         }
                     }

@@ -9,6 +9,7 @@ import io.wispforest.jello.client.render.screen.ColorMixerScreenHandler;
 import io.wispforest.jello.client.render.screen.JelloScreenHandlerTypes;
 import io.wispforest.jello.data.loot.JelloLootTables;
 import io.wispforest.jello.misc.JelloGameEvents;
+import io.wispforest.jello.misc.JelloItemGroup;
 import io.wispforest.jello.misc.JelloStats;
 import io.wispforest.jello.misc.behavior.ColorEntityBehavior;
 import io.wispforest.jello.misc.behavior.JelloCauldronBehaviors;
@@ -43,6 +44,8 @@ public class Jello implements ModInitializer {
 
     private static JelloConfig MAIN_CONFIG;
     public static final OwoNetChannel CHANNEL = OwoNetChannel.create(new Identifier(MODID, "main"));
+
+    public static final OwoItemGroup MAIN_ITEM_GROUP = new JelloItemGroup(id("jello_group"));
 
     @Override
     public void onInitialize() {
@@ -85,8 +88,6 @@ public class Jello implements ModInitializer {
             DyeColorantLoader.loadFromJson();
         }
         DyeColorantRegistry.registerModidModelRedirect(Jello.MODID);
-
-        ((OwoItemGroup) ItemGroup.MISC).initialize();
 
         registerDispenserBehavior();
 

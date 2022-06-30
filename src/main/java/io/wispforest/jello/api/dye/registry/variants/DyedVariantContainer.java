@@ -167,7 +167,8 @@ public class DyedVariantContainer {
                 info = parentBlockVariant.makeChildBlock(dyeColorant, possibleParentBlock);
 
                 if (overrideSettings != null)
-                    info.setOverrideSettings(overrideSettings);
+                    info = new DyeableBlockVariant.RegistryInfo(info.block, overrideSettings);
+
             }
 
             Block childBlock = registerBlock(parentBlockVariant, info, dyeColorant);
@@ -176,7 +177,7 @@ public class DyedVariantContainer {
 
             dyedBlocks.put(parentBlockVariant, childBlock);
 
-            if (parentBlockVariant.childVariant != null) {
+            if (parentBlockVariant.childVariant.get() != null) {
                 DyeableBlockVariant childBlockVariant = parentBlockVariant.childVariant.get();
 
                 recursivelyBuildBlocksFromVariant(dyedBlocks, childBlock, childBlockVariant, dyeColorant, overrideSettings);
@@ -197,7 +198,7 @@ public class DyedVariantContainer {
 
             Block block = Registry.register(Registry.BLOCK, identifier, registryInfo.block);
 
-            if (dyeableBlockVariant.createBlockItem) {
+            if (dyeableBlockVariant.createBlockItem()) {
                 Registry.register(Registry.ITEM, identifier, dyeableBlockVariant.makeBlockItem(dyeColorant, block, registryInfo.getItemSettings()));
             }
 

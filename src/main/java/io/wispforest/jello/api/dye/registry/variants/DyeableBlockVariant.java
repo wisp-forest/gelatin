@@ -8,7 +8,6 @@ import io.wispforest.jello.data.loot.JelloLootTables;
 import io.wispforest.jello.data.tags.JelloTags;
 import io.wispforest.jello.api.item.JelloItemSettings;
 import io.wispforest.jello.misc.dye.JelloBlockVariants;
-import io.wispforest.owo.itemgroup.OwoItemSettings;
 import io.wispforest.owo.util.TagInjector;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -33,8 +32,8 @@ import java.util.function.Supplier;
  */
 public class DyeableBlockVariant {
 
-    public static final Set<DyeableBlockVariant> ALL_BLOCK_VARIANTS = new HashSet<>();
-    public static final Set<DyeableBlockVariant> ADDITION_BLOCK_VARIANTS = new HashSet<>();
+    private static final Set<DyeableBlockVariant> ALL_BLOCK_VARIANTS = new LinkedHashSet<>();
+    private static final Set<DyeableBlockVariant> REGISTERED_BLOCK_VARIANTS = new LinkedHashSet<>();
 
     /**
      * None: The type telling the builder that is a single block and has no other variants that depend on this block to build
@@ -48,259 +47,246 @@ public class DyeableBlockVariant {
     public final Identifier variantIdentifier;
     public final int wordCount;
 
+    @Nullable private final BlockMaker blockMaker;
+
     private Identifier defaultBlockIdentifier;
-    private boolean addCustomDefaultBlockToTag;
 
-    public final RecursiveType recursiveType;
-    public final @Nullable Supplier<DyeableBlockVariant> childVariant;
-
-    private final BlockMaker blockMaker;
-    public BlockItemSettings defaultSettings;
-
-    public boolean createBlockItem = true;
     private BlockItemMaker blockItemMaker;
+    private Item.Settings defaultBlockItemSettings;
 
-    private boolean vanillaDyeableOnly = false;
-    private boolean alwaysReadOnly = false;
+    private boolean vanillaColorsOnly = false;
 
-    public final TagKey<Block> primaryBlockTag;
-    public final Set<TagKey<Block>> secondaryBlockTags = new HashSet<>();
+    private final List<TagKey<Block>> allBlockTags = new ArrayList<>();
+    private final List<TagKey<Item>> allItemTags = new ArrayList<>();
 
-    public final TagKey<Item> primaryItemTag;
-    public final Set<TagKey<Item>> secondaryItemTags = new HashSet<>();
+    public RecursiveType recursiveType = RecursiveType.NONE;
+    public Supplier<DyeableBlockVariant> childVariant = () -> null;
 
     private Function<Block, LootTable> lootTableBuilder = (block) -> JelloLootTables.drops(block).build();
 
-    private ColorManipulators.AlterBlockColor colorChangeMethod = null;
+    private ColorManipulators.AlterBlockColor colorChangeMethod = ColorManipulators.AlterBlockColor.DEFAULT;
 
     /**
      * @param variantIdentifier The {@link Identifier} based off your Modid and the block path for your variant
      * @param possibleChildVariant Any Variant that needs this Block to create itself from
-     * @param defaultGroup The {@link ItemGroup} of which this block will be put into
+     * @param itemSettings The {@link Item.Settings} used when creating the blockItem
      * @param blockMaker A generalized way of creating your Block Variant (Look at {@link VanillaBlockVariants} or {@link JelloBlockVariants} for a example)
      */
-    public DyeableBlockVariant(Identifier variantIdentifier, @Nullable Supplier<DyeableBlockVariant> possibleChildVariant, @Nullable ItemGroup defaultGroup, @Nullable BlockMaker blockMaker) {
+    public DyeableBlockVariant(Identifier variantIdentifier, @Nullable Supplier<DyeableBlockVariant> possibleChildVariant, Item.Settings itemSettings, @Nullable BlockMaker blockMaker) {
         this.variantIdentifier = variantIdentifier;
         this.blockMaker = blockMaker;
 
-        if(blockMaker == null){
-            alwaysReadOnly = true;
-        }
-
         this.wordCount = variantIdentifier.getPath().split("_").length;
 
-        this.defaultSettings = defaultGroup != null ? BlockItemSettings.of(defaultGroup) : BlockItemSettings.of();
+        this.defaultBlockItemSettings = itemSettings;
 
         if (possibleChildVariant != null) {
             this.recursiveType = RecursiveType.CHAINED;
             this.childVariant = possibleChildVariant;
-        } else {
-            this.recursiveType = RecursiveType.NONE;
-            this.childVariant = null;
         }
 
         this.defaultBlockIdentifier = new Identifier(variantIdentifier.getNamespace(), "white_" + variantIdentifier.getPath());
         this.blockItemMaker = BlockItemMaker.DEFAULT;
 
-        this.primaryBlockTag = TagKey.of(Registry.BLOCK_KEY, Jello.id(variantIdentifier.getPath()));
-        this.primaryItemTag = TagKey.of(Registry.ITEM_KEY, Jello.id(variantIdentifier.getPath()));
+        allBlockTags.add(TagKey.of(Registry.BLOCK_KEY, Jello.id(variantIdentifier.getPath())));
+        allItemTags.add(TagKey.of(Registry.ITEM_KEY, Jello.id(variantIdentifier.getPath())));
     }
 
     //---------------------------------------------------------------------------------------------------
 
-    public static DyeableBlockVariant of(Identifier variantIdentifier, Supplier<DyeableBlockVariant> possibleChildVariant, ItemGroup defaultGroup, BlockMaker blockMaker) {
-        return new DyeableBlockVariant(variantIdentifier, possibleChildVariant, defaultGroup, blockMaker);
-    }
+    public static class Builder {
 
-    public static DyeableBlockVariant of(Identifier variantIdentifier, ItemGroup defaultGroup, BlockMaker blockMaker) {
-        return new DyeableBlockVariant(variantIdentifier, null, defaultGroup, blockMaker);
-    }
+        public DyeableBlockVariant variant;
 
-    /**
-     * A way of using the Coloring Events within Jello with only Vanilla Colors and Blocks added by your Mod
-     *
-     * @param variantIdentifier The {@link Identifier} based off your Modid and the block path for your variant
-     */
-    public static DyeableBlockVariant readOnly(Identifier variantIdentifier) {
-        return new DyeableBlockVariant(variantIdentifier, null, null, null).setVanillaDyeableOnly();
-    }
-
-    public static DyeableBlockVariant readOnly(Identifier variantIdentifier, Supplier<DyeableBlockVariant> possibleChildVariant) {
-        return new DyeableBlockVariant(variantIdentifier, possibleChildVariant, null, null).setVanillaDyeableOnly();
-    }
-
-    //---------------------------------------------------------------------------------------------------
-
-    /**
-     * Sets the stack count of the for the {@link BlockItem} if such will be created
-     *
-     * @param maxCount Maximum Stack Count
-     */
-    public DyeableBlockVariant stackCount(int maxCount) {
-        this.defaultSettings.setItemStackCount(maxCount);
-
-        return this;
-    }
-
-    /**
-     * Sets the BlockItem will be a Fire Proof Item
-     */
-    public DyeableBlockVariant fireproof() {
-        this.defaultSettings.fireproof = true;
-
-        return this;
-    }
-
-    /**
-     * Adds a {@link FoodComponent} to the {@link BlockItem} if such will be created
-     *
-     * @param foodComponent The FoodComponent being added to the BlockItem
-     */
-    public DyeableBlockVariant setFoodComponent(FoodComponent foodComponent) {
-        this.defaultSettings.foodComponent = foodComponent;
-
-        return this;
-    }
-
-    /**
-     * Manually change the {@link #defaultBlockIdentifier} Identifier
-     *
-     * @param identifier The identifier of the block
-     */
-    public final DyeableBlockVariant setDefaultBlock(Identifier identifier) {
-        this.defaultBlockIdentifier = identifier;
-        this.addCustomDefaultBlockToTag = true;
-
-        return this;
-    }
-
-    /**
-     * Manually change the {@link #defaultBlockIdentifier} Identifier by combining the Block's path and the variant's MODID
-     *
-     * @param path The Block's default path
-     */
-    public final DyeableBlockVariant setDefaultBlock(String path) {
-        return this.setDefaultBlock(new Identifier(variantIdentifier.getNamespace(), path));
-    }
-
-    /**
-     * Disables creation of BlockItem for the given variant
-     */
-    public final DyeableBlockVariant noBlockItem(){
-        createBlockItem = false;
-        defaultSettings = null;
-
-        return this;
-    }
-
-    /**
-     * Manually change the {@link #blockItemMaker} if a custom one is needed
-     *
-     * @param blockItemMaker Custom BlockItemMaker
-     */
-    public final DyeableBlockVariant setBlockItemMaker(BlockItemMaker blockItemMaker) {
-        this.blockItemMaker = blockItemMaker;
-
-        return this;
-    }
-
-    /**
-     * Add all tags needed for this Block to be added too.
-     * You will need at least one Tag which this block variant is linked too or the {@link #addToBlockTags} will throw a {@link NullPointerException}
-     *
-     * @param tags Tags to be added to when the block is built
-     */
-    @SafeVarargs
-    public final DyeableBlockVariant setBlockTags(TagKey<Block>... tags) {
-        secondaryBlockTags.addAll(Arrays.asList(tags));
-
-        return this;
-    }
-
-    /**
-     * Add all tags needed for the Created {@link BlockItem} if such is made
-     *
-     * @param tags Tags to be added to when the {@link BlockItem} is built
-     */
-    @SafeVarargs
-    public final DyeableBlockVariant setItemTags(TagKey<Item>... tags) {
-        secondaryItemTags.addAll(Arrays.asList(tags));
-
-        return this;
-    }
-
-    /**
-     * Disables the creation of Modded Dyed Variants and only allows for Coloring this block with Vanilla Colors
-     */
-    public final DyeableBlockVariant setVanillaDyeableOnly(){
-        this.vanillaDyeableOnly = true;
-
-        return this;
-    }
-
-    /**
-     * Change the default Function for automatically generating the {@link LootTable} for this Block Variant
-     */
-    public final DyeableBlockVariant setLootTable(Function<Block, LootTable> lootTableBuilder){
-        this.lootTableBuilder = lootTableBuilder;
-
-        return this;
-    }
-
-    /**
-     * This method sets the {@link ColorManipulators.AlterBlockColor} for this variant, which is used
-     * internally for when a player is going to Dye a Colorable block of this Variant using a DyeItem or such.
-     * <br><br>
-     * Allows for blocks that are two parts like bed or BlockEntity's that need special things like NBT data to be copyied to change states properly
-     */
-    public final DyeableBlockVariant setBlockStateChangeMethod(ColorManipulators.AlterBlockColor method){
-        this.colorChangeMethod = method;
-
-        return this;
-    }
-
-    /**
-     * Method must be called when the Variant is finished being edited
-     * Will add your variant to the {@link #ADDITION_BLOCK_VARIANTS} and
-     * retroactively add this {@link DyeableBlockVariant} and {@link DyedVariantContainer#updateExistingContainers}
-     */
-    public final DyeableBlockVariant register() {
-        if (!DyeableBlockVariant.ADDITION_BLOCK_VARIANTS.contains(this)) {
-            DyedVariantContainer.updateExistingContainers(this);
+        Builder(DyeableBlockVariant variant){
+            this.variant = variant;
         }
 
-        //ColorBlockRegistry.registerBlockTypeWithRecursion(this);
-        DyeableBlockVariant.ADDITION_BLOCK_VARIANTS.add(this);
+        public static DyeableBlockVariant.Builder of(Identifier variantIdentifier, Item.Settings blockItemSettings, Supplier<DyeableBlockVariant> possibleChildVariant, BlockMaker blockMaker) {
+            return new Builder(new DyeableBlockVariant(variantIdentifier, possibleChildVariant, blockItemSettings, blockMaker));
+        }
 
-        return this;
+        public static DyeableBlockVariant.Builder of(Identifier variantIdentifier, Item.Settings blockItemSettings, BlockMaker blockMaker) {
+            return new Builder(new DyeableBlockVariant(variantIdentifier, null, blockItemSettings, blockMaker));
+        }
+
+        /**
+         * A way of using the Coloring Events within Jello with only Vanilla Colors and Blocks added by your Mod
+         *
+         * @param variantIdentifier The {@link Identifier} based off your Modid and the block path for your variant
+         */
+        public static DyeableBlockVariant.Builder readOnly(Identifier variantIdentifier) {
+            DyeableBlockVariant.Builder builder = new Builder(new DyeableBlockVariant(variantIdentifier, null, new Item.Settings(), null));
+
+            builder.setVanillaDyeableOnly();
+
+            return builder;
+        }
+
+        public static DyeableBlockVariant.Builder readOnly(Identifier variantIdentifier, Supplier<DyeableBlockVariant> possibleChildVariant) {
+            DyeableBlockVariant.Builder builder = new Builder(new DyeableBlockVariant(variantIdentifier, possibleChildVariant, new Item.Settings(), null));
+
+            builder.setVanillaDyeableOnly();
+
+            return builder;
+        }
+
+        //---------------------------------------------------------------------------------------------------
+
+        /**
+         * Manually change the {@link #defaultBlockIdentifier} Identifier
+         *
+         * @param identifier The identifier of the block
+         */
+        public final DyeableBlockVariant.Builder setDefaultBlock(Identifier identifier) {
+            variant.defaultBlockIdentifier = identifier;
+
+            return this;
+        }
+
+        /**
+         * Manually change the {@link #defaultBlockIdentifier} Identifier by combining the Block's path and the variant's MODID
+         *
+         * @param path The Block's default path
+         */
+        public final DyeableBlockVariant.Builder setDefaultBlock(String path) {
+            return this.setDefaultBlock(new Identifier(variant.variantIdentifier.getNamespace(), path));
+        }
+
+        /**
+         * Disables creation of BlockItem for the given variant
+         */
+        public final DyeableBlockVariant.Builder noBlockItem(){
+            variant.blockItemMaker = null;
+            variant.defaultBlockItemSettings = new Item.Settings();
+
+            return this;
+        }
+
+        /**
+         * Manually change the {@link #blockItemMaker} if a custom one is needed
+         *
+         * @param blockItemMaker Custom BlockItemMaker
+         */
+        public final DyeableBlockVariant.Builder setBlockItemMaker(BlockItemMaker blockItemMaker) {
+            variant.blockItemMaker = blockItemMaker;
+
+            return this;
+        }
+
+        /**
+         * Add all tags needed for this Block to be added too.
+         * You will need at least one Tag which this block variant is linked too or the {@link #addToBlockTags} will throw a {@link NullPointerException}
+         *
+         * @param tags Tags to be added to when the block is built
+         */
+        @SafeVarargs
+        public final DyeableBlockVariant.Builder setBlockTags(TagKey<Block>... tags) {
+            variant.allBlockTags.addAll(Arrays.asList(tags));
+
+            return this;
+        }
+
+        /**
+         * Add all tags needed for the Created {@link BlockItem} if such is made
+         *
+         * @param tags Tags to be added to when the {@link BlockItem} is built
+         */
+        @SafeVarargs
+        public final DyeableBlockVariant.Builder setItemTags(TagKey<Item>... tags) {
+            variant.allItemTags.addAll(Arrays.asList(tags));
+
+            return this;
+        }
+
+        /**
+         * Disables the creation of Modded Dyed Variants and only allows for Coloring this block with Vanilla Colors
+         */
+        public final DyeableBlockVariant.Builder setVanillaDyeableOnly(){
+            variant.vanillaColorsOnly = true;
+
+            return this;
+        }
+
+        /**
+         * Change the default Function for automatically generating the {@link LootTable} for this Block Variant
+         */
+        public final DyeableBlockVariant.Builder setLootTable(Function<Block, LootTable> lootTableBuilder){
+            variant.lootTableBuilder = lootTableBuilder;
+
+            return this;
+        }
+
+        /**
+         * This method sets the {@link ColorManipulators.AlterBlockColor} for this variant, which is used
+         * internally for when a player is going to Dye a Colorable block of this Variant using a DyeItem or such.
+         * <br><br>
+         * Allows for blocks that are two parts like bed or BlockEntity's that need special things like NBT data to be copyied to change states properly
+         */
+        public final DyeableBlockVariant.Builder setBlockStateChangeMethod(ColorManipulators.AlterBlockColor method){
+            variant.colorChangeMethod = method;
+
+            return this;
+        }
+
+        /**
+         * Method must be called when the Variant is finished being edited
+         * Will add your variant to the {@link #REGISTERED_BLOCK_VARIANTS} and
+         * retroactively add this {@link DyeableBlockVariant} and {@link DyedVariantContainer#updateExistingContainers}
+         */
+        public final DyeableBlockVariant register() {
+            if (!DyeableBlockVariant.REGISTERED_BLOCK_VARIANTS.contains(variant)) {
+                DyedVariantContainer.updateExistingContainers(variant);
+            }
+
+            //ColorBlockRegistry.registerBlockTypeWithRecursion(this);
+            DyeableBlockVariant.REGISTERED_BLOCK_VARIANTS.add(variant);
+
+            return variant;
+        }
+
     }
 
     //---------------------------------------------------------------------------------------------------
 
     /**
-     * The Common tag based off the {@link #primaryBlockTag} that is made from the {@link #variantIdentifier}
+     * The Common tag based off the {@link #getPrimaryBlockTag()} that is made from the {@link #variantIdentifier}
      *
      * @return A Block Tag within fabric's common namespace from the variant used
      */
     public final TagKey<Block> getCommonBlockTag() {
-        return TagKey.of(Registry.BLOCK_KEY, new Identifier("c", primaryBlockTag.id().getPath()));
+        return TagKey.of(Registry.BLOCK_KEY, new Identifier("c", getPrimaryBlockTag().id().getPath()));
     }
 
     /**
-     * The Common tag based off the {@link #primaryItemTag} that is made from the {@link #variantIdentifier}
+     * The Common tag based off the {@link #getPrimaryItemTag()} that is made from the {@link #variantIdentifier}
      *
      * @return A Item Tag within fabric's common namespace from the variant used
      */
     public final TagKey<Item> getCommonItemTag() {
-        return TagKey.of(Registry.ITEM_KEY, new Identifier("c", primaryItemTag.id().getPath()));
+        return TagKey.of(Registry.ITEM_KEY, new Identifier("c", getPrimaryItemTag().id().getPath()));
+    }
+
+    /**
+     * The primary block tag that groups all these blocks together
+     */
+    public final TagKey<Block> getPrimaryBlockTag() {
+        return allBlockTags.get(0);
+    }
+
+    /**
+     * The primary item tag that groups all these blockItems together (If such were made);
+     */
+    public final TagKey<Item> getPrimaryItemTag() {
+        return allItemTags.get(0);
     }
 
     public final boolean vanillaDyesOnly(){
-        return this.vanillaDyeableOnly;
+        return this.vanillaColorsOnly;
     }
 
     public final boolean alwaysReadOnly(){
-        return this.alwaysReadOnly;
+        return this.blockMaker == null;
     }
 
     //---------------------------------------------------------------------------------------------------
@@ -370,7 +356,7 @@ public class DyeableBlockVariant {
         DyeableBlockVariant variant = DyeableBlockVariant.getVariantFromBlock(block);
 
         if(variant != null){
-            if(!block.getRegistryEntry().isIn(variant.primaryBlockTag)){
+            if(!block.getRegistryEntry().isIn(variant.getPrimaryBlockTag())){
                 return null;
             }
 
@@ -443,12 +429,10 @@ public class DyeableBlockVariant {
      * @return {@link #ALL_BLOCK_VARIANTS} safely
      */
     public static Set<DyeableBlockVariant> getAllVariants(){
-        if(ALL_BLOCK_VARIANTS.isEmpty() || ALL_BLOCK_VARIANTS.size() < DyedVariantContainer.getVariantMap().get(DyeColorantRegistry.WHITE).dyedBlocks.size()){
-            for(DyeableBlockVariant dyeableBlockVariant : VanillaBlockVariants.VANILLA_VARIANTS){
-                addToAllBlockVariantsRecursive(dyeableBlockVariant);
-            }
+        //TODO: Is such really needed?
 
-            for(DyeableBlockVariant dyeableBlockVariant : ADDITION_BLOCK_VARIANTS){
+        if(ALL_BLOCK_VARIANTS.isEmpty() || ALL_BLOCK_VARIANTS.size() < DyedVariantContainer.getVariantMap().get(DyeColorantRegistry.WHITE).dyedBlocks.size()){
+            for(DyeableBlockVariant dyeableBlockVariant : REGISTERED_BLOCK_VARIANTS){
                 addToAllBlockVariantsRecursive(dyeableBlockVariant);
             }
         }
@@ -458,7 +442,7 @@ public class DyeableBlockVariant {
 
     private static void addToAllBlockVariantsRecursive(DyeableBlockVariant dyeableBlockVariant){
         ALL_BLOCK_VARIANTS.add(dyeableBlockVariant);
-        if(dyeableBlockVariant.childVariant != null){
+        if(dyeableBlockVariant.childVariant.get() != null){
             addToAllBlockVariantsRecursive(dyeableBlockVariant.childVariant.get());
         }
     }
@@ -500,31 +484,30 @@ public class DyeableBlockVariant {
         return DyeColorantRegistry.DYE_COLOR.get(new Identifier(identifier.getNamespace(), stringBuilder.toString()));
     }
 
-    public ColorManipulators.AlterBlockColor getOrDefault(){
-        return this.colorChangeMethod != null ? this.colorChangeMethod : ColorManipulators.AlterBlockColor.DEFAULT;
+    public ColorManipulators.AlterBlockColor getAlterColorMethod(){
+        return this.colorChangeMethod;
     }
 
     //---------------------------------------------------------------------------------------------------
 
     @ApiStatus.Internal
-    protected static DyeableBlockVariant of(Identifier variantIdentifier, Supplier<DyeableBlockVariant> possibleChildVariant, BlockMaker blockMaker) {
-        return new DyeableBlockVariant(variantIdentifier, possibleChildVariant, null, blockMaker);
+    public boolean createBlockItem(){
+        return blockItemMaker != null;
     }
 
-    @ApiStatus.Internal
-    protected static DyeableBlockVariant of(Identifier variantIdentifier, BlockMaker blockMaker) {
-        return new DyeableBlockVariant(variantIdentifier, null, null, blockMaker);
+    private boolean addCustomDefaultBlockToTag(){
+        return defaultBlockIdentifier.getPath().contains("white");
     }
 
     protected final void addToTags(Block block, boolean readOnly){
         this.addToBlockTags(block, readOnly);
 
-        if(createBlockItem){
+        if(createBlockItem()){
             this.addToItemTags(block.asItem(), readOnly);
         }
     }
 
-    private boolean alreadInitDefaultBlocksItemTag = false;
+    private boolean initilizedDefaultBlocksItemTag = false;
 
     @ApiStatus.Internal
     protected final void addToItemTags(Item item, boolean readOnly) {
@@ -533,46 +516,47 @@ public class DyeableBlockVariant {
         }
 
         TagInjector.inject(Registry.ITEM, JelloTags.Items.ALL_COLORED_VARIANTS.id(), item);
-        TagInjector.inject(Registry.ITEM, primaryItemTag.id(), item);
+        TagInjector.inject(Registry.ITEM, getPrimaryItemTag().id(), item);
 
         if(!readOnly) {
-            for (TagKey<Item> tagKey : secondaryItemTags) {
+            for (TagKey<Item> tagKey : allItemTags.subList(1, allItemTags.size())) {
                 TagInjector.inject(Registry.ITEM, tagKey.id(), item);
             }
         }
 
-        if(addCustomDefaultBlockToTag && item != this.getDefaultBlock().asItem() && !alreadInitDefaultBlocksItemTag){
+        if(addCustomDefaultBlockToTag() && item != this.getDefaultBlock().asItem() && !initilizedDefaultBlocksItemTag){
             this.addToItemTags(this.getDefaultBlock().asItem(), true);
-            alreadInitDefaultBlocksItemTag = true;
+            initilizedDefaultBlocksItemTag = true;
         }
     }
 
-    private boolean alreadInitDefaultBlocksBlockTag = false;
+    private boolean initilizedDefaultBlocksBlockTag = false;
 
     @ApiStatus.Internal
     protected final void addToBlockTags(Block block, boolean readOnly) {
-        TagInjector.inject(Registry.BLOCK, primaryBlockTag.id(), block);
+        TagInjector.inject(Registry.BLOCK, getPrimaryItemTag().id(), block);
 
         if(!readOnly) {
-            for (TagKey<Block> tagKey : secondaryBlockTags) {
+            for (TagKey<Block> tagKey : allBlockTags.subList(1, allItemTags.size())) {
                 TagInjector.inject(Registry.BLOCK, tagKey.id(), block);
             }
         }
 
-        if(addCustomDefaultBlockToTag && block != this.getDefaultBlock() && !alreadInitDefaultBlocksBlockTag) {
+        if(addCustomDefaultBlockToTag() && block != this.getDefaultBlock() && !initilizedDefaultBlocksBlockTag) {
             this.addToBlockTags(this.getDefaultBlock(), true);
-            alreadInitDefaultBlocksBlockTag = true;
+            initilizedDefaultBlocksBlockTag = true;
         }
     }
 
+    @ApiStatus.Internal
     public void generateAllLootTables(Map<Identifier, LootTable> tables){
-        if(alwaysReadOnly){
+        if(alwaysReadOnly()){
             return;
         }
 
         Set<DyeColorant> dyeColorants = new HashSet<>();
 
-        if(vanillaDyeableOnly){
+        if(vanillaColorsOnly){
             dyeColorants.addAll(DyeColorantRegistry.Constants.VANILLA_DYES);
         }else{
             dyeColorants.addAll(DyeColorantRegistry.DYE_COLOR.stream().toList());
@@ -587,7 +571,7 @@ public class DyeableBlockVariant {
 
     @ApiStatus.Internal
     protected RegistryInfo makeChildBlock(DyeColorant dyeColorant, @Nullable Block parentBlock) {
-        return RegistryInfo.of(blockMaker.createBlockFromDyeColor(dyeColorant, parentBlock), defaultSettings);
+        return new RegistryInfo(blockMaker.createBlockFromDyeColor(dyeColorant, parentBlock), defaultBlockItemSettings);
     }
 
     @ApiStatus.Internal
@@ -595,76 +579,21 @@ public class DyeableBlockVariant {
         return this.blockItemMaker.createBlockItemFromDyeColor(dyeColorant, block, settings);
     }
 
-
-    //---------------------------------------------------------------------------------------------------
-
-    @ApiStatus.Internal
-    protected static class BlockItemSettings {
-        public int maxCount;
-        public boolean fireproof;
-        @Nullable public FoodComponent foodComponent;
-        public ItemGroup group;
-
-        private BlockItemSettings(int maxCount, boolean fireproof, FoodComponent foodComponent, ItemGroup group) {
-            this.maxCount = maxCount;
-            this.fireproof = fireproof;
-            this.foodComponent = foodComponent;
-            this.group = group;
-        }
-
-        private static BlockItemSettings of() {
-            return new BlockItemSettings(64, false, null, null);
-        }
-
-        private static BlockItemSettings of(ItemGroup group) {
-            return new BlockItemSettings(64, false, null, group);
-        }
-
-        private void setItemStackCount(int count) {
-            this.maxCount = count;
-        }
-    }
-
     //---------------------------------------------------------------------------------------------------
 
     @ApiStatus.Internal
     protected static class RegistryInfo {
+
         public final Block block;
-        private final BlockItemSettings settings;
+        private final Item.Settings settings;
 
-        protected OwoItemSettings overrideSettings = null;
-
-        protected RegistryInfo(Block block, BlockItemSettings blockItemSettings) {
+        protected RegistryInfo(Block block, Item.Settings blockItemSettings) {
             this.block = block;
             this.settings = blockItemSettings;
         }
 
-        protected static RegistryInfo of(Block block, @Nullable BlockItemSettings blockItemSettings) {
-            return new RegistryInfo(block, blockItemSettings);
-        }
-
-        protected void setOverrideSettings(OwoItemSettings owoItemSettings) {
-            this.overrideSettings = owoItemSettings;
-        }
-
         protected Item.Settings getItemSettings() {
-            Item.Settings settings = overrideSettings == null ? new Item.Settings() : JelloItemSettings.copyFrom(this.overrideSettings);
-
-            settings.maxCount(this.settings.maxCount);
-
-            if (this.settings.group != null) {
-                settings.group(this.settings.group);
-            }
-
-            if (this.settings.foodComponent != null) {
-                settings.food(this.settings.foodComponent);
-            }
-
-            if (this.settings.fireproof) {
-                settings.fireproof();
-            }
-
-            return settings;
+            return JelloItemSettings.copyFrom(settings);
         }
     }
 }

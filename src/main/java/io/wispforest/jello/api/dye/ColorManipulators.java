@@ -1,6 +1,5 @@
 package io.wispforest.jello.api.dye;
 
-import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.ducks.entity.DyeableEntity;
 import io.wispforest.jello.api.ducks.entity.RainbowEntity;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
@@ -41,7 +40,7 @@ public class ColorManipulators {
             world.playSound(player, blockPos, currentBlockState.getBlock().getSoundGroup(currentBlockState).getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
         }
 
-        return coloredPair.getRight().getOrDefault().changeState(world, blockPos, currentBlockState, coloredPair.getLeft(), player);
+        return coloredPair.getRight().getAlterColorMethod().changeState(world, blockPos, currentBlockState, coloredPair.getLeft(), player);
     }
 
     /**

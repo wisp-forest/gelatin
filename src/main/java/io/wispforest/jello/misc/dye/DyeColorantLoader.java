@@ -17,7 +17,7 @@ import java.io.InputStreamReader;
 public class DyeColorantLoader {
 
     private static final Gson BIG_BRO_GSON = new GsonBuilder().setPrettyPrinting().create();
-    private static final OwoItemSettings BASE_BLOCK_ITEM_SETTINGS = new OwoItemSettings().group(ItemGroup.MISC).tab(2);
+    private static final OwoItemSettings BASE_BLOCK_ITEM_SETTINGS = new OwoItemSettings().group(Jello.MAIN_ITEM_GROUP).tab(1);
 
     public static void loadFromJson() {
         VersatileLogger logger = new VersatileLogger("JsonToRegistry");
@@ -41,7 +41,7 @@ public class DyeColorantLoader {
                 }
 
                 DyeColorant currentDyeColor = DyeColorantRegistry.registerDyeColor(colorIdentifier, MapColor.CLEAR, colorValue);
-                DyedVariantContainer.createVariantContainer(currentDyeColor, new OwoItemSettings().group(ItemGroup.MISC).tab(1), BASE_BLOCK_ITEM_SETTINGS, false, false);
+                DyedVariantContainer.createVariantContainer(currentDyeColor, new OwoItemSettings().group(Jello.MAIN_ITEM_GROUP).tab(0), BASE_BLOCK_ITEM_SETTINGS, false, false);
             }
 
             logger.stopTimerPrint("It seems that the registry filling took ");

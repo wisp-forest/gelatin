@@ -87,11 +87,11 @@ public abstract class ModelLoaderMixin {
 
 
             if (ALL_VARIANTS.isEmpty()) {
-                for (DyeableBlockVariant dyeableBlockVariant : VanillaBlockVariants.VANILLA_VARIANTS) {
-                    jello$addToListWithRecursion(dyeableBlockVariant);
-                }
+//                for (DyeableBlockVariant dyeableBlockVariant : VanillaBlockVariants.VANILLA_VARIANTS) {
+//                    jello$addToListWithRecursion(dyeableBlockVariant);
+//                }
 
-                for (DyeableBlockVariant dyeableBlockVariant : DyeableBlockVariant.ADDITION_BLOCK_VARIANTS) {
+                for (DyeableBlockVariant dyeableBlockVariant : DyeableBlockVariant.getAllVariants()) {
                     jello$addToListWithRecursion(dyeableBlockVariant);
                 }
             }
@@ -175,7 +175,7 @@ public abstract class ModelLoaderMixin {
     private static void jello$addToListWithRecursion(DyeableBlockVariant parentBlockVariant) {
         ALL_VARIANTS.add(parentBlockVariant);
 
-        if (parentBlockVariant.childVariant != null) {
+        if (parentBlockVariant.childVariant.get() != null) {
             jello$addToListWithRecursion(parentBlockVariant.childVariant.get());
         }
     }

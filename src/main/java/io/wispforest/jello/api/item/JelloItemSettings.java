@@ -27,8 +27,38 @@ public class JelloItemSettings extends OwoItemSettings {
         return ((JelloItemSettingsExtensions) this).getRecipeSpecificRemainder();
     }
 
-    public static OwoItemSettings copyFrom(Item.Settings settings) {
-        OwoItemSettings settingsNew = new OwoItemSettings();
+    /**
+     * Method to make an exact copy of {@link Item.Settings} given and will keep the level of Settings whether {@link OwoItemSettings} or {@link FabricItemSettings}
+     *
+     * @param settings Origin Settings
+     * @return a full copy of the given settings
+     */
+    public static Item.Settings copyFrom(Item.Settings settings) {
+
+        Item.Settings settingsNew = null;
+
+        if(settings instanceof OwoItemSettings oldOwoItemSettings){
+            settingsNew = new OwoItemSettings();
+
+            ((OwoItemSettings)settingsNew).tab(oldOwoItemSettings.getTab());
+        }
+
+        if(settings instanceof FabricItemSettings oldFabricItemSettings){
+            if(settingsNew == null) {
+                settingsNew = new FabricItemSettings();
+            }
+
+            ExtraDataAccessor oldData = (ExtraDataAccessor) (Object) FabricItemInternalsAccessor.getExtraData().get(oldFabricItemSettings);
+
+            if (oldData != null) {
+                ((FabricItemSettings)settingsNew).customDamage(oldData.getCustomDamageHandler());
+                ((FabricItemSettings)settingsNew).equipmentSlot(oldData.getEquipmentSlotProvider());
+            }
+        }
+
+        if(settingsNew == null){
+            settingsNew = new Item.Settings();
+        }
 
         SettingsAccessor settingsAccessor = (SettingsAccessor) settings;
 
@@ -42,19 +72,6 @@ public class JelloItemSettings extends OwoItemSettings {
                 .maxCount(settingsAccessor.getMaxCount())
                 .maxDamageIfAbsent(settingsAccessor.getMaxDamage())
                 .rarity(settingsAccessor.getRarity());
-
-        if (settings instanceof FabricItemSettings) {
-            ExtraDataAccessor oldData = (ExtraDataAccessor) (Object) FabricItemInternalsAccessor.getExtraData().get(settings);
-
-            if (oldData != null) {
-                settingsNew.customDamage(oldData.getCustomDamageHandler());
-                settingsNew.equipmentSlot(oldData.getEquipmentSlotProvider());
-            }
-
-            if (settings instanceof OwoItemSettings owoItemSettings) {
-                settingsNew.tab(owoItemSettings.getTab());
-            }
-        }
 
         return settingsNew;
     }
