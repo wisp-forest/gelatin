@@ -2,11 +2,9 @@ package io.wispforest.jello.misc;
 
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.ducks.DyeBlockStorage;
-import io.wispforest.jello.api.ducks.DyeItemStorage;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
-import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
+import io.wispforest.jello.api.dye.registry.variants.block.DyeableBlockVariant;
 import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.jello.item.JelloDyeItem;
 import io.wispforest.jello.item.JelloItems;
@@ -40,26 +38,30 @@ public class JelloItemGroup extends OwoItemGroup {
 
     @Override
     protected void setup() {
-        this.addTab(Icon.of(JelloItems.DYE_BUNDLE.getDefaultStack()), "jello_items", null, ItemGroupTab.DEFAULT_TEXTURE);
+        this.addTab(Icon.of(JelloItems.DYE_BUNDLE.getDefaultStack()), "jello_tools", null, ItemGroupTab.DEFAULT_TEXTURE);
 
         if(DyeColorantRegistry.DYE_COLOR.size() > 17) {
             DyeColorant color = DyeColorantRegistry.DYE_COLOR.get(new Identifier(Jello.MODID, "cold_turkey"));
 
             List<DyeableBlockVariant> allVariants = DyeableBlockVariant.getAllVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.vanillaDyesOnly()).toList();
 
-            DyeableBlockVariant variant = allVariants.get(new Random().nextInt(allVariants.size())); //
+            DyeableBlockVariant variant = allVariants.get(new Random().nextInt(allVariants.size()));
 
-            Item blockItem = Registry.ITEM.get(new Identifier(color.getId().getNamespace(), variant.getColoredBlockPath(color)));
+            Item dyeItem = null, blockItem = null;
 
-            if(blockItem == Items.AIR){
-                color = DyeColorantRegistry.getRandomColorant();
-
+            for(boolean validItems = false; !validItems;){
+                dyeItem = Registry.ITEM.get(new Identifier(color.getId().getNamespace(), color.getName() + "_dye"));
                 blockItem = Registry.ITEM.get(new Identifier(color.getId().getNamespace(), variant.getColoredBlockPath(color)));
+
+                if(blockItem == Items.AIR || dyeItem == Items.AIR) {
+                    color = DyeColorantRegistry.getRandomColorant();
+                } else {
+                    validItems = true;
+                }
             }
 
+            this.addTab(Icon.of(dyeItem), "dyed_item_variants", null, ItemGroupTab.DEFAULT_TEXTURE);
             this.addTab(Icon.of(blockItem), "dyed_block_variants", null, ItemGroupTab.DEFAULT_TEXTURE);
-
-            //this.addTab(Icon.of(Items.WHITE_CONCRETE), "dyed_item_variants", null, ItemGroupTab.DEFAULT_TEXTURE);
         }
     }
 

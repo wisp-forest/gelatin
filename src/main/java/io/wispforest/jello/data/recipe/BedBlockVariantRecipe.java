@@ -1,7 +1,7 @@
 package io.wispforest.jello.data.recipe;
 
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
+import io.wispforest.jello.api.dye.registry.variants.block.DyeableBlockVariant;
 import io.wispforest.jello.api.dye.registry.variants.VanillaBlockVariants;
 import io.wispforest.jello.data.tags.JelloTags;
 import net.minecraft.inventory.CraftingInventory;

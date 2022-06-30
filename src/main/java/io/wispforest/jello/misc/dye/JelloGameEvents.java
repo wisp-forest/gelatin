@@ -1,4 +1,4 @@
-package io.wispforest.jello.misc;
+package io.wispforest.jello.misc.dye;
 
 import io.wispforest.owo.registration.reflect.AutoRegistryContainer;
 import net.minecraft.util.registry.Registry;

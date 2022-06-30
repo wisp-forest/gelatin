@@ -1,9 +1,12 @@
-package io.wispforest.jello.api.dye.registry.variants;
+package io.wispforest.jello.api.dye.registry.variants.block;
 
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.ColorManipulators;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
+import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
+import io.wispforest.jello.api.dye.registry.variants.VanillaBlockVariants;
+import io.wispforest.jello.api.dye.registry.variants.item.ItemMaker;
 import io.wispforest.jello.data.loot.JelloLootTables;
 import io.wispforest.jello.data.tags.JelloTags;
 import io.wispforest.jello.api.item.JelloItemSettings;
@@ -51,7 +54,7 @@ public class DyeableBlockVariant {
 
     private Identifier defaultBlockIdentifier;
 
-    private BlockItemMaker blockItemMaker;
+    private ItemMaker blockItemMaker;
     private Item.Settings defaultBlockItemSettings;
 
     private boolean vanillaColorsOnly = false;
@@ -86,7 +89,7 @@ public class DyeableBlockVariant {
         }
 
         this.defaultBlockIdentifier = new Identifier(variantIdentifier.getNamespace(), "white_" + variantIdentifier.getPath());
-        this.blockItemMaker = BlockItemMaker.DEFAULT;
+        this.blockItemMaker = ItemMaker.BLOCK_DEFAULT;
 
         allBlockTags.add(TagKey.of(Registry.BLOCK_KEY, Jello.id(variantIdentifier.getPath())));
         allItemTags.add(TagKey.of(Registry.ITEM_KEY, Jello.id(variantIdentifier.getPath())));
@@ -168,7 +171,7 @@ public class DyeableBlockVariant {
          *
          * @param blockItemMaker Custom BlockItemMaker
          */
-        public final DyeableBlockVariant.Builder setBlockItemMaker(BlockItemMaker blockItemMaker) {
+        public final DyeableBlockVariant.Builder setBlockItemMaker(ItemMaker blockItemMaker) {
             variant.blockItemMaker = blockItemMaker;
 
             return this;
@@ -366,7 +369,7 @@ public class DyeableBlockVariant {
                 return null;
             }
 
-            return new Pair(variant.getColoredBlock(dyeColorant), variant);
+            return new Pair<>(variant.getColoredBlock(dyeColorant), variant);
         }else{
             return null;
         }
@@ -499,7 +502,8 @@ public class DyeableBlockVariant {
         return defaultBlockIdentifier.getPath().contains("white");
     }
 
-    protected final void addToTags(Block block, boolean readOnly){
+    @ApiStatus.Internal
+    public final void addToTags(Block block, boolean readOnly){
         this.addToBlockTags(block, readOnly);
 
         if(createBlockItem()){
@@ -570,30 +574,13 @@ public class DyeableBlockVariant {
     }
 
     @ApiStatus.Internal
-    protected RegistryInfo makeChildBlock(DyeColorant dyeColorant, @Nullable Block parentBlock) {
-        return new RegistryInfo(blockMaker.createBlockFromDyeColor(dyeColorant, parentBlock), defaultBlockItemSettings);
+    public Pair<Block, Item.Settings> makeChildBlock(DyeColorant dyeColorant, @Nullable Block parentBlock) {
+        return new Pair<>(blockMaker.createBlockFromDyeColor(dyeColorant, parentBlock), defaultBlockItemSettings);
+
     }
 
     @ApiStatus.Internal
-    protected BlockItem makeBlockItem(DyeColorant dyeColorant, Block block, Item.Settings settings) {
-        return this.blockItemMaker.createBlockItemFromDyeColor(dyeColorant, block, settings);
-    }
-
-    //---------------------------------------------------------------------------------------------------
-
-    @ApiStatus.Internal
-    protected static class RegistryInfo {
-
-        public final Block block;
-        private final Item.Settings settings;
-
-        protected RegistryInfo(Block block, Item.Settings blockItemSettings) {
-            this.block = block;
-            this.settings = blockItemSettings;
-        }
-
-        protected Item.Settings getItemSettings() {
-            return JelloItemSettings.copyFrom(settings);
-        }
+    public BlockItem makeBlockItem(DyeColorant dyeColorant, Block block, Item.Settings settings) {
+        return (BlockItem) this.blockItemMaker.createItemFromDyeColor(dyeColorant, block, JelloItemSettings.copyFrom(settings));
     }
 }

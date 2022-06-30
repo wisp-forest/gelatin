@@ -1,9 +1,8 @@
 package io.wispforest.jello.misc.behavior;
 
-import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.ducks.DyeItemStorage;
 import io.wispforest.jello.api.ducks.entity.DyeableEntity;
-import io.wispforest.jello.misc.JelloGameEvents;
+import io.wispforest.jello.misc.dye.JelloGameEvents;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
 import net.minecraft.entity.Entity;

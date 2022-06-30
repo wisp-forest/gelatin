@@ -1,6 +1,6 @@
 package io.wispforest.jello.misc.dye;
 
-import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
+import io.wispforest.jello.api.dye.registry.variants.block.DyeableBlockVariant;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.block.SlimeBlockColored;
 import io.wispforest.jello.block.SlimeSlabColored;
@@ -10,9 +10,7 @@ import io.wispforest.jello.item.ColoredBlockItem;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Blocks;
-import net.minecraft.data.server.BlockLootTableGenerator;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 
 public class JelloBlockVariants {

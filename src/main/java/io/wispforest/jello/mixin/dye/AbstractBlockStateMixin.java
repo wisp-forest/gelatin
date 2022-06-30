@@ -1,7 +1,7 @@
 package io.wispforest.jello.mixin.dye;
 
 import io.wispforest.jello.api.ducks.DyeTool;
-import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
+import io.wispforest.jello.api.dye.registry.variants.block.DyeableBlockVariant;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;

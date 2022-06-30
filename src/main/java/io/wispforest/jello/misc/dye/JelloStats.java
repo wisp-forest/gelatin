@@ -1,4 +1,4 @@
-package io.wispforest.jello.misc;
+package io.wispforest.jello.misc.dye;
 
 import io.wispforest.jello.Jello;
 import io.wispforest.owo.registration.reflect.SimpleFieldProcessingSubject;

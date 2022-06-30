@@ -2,6 +2,7 @@ package io.wispforest.jello.api.dye.registry.variants;
 
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
+import io.wispforest.jello.api.dye.registry.variants.block.DyeableBlockVariant;
 import io.wispforest.jello.data.tags.JelloTags;
 import io.wispforest.jello.item.JelloDyeItem;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
@@ -11,6 +12,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -120,7 +122,8 @@ public class DyedVariantContainer {
     //-----------------------------------------------------------------------------------------------------
 
     //TODO: FILTER THE ENTRIES TO BE IN A CERTAIN COLOR ORDERED???
-    protected static void updateExistingContainers(DyeableBlockVariant dyeableBlockVariant) {
+    @ApiStatus.Internal
+    public static void updateExistingContainers(DyeableBlockVariant dyeableBlockVariant) {
         for (Map.Entry<DyeColorant, DyedVariantContainer> entry : DYED_VARIANTS.entrySet()) {
             DyeColorant dyeColorant = entry.getKey();
 
@@ -161,13 +164,13 @@ public class DyedVariantContainer {
         }
 
         private void recursivelyBuildBlocksFromVariant(Map<DyeableBlockVariant, Block> dyedBlocks, Block possibleParentBlock, DyeableBlockVariant parentBlockVariant, DyeColorant dyeColorant, @Nullable OwoItemSettings overrideSettings) {
-            DyeableBlockVariant.RegistryInfo info = null;
+            Pair<Block, Item.Settings> info = null;
 
             if (!isReadOnly(parentBlockVariant)) {
                 info = parentBlockVariant.makeChildBlock(dyeColorant, possibleParentBlock);
 
                 if (overrideSettings != null)
-                    info = new DyeableBlockVariant.RegistryInfo(info.block, overrideSettings);
+                    info.setRight(overrideSettings);
 
             }
 
@@ -184,7 +187,7 @@ public class DyedVariantContainer {
             }
         }
 
-        private Block registerBlock(DyeableBlockVariant dyeableBlockVariant, @Nullable DyeableBlockVariant.RegistryInfo registryInfo, DyeColorant dyeColorant) {
+        private Block registerBlock(DyeableBlockVariant dyeableBlockVariant, @Nullable Pair<Block, Item.Settings> registryInfo, DyeColorant dyeColorant) {
             if ((readOnly && Objects.equals(dyeColorant.getId().getNamespace(), "minecraft")) || isReadOnly(dyeableBlockVariant))
                 return dyeableBlockVariant.getColoredBlock(dyeColorant);
 
@@ -196,10 +199,10 @@ public class DyedVariantContainer {
 
             addToModelRedirectSystem(identifier);
 
-            Block block = Registry.register(Registry.BLOCK, identifier, registryInfo.block);
+            Block block = Registry.register(Registry.BLOCK, identifier, registryInfo.getLeft());
 
             if (dyeableBlockVariant.createBlockItem()) {
-                Registry.register(Registry.ITEM, identifier, dyeableBlockVariant.makeBlockItem(dyeColorant, block, registryInfo.getItemSettings()));
+                Registry.register(Registry.ITEM, identifier, dyeableBlockVariant.makeBlockItem(dyeColorant, block, registryInfo.getRight()));
             }
 
             return block;

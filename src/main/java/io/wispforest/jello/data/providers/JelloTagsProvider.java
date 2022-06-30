@@ -2,23 +2,15 @@ package io.wispforest.jello.data.providers;
 
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
 import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
-import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.data.tags.JelloTags;
 import io.wispforest.jello.item.JelloItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.Items;
-import net.minecraft.tag.TagKey;
 
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class JelloTagsProvider {
 

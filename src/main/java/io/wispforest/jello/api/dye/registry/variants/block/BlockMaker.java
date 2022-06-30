@@ -1,4 +1,4 @@
-package io.wispforest.jello.api.dye.registry.variants;
+package io.wispforest.jello.api.dye.registry.variants.block;
 
 import io.wispforest.jello.api.dye.DyeColorant;
 import net.minecraft.block.Block;

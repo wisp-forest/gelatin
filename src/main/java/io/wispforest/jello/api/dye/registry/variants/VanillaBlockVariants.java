@@ -2,10 +2,9 @@ package io.wispforest.jello.api.dye.registry.variants;
 
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
+import io.wispforest.jello.api.dye.registry.variants.block.DyeableBlockVariant;
 import io.wispforest.jello.api.item.JelloItemSettings;
 import io.wispforest.jello.block.colored.*;
-import io.wispforest.jello.api.ducks.DyeBlockStorage;
 import io.wispforest.jello.data.loot.JelloLootTables;
 import io.wispforest.jello.mixin.accessors.BlockEntityTypeAccessor;
 import io.wispforest.jello.mixin.accessors.ShulkerBoxBlockEntityAccessor;
@@ -22,7 +21,6 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.ItemTags;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
 import java.util.HashSet;

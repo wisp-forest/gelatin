@@ -2,8 +2,7 @@ package io.wispforest.jello.mixin.client.dye;
 
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
-import io.wispforest.jello.api.dye.registry.variants.VanillaBlockVariants;
+import io.wispforest.jello.api.dye.registry.variants.block.DyeableBlockVariant;
 import net.minecraft.client.render.model.ModelLoader;
 import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.client.render.model.json.JsonUnbakedModel;

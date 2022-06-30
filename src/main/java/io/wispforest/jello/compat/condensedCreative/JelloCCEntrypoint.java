@@ -6,7 +6,7 @@ import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.ducks.DyeBlockStorage;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
+import io.wispforest.jello.api.dye.registry.variants.block.DyeableBlockVariant;
 import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.misc.dye.JelloBlockVariants;
@@ -71,7 +71,7 @@ public class JelloCCEntrypoint implements CondensedCreativeInitializer {
                         allStacks.add(0, dyeableBlockVariant.getDefaultBlock().asItem().getDefaultStack());
                     }
                 })
-                .addItemGroup(Jello.MAIN_ITEM_GROUP, 1);
+                .addItemGroup(Jello.MAIN_ITEM_GROUP, 2);
         });
 
         //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

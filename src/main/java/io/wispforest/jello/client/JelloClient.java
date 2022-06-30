@@ -1,10 +1,9 @@
 package io.wispforest.jello.client;
 
-import io.netty.buffer.ByteBuf;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
+import io.wispforest.jello.api.dye.registry.variants.block.DyeableBlockVariant;
 import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
 import io.wispforest.jello.api.events.HotbarMouseEvents;
 import io.wispforest.jello.block.JelloBlocks;
@@ -19,8 +18,6 @@ import io.wispforest.jello.item.JelloDyeItem;
 import io.wispforest.jello.item.JelloItems;
 import io.wispforest.jello.item.SpongeItem;
 import io.wispforest.jello.item.dyebundle.DyeBundleScreenEvent;
-import io.wispforest.jello.network.CustomJsonColorSync;
-import io.wispforest.owo.network.serialization.RecordSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientLoginNetworking;

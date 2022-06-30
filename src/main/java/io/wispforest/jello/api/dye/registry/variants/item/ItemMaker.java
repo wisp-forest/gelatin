@@ -1,10 +1,11 @@
-package io.wispforest.jello.api.dye.registry.variants;
+package io.wispforest.jello.api.dye.registry.variants.item;
 
 import io.wispforest.jello.api.dye.DyeColorant;
+import io.wispforest.jello.api.dye.registry.variants.block.DyeableBlockVariant;
 import io.wispforest.jello.item.ColoredBlockItem;
 import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemConvertible;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
@@ -12,8 +13,8 @@ import org.jetbrains.annotations.ApiStatus;
  * <p>Should not be extended</p>
  */
 @ApiStatus.NonExtendable
-public interface BlockItemMaker {
-    BlockItemMaker DEFAULT = (dyeColorant, block, settings) -> new ColoredBlockItem(block, settings);
+public interface ItemMaker {
+    ItemMaker BLOCK_DEFAULT = (dyeColorant, block, settings) -> new ColoredBlockItem((Block)block, settings);
 
-    BlockItem createBlockItemFromDyeColor(DyeColorant dyeColorant, Block block, Item.Settings settings);
+    Item createItemFromDyeColor(DyeColorant dyeColorant, ItemConvertible parentEntry, Item.Settings settings);
 }
