@@ -22,7 +22,6 @@
     "dye.DyeColorEnumMixin",
     "dye.item.DyeItemMixin",
     "dye.FireworkStarItemMixin",
-    "dye.item.ItemGroupMixin",
     "dye.item.ItemsMixin",
     "dye.item.ItemMixin",
     "dye.item.ItemStackMixin",

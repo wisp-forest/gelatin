@@ -34,6 +34,9 @@
     "fabric-datagen": [
       "io.wispforest.jello.data.JelloDataEntrypoint"
     ],
+    "condensed_creative": [
+      "io.wispforest.jello.compat.condensedCreative.JelloCCEntrypoint"
+    ],
     "modmenu": [
       "io.wispforest.jello.compat.modmenu.JelloModMenuIntegration"
     ]

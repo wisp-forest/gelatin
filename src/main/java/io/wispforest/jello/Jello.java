@@ -1,6 +1,9 @@
 package io.wispforest.jello;
 
+import io.wispforest.jello.api.ducks.DyeBlockStorage;
+import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
+import io.wispforest.jello.api.dye.registry.variants.VanillaBlockVariants;
 import io.wispforest.jello.api.item.RecipeSpecificRemainders;
 import io.wispforest.jello.api.util.TrackedDataHandlerExtended;
 import io.wispforest.jello.block.JelloBlocks;
@@ -32,17 +35,26 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerLoginConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerLoginNetworking;
+import net.minecraft.block.Block;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Jello implements ModInitializer {
 
     public static final String MODID = "jello";
 
     private static JelloConfig MAIN_CONFIG;
+
     public static final OwoNetChannel CHANNEL = OwoNetChannel.create(new Identifier(MODID, "main"));
 
     public static final OwoItemGroup MAIN_ITEM_GROUP = new JelloItemGroup(id("jello_group"));
@@ -52,6 +64,8 @@ public class Jello implements ModInitializer {
 
         //API Stuff
         DyeColorantRegistry.initVanillaDyes();
+
+        setDyeColorantForMinecraftBlocks();
 
         JelloLootTables.registerLootTablesGeneration();
 
@@ -150,5 +164,37 @@ public class Jello implements ModInitializer {
     }
 
     //------------------------------------------------------------------------------
+
+    public void setDyeColorantForMinecraftBlocks(){
+        List<String> allVanillaBlockVariants = VanillaBlockVariants.VANILLA_VARIANTS.stream().map(dyeableBlockVariant -> dyeableBlockVariant.variantIdentifier.getPath()).collect(Collectors.toList());
+
+        Set<Map.Entry<RegistryKey<Block>, Block>> coloredBlocks = Registry.BLOCK.getEntrySet().stream().filter(entry -> {
+            Identifier entryId = entry.getKey().getValue();
+
+            if(Objects.equals(entryId.getNamespace(), "minecraft")){
+                for(String vanillaBlockVariant : allVanillaBlockVariants){
+                    if(entryId.getPath().contains(vanillaBlockVariant)){
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }).collect(Collectors.toSet());
+
+
+        for(Map.Entry<RegistryKey<Block>, Block> entry : coloredBlocks){
+            String entryPath = entry.getKey().getValue().getPath();
+            Block block = entry.getValue();
+
+            for(DyeColorant vanillaColor : DyeColorantRegistry.Constants.VANILLA_DYES) {
+                if (entryPath.contains(vanillaColor.getName())) {
+                    ((DyeBlockStorage) block).setDyeColor(vanillaColor);
+
+                    break;
+                }
+            }
+        }
+    }
 
 }
