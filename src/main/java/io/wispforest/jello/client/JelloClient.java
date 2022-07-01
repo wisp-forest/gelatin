@@ -3,8 +3,9 @@ package io.wispforest.jello.client;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
+import io.wispforest.jello.api.dye.registry.variants.VanillaItemVariants;
 import io.wispforest.jello.api.dye.registry.variants.block.DyeableBlockVariant;
-import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
+import io.wispforest.jello.api.dye.registry.variants.DyeableVariantManager;
 import io.wispforest.jello.api.events.HotbarMouseEvents;
 import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.block.SlimeBlockColored;
@@ -42,6 +43,7 @@ import net.minecraft.client.color.item.ItemColorProvider;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.TexturedRenderLayers;
 import net.minecraft.item.BundleItem;
+import net.minecraft.item.Item;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -108,8 +110,8 @@ public class JelloClient implements ClientModInitializer {
     private static void slimeBlockClientInit() {
         BlockRenderLayerMap.INSTANCE.putBlock(JelloBlocks.SLIME_SLAB, RenderLayer.getTranslucent());
 
-        for (Map.Entry<DyeColorant, DyedVariantContainer> dyedVariantEntry : DyedVariantContainer.getVariantMap().entrySet()) {
-            for (Block block : dyedVariantEntry.getValue().dyedBlocks.values()) {
+        for (Map.Entry<DyeColorant, DyeableVariantManager.DyeColorantVariantData> dyedVariantEntry : DyeableVariantManager.getVariantMap().entrySet()) {
+            for (Block block : dyedVariantEntry.getValue().dyedBlocks().values()) {
                 if (block instanceof SlimeBlockColored || block instanceof SlimeSlabColored) {
 //                    ColorProviderRegistry.BLOCK.register((BlockColorProvider) block, block);
 //                    ColorProviderRegistry.ITEM.register((ItemColorProvider) block.asItem(), block.asItem());
@@ -154,8 +156,8 @@ public class JelloClient implements ClientModInitializer {
     }
 
     public static void registerColorProvidersForBlockVariants() {
-        for (Map.Entry<DyeColorant, DyedVariantContainer> dyedContainerEntry : DyedVariantContainer.getVariantMap().entrySet()) {
-            for (Map.Entry<DyeableBlockVariant, Block> blockVariantEntry : dyedContainerEntry.getValue().dyedBlocks.entrySet()) {
+        for (Map.Entry<DyeColorant, DyeableVariantManager.DyeColorantVariantData> dyedContainerEntry : DyeableVariantManager.getVariantMap().entrySet()) {
+            for (Map.Entry<DyeableBlockVariant, Block> blockVariantEntry : dyedContainerEntry.getValue().dyedBlocks().entrySet()) {
                 Block block = blockVariantEntry.getValue();
 
                 // Remove blocks that are being handled by Minecraft i.e Vanilla blocks
@@ -187,9 +189,11 @@ public class JelloClient implements ClientModInitializer {
 
             // Stop client side registry from touching Minecraft Dyes
             if(!Objects.equals(dyedContainerEntry.getKey().getId().getNamespace(), "minecraft")) {
-                ColorProviderRegistry.ITEM.register((JelloDyeItem) dyedContainerEntry.getValue().dyeItem, dyedContainerEntry.getValue().dyeItem);
+                Item dyeItem = dyedContainerEntry.getValue().dyeItem();
 
-                FabricModelPredicateProviderRegistry.register(dyedContainerEntry.getValue().dyeItem, new Identifier("variant"), (stack, world, entity, seed) -> JelloDyeItem.getTextureVariant(stack));
+                ColorProviderRegistry.ITEM.register((JelloDyeItem)dyeItem, dyeItem);
+
+                FabricModelPredicateProviderRegistry.register(dyeItem, new Identifier("variant"), (stack, world, entity, seed) -> JelloDyeItem.getTextureVariant(stack));
             }
         }
     }

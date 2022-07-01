@@ -3,11 +3,13 @@ package io.wispforest.jello.api.dye;
 import io.wispforest.jello.api.ducks.entity.DyeableEntity;
 import io.wispforest.jello.api.ducks.entity.RainbowEntity;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.api.dye.registry.variants.DyeableBlockVariant;
-import io.wispforest.jello.misc.JelloStats;
+import io.wispforest.jello.api.dye.registry.variants.block.DyeableBlockVariant;
+import io.wispforest.jello.misc.dye.JelloStats;
 import io.wispforest.owo.ops.ItemOps;
 import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Hand;
@@ -48,16 +50,26 @@ public class ColorManipulators {
      */
     @ApiStatus.Experimental
     @ApiStatus.Internal
-    public static boolean changeBlockItemColor(World world, BlockPos cauldronPos, ItemStack oldStack, Block changedBlock, PlayerEntity player, Hand hand, boolean washingBlock) {
-        Block oldBlock = Block.getBlockFromItem(oldStack.getItem());
+    public static boolean changeBlockItemOrItemColor(World world, BlockPos cauldronPos, ItemStack oldStack, ItemConvertible changedBlock, PlayerEntity player, Hand hand, boolean washingBlock) {
+        ItemConvertible oldEntry;
 
-        if (changedBlock == null || changedBlock == oldBlock)
-            return false;
+        if(oldStack.getItem() instanceof BlockItem blockItem && changedBlock instanceof Block){
+            oldEntry = blockItem;
+
+            if (changedBlock == blockItem.getBlock())
+                return false;
+
+        } else {
+            oldEntry = oldStack.getItem();
+
+            if (changedBlock.asItem() == oldEntry)
+                return false;
+        }
 
         if (!world.isClient) {
             int stackDecrementAmount = 1;
 
-            if (oldBlock.asItem().getMaxCount() > 1)
+            if (oldEntry.asItem().getMaxCount() > 1)
                 stackDecrementAmount = Math.min(oldStack.getCount(), 8);
 
             ItemStack changedItemStack = new ItemStack(changedBlock, stackDecrementAmount);
@@ -65,7 +77,7 @@ public class ColorManipulators {
             if (oldStack.hasNbt())
                 changedItemStack.setNbt(oldStack.getNbt().copy());
 
-            if (!player.getAbilities().creativeMode || oldBlock instanceof ShulkerBoxBlock)
+            if (!player.getAbilities().creativeMode || (oldEntry instanceof BlockItem blockItem && blockItem.getBlock() instanceof ShulkerBoxBlock))
                 oldStack.decrement(stackDecrementAmount);
 
             BlockPos blockPos = cauldronPos.up();
@@ -79,6 +91,7 @@ public class ColorManipulators {
         }
 
         return true;
+
     }
 
 
@@ -93,6 +106,23 @@ public class ColorManipulators {
         };
 
         boolean changeState(World world, BlockPos blockPos, BlockState currentState, Block newBlock, PlayerEntity player);
+    }
+
+    /**
+     * Interface that allows for {@link DyeableBlockVariant} to allow for custom data to be transfered when a variant Item is colored
+     */
+    public interface AlterItemColor {
+        AlterItemColor DEFAULT_BLOCK = (world, blockPos, oldStack, newConvertible, player) -> {
+            if(oldStack.getItem() instanceof BlockItem blockItem && newConvertible instanceof Block block){
+                return block != blockItem.getBlock();
+            }
+
+            return true;
+        };
+
+        AlterItemColor DEFAULT_ITEM = (world, blockPos, oldStack, newConvertible, player) -> newConvertible.asItem() != oldStack.getItem();
+
+        boolean changeStack(World world, BlockPos blockPos, ItemStack oldStack, ItemConvertible newConvertible, PlayerEntity player);
     }
 
     //--------------------------------------------------------------

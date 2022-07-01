@@ -2,7 +2,7 @@ package io.wispforest.jello.data;
 
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
+import io.wispforest.jello.api.dye.registry.variants.DyeableVariantManager;
 import io.wispforest.jello.api.dye.registry.variants.VanillaBlockVariants;
 import io.wispforest.jello.data.loot.JelloLootTables;
 import net.minecraft.block.Block;
@@ -20,11 +20,11 @@ import java.util.Map;
 public class CustomSheepLootTables {
 
     public static Map<Identifier, LootTable> initSheepLootTables(Map<Identifier, LootTable> tables) {
-        for (Map.Entry<DyeColorant, DyedVariantContainer> entry : DyedVariantContainer.getVariantMap().entrySet()) {
+        for (Map.Entry<DyeColorant, DyeableVariantManager.DyeColorantVariantData> entry : DyeableVariantManager.getVariantMap().entrySet()) {
             DyeColorant dyeColorant = entry.getKey();
 
             if (!DyeColorantRegistry.Constants.VANILLA_DYES.contains(dyeColorant)) {
-                Block woolBlock = DyedVariantContainer.getDyedBlockVariant(dyeColorant, VanillaBlockVariants.WOOL);
+                Block woolBlock = DyeableVariantManager.getDyedBlockVariant(dyeColorant, VanillaBlockVariants.WOOL);
 
                 LootTable table = createForSheep(woolBlock).build();
                 Identifier lootTableId = createSheepLootTableIdFromColor(dyeColorant);

@@ -5,7 +5,7 @@ import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.registry.variants.block.DyeableBlockVariant;
-import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
+import io.wispforest.jello.api.dye.registry.variants.DyeableVariantManager;
 import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.item.JelloItems;
 import io.wispforest.jello.item.SpongeItem;
@@ -80,19 +80,20 @@ public class JelloLangProvider extends LanguageProvider {
 
         add("itemGroup.jello.jello_group", "Jello");
 
-        add("itemGroup.jello.jello_group.tab.jello_items", "Jello Items");
+        add("itemGroup.jello.jello_group.tab.jello_tools", "Jello Stuff");
+        add("itemGroup.jello.jello_group.tab.dyed_item_variants", "Jello Item Variants");
         add("itemGroup.jello.jello_group.tab.dyed_block_variants", "Jello Block Variants");
 
-        DyeableBlockVariant.getAllVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.alwaysReadOnly() && dyeableBlockVariant.createBlockItem()).forEach(dyeableBlockVariant -> {
+        DyeableBlockVariant.getAllBlockVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.alwaysReadOnly() && dyeableBlockVariant.createBlockItem()).forEach(dyeableBlockVariant -> {
             add(dyeableBlockVariant.variantIdentifier.getPath() + "_condensed", capitalizeEachWord(dyeableBlockVariant.variantIdentifier.getPath()) + "s");
         });
 
-        for (DyedVariantContainer dyedVariant : DyedVariantContainer.getVariantMap().values()) {
-            for (Block block : dyedVariant.dyedBlocks.values()) {
+        for (DyeableVariantManager.DyeColorantVariantData dyedVariant : DyeableVariantManager.getVariantMap().values()) {
+            for (Block block : dyedVariant.dyedBlocks().values()) {
                 addBlock(() -> block);
             }
 
-            addItem(() -> dyedVariant.dyeItem);
+            addItem(dyedVariant::dyeItem);
         }
     }
 

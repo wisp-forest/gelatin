@@ -11,16 +11,12 @@ import io.wispforest.jello.blockentity.ColorStorageBlockEntity;
 import io.wispforest.jello.item.SpongeItem;
 import io.wispforest.jello.item.dyebundle.DyeBundleItem;
 import io.wispforest.jello.misc.dye.JelloStats;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.LeveledCauldronBlock;
 import net.minecraft.block.cauldron.CauldronBehavior;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.DyeableItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
@@ -37,7 +33,7 @@ public class JelloCauldronBehaviors implements CauldronBehavior {
     public static void registerJelloBehaviorBypass() {
         CauldronEvent.BEFORE_CAULDRON_BEHAVIOR.register(JelloCauldronBehaviors::changeColor);
         CauldronEvent.BEFORE_CAULDRON_BEHAVIOR.register(JelloCauldronBehaviors::cleanSponge);
-        CauldronEvent.BEFORE_CAULDRON_BEHAVIOR.register(JelloCauldronBehaviors::cleanOrDyeBlock);
+        CauldronEvent.BEFORE_CAULDRON_BEHAVIOR.register(JelloCauldronBehaviors::cleanOrDyeBlockItemOrItem);
         CauldronEvent.BEFORE_CAULDRON_BEHAVIOR.register(JelloCauldronBehaviors::cleanOrDyeDyeableItem);
     }
 
@@ -109,28 +105,34 @@ public class JelloCauldronBehaviors implements CauldronBehavior {
         return ActionResult.PASS;
     }
 
-    public static ActionResult cleanOrDyeBlock(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack, CauldronEvent.CauldronType cauldronType) {
+    public static ActionResult cleanOrDyeBlockItemOrItem(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack, CauldronEvent.CauldronType cauldronType) {
         if (cauldronType == CauldronEvent.CauldronType.WATER) {
-            Block block = Block.getBlockFromItem(stack.getItem());
+            ItemConvertible changedEntry;
 
-            if (block == Blocks.AIR) {
+            if(stack.getItem() instanceof BlockItem blockItem){
+                changedEntry = blockItem.getBlock();
+            } else {
+                changedEntry = stack.getItem();
+            }
+
+            if (changedEntry.asItem() == Items.AIR) {
                 return ActionResult.PASS;
             }
 
-            Block changedBlock;
+            ItemConvertible changedBlock;
             ColorStorageBlockEntity blockEntity = (ColorStorageBlockEntity) world.getBlockEntity(pos);
 
             if (blockEntity != null && ColorStorageBlockEntity.isWaterColored(blockEntity)) {
-                changedBlock = DyeableBlockVariant.attemptToGetColoredBlock(block, blockEntity.getDyeColorant());
+                changedBlock = DyeableBlockVariant.attemptToGetColoredEntry(changedEntry, blockEntity.getDyeColorant());
             } else {
-                changedBlock = DyeableBlockVariant.attemptToGetColoredBlock(block, DyeColorantRegistry.NULL_VALUE_NEW);
+                changedBlock = DyeableBlockVariant.attemptToGetColoredEntry(changedEntry, DyeColorantRegistry.NULL_VALUE_NEW);
             }
 
             if (changedBlock == null) {
                 return ActionResult.PASS;
             }
 
-            if (!ColorManipulators.changeBlockItemColor(world, pos, stack, changedBlock, player, hand, true)) {
+            if (!ColorManipulators.changeBlockItemOrItemColor(world, pos, stack, changedBlock, player, hand, true)) {
                 return player.shouldCancelInteraction() ? ActionResult.FAIL : ActionResult.CONSUME_PARTIAL;
             }
 

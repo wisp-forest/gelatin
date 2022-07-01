@@ -43,7 +43,7 @@ public class JelloItemGroup extends OwoItemGroup {
         if(DyeColorantRegistry.DYE_COLOR.size() > 17) {
             DyeColorant color = DyeColorantRegistry.DYE_COLOR.get(new Identifier(Jello.MODID, "cold_turkey"));
 
-            List<DyeableBlockVariant> allVariants = DyeableBlockVariant.getAllVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.vanillaDyesOnly()).toList();
+            List<DyeableBlockVariant> allVariants = DyeableBlockVariant.getAllBlockVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.vanillaDyesOnly()).toList();
 
             DyeableBlockVariant variant = allVariants.get(new Random().nextInt(allVariants.size()));
 
@@ -69,7 +69,7 @@ public class JelloItemGroup extends OwoItemGroup {
     public void appendStacks(DefaultedList<ItemStack> stacks) {
         super.appendStacks(stacks);
 
-        if (this.getSelectedTabIndex() == 0) {
+        if (this.getSelectedTabIndex() == 1) {
             Predicate<ItemStack> isDyeItem = stack -> stack.getItem() instanceof JelloDyeItem;
 
             List<ItemStack> dyeStacks = stacks.stream().filter(isDyeItem).collect(Collectors.toList());
@@ -81,7 +81,7 @@ public class JelloItemGroup extends OwoItemGroup {
             dyeStacks.sort(ColorUtil.dyeStackHslComparator(0));
 
             stacks.addAll(dyeStacks);
-        } else if (this.getSelectedTabIndex() == 1) {
+        } else if (this.getSelectedTabIndex() == 2) {
             Predicate<ItemStack> isDyedBlock = stack -> stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof DyeBlockStorage;
 
             List<ItemStack> dyedBlocks = stacks.stream().filter(isDyedBlock).collect(Collectors.toList());

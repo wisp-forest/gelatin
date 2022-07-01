@@ -30,7 +30,7 @@ public class JelloCCEntrypoint implements CondensedCreativeInitializer {
 
     @Override
     public void onInitializeCondensedEntries(boolean refreshed) {
-        DyeableBlockVariant.getAllVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.alwaysReadOnly() && dyeableBlockVariant.createBlockItem()).forEach(dyeableBlockVariant -> {
+        DyeableBlockVariant.getAllBlockVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.alwaysReadOnly() && dyeableBlockVariant.createBlockItem()).forEach(dyeableBlockVariant -> {
             CondensedEntryRegistry.fromBlockTag(dyeableBlockVariant.variantIdentifier, dyeableBlockVariant.getDefaultBlock(), dyeableBlockVariant.getPrimaryBlockTag())
                 .setTitleString(Text.translatable(dyeableBlockVariant.variantIdentifier.getPath() + "_condensed"))
                 .setEntrySorting(allStacks -> {

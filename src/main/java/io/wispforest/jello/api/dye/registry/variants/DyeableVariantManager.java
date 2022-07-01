@@ -3,13 +3,10 @@ package io.wispforest.jello.api.dye.registry.variants;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.registry.variants.block.DyeableBlockVariant;
-import io.wispforest.jello.data.tags.JelloTags;
-import io.wispforest.jello.item.JelloDyeItem;
+import io.wispforest.jello.api.dye.registry.variants.item.DyeableItemVariant;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
-import io.wispforest.owo.util.TagInjector;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
@@ -26,22 +23,25 @@ import java.util.Objects;
  * Main Class for storing all data on all registered {@link DyeColorant} used to create colored {@link DyeableBlockVariant}
  * <p>Look at {@link DyeColorantRegistry#createDyedVariants(DyeColorant, Item.Settings, boolean)} if you want to create variants off of your {@link DyeColorant}</p>
  */
-public class DyedVariantContainer {
+public class DyeableVariantManager {
 
-    protected static final Map<DyeColorant, DyedVariantContainer> DYED_VARIANTS = new HashMap<>();
+    public record DyeColorantVariantData(Map<DyeableBlockVariant, Block> dyedBlocks, Map<DyeableItemVariant, Item> dyedItems,  BlockBuilder blockBuilder, ItemBuilder itemBuilder){
+        private void addToExistingContainerWithRecursionBlock(DyeColorant dyeColorant, DyeableBlockVariant dyeableBlockVariant) {
+            this.blockBuilder.recursivelyBuildBlocksFromVariant(this.dyedBlocks, null, dyeableBlockVariant, dyeColorant, null);
+        }
 
-    public Map<DyeableBlockVariant, Block> dyedBlocks;
-    public DyeItem dyeItem;
+        private void addToExistingContainerWithRecursionItem(DyeColorant dyeColorant, DyeableItemVariant dyeableItemVariant) {
+            this.itemBuilder.recursivelyBuildItemsFromVariant(this.dyedItems, null, dyeableItemVariant, dyeColorant, null);
+        }
 
-    public BlockBuilder blockBuilder;
-    public ItemBuilder itemBuilder;
-
-    protected DyedVariantContainer(Map<DyeableBlockVariant, Block> dyedBlocks, DyeItem dyeItem, BlockBuilder blockBuilder, ItemBuilder itemBuilder) {
-        this.dyedBlocks = dyedBlocks;
-        this.dyeItem = dyeItem;
-        this.blockBuilder = blockBuilder;
-        this.itemBuilder = itemBuilder;
+        public Item dyeItem(){
+            return this.dyedItems().get(VanillaItemVariants.DYES);
+        }
     }
+
+    protected static final Map<DyeColorant, DyeColorantVariantData> DYED_VARIANTS = new HashMap<>();
+
+    protected DyeableVariantManager() {}
 
     /**
      * Get the Block Based on the given {@link DyeColorant} and {@link DyeableBlockVariant}
@@ -51,11 +51,11 @@ public class DyedVariantContainer {
      * @return either the block found or {@link Blocks#AIR} if no block was found
      */
     public static Block getDyedBlockVariant(@Nonnull DyeColorant dyeColorant, @Nonnull DyeableBlockVariant dyeableBlockVariant) {
-        for (Map.Entry<DyeColorant, DyedVariantContainer> variantContainerEntry : DYED_VARIANTS.entrySet()) {
+        for (Map.Entry<DyeColorant, DyeColorantVariantData> variantContainerEntry : DYED_VARIANTS.entrySet()) {
             DyeColorant possibleDyeColorant = variantContainerEntry.getKey();
 
             if (dyeColorant == possibleDyeColorant) {
-                DyedVariantContainer container = variantContainerEntry.getValue();
+                DyeColorantVariantData container = variantContainerEntry.getValue();
 
                 for (Map.Entry<DyeableBlockVariant, Block> variantBlockEntry : container.dyedBlocks.entrySet()) {
                     DyeableBlockVariant possibleVariant = variantBlockEntry.getKey();
@@ -74,43 +74,44 @@ public class DyedVariantContainer {
      * Attempts to get the Container if the {@link DyeColorant} has a registered Variant
      *
      * @param dyeColorant The Color used to search the Map
-     * @return {@link DyedVariantContainer} if found or null by default
+     * @return {@link DyeableVariantManager} if found or null by default
      */
     @Nullable
-    public static DyedVariantContainer getContainer(DyeColorant dyeColorant) {
+    public static DyeColorantVariantData getContainer(DyeColorant dyeColorant) {
         return DYED_VARIANTS.get(dyeColorant);
     }
 
     /**
      * Way of accessing the Variant Map without Direct access
      *
-     * @return the current Map of all {@link DyedVariantContainer} made
+     * @return the current Map of all {@link DyeableVariantManager} made
      */
-    public static Map<DyeColorant, DyedVariantContainer> getVariantMap() {
+    public static Map<DyeColorant, DyeColorantVariantData> getVariantMap() {
         return DYED_VARIANTS;
     }
 
     //-----------------------------------------------------------------------------------------------------
 
     @ApiStatus.Internal
-    public static DyedVariantContainer createVariantContainer(DyeColorant dyeColorant) {
+    public static DyeColorantVariantData createVariantContainer(DyeColorant dyeColorant) {
         return createVariantContainer(dyeColorant, null, null, true, false);
     }
 
     @ApiStatus.Internal
-    public static DyedVariantContainer createVariantContainer(DyeColorant dyeColorant, Item.Settings dyeItemSettings, boolean useModelRedirectSystem) {
+    public static DyeColorantVariantData createVariantContainer(DyeColorant dyeColorant, Item.Settings dyeItemSettings, boolean useModelRedirectSystem) {
         return createVariantContainer(dyeColorant, dyeItemSettings, null, false, useModelRedirectSystem);
     }
 
     @ApiStatus.Internal
-    public static DyedVariantContainer createVariantContainer(DyeColorant dyeColorant, Item.Settings dyeItemSettings, OwoItemSettings owoItemSettings, boolean readOnly, boolean useModelRedirectSystem) {
+    public static DyeColorantVariantData createVariantContainer(DyeColorant dyeColorant, Item.Settings dyeItemSettings, OwoItemSettings owoItemSettings, boolean readOnly, boolean useModelRedirectSystem) {
         BlockBuilder blockBuilder = new BlockBuilder(readOnly, useModelRedirectSystem);
         ItemBuilder itemBuilder = new ItemBuilder(readOnly, useModelRedirectSystem);
 
         Map<DyeableBlockVariant, Block> dyedBlocks = blockBuilder.buildVariantMapFromDye(dyeColorant, owoItemSettings);
-        DyeItem dyeItem = itemBuilder.createDyeItem(dyeColorant, dyeItemSettings);
+        Map<DyeableItemVariant, Item> dyedItems = itemBuilder.buildVariantMapFromDye(dyeColorant, owoItemSettings);
+//        DyeItem dyeItem = itemBuilder.createDyeItem(dyeColorant, dyeItemSettings);
 
-        DyedVariantContainer dyedVariantContainer = new DyedVariantContainer(dyedBlocks, dyeItem, blockBuilder, itemBuilder);
+        DyeColorantVariantData dyedVariantContainer = new DyeColorantVariantData(dyedBlocks, dyedItems, blockBuilder, itemBuilder);
 
         DYED_VARIANTS.put(dyeColorant, dyedVariantContainer);
 
@@ -123,20 +124,30 @@ public class DyedVariantContainer {
 
     //TODO: FILTER THE ENTRIES TO BE IN A CERTAIN COLOR ORDERED???
     @ApiStatus.Internal
-    public static void updateExistingContainers(DyeableBlockVariant dyeableBlockVariant) {
-        for (Map.Entry<DyeColorant, DyedVariantContainer> entry : DYED_VARIANTS.entrySet()) {
+    public static void updateExistingDataForBlock(DyeableBlockVariant dyeableBlockVariant) {
+        for (Map.Entry<DyeColorant, DyeColorantVariantData> entry : DYED_VARIANTS.entrySet()) {
             DyeColorant dyeColorant = entry.getKey();
 
             //Skips if the DyeableBlockVariant doesn't want any modded dyes to be added
             if(!DyeColorantRegistry.Constants.VANILLA_DYES.contains(dyeColorant) && dyeableBlockVariant.vanillaDyesOnly())
                 continue;
 
-            entry.getValue().addToExistingContainerWithRecursion(dyeColorant, dyeableBlockVariant);
+            entry.getValue().addToExistingContainerWithRecursionBlock(dyeColorant, dyeableBlockVariant);
         }
     }
 
-    private void addToExistingContainerWithRecursion(DyeColorant dyeColorant, DyeableBlockVariant dyeableBlockVariant) {
-        this.blockBuilder.recursivelyBuildBlocksFromVariant(this.dyedBlocks, null, dyeableBlockVariant, dyeColorant, null);
+    //TODO: FILTER THE ENTRIES TO BE IN A CERTAIN COLOR ORDERED???
+    @ApiStatus.Internal
+    public static void updateExistingDataForItem(DyeableItemVariant dyeableItemVariant) {
+        for (Map.Entry<DyeColorant, DyeColorantVariantData> entry : DYED_VARIANTS.entrySet()) {
+            DyeColorant dyeColorant = entry.getKey();
+
+            //Skips if the DyeableBlockVariant doesn't want any modded dyes to be added
+            if(!DyeColorantRegistry.Constants.VANILLA_DYES.contains(dyeColorant) && dyeableItemVariant.vanillaDyesOnly())
+                continue;
+
+            entry.getValue().addToExistingContainerWithRecursionItem(dyeColorant, dyeableItemVariant);
+        }
     }
 
     /**
@@ -218,9 +229,6 @@ public class DyedVariantContainer {
         }
     }
 
-    /**
-     * Will be similar to Block Builder within the future
-     */
     public static class ItemBuilder {
         public boolean readOnly;
         public final boolean useModelRedirectSystem;
@@ -230,18 +238,87 @@ public class DyedVariantContainer {
             this.useModelRedirectSystem = useModelRedirectSystem;
         }
 
-        public DyeItem createDyeItem(DyeColorant dyeColorant, Item.Settings itemSettings) {
-            Identifier identifier = new Identifier(dyeColorant.getId().getNamespace(), dyeColorant.getId().getPath() + "_dye");
+        protected Map<DyeableItemVariant, Item> buildVariantMapFromDye(DyeColorant dyeColorant, @Nullable OwoItemSettings overrideSettings) {
+            Map<DyeableItemVariant, Item> dyedItems = new HashMap<>();
 
-            if (readOnly && Objects.equals(dyeColorant.getId().getNamespace(), "minecraft")) {
-                return (DyeItem) Registry.ITEM.get(identifier);
+            for (DyeableItemVariant dyeableItemVariant : VanillaItemVariants.VANILLA_VARIANTS) {
+                this.recursivelyBuildItemsFromVariant(dyedItems, null, dyeableItemVariant, dyeColorant, overrideSettings);
             }
 
-            DyeItem dyeItem = Registry.register(Registry.ITEM, identifier, new JelloDyeItem(dyeColorant, itemSettings));
+            this.readOnly = false;
 
-            TagInjector.inject(Registry.ITEM, JelloTags.Items.DYE.id(), dyeItem);
+            return dyedItems;
+        }
 
-            return dyeItem;
+        private void recursivelyBuildItemsFromVariant(Map<DyeableItemVariant, Item> dyedBlocks, Item possibleParentItem, DyeableItemVariant parentItemVariant, DyeColorant dyeColorant, @Nullable OwoItemSettings overrideSettings) {
+            Item item = null;
+
+            if (!isReadOnly(parentItemVariant)) {
+                item = parentItemVariant.makeItem(dyeColorant, possibleParentItem, overrideSettings != null ? overrideSettings : parentItemVariant.defaultItemSettings);
+            }
+
+            item = registerItem(parentItemVariant, item, dyeColorant);
+
+            parentItemVariant.addToTags(item, isReadOnly(parentItemVariant));
+
+            dyedBlocks.put(parentItemVariant, item);
+
+            if (parentItemVariant.childVariant.get() != null) {
+                DyeableItemVariant childItemVariant = parentItemVariant.childVariant.get();
+
+                recursivelyBuildItemsFromVariant(dyedBlocks, item, childItemVariant, dyeColorant, overrideSettings);
+            }
+        }
+
+        private Item registerItem(DyeableItemVariant dyeableItemVariant, @Nullable Item item, DyeColorant dyeColorant) {
+            if ((readOnly && Objects.equals(dyeColorant.getId().getNamespace(), "minecraft")) || isReadOnly(dyeableItemVariant))
+                return dyeableItemVariant.getColoredEntry(dyeColorant);
+
+            String nameSpace = Objects.equals(dyeableItemVariant.variantIdentifier.getNamespace(), "minecraft") ?
+                    dyeColorant.getId().getNamespace() :
+                    dyeableItemVariant.variantIdentifier.getNamespace();
+
+            Identifier identifier = new Identifier(nameSpace, dyeableItemVariant.getColoredEntryPath(dyeColorant));
+
+            addToModelRedirectSystem(identifier);
+
+            return Registry.register(Registry.ITEM, identifier, item);
+        }
+
+        private void addToModelRedirectSystem(Identifier identifier){
+            if (this.useModelRedirectSystem)
+                DyeColorantRegistry.IDENTIFIER_RESOURCE_REDIRECTS.add(identifier);
+        }
+
+        private boolean isReadOnly(DyeableItemVariant variant){
+            return readOnly || variant.alwaysReadOnly();
         }
     }
+
+//    /**
+//     * Will be similar to Block Builder within the future
+//     */
+//    public static class ItemBuilder {
+//        public boolean readOnly;
+//        public final boolean useModelRedirectSystem;
+//
+//        public ItemBuilder(boolean readOnly, boolean useModelRedirectSystem) {
+//            this.readOnly = readOnly;
+//            this.useModelRedirectSystem = useModelRedirectSystem;
+//        }
+//
+//        public DyeItem createDyeItem(DyeColorant dyeColorant, Item.Settings itemSettings) {
+//            Identifier identifier = new Identifier(dyeColorant.getId().getNamespace(), dyeColorant.getId().getPath() + "_dye");
+//
+//            if (readOnly && Objects.equals(dyeColorant.getId().getNamespace(), "minecraft")) {
+//                return (DyeItem) Registry.ITEM.get(identifier);
+//            }
+//
+//            DyeItem dyeItem = Registry.register(Registry.ITEM, identifier, new JelloDyeItem(dyeColorant, itemSettings));
+//
+//            TagInjector.inject(Registry.ITEM, JelloTags.Items.DYE.id(), dyeItem);
+//
+//            return dyeItem;
+//        }
+//    }
 }

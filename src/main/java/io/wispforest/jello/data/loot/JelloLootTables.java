@@ -64,7 +64,7 @@ public class JelloLootTables {
         CustomSheepLootTables.init();
 
         ADD_LOOT_TABLES_EVENT.register(map -> {
-            for(DyeableBlockVariant blockVariant : DyeableBlockVariant.getAllVariants()){
+            for(DyeableBlockVariant blockVariant : DyeableBlockVariant.getAllBlockVariants()){
                 blockVariant.generateAllLootTables(map);
             }
         });

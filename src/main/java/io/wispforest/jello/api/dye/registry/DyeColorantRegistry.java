@@ -2,7 +2,7 @@ package io.wispforest.jello.api.dye.registry;
 
 import com.mojang.serialization.Lifecycle;
 import io.wispforest.jello.api.dye.DyeColorant;
-import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
+import io.wispforest.jello.api.dye.registry.variants.DyeableVariantManager;
 import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.data.tags.JelloTags;
@@ -58,7 +58,7 @@ public class DyeColorantRegistry {
 
     public static void initVanillaDyes() {
         for (DyeColorant dyeColorant : Constants.VANILLA_DYES) {
-            DyedVariantContainer.createVariantContainer(dyeColorant);
+            DyeableVariantManager.createVariantContainer(dyeColorant);
         }
     }
 
@@ -95,24 +95,24 @@ public class DyeColorantRegistry {
     /**
      * Creates a bunch of Dyed Variants of the inputted {@link DyeColorant}
      *
-     * @param dyeColorant  The {@link DyeColorant} you want to base all the {@link DyedVariantContainer} off
-     * @param itemSettings The settings for the DyeItem being created based off your dye
-     * @return {@link DyedVariantContainer} based off the inputted {@link DyeColorant}
+     * @param dyeColorant  The {@link DyeColorant} you want to base all the {@link DyeableVariantManager} off
+     * @param itemSettings The settings for the DyeItem being created based off your dyeColorant
+     * @return {@link DyeableVariantManager} based off the inputted {@link DyeColorant}
      */
-    public static DyedVariantContainer createDyedVariants(DyeColorant dyeColorant, Item.Settings itemSettings) {
+    public static DyeableVariantManager.DyeColorantVariantData createDyedVariants(DyeColorant dyeColorant, Item.Settings itemSettings) {
         return createDyedVariants(dyeColorant, itemSettings, true);
     }
 
     /**
      * Creates a bunch of Dyed Variants of the inputted {@link DyeColorant}
      *
-     * @param dyeColorant             The {@link DyeColorant} you want to base all the {@link DyedVariantContainer} off
+     * @param dyeColorant             The {@link DyeColorant} you want to base all the {@link DyeableVariantManager} off
      * @param itemSettings            The settings for the DyeItem being created based off your dye
      * @param identifierModelRedirect Used to enable or disable model redirect if you're using custom models for the block and item variants
-     * @return {@link DyedVariantContainer} based off the inputted {@link DyeColorant}
+     * @return {@link DyeableVariantManager} based off the inputted {@link DyeColorant}
      */
-    public static DyedVariantContainer createDyedVariants(DyeColorant dyeColorant, Item.Settings itemSettings, boolean identifierModelRedirect) {
-        return DyedVariantContainer.createVariantContainer(dyeColorant, itemSettings, identifierModelRedirect);
+    public static DyeableVariantManager.DyeColorantVariantData createDyedVariants(DyeColorant dyeColorant, Item.Settings itemSettings, boolean identifierModelRedirect) {
+        return DyeableVariantManager.createVariantContainer(dyeColorant, itemSettings, identifierModelRedirect);
     }
 
     /**

@@ -3,12 +3,11 @@ package io.wispforest.jello.misc.dye;
 import com.google.gson.*;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
+import io.wispforest.jello.api.dye.registry.variants.DyeableVariantManager;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.util.VersatileLogger;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
 import net.minecraft.block.MapColor;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 
@@ -17,7 +16,7 @@ import java.io.InputStreamReader;
 public class DyeColorantLoader {
 
     private static final Gson BIG_BRO_GSON = new GsonBuilder().setPrettyPrinting().create();
-    private static final OwoItemSettings BASE_BLOCK_ITEM_SETTINGS = new OwoItemSettings().group(Jello.MAIN_ITEM_GROUP).tab(1);
+    private static final OwoItemSettings BASE_BLOCK_ITEM_SETTINGS = new OwoItemSettings().group(Jello.MAIN_ITEM_GROUP).tab(2);
 
     public static void loadFromJson() {
         VersatileLogger logger = new VersatileLogger("JsonToRegistry");
@@ -41,7 +40,7 @@ public class DyeColorantLoader {
                 }
 
                 DyeColorant currentDyeColor = DyeColorantRegistry.registerDyeColor(colorIdentifier, MapColor.CLEAR, colorValue);
-                DyedVariantContainer.createVariantContainer(currentDyeColor, new OwoItemSettings().group(Jello.MAIN_ITEM_GROUP).tab(0), BASE_BLOCK_ITEM_SETTINGS, false, false);
+                DyeableVariantManager.createVariantContainer(currentDyeColor, new OwoItemSettings().group(Jello.MAIN_ITEM_GROUP).tab(1), BASE_BLOCK_ITEM_SETTINGS, false, false);
             }
 
             logger.stopTimerPrint("It seems that the registry filling took ");

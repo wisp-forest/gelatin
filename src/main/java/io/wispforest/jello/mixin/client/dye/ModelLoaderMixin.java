@@ -90,7 +90,7 @@ public abstract class ModelLoaderMixin {
 //                    jello$addToListWithRecursion(dyeableBlockVariant);
 //                }
 
-                for (DyeableBlockVariant dyeableBlockVariant : DyeableBlockVariant.getAllVariants()) {
+                for (DyeableBlockVariant dyeableBlockVariant : DyeableBlockVariant.getAllBlockVariants()) {
                     jello$addToListWithRecursion(dyeableBlockVariant);
                 }
             }

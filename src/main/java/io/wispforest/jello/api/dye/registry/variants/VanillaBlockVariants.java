@@ -34,8 +34,7 @@ public class VanillaBlockVariants {
 
     private static final Item.Settings itemSettings = new OwoItemSettings()
             .group(Jello.MAIN_ITEM_GROUP)
-            .tab(1)
-            .maxCount(64);
+            .tab(2);
 
     //-----------------------------------------------------------------
 
@@ -53,7 +52,7 @@ public class VanillaBlockVariants {
 
     public static final DyeableBlockVariant TERRACOTTA = DyeableBlockVariant.Builder.of(new Identifier("terracotta"), itemSettings, (dyeColorant, parentBlock) -> {
         return new ColoredBlock(AbstractBlock.Settings.of(Material.STONE, MapColor.CLEAR).requiresTool().strength(1.25F, 4.2F), dyeColorant);
-    }).setDefaultBlock("terracotta")
+    }).setDefaultEntry("terracotta")
         .setBlockTags(BlockTags.TERRACOTTA, BlockTags.PICKAXE_MINEABLE, BlockTags.NEEDS_STONE_TOOL)
         .setItemTags(ItemTags.TERRACOTTA)
         .register();
@@ -78,18 +77,18 @@ public class VanillaBlockVariants {
 
     public static final DyeableBlockVariant CANDLE_CAKE = DyeableBlockVariant.Builder.of(new Identifier("candle_cake"), itemSettings, (dyeColorant, parentBlock) -> {
         return new ColoredCandleCakeBlock(dyeColorant, parentBlock, AbstractBlock.Settings.copy(Blocks.CANDLE_CAKE));
-    }).setDefaultBlock("candle_cake")
+    }).setDefaultEntry("candle_cake")
         .setBlockTags(BlockTags.CANDLE_CAKES)
         .noBlockItem()
-        .setLootTable(block -> JelloLootTables.candleCakeDrops(block).build())
+        .setLootTable(block -> JelloLootTables.candleCakeDrops((Block)block).build())
         .register();
 
     public static final DyeableBlockVariant CANDLE = DyeableBlockVariant.Builder.of(new Identifier("candle"), itemSettings, () -> CANDLE_CAKE, (dyeColorant, parentBlock) -> {
         return new ColoredCandleBlock(dyeColorant, AbstractBlock.Settings.of(Material.DECORATION, MapColor.CLEAR).nonOpaque().strength(0.1F).sounds(BlockSoundGroup.CANDLE).luminance(CandleBlock.STATE_TO_LUMINANCE));
-    }).setDefaultBlock("candle")
+    }).setDefaultEntry("candle")
         .setBlockTags(BlockTags.CANDLES)
         .setItemTags(ItemTags.CANDLES)
-        .setLootTable(block -> JelloLootTables.candleDrops(block).build())
+        .setLootTable(block -> JelloLootTables.candleDrops((Block)block).build())
         .register();
 
     //-----------------------------------------------------------------
@@ -121,14 +120,14 @@ public class VanillaBlockVariants {
             return true;
     }).setBlockTags(BlockTags.BEDS)
         .setItemTags(ItemTags.BEDS)
-        .setLootTable(block -> JelloLootTables.dropsWithProperty(block, BedBlock.PART, BedPart.HEAD).build())
+        .setLootTable(block -> JelloLootTables.dropsWithProperty((Block)block, BedBlock.PART, BedPart.HEAD).build())
         .register();
 
     //-----------------------------------------------------------------
 
     public static final DyeableBlockVariant GLASS = DyeableBlockVariant.Builder.of(new Identifier("stained_glass"), itemSettings, (dyeColorant, parentBlock) -> {
         return new ColoredGlassBlock(dyeColorant, AbstractBlock.Settings.of(Material.GLASS).strength(0.3F).sounds(BlockSoundGroup.GLASS).nonOpaque());
-    }).setDefaultBlock("glass")
+    }).setDefaultEntry("glass")
         .setBlockTags(BlockTags.IMPERMEABLE)
         .setLootTable(block -> JelloLootTables.dropsWithSilkTouch(block).build())
         .register();
@@ -137,7 +136,7 @@ public class VanillaBlockVariants {
 
     public static final DyeableBlockVariant GLASS_PANE = DyeableBlockVariant.Builder.of(new Identifier("stained_glass_pane"), itemSettings, (dyeColorant, parentBlock) -> {
         return new ColoredGlassPaneBlock(dyeColorant, AbstractBlock.Settings.of(Material.GLASS).strength(0.3F).sounds(BlockSoundGroup.GLASS).nonOpaque());
-    }).setDefaultBlock("glass_pane")
+    }).setDefaultEntry("glass_pane")
         .setLootTable(block -> JelloLootTables.dropsWithSilkTouch(block).build())
         .register();
 
@@ -167,10 +166,10 @@ public class VanillaBlockVariants {
                 }
 
                 return false;
-        }).setDefaultBlock("shulker_box")
+        }).setDefaultEntry("shulker_box")
             .setBlockTags(BlockTags.SHULKER_BOXES)
-            .setBlockItemMaker((dyeColorant, block, settings) -> new BlockItem(block, settings))
-            .setLootTable(block -> JelloLootTables.shulkerBoxDrops(block).build())
+            .setBlockItemMaker((dyeColorant, block, settings) -> new BlockItem((Block)block, settings))
+            .setLootTable(block -> JelloLootTables.shulkerBoxDrops((Block)block).build())
             .register();
 
     //-----------------------------------------------------------------

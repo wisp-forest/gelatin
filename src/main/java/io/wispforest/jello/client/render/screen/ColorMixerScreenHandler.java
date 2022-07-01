@@ -1,7 +1,8 @@
 package io.wispforest.jello.client.render.screen;
 
+import io.wispforest.jello.api.dye.registry.variants.VanillaItemVariants;
 import io.wispforest.jello.item.JelloDyeItem;
-import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
+import io.wispforest.jello.api.dye.registry.variants.DyeableVariantManager;
 import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.block.JelloBlocks;
@@ -14,7 +15,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.screen.ScreenHandler;
@@ -30,15 +30,15 @@ public class ColorMixerScreenHandler extends ScreenHandler {
 
     static{
         if(Jello.getConfig().addCustomJsonColors){
-            ALL_DYE_ITEMS = DyedVariantContainer.getVariantMap().values().stream()
-                    .filter(dyedVariantContainer -> dyedVariantContainer.dyeItem instanceof JelloDyeItem)
-                    .map(dyedVariantContainer -> dyedVariantContainer.dyeItem.getDefaultStack())
+            ALL_DYE_ITEMS = DyeableVariantManager.getVariantMap().values().stream()
+                    .filter(dyedVariantContainer -> dyedVariantContainer.dyeItem() instanceof JelloDyeItem)
+                    .map(dyedVariantContainer -> dyedVariantContainer.dyeItem().getDefaultStack())
                     .sorted(ColorUtil.dyeStackHslComparator(2))
                     .sorted(ColorUtil.dyeStackHslComparator(1))
                     .sorted(ColorUtil.dyeStackHslComparator(0)).toList();
         }else{
-            ALL_DYE_ITEMS = DyedVariantContainer.getVariantMap().values().stream()
-                    .map(dyedVariantContainer -> dyedVariantContainer.dyeItem.getDefaultStack())
+            ALL_DYE_ITEMS = DyeableVariantManager.getVariantMap().values().stream()
+                    .map(dyedVariantContainer -> dyedVariantContainer.dyeItem().getDefaultStack())
                     .sorted(ColorUtil.dyeStackHslComparator(2))
                     .sorted(ColorUtil.dyeStackHslComparator(1))
                     .sorted(ColorUtil.dyeStackHslComparator(0)).toList();

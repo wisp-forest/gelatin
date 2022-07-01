@@ -19,7 +19,7 @@ public class BedBlockVariantRecipe extends SpecialCraftingRecipe {
 
     private DyeColorant dyeColorant = null;
 
-    private static final TagKey<Item> WOOL_BLOCK_TAG = VanillaBlockVariants.WOOL.getPrimaryItemTag();
+    private static final TagKey<Item> WOOL_BLOCK_TAG = VanillaBlockVariants.WOOL.itemVariant.getPrimaryItemTag();
 
     public BedBlockVariantRecipe(Identifier id) {
         super(id);

@@ -3,7 +3,7 @@ package io.wispforest.jello.mixin.dye;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.data.CustomSheepLootTables;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
+import io.wispforest.jello.api.dye.registry.variants.DyeableVariantManager;
 import io.wispforest.jello.api.dye.registry.variants.VanillaBlockVariants;
 import io.wispforest.jello.misc.ducks.SheepDyeColorStorage;
 import io.wispforest.jello.api.util.ColorUtil;
@@ -127,7 +127,7 @@ public abstract class SheepEntityMixin extends AnimalEntity implements SheepDyeC
             ItemEntity itemEntity;
 
             if (this.getWoolDyeColor() != DyeColorantRegistry.NULL_VALUE_NEW) {
-                itemEntity = this.dropItem((ItemConvertible) DyedVariantContainer.getDyedBlockVariant(this.getWoolDyeColor(), VanillaBlockVariants.WOOL), 1);
+                itemEntity = this.dropItem((ItemConvertible) DyeableVariantManager.getDyedBlockVariant(this.getWoolDyeColor(), VanillaBlockVariants.WOOL), 1);
             } else {
                 itemEntity = this.dropItem((ItemConvertible) DROPS.get(this.getColor()), 1);
             }

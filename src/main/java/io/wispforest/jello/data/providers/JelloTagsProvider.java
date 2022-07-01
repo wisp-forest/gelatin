@@ -2,7 +2,7 @@ package io.wispforest.jello.data.providers;
 
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.api.dye.registry.variants.DyedVariantContainer;
+import io.wispforest.jello.api.dye.registry.variants.DyeableVariantManager;
 import io.wispforest.jello.data.tags.JelloTags;
 import io.wispforest.jello.item.JelloItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
@@ -79,11 +79,11 @@ public class JelloTagsProvider {
             this.getOrCreateTagBuilder(JelloTags.Items.SLIME_BALLS).add(Items.SLIME_BALL);
             JelloItems.Slimeballs.SLIME_BALLS.forEach((item) -> this.getOrCreateTagBuilder(JelloTags.Items.SLIME_BALLS).add(item));
 
-            for (Map.Entry<DyeColorant, DyedVariantContainer> entry : DyedVariantContainer.getVariantMap().entrySet()) {
+            for (Map.Entry<DyeColorant, DyeableVariantManager.DyeColorantVariantData> entry : DyeableVariantManager.getVariantMap().entrySet()) {
                 //this.getOrCreateTagBuilder(JelloTags.Items.DYE).add(entry.getValue().dyeItem);
 
                 if (DyeColorantRegistry.Constants.VANILLA_DYES.contains(entry.getKey())) {
-                    this.getOrCreateTagBuilder(JelloTags.Items.VANILLA_DYE).add(entry.getValue().dyeItem);
+                    this.getOrCreateTagBuilder(JelloTags.Items.VANILLA_DYE).add(entry.getValue().dyeItem());
                 }
             }
         }
