@@ -41,7 +41,7 @@ public class JelloItemGroup extends OwoItemGroup {
         this.addTab(Icon.of(JelloItems.DYE_BUNDLE.getDefaultStack()), "jello_tools", null, ItemGroupTab.DEFAULT_TEXTURE);
 
         if(DyeColorantRegistry.DYE_COLOR.size() > 17) {
-            DyeColorant color = DyeColorantRegistry.DYE_COLOR.get(new Identifier(Jello.MODID, "cold_turkey"));
+            DyeColorant color = DyeColorantRegistry.DYE_COLOR.get(new Identifier(Jello.MODID, "international_klein_blue")); //"cold_turkey"
 
             List<DyeableBlockVariant> allVariants = DyeableBlockVariant.getAllBlockVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.vanillaDyesOnly()).toList();
 
