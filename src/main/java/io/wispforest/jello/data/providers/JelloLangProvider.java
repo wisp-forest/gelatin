@@ -6,6 +6,7 @@ import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.registry.variants.block.DyeableBlockVariant;
 import io.wispforest.jello.api.dye.registry.variants.DyeableVariantManager;
+import io.wispforest.jello.api.dye.registry.variants.item.DyeableItemVariant;
 import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.item.JelloItems;
 import io.wispforest.jello.item.SpongeItem;
@@ -86,6 +87,10 @@ public class JelloLangProvider extends LanguageProvider {
 
         DyeableBlockVariant.getAllBlockVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.alwaysReadOnly() && dyeableBlockVariant.createBlockItem()).forEach(dyeableBlockVariant -> {
             add(dyeableBlockVariant.variantIdentifier.getPath() + "_condensed", capitalizeEachWord(dyeableBlockVariant.variantIdentifier.getPath()) + "s");
+        });
+
+        DyeableItemVariant.getAllItemVariants().stream().filter(dyeableItemVariant -> !dyeableItemVariant.alwaysReadOnly()).forEach(dyeableItemVariant -> {
+            add(dyeableItemVariant.variantIdentifier.getPath() + "_condensed", capitalizeEachWord(dyeableItemVariant.variantIdentifier.getPath()) + "s");
         });
 
         for (DyeableVariantManager.DyeColorantVariantData dyedVariant : DyeableVariantManager.getVariantMap().values()) {

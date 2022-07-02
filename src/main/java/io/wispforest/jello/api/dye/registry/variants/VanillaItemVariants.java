@@ -1,7 +1,6 @@
 package io.wispforest.jello.api.dye.registry.variants;
 
 import io.wispforest.jello.Jello;
-import io.wispforest.jello.api.dye.registry.variants.block.DyeableBlockVariant;
 import io.wispforest.jello.api.dye.registry.variants.item.DyeableItemVariant;
 import io.wispforest.jello.item.JelloDyeItem;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
@@ -16,9 +15,9 @@ public class VanillaItemVariants {
             .group(Jello.MAIN_ITEM_GROUP)
             .tab(1);
 
-    public static final DyeableItemVariant DYES = DyeableItemVariant.Builder.of(new Identifier("dye"), itemSettings, (dyeColorant, parentEntry, settings) -> new JelloDyeItem(dyeColorant, itemSettings))
+    public static final DyeableItemVariant DYE = DyeableItemVariant.Builder.of(new Identifier("dye"), itemSettings, (dyeColorant, parentEntry, settings) -> new JelloDyeItem(dyeColorant, itemSettings))
             .register();
 
     public static final List<DyeableItemVariant> VANILLA_VARIANTS =
-            List.of(DYES);
+            List.of(DYE);
 }

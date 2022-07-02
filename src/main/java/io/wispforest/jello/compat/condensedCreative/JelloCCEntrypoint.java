@@ -72,6 +72,48 @@ public class JelloCCEntrypoint implements CondensedCreativeInitializer {
                 .addItemGroup(Jello.MAIN_ITEM_GROUP, 2);
 
         });
+
+        DyeableItemVariant.getAllItemVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.alwaysReadOnly()).forEach(dyeableBlockVariant -> {
+            CondensedEntryRegistry.fromItemTag(dyeableBlockVariant.variantIdentifier, dyeableBlockVariant.getDefaultItem(), dyeableBlockVariant.getPrimaryItemTag())
+                    .setTitleString(Text.translatable(dyeableBlockVariant.variantIdentifier.getPath() + "_condensed"))
+                    .setEntrySorting(allStacks -> {
+                        Predicate<ItemStack> getNonVanillaItem = stack -> {
+                            DyeColorant dyeColorant = ((DyeItemStorage) stack.getItem()).getDyeColorant();
+
+                            return !DyeColorantRegistry.Constants.VANILLA_DYES.contains(dyeColorant);
+                        };
+
+                        List<ItemStack> nonVanillaStacks = allStacks.stream().filter(getNonVanillaItem).collect(Collectors.toList());
+                        allStacks.removeIf(getNonVanillaItem);
+
+                        nonVanillaStacks.sort(Comparator.comparingDouble(stack -> {
+                            float[] hsl = ColorUtil.rgbToHsl(((DyeItemStorage) stack.getItem()).getDyeColorant().getBaseColor());
+
+                            return hsl[2];
+                        }));
+
+                        nonVanillaStacks.sort(Comparator.comparingDouble(stack -> {
+                            float[] hsl = ColorUtil.rgbToHsl(((DyeItemStorage) stack.getItem()).getDyeColorant().getBaseColor());
+
+                            return hsl[1];
+                        }));
+
+                        nonVanillaStacks.sort(Comparator.comparingDouble(stack -> {
+                            float[] hsl = ColorUtil.rgbToHsl(((DyeItemStorage) stack.getItem()).getDyeColorant().getBaseColor());
+
+                            return hsl[0];
+                        }));
+
+                        allStacks.addAll(nonVanillaStacks);
+
+                        Item defaultItem = dyeableBlockVariant.getDefaultItem();
+
+                        if(defaultItem instanceof DyeItemStorage dyeItemStorage && dyeItemStorage.getDyeColorant() != DyeColorantRegistry.WHITE){
+                            allStacks.add(0, defaultItem.getDefaultStack());
+                        }
+                    })
+                    .addItemGroup(Jello.MAIN_ITEM_GROUP, 1);
+
         });
 
         //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

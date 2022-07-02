@@ -35,7 +35,7 @@ public class DyeableVariantManager {
         }
 
         public Item dyeItem(){
-            return this.dyedItems().get(VanillaItemVariants.DYES);
+            return this.dyedItems().get(VanillaItemVariants.DYE);
         }
     }
 
