@@ -28,7 +28,7 @@ public class BeaconBlockEntityMixin {
     @ModifyVariable(method = "tick", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/util/DyeColor;getColorComponents()[F"))
     private static float[] allowForCustomDyeColor(float[] fs, World world, BlockPos blockPos, BlockState blockState, BeaconBlockEntity beaconBlockEntity) {
         if (world.getBlockState(currentBlockCheckPos).getBlock() instanceof ColoredGlassBlock coloredGlassBlock) {
-            return ((DyeBlockStorage) coloredGlassBlock).getDyeColor().getColorComponents();
+            return ((DyeBlockStorage) coloredGlassBlock).getDyeColorant().getColorComponents();
         }
 
         return fs;

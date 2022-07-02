@@ -9,7 +9,6 @@ import net.fabricmc.api.EnvironmentInterface;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.client.color.block.BlockColorProvider;
-import net.minecraft.util.DyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockRenderView;
 import org.jetbrains.annotations.Nullable;
@@ -26,7 +25,7 @@ public class ColoredShulkerBoxBlock extends ShulkerBoxBlock implements BlockColo
     @Override
     @Environment(EnvType.CLIENT)
     public int getColor(BlockState state, @Nullable BlockRenderView world, @Nullable BlockPos pos, int tintIndex) {
-        DyeColorant dyeColorant = ((DyeBlockStorage) this).getDyeColor();
+        DyeColorant dyeColorant = ((DyeBlockStorage) this).getDyeColorant();
 
         return dyeColorant.getBaseColor();
     }

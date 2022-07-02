@@ -20,12 +20,12 @@ public class ShulkerBoxBlockEntityMixin implements DyeBlockEntityStorage {
 
     @Inject(method = "<init>(Lnet/minecraft/util/DyeColor;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;)V", at = @At("TAIL"))
     private void setCachedDyeColorant1(DyeColor color, BlockPos pos, BlockState state, CallbackInfo ci){
-        cachedDyeColorant = ((DyeBlockStorage) state.getBlock()).getDyeColor();
+        cachedDyeColorant = ((DyeBlockStorage) state.getBlock()).getDyeColorant();
     }
 
     @Inject(method = "<init>(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;)V", at = @At("TAIL"))
     private void setCachedDyeColorant2(BlockPos pos, BlockState state, CallbackInfo ci){
-        cachedDyeColorant = ((DyeBlockStorage) state.getBlock()).getDyeColor();
+        cachedDyeColorant = ((DyeBlockStorage) state.getBlock()).getDyeColorant();
     }
 
     //Disallowing anyone to change the color of a shulker box as it is a static value for now

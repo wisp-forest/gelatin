@@ -89,19 +89,19 @@ public class JelloItemGroup extends OwoItemGroup {
             stacks.removeIf(isDyedBlock);
 
             dyedBlocks.sort(Comparator.comparingDouble(stack -> {
-                float[] hsl = ColorUtil.rgbToHsl(((DyeBlockStorage) ((BlockItem) stack.getItem()).getBlock()).getDyeColor().getBaseColor());
+                float[] hsl = ColorUtil.rgbToHsl(((DyeBlockStorage) ((BlockItem) stack.getItem()).getBlock()).getDyeColorant().getBaseColor());
 
                 return hsl[2];
             }));
 
             dyedBlocks.sort(Comparator.comparingDouble(stack -> {
-                float[] hsl = ColorUtil.rgbToHsl(((DyeBlockStorage) ((BlockItem) stack.getItem()).getBlock()).getDyeColor().getBaseColor());
+                float[] hsl = ColorUtil.rgbToHsl(((DyeBlockStorage) ((BlockItem) stack.getItem()).getBlock()).getDyeColorant().getBaseColor());
 
                 return hsl[1];
             }));
 
             dyedBlocks.sort(Comparator.comparingDouble(stack -> {
-                float[] hsl = ColorUtil.rgbToHsl(((DyeBlockStorage) ((BlockItem) stack.getItem()).getBlock()).getDyeColor().getBaseColor());
+                float[] hsl = ColorUtil.rgbToHsl(((DyeBlockStorage) ((BlockItem) stack.getItem()).getBlock()).getDyeColorant().getBaseColor());
 
                 return hsl[0];
             }));

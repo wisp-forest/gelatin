@@ -1,7 +1,6 @@
 package io.wispforest.jello.item;
 
 import io.wispforest.jello.api.ducks.DyeItemStorage;
-import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.ducks.DyeBlockStorage;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -17,7 +16,7 @@ public class ColoredBlockItem extends BlockItem implements ItemColorProvider {
     public ColoredBlockItem(Block block, Settings settings) {
         super(block, settings);
 
-        ((DyeItemStorage)this).setDyeColor(((DyeBlockStorage) block).getDyeColor());
+        ((DyeItemStorage)this).setDyeColor(((DyeBlockStorage) block).getDyeColorant());
     }
 
     @Override

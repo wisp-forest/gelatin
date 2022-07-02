@@ -48,8 +48,8 @@ public class JelloRecipeProvider extends FabricRecipeProvider {
 
             offerReversibleCompactingRecipes(exporter, item, block);
 
-            Item dyeItem = Registry.ITEM.get(new Identifier(((DyeBlockStorage) block).getDyeColor().getName() + "_dye"));
-            String dyePath = ((DyeBlockStorage) block).getDyeColor().getName() + "_dye";
+            Item dyeItem = Registry.ITEM.get(new Identifier(((DyeBlockStorage) block).getDyeColorant().getName() + "_dye"));
+            String dyePath = ((DyeBlockStorage) block).getDyeColorant().getName() + "_dye";
 
 //            offerSlimeBlockDyeingRecipe(exporter, block, dyeItem, blockPath, ((DyeBlockStorage) block).getDyeColor().getName() + "_dye");
 //            offerSlimeBlockDyeingFullRecipe(exporter, block, dyeItem, blockPath, ((DyeBlockStorage) block).getDyeColor().getName() + "_dye");

@@ -57,7 +57,7 @@ public abstract class PistonHandlerMixin {
             DyeBlockStorage dyeableBlock2 = (DyeBlockStorage) adjacentState.getBlock();
 
             if ((dyeableBlock1.isBlockDyed() && dyeableBlock2.isBlockDyed())) {
-                cir.setReturnValue(dyeableBlock1.getDyeColor() == dyeableBlock2.getDyeColor());
+                cir.setReturnValue(dyeableBlock1.getDyeColorant() == dyeableBlock2.getDyeColorant());
             }
         } else if (isRegularSlime(state, adjacentState)) {
             cir.setReturnValue(true);

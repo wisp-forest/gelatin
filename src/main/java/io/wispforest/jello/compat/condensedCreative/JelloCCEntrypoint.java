@@ -4,9 +4,11 @@ import io.wispforest.condensed_creative.registry.CondensedCreativeInitializer;
 import io.wispforest.condensed_creative.registry.CondensedEntryRegistry;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.ducks.DyeBlockStorage;
+import io.wispforest.jello.api.ducks.DyeItemStorage;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.registry.variants.block.DyeableBlockVariant;
+import io.wispforest.jello.api.dye.registry.variants.item.DyeableItemVariant;
 import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.misc.dye.JelloBlockVariants;
@@ -18,8 +20,6 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.util.Comparator;
 import java.util.List;
@@ -35,7 +35,7 @@ public class JelloCCEntrypoint implements CondensedCreativeInitializer {
                 .setTitleString(Text.translatable(dyeableBlockVariant.variantIdentifier.getPath() + "_condensed"))
                 .setEntrySorting(allStacks -> {
                     Predicate<ItemStack> getNonVanillaBlocks = stack -> {
-                        DyeColorant dyeColorant = ((DyeBlockStorage) ((BlockItem) stack.getItem()).getBlock()).getDyeColor();
+                        DyeColorant dyeColorant = ((DyeBlockStorage) ((BlockItem) stack.getItem()).getBlock()).getDyeColorant();
                         
                         return !DyeColorantRegistry.Constants.VANILLA_DYES.contains(dyeColorant);
                     };
@@ -44,19 +44,19 @@ public class JelloCCEntrypoint implements CondensedCreativeInitializer {
                     allStacks.removeIf(getNonVanillaBlocks);
 
                     nonVanillaStacks.sort(Comparator.comparingDouble(stack -> {
-                        float[] hsl = ColorUtil.rgbToHsl(((DyeBlockStorage) ((BlockItem) stack.getItem()).getBlock()).getDyeColor().getBaseColor());
+                        float[] hsl = ColorUtil.rgbToHsl(((DyeBlockStorage) ((BlockItem) stack.getItem()).getBlock()).getDyeColorant().getBaseColor());
 
                         return hsl[2];
                     }));
 
                     nonVanillaStacks.sort(Comparator.comparingDouble(stack -> {
-                        float[] hsl = ColorUtil.rgbToHsl(((DyeBlockStorage) ((BlockItem) stack.getItem()).getBlock()).getDyeColor().getBaseColor());
+                        float[] hsl = ColorUtil.rgbToHsl(((DyeBlockStorage) ((BlockItem) stack.getItem()).getBlock()).getDyeColorant().getBaseColor());
 
                         return hsl[1];
                     }));
 
                     nonVanillaStacks.sort(Comparator.comparingDouble(stack -> {
-                        float[] hsl = ColorUtil.rgbToHsl(((DyeBlockStorage) ((BlockItem) stack.getItem()).getBlock()).getDyeColor().getBaseColor());
+                        float[] hsl = ColorUtil.rgbToHsl(((DyeBlockStorage) ((BlockItem) stack.getItem()).getBlock()).getDyeColorant().getBaseColor());
 
                         return hsl[0];
                     }));
@@ -65,13 +65,13 @@ public class JelloCCEntrypoint implements CondensedCreativeInitializer {
 
                     Block defaultBlock = dyeableBlockVariant.getDefaultBlock();
 
-                    Identifier blockId = Registry.BLOCK.getId(defaultBlock);
-
-                    if(!blockId.getPath().contains(DyeColorantRegistry.WHITE.getName())){
-                        allStacks.add(0, dyeableBlockVariant.getDefaultBlock().asItem().getDefaultStack());
+                    if(defaultBlock instanceof DyeBlockStorage dyeBlockStorage && dyeBlockStorage.getDyeColorant() != DyeColorantRegistry.WHITE){
+                        allStacks.add(0, defaultBlock.asItem().getDefaultStack());
                     }
                 })
                 .addItemGroup(Jello.MAIN_ITEM_GROUP, 2);
+
+        });
         });
 
         //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -28,7 +28,7 @@ public class BedBlockEntityRendererMixin {
     @ModifyVariable(method = "render(Lnet/minecraft/block/entity/BedBlockEntity;FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;II)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/entity/BedBlockEntity;getWorld()Lnet/minecraft/world/World;"))
     private SpriteIdentifier renderInvisibleBlanket(SpriteIdentifier spriteIdentifier, BedBlockEntity bedBlockEntity, float f, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, int j) {
         if (((DyeBlockStorage) bedBlockEntity.getCachedState().getBlock()).isBlockDyed()) {
-            cachedBedColor = ((DyeBlockStorage) bedBlockEntity.getCachedState().getBlock()).getDyeColor();
+            cachedBedColor = ((DyeBlockStorage) bedBlockEntity.getCachedState().getBlock()).getDyeColorant();
 
             SpriteIdentifier sprite = new SpriteIdentifier(TexturedRenderLayers.BEDS_ATLAS_TEXTURE, JelloClient.BED_PILLOW_ONLY);
             sprite.getVertexConsumer(vertexConsumerProvider, RenderLayer::getEntityCutout);

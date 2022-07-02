@@ -12,7 +12,7 @@ public interface DyeBlockStorage {
     /**
      * Get the {@link DyeColorant} of a DyeBlockStorage
      */
-    DyeColorant getDyeColor();
+    DyeColorant getDyeColorant();
 
     /**
      * Method to check if a block is currently Dyed or not

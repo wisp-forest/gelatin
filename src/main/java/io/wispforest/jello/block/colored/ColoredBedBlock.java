@@ -9,7 +9,6 @@ import net.fabricmc.api.EnvironmentInterface;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.color.block.BlockColorProvider;
-import net.minecraft.util.DyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockRenderView;
 import org.jetbrains.annotations.Nullable;
@@ -30,7 +29,7 @@ public class ColoredBedBlock extends BedBlock implements BlockColorProvider {
         if(tintIndex == 0)
             return -1;
 
-        DyeColorant dyeColorant = ((DyeBlockStorage) this).getDyeColor();
+        DyeColorant dyeColorant = ((DyeBlockStorage) this).getDyeColorant();
 
         return dyeColorant.getBaseColor();
     }

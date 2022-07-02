@@ -30,6 +30,6 @@ public class SlimeBlockColored extends SlimeBlock implements BlockColorProvider 
     @Override
     @Environment(EnvType.CLIENT)
     public int getColor(BlockState state, @Nullable BlockRenderView world, @Nullable BlockPos pos, int tintIndex) {
-        return ((DyeBlockStorage) this).getDyeColor().getBaseColor();
+        return ((DyeBlockStorage) this).getDyeColorant().getBaseColor();
     }
 }

@@ -28,7 +28,7 @@ public class ColoredCandleCakeBlock extends CandleCakeBlock implements BlockColo
         if(tintIndex == 0)
             return -1;
 
-        DyeColorant dyeColorant = ((DyeBlockStorage) this).getDyeColor();
+        DyeColorant dyeColorant = ((DyeBlockStorage) this).getDyeColorant();
 
         return dyeColorant.getBaseColor();
     }

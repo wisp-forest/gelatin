@@ -24,7 +24,7 @@ public class ColoredGlassBlock extends StainedGlassBlock implements BlockColorPr
     @Override
     @Environment(EnvType.CLIENT)
     public int getColor(BlockState state, @Nullable BlockRenderView world, @Nullable BlockPos pos, int tintIndex) {
-        DyeColorant dyeColorant = ((DyeBlockStorage) this).getDyeColor();
+        DyeColorant dyeColorant = ((DyeBlockStorage) this).getDyeColorant();
 
         return dyeColorant.getBaseColor();
     }
