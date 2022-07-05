@@ -9,8 +9,7 @@ import net.minecraft.item.ItemConvertible;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
- * Used internally within {@link DyeableBlockVariant#makeBlockItem(DyeColorant, Block, Item.Settings)} to create variant block items (If the variant has such).
- * <p>Should not be extended</p>
+ * Used internally within {@link DyeableBlockVariant#makeBlockItem} and {@link DyeableItemVariant#makeItem} to create variant items (If the variant has such).
  */
 @ApiStatus.NonExtendable
 public interface ItemMaker {

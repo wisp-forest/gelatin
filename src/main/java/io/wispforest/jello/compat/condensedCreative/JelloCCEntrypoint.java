@@ -118,7 +118,7 @@ public class JelloCCEntrypoint implements CondensedCreativeInitializer {
 
         //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-        List<Item> slimeSlabs = DyeColorantRegistry.Constants.VANILLA_DYES.stream().map(dyeColorant -> JelloBlockVariants.SLIME_SLAB.getColoredBlock(dyeColorant).asItem()).collect(Collectors.toList());
+        List<Item> slimeSlabs = DyeColorantRegistry.Constants.VANILLA_DYES.stream().map(JelloBlockVariants.SLIME_SLAB::getColoredBlockItem).collect(Collectors.toList());
 
         slimeSlabs.add(0, JelloBlocks.SLIME_SLAB.asItem());
 
@@ -129,7 +129,7 @@ public class JelloCCEntrypoint implements CondensedCreativeInitializer {
 
         //--------------------
 
-        List<Item> slimeBlocks = DyeColorantRegistry.Constants.VANILLA_DYES.stream().map(dyeColorant -> JelloBlockVariants.SLIME_BLOCK.getColoredBlock(dyeColorant).asItem()).collect(Collectors.toList());
+        List<Item> slimeBlocks = DyeColorantRegistry.Constants.VANILLA_DYES.stream().map(JelloBlockVariants.SLIME_BLOCK::getColoredBlockItem).collect(Collectors.toList());
 
         slimeBlocks.add(0, Blocks.SLIME_BLOCK.asItem());
 

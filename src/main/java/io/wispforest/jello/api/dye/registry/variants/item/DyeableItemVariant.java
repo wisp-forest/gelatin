@@ -24,6 +24,11 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Supplier;
 
+/**
+ * A {@link DyeableItemVariant} is a way to add your own
+ * Dyed Item Variants to Jello's System so that
+ * any {@link DyeColorant} created gets made with your Variant.
+ */
 public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant> {
 
     public @Nullable ItemMaker itemMaker;
@@ -35,7 +40,7 @@ public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant> {
 
     /**
      * @param variantIdentifier The {@link Identifier} based off your Modid and the block path for your variant
-     * @param possibleChildVariant Any Variant that needs this Block to create itself from
+     * @param possibleChildVariant Any Variant that needs this Item to create itself from
      * @param itemSettings The {@link Item.Settings} used when creating the blockItem
      * @param itemMaker A generalized way of creating your Item Variant
      */
@@ -67,9 +72,9 @@ public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant> {
         }
 
         /**
-         * A way of using the Coloring Events within Jello with only Vanilla Colors and Blocks added by your Mod
+         * A way of using the Coloring Events within Jello with only Vanilla Colors and Items added by your Mod
          *
-         * @param variantIdentifier The {@link Identifier} based off your Modid and the block path for your variant
+         * @param variantIdentifier The {@link Identifier} based off your Modid and the item path for your variant
          */
         public static Builder readOnly(Identifier variantIdentifier) {
             Builder builder = new Builder(new DyeableItemVariant(variantIdentifier, null, new Item.Settings(), null));
@@ -90,7 +95,7 @@ public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant> {
         /**
          * Manually change the {@link #defaultEntryIdentifier} Identifier
          *
-         * @param identifier The identifier of the block
+         * @param identifier The identifier of the item
          */
         public final Builder setDefaultEntry(Identifier identifier) {
             itemVariant.defaultEntryIdentifier = identifier;
@@ -99,9 +104,9 @@ public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant> {
         }
 
         /**
-         * Manually change the {@link #defaultEntryIdentifier} Identifier by combining the Block's path and the variant's MODID
+         * Manually change the {@link #defaultEntryIdentifier} Identifier by combining the Item's path and the variant's MODID
          *
-         * @param path The Block's default path
+         * @param path The Item's default path
          */
         public final Builder setDefaultEntry(String path) {
             return this.setDefaultEntry(new Identifier(itemVariant.variantIdentifier.getNamespace(), path));
@@ -120,7 +125,7 @@ public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant> {
         }
 
         /**
-         * Disables the creation of Modded Dyed Variants and only allows for Coloring this block with Vanilla Colors
+         * Disables the creation of Modded Dyed Variants and only allows for Coloring this item with Vanilla Colors
          */
         public final Builder setVanillaDyeableOnly(){
             itemVariant.vanillaColorsOnly = true;
@@ -157,13 +162,15 @@ public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant> {
     }
 
     /**
-     * The primary item tag that groups all these blockItems together (If such were made);
+     * The primary item tag that groups all these Items together (If such were made);
      */
     public final TagKey<Item> getPrimaryItemTag() {
         return allItemTags.get(0);
     }
 
-
+    /**
+     * If the given Variant is only trying to use Jello's API rather than creating entry's
+     */
     public boolean alwaysReadOnly(){
         return this.itemMaker == null;
     }
@@ -171,51 +178,8 @@ public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant> {
     //---------------------------------------------------------------------------------------------------
 
     /**
-     * Attempts to check if a Block is Dyeable and if it is will attempt to use the Variant to get the Colored Block passed to it
-     *
-     * @param block Possibly Colorable Block
-     * @param dyeColorant Color being applied to the Block
-     * @return A block if the Variant exists and meets certain parameters within the Variant else it returns null
-     */
-    @Nullable
-    public static Block attemptToGetColoredBlock(Block block, DyeColorant dyeColorant){
-        DyeableBlockVariant variant = DyeableBlockVariant.getVariantFromBlock(block);
-
-        if(variant != null){
-            if(variant.vanillaDyesOnly() && !dyeColorant.isIn(JelloTags.DyeColor.VANILLA_DYES)){
-                return null;
-            }
-
-            return variant.getColoredBlock(dyeColorant);
-        }else{
-            return null;
-        }
-    }
-
-    @Nullable
-    public static Pair<Block, DyeableBlockVariant> attemptToGetColoredBlockPair(Block block, DyeColorant dyeColorant){
-        DyeableBlockVariant variant = DyeableBlockVariant.getVariantFromBlock(block);
-
-        if(variant != null){
-            if(!block.getRegistryEntry().isIn(variant.getPrimaryBlockTag())){
-                return null;
-            }
-
-            DyeColorant blockCurrentColor = variant.getColorFromEntry(block);
-
-            if(blockCurrentColor == dyeColorant || (variant.vanillaDyesOnly() && !dyeColorant.isIn(JelloTags.DyeColor.VANILLA_DYES))){
-                return null;
-            }
-
-            return new Pair<>(variant.getColoredBlock(dyeColorant), variant);
-        }else{
-            return null;
-        }
-    }
-
-    /**
-     * Gets a Block based off the given {@link DyeColorant} and the {@link #variantIdentifier} of the Variant used
-     * @param dyeColorant Desired Color or default block if it is {@link DyeColorantRegistry#NULL_VALUE_NEW}
+     * Gets an Entry based off the given {@link DyeColorant} and the {@link #variantIdentifier} of the Variant used
+     * @param dyeColorant Desired Color or default entry if it is {@link DyeColorantRegistry#NULL_VALUE_NEW}
      */
     public Item getColoredEntry(DyeColorant dyeColorant) {
         if(dyeColorant == DyeColorantRegistry.NULL_VALUE_NEW)
@@ -233,7 +197,7 @@ public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant> {
     }
 
     /**
-     * @return A Block based on the given {@link #defaultEntryIdentifier}.
+     * @return An Item based on the given {@link #defaultEntryIdentifier}.
      */
     public Item getDefaultItem() {
         return Registry.ITEM.get(this.defaultEntryIdentifier);
@@ -250,7 +214,7 @@ public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant> {
     }
 
     /**
-     * Attempts to get a {@link DyeableBlockVariant} from a given {@link Identifier}
+     * Attempts to get a {@link DyeableItemVariant} from a given {@link Identifier}
      * @param identifier possible identifier
      * @return {@link DyeableItemVariant} or null if the given Entry doesn't have one
      */
@@ -267,7 +231,7 @@ public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant> {
 
     /**
      * Safe way of making sure all variants are added to the main Set that contains all the Registered Item Variants
-     * @return {@link #ALL_BLOCK_VARIANTS} safely
+     * @return {@link #ALL_ITEM_VARIANTS} safely
      */
     public static Set<DyeableItemVariant> getAllItemVariants(){
         //TODO: Is such really needed?
@@ -290,7 +254,7 @@ public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant> {
 
     /**
      * Safe way of making sure all variants are added to the main Set that contains all the Registered Block Item Variants
-     * @return {@link #ALL_BLOCK_VARIANTS} safely
+     * @return {@link #ALL_BLOCK_ITEM_VARIANTS} safely
      */
     public static Set<DyeableItemVariant> getAllBlockItemVariants(){
         //TODO: Is such really needed?
@@ -302,7 +266,7 @@ public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant> {
             }
         }
 
-        return ALL_ITEM_VARIANTS;
+        return ALL_BLOCK_ITEM_VARIANTS;
     }
 
     private static void addToAllBlockItemVariantsRecursive(DyeableItemVariant dyeableItemVariant){
@@ -324,7 +288,7 @@ public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant> {
     /**
      * Attempts to get the color from a possible Variant.
      *
-     * @param convertible Possible Block or Item of the given Variant
+     * @param convertible Possible Item of the given Variant
      * @return The DyeColorant of the entry or null if the given it isn't a given Variant
      */
     @Nullable

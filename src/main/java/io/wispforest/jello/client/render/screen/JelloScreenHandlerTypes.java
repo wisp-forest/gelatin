@@ -1,13 +1,21 @@
 package io.wispforest.jello.client.render.screen;
 
-import io.wispforest.jello.Jello;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
+import io.wispforest.owo.registration.reflect.AutoRegistryContainer;
 import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.util.registry.Registry;
 
-public class JelloScreenHandlerTypes {
+public class JelloScreenHandlerTypes implements AutoRegistryContainer<ScreenHandlerType<?>> {
 
-    public static final ScreenHandlerType<ColorMixerScreenHandler> COLOR_MIXER_TYPE = ScreenHandlerRegistry.
-            registerSimple(Jello.id("color_mixer"), ColorMixerScreenHandler::new);
+    public static final ScreenHandlerType<ColorMixerScreenHandler> COLOR_MIXER_TYPE = new ScreenHandlerType<>(ColorMixerScreenHandler::new); //register(Jello.id("color_mixer"), ColorMixerScreenHandler::new)
 
-    public static void initialize() {}
+    @Override
+    public Registry<ScreenHandlerType<?>> getRegistry() {
+        return Registry.SCREEN_HANDLER;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Class<ScreenHandlerType<?>> getTargetFieldType() {
+        return (Class<ScreenHandlerType<?>>) (Object) ScreenHandlerType.class;
+    }
 }

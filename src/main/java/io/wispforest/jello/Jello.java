@@ -30,11 +30,13 @@ import io.wispforest.owo.itemgroup.OwoItemGroup;
 import io.wispforest.owo.network.OwoNetChannel;
 import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
 import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerLoginConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerLoginNetworking;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.item.Items;
@@ -46,78 +48,89 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class Jello implements ModInitializer {
 
     public static final String MODID = "jello";
 
-    private static JelloConfig MAIN_CONFIG;
-
     public static final OwoNetChannel CHANNEL = OwoNetChannel.create(new Identifier(MODID, "main"));
 
     public static final OwoItemGroup MAIN_ITEM_GROUP = new JelloItemGroup(id("jello_group"));
 
+    public static final boolean DEBUG_ENV_VAR = Boolean.getBoolean("jello.debug");
+    public static final boolean DEBUG_ENV = FabricLoader.getInstance().isDevelopmentEnvironment();
+
+    private static ConfigHolder<JelloConfig> MAIN_CONFIG;
+
     @Override
     public void onInitialize() {
 
-        //API Stuff
+        AutoConfig.register(JelloConfig.class, GsonConfigSerializer::new);
+
+        MAIN_CONFIG = AutoConfig.getConfigHolder(JelloConfig.class);
+
+        DyeColorantRegistry.registerModidModelRedirect(Jello.MODID);
+
+        //----------------------------[Independent Api Stuff's]----------------------------
         DyeColorantRegistry.initVanillaDyes();
 
         setDyeColorantForMinecraftBlocks();
 
-        JelloLootTables.registerLootTablesGeneration();
-
         JelloCauldronBehaviors.registerJelloBehaviorBypass();
+        //---------------------------------------------------------------------------------
 
-        //-----------------------------------------------------
+
+        //-------------------------------[Entry Registry's]--------------------------------
+        FieldRegistrationHandler.register(JelloBlocks.class, MODID, false);
+
+        FieldRegistrationHandler.register(JelloBlockEntityTypes.class, MODID, false);
+
+        FieldRegistrationHandler.register(JelloItems.class, MODID, true);
+
+        FieldRegistrationHandler.register(JelloRecipeSerializers.class, MODID, false);
+
+        FieldRegistrationHandler.register(JelloGameEvents.class, MODID, false);
+
+        FieldRegistrationHandler.register(JelloScreenHandlerTypes.class, MODID, false);
+
+        FieldRegistrationHandler.processSimple(TrackedDataHandlerExtended.class, false);
+
+        FieldRegistrationHandler.processSimple(JelloStats.class, false);
+
+        JelloBlockVariants.initialize();
+        //---------------------------------------------------------------------------------
+
+
+        //---------------------------------------------------------------------------------
 
         RecipeSpecificRemainders.add(Jello.id("sponge_item_from_wet_sponge"), Items.SHEARS);
         RecipeSpecificRemainders.add(Jello.id("sponge_item_from_dry_sponge"), Items.SHEARS);
         RecipeSpecificRemainders.add(Jello.id("artist_palette"), Items.SHEARS);
 
-        JelloScreenHandlerTypes.initialize();
+        JelloLootTables.registerLootTablesGeneration();
 
-        AutoConfig.register(JelloConfig.class, GsonConfigSerializer::new);
-        MAIN_CONFIG = AutoConfig.getConfigHolder(JelloConfig.class).getConfig();
-
-        // Block Registry
-        FieldRegistrationHandler.register(JelloBlocks.class, MODID, false);
-
-        // Block Entity's
-        FieldRegistrationHandler.register(JelloBlockEntityTypes.class, MODID, false);
-
-        // Item Registry
-        FieldRegistrationHandler.register(JelloItems.class, MODID, true);
-
-        FieldRegistrationHandler.register(JelloRecipeSerializers.class, MODID, false);
-        FieldRegistrationHandler.register(JelloGameEvents.class, MODID, false);
-
-        FieldRegistrationHandler.processSimple(TrackedDataHandlerExtended.class, false);
-        FieldRegistrationHandler.processSimple(JelloStats.class, false);
-
-        //TODO: Add warning when connecting to a server with just disabled or when the client connects with it disabled
         if(getConfig().addCustomJsonColors) {
             DyeColorantLoader.loadFromJson();
         }
-        DyeColorantRegistry.registerModidModelRedirect(Jello.MODID);
 
         registerDispenserBehavior();
-
-        JelloBlockVariants.initialize();
 
         initializeNetworking();
     }
 
 
     public static JelloConfig getConfig() {
-        return MAIN_CONFIG;
+        return MAIN_CONFIG.getConfig();
     }
 
     //------------------------------------------------------------------------------
 
     private static void initializeNetworking() {
         CHANNEL.registerServerbound(DyeBundlePackets.ScreenScrollPacket.class, DyeBundlePackets.ScreenScrollPacket::scrollBundle);
+
+        //------------------------------------------------------------------
 
         CHANNEL.registerServerbound(ColorMixerSearchPacket.class, (message, access) -> {
             if (!(access.player().currentScreenHandler instanceof ColorMixerScreenHandler handler)) return;

@@ -200,7 +200,7 @@ public class DyeableVariantManager {
 
         private Block registerBlock(DyeableBlockVariant dyeableBlockVariant, @Nullable Pair<Block, Item.Settings> registryInfo, DyeColorant dyeColorant) {
             if ((readOnly && Objects.equals(dyeColorant.getId().getNamespace(), "minecraft")) || isReadOnly(dyeableBlockVariant))
-                return dyeableBlockVariant.getColoredBlock(dyeColorant);
+                return dyeableBlockVariant.getColoredEntry(dyeColorant);
 
             String nameSpace = Objects.equals(dyeableBlockVariant.variantIdentifier.getNamespace(), "minecraft") ?
                     dyeColorant.getId().getNamespace() :

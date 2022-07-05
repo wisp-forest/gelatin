@@ -9,6 +9,8 @@ import io.wispforest.jello.api.dye.registry.variants.DyeableVariantManager;
 import io.wispforest.jello.api.dye.registry.variants.VanillaBlockVariants;
 import io.wispforest.jello.api.dye.registry.variants.item.DyeableItemVariant;
 import io.wispforest.jello.api.dye.registry.variants.item.ItemMaker;
+import io.wispforest.jello.api.events.LootTableInjectionEvent;
+import io.wispforest.jello.api.util.VersatileLogger;
 import io.wispforest.jello.data.loot.JelloLootTables;
 import io.wispforest.jello.data.tags.JelloTags;
 import io.wispforest.jello.api.item.JelloItemSettings;
@@ -37,7 +39,7 @@ import java.util.function.Supplier;
 public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant> {
 
     private @Nullable final BlockMaker blockMaker;
-    public final DyeableItemVariant itemVariant;
+    public final DyeableItemVariant blockItemVariant;
 
     protected final List<TagKey<Block>> allBlockTags = new ArrayList<>();
 
@@ -54,8 +56,8 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant> {
     public DyeableBlockVariant(Identifier variantIdentifier, @Nullable Supplier<DyeableBlockVariant> possibleChildVariant, Item.Settings itemSettings, @Nullable BlockMaker blockMaker) {
         super(variantIdentifier, possibleChildVariant);
 
-        this.itemVariant = new DyeableItemVariant(variantIdentifier, null, itemSettings, ItemMaker.BLOCK_DEFAULT);
-        this.itemVariant.itemColorChangeMethod = ColorManipulators.AlterItemColor.DEFAULT_BLOCK;
+        this.blockItemVariant = new DyeableItemVariant(variantIdentifier, null, itemSettings, ItemMaker.BLOCK_DEFAULT);
+        this.blockItemVariant.itemColorChangeMethod = ColorManipulators.AlterItemColor.DEFAULT_BLOCK;
 
         this.blockMaker = blockMaker;
 
@@ -109,8 +111,8 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant> {
          * Disables creation of BlockItem for the given variant
          */
         public final Builder noBlockItem(){
-            blockVariant.itemVariant.itemMaker = null;
-            blockVariant.itemVariant.defaultItemSettings = new Item.Settings();
+            blockVariant.blockItemVariant.itemMaker = null;
+            blockVariant.blockItemVariant.defaultItemSettings = new Item.Settings();
 
             return this;
         }
@@ -121,7 +123,7 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant> {
          * @param blockItemMaker Custom BlockItemMaker
          */
         public final Builder setBlockItemMaker(ItemMaker blockItemMaker) {
-            blockVariant.itemVariant.itemMaker = blockItemMaker;
+            blockVariant.blockItemVariant.itemMaker = blockItemMaker;
 
             return this;
         }
@@ -135,6 +137,18 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant> {
         @SafeVarargs
         public final Builder setBlockTags(TagKey<Block>... tags) {
             blockVariant.allBlockTags.addAll(Arrays.asList(tags));
+
+            return this;
+        }
+
+        /**
+         * Add all tags needed for the Created {@link Item} if such is made
+         *
+         * @param tags Tags to be added to when the {@link Item} is built
+         */
+        @SafeVarargs
+        public final Builder setItemTags(TagKey<Item>... tags) {
+            blockVariant.blockItemVariant.allItemTags.addAll(Arrays.asList(tags));
 
             return this;
         }
@@ -160,24 +174,6 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant> {
             return this;
         }
 
-        //--------------------------------------------------------------------------------------------------------------
-
-
-
-        /**
-         * Add all tags needed for the Created {@link Item} if such is made
-         *
-         * @param tags Tags to be added to when the {@link Item} is built
-         */
-        @SafeVarargs
-        public final Builder setItemTags(TagKey<Item>... tags) {
-            blockVariant.itemVariant.allItemTags.addAll(Arrays.asList(tags));
-
-            return this;
-        }
-
-        //--------------------------------------------------------------------------------------------------------------
-
         /**
          * Manually change the {@link #defaultEntryIdentifier} Identifier
          *
@@ -185,7 +181,7 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant> {
          */
         public final Builder setDefaultEntry(Identifier identifier) {
             blockVariant.defaultEntryIdentifier = identifier;
-            blockVariant.itemVariant.defaultEntryIdentifier = identifier;
+            blockVariant.blockItemVariant.defaultEntryIdentifier = identifier;
 
             return this;
         }
@@ -223,7 +219,7 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant> {
             }
 
             if(blockVariant.createBlockItem()){
-                DyeableBlockVariant.REGISTERED_BLOCK_ITEM_VARIANTS.add(blockVariant.itemVariant);
+                DyeableBlockVariant.REGISTERED_BLOCK_ITEM_VARIANTS.add(blockVariant.blockItemVariant);
             }
 
             return blockVariant;
@@ -248,33 +244,14 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant> {
         return allBlockTags.get(0);
     }
 
+    /**
+     * If the given Variant is only trying to use Jello's API rather than creating entry's
+     */
     public boolean alwaysReadOnly(){
         return this.blockMaker == null;
     }
 
     //---------------------------------------------------------------------------------------------------
-
-    /**
-     * Attempts to check if a Block is Dyeable and if it is will attempt to use the Variant to get the Colored Block passed to it
-     *
-     * @param block Possibly Colorable Block
-     * @param dyeColorant Color being applied to the Block
-     * @return A block if the Variant exists and meets certain parameters within the Variant else it returns null
-     */
-    @Nullable
-    public static Block attemptToGetColoredBlock(Block block, DyeColorant dyeColorant){
-        DyeableBlockVariant variant = DyeableBlockVariant.getVariantFromBlock(block);
-
-        if(variant != null){
-            if(variant.vanillaDyesOnly() && !dyeColorant.isIn(JelloTags.DyeColor.VANILLA_DYES)){
-                return null;
-            }
-
-            return variant.getColoredBlock(dyeColorant);
-        }else{
-            return null;
-        }
-    }
 
     @Nullable
     public static Pair<Block, DyeableBlockVariant> attemptToGetColoredBlockPair(Block block, DyeColorant dyeColorant){
@@ -291,17 +268,18 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant> {
                 return null;
             }
 
-            return new Pair<>(variant.getColoredBlock(dyeColorant), variant);
-        }else{
+            return new Pair<>(variant.getColoredEntry(dyeColorant), variant);
+        } else {
             return null;
         }
     }
 
     /**
-     * Gets a Block based off the given {@link DyeColorant} and the {@link #variantIdentifier} of the Variant used
-     * @param dyeColorant Desired Color or default block if it is {@link DyeColorantRegistry#NULL_VALUE_NEW}
+     * Gets an Entry based off the given {@link DyeColorant} and the {@link #variantIdentifier} of the Variant used
+     * @param dyeColorant Desired Color or default entry if it is {@link DyeColorantRegistry#NULL_VALUE_NEW}
      */
-    public Block getColoredBlock(DyeColorant dyeColorant) {
+    @Override
+    public Block getColoredEntry(DyeColorant dyeColorant) {
         if(dyeColorant == DyeColorantRegistry.NULL_VALUE_NEW)
             return this.getDefaultBlock();
 
@@ -316,19 +294,6 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant> {
         return Registry.BLOCK.get(new Identifier(nameSpace, getColoredBlockPath(dyeColorant)));
     }
 
-    @Override
-    public ItemConvertible getColoredEntry(DyeColorant dyeColorant) {
-        return createBlockItem() ? getColoredBlockItem(dyeColorant) : getColoredBlock(dyeColorant);
-    }
-
-    /**
-     * Gets a Block based off the given {@link DyeColorant} and the {@link #variantIdentifier} of the Variant used
-     * @param dyeColorant Desired Color or default block if it is {@link DyeColorantRegistry#NULL_VALUE_NEW}
-     */
-    public Item getColoredBlockItem(DyeColorant dyeColorant) {
-        return itemVariant.getColoredEntry(dyeColorant);
-    }
-
     /**
      * @return A Block based on the given {@link #defaultEntryIdentifier}.
      */
@@ -337,10 +302,18 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant> {
     }
 
     /**
-     * @return A Block based on the given {@link #defaultEntryIdentifier}.
+     * Gets a Block Item based off the given {@link DyeColorant} and the {@link #variantIdentifier} of the Variant used
+     * @param dyeColorant Desired Color or default blockItem if it is {@link DyeColorantRegistry#NULL_VALUE_NEW}
+     */
+    public Item getColoredBlockItem(DyeColorant dyeColorant) {
+        return blockItemVariant.getColoredEntry(dyeColorant);
+    }
+
+    /**
+     * @return A Block Item based on the given {@link #defaultEntryIdentifier}.
      */
     public Item getDefaultBlockItem() {
-        return itemVariant.getDefaultItem();
+        return blockItemVariant.getDefaultItem();
     }
 
     /**
@@ -437,7 +410,7 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant> {
 
     @ApiStatus.Internal
     public boolean createBlockItem(){
-        return itemVariant.itemMaker != null;
+        return blockItemVariant.itemMaker != null;
     }
 
     @ApiStatus.Internal
@@ -445,7 +418,7 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant> {
         this.addToBlockTags(block, readOnly);
 
         if(createBlockItem()){
-            this.itemVariant.addToTags(block.asItem(), readOnly);
+            this.blockItemVariant.addToTags(block.asItem(), readOnly);
         }
     }
 
@@ -468,33 +441,36 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant> {
     }
 
     @ApiStatus.Internal
-    public void generateAllLootTables(Map<Identifier, LootTable> tables){
-        if(alwaysReadOnly()){
+    public void generateAllLootTables(LootTableInjectionEvent.LootTableMapHelper helper){
+        if(alwaysReadOnly())
             return;
-        }
 
         Set<DyeColorant> dyeColorants = new HashSet<>();
 
         if(vanillaColorsOnly){
             dyeColorants.addAll(DyeColorantRegistry.Constants.VANILLA_DYES);
-        }else{
+        } else {
             dyeColorants.addAll(DyeColorantRegistry.DYE_COLOR.stream().toList());
         }
 
-        for(DyeColorant dyeColorant : dyeColorants){
-            Block block = this.getColoredBlock(dyeColorant);
+        VersatileLogger logger = new VersatileLogger("DyeableBlockVariantLootTables", () -> Jello.DEBUG_ENV_VAR | Jello.DEBUG_ENV);
 
-            tables.put(block.getLootTableId(), this.lootTableBuilder.apply(block));
+        for(DyeColorant dyeColorant : dyeColorants){
+            Block block = this.getColoredEntry(dyeColorant);
+
+            if(!helper.addLootTable(block.getLootTableId(), this.lootTableBuilder.apply(block))){
+                logger.failMessage("Seems that a lootTable for a block already exists, will not be added then");
+            }
         }
     }
 
     @ApiStatus.Internal
     public Pair<Block, Item.Settings> makeChildBlock(DyeColorant dyeColorant, @Nullable Block parentBlock) {
-        return new Pair<>(blockMaker.createBlockFromDyeColor(dyeColorant, parentBlock), this.itemVariant.defaultItemSettings);
+        return new Pair<>(blockMaker.createBlockFromDyeColor(dyeColorant, parentBlock), this.blockItemVariant.defaultItemSettings);
     }
 
     @ApiStatus.Internal
     public BlockItem makeBlockItem(DyeColorant dyeColorant, Block block, Item.Settings settings) {
-        return (BlockItem) this.itemVariant.makeItem(dyeColorant, block, settings);
+        return (BlockItem) this.blockItemVariant.makeItem(dyeColorant, block, settings);
     }
 }

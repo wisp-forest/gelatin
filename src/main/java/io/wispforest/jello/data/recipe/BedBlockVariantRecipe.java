@@ -19,7 +19,7 @@ public class BedBlockVariantRecipe extends SpecialCraftingRecipe {
 
     private DyeColorant dyeColorant = null;
 
-    private static final TagKey<Item> WOOL_BLOCK_TAG = VanillaBlockVariants.WOOL.itemVariant.getPrimaryItemTag();
+    private static final TagKey<Item> WOOL_BLOCK_TAG = VanillaBlockVariants.WOOL.blockItemVariant.getPrimaryItemTag();
 
     public BedBlockVariantRecipe(Identifier id) {
         super(id);
@@ -95,7 +95,7 @@ public class BedBlockVariantRecipe extends SpecialCraftingRecipe {
 
     @Override
     public ItemStack craft(CraftingInventory inventory) {
-        return new ItemStack(VanillaBlockVariants.BED.getColoredBlock(dyeColorant),1);
+        return new ItemStack(VanillaBlockVariants.BED.getColoredBlockItem(dyeColorant),1);
     }
 
     @Override

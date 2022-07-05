@@ -77,7 +77,7 @@ public class DyeBlockVariantRecipe extends SpecialCraftingRecipe {
 
     @Override
     public ItemStack craft(CraftingInventory inventory) {
-        return new ItemStack(this.variant.getColoredBlock(this.dyeColorant), this.stackReturnCount);
+        return new ItemStack(this.variant.getColoredBlockItem(this.dyeColorant), this.stackReturnCount);
     }
 
     @Override

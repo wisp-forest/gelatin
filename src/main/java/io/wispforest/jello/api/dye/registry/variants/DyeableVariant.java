@@ -1,6 +1,7 @@
 package io.wispforest.jello.api.dye.registry.variants;
 
 import io.wispforest.jello.api.dye.DyeColorant;
+import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.registry.variants.block.DyeableBlockVariant;
 import io.wispforest.jello.api.dye.registry.variants.item.DyeableItemVariant;
 import io.wispforest.jello.api.item.JelloItemSettings;
@@ -119,12 +120,21 @@ public abstract class DyeableVariant<T extends DyeableVariant<T>> {
         return null;
     }
 
+    /**
+     * Gets an Entry based off the given {@link DyeColorant} and the {@link #variantIdentifier} of the Variant used
+     * @param dyeColorant Desired Color or default entry if it is {@link DyeColorantRegistry#NULL_VALUE_NEW}
+     */
     public abstract ItemConvertible getColoredEntry(DyeColorant dyeColorant);
+
+    /**
+     * If the given Variant is only trying to use Jello's API rather than creating entry's
+     */
+    public abstract boolean alwaysReadOnly();
 
     /**
      * Attempts to check if a Block is Dyeable and if it is will attempt to use the Variant to get the Colored Block passed to it
      *
-     * @param block Possibly Colorable Block
+     * @param entry Possibly Colorable Block
      * @param dyeColorant Color being applied to the Block
      * @return A block if the Variant exists and meets certain parameters within the Variant else it returns null
      */
