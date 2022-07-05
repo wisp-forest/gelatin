@@ -4,7 +4,8 @@ import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.registry.variants.DyeableVariantManager;
 import io.wispforest.jello.api.dye.registry.variants.VanillaBlockVariants;
-import io.wispforest.jello.data.loot.JelloLootTables;
+import io.wispforest.jello.api.events.LootTableInjectionEvent;
+import io.wispforest.jello.api.util.VersatileLogger;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemConvertible;
@@ -19,7 +20,9 @@ import java.util.Map;
 
 public class CustomSheepLootTables {
 
-    public static Map<Identifier, LootTable> initSheepLootTables(Map<Identifier, LootTable> tables) {
+    public static void initSheepLootTables(LootTableInjectionEvent.LootTableMapHelper helper) {
+        VersatileLogger logger = new VersatileLogger("SheepLootTable");
+
         for (Map.Entry<DyeColorant, DyeableVariantManager.DyeColorantVariantData> entry : DyeableVariantManager.getVariantMap().entrySet()) {
             DyeColorant dyeColorant = entry.getKey();
 
@@ -29,11 +32,12 @@ public class CustomSheepLootTables {
                 LootTable table = createForSheep(woolBlock).build();
                 Identifier lootTableId = createSheepLootTableIdFromColor(dyeColorant);
 
-                tables.put(lootTableId, table);
+                if(!helper.addLootTable(lootTableId, table)){
+                    logger.failMessage("Seems that a lootTable for a custom Sheep DyeColorant lootTable already exists, will not be added then.");
+                }
+
             }
         }
-
-        return tables;
     }
 
     public static Identifier createSheepLootTableIdFromColor(DyeColorant dyeColorant) {
@@ -47,6 +51,6 @@ public class CustomSheepLootTables {
     }
 
     public static void init(){
-        JelloLootTables.ADD_LOOT_TABLES_EVENT.register(CustomSheepLootTables::initSheepLootTables);
+        LootTableInjectionEvent.ADD_LOOT_TABLES_EVENT.register(CustomSheepLootTables::initSheepLootTables);
     }
 }

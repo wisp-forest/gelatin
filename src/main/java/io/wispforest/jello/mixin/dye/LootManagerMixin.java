@@ -1,8 +1,7 @@
 package io.wispforest.jello.mixin.dye;
 
 import com.google.gson.JsonElement;
-import io.wispforest.jello.data.CustomSheepLootTables;
-import io.wispforest.jello.data.loot.JelloLootTables;
+import io.wispforest.jello.api.events.LootTableInjectionEvent;
 import net.minecraft.loot.LootManager;
 import net.minecraft.loot.LootTable;
 import net.minecraft.resource.ResourceManager;
@@ -27,7 +26,7 @@ public class LootManagerMixin {
         //this.tables = CustomSheepLootTables.initSheepLootTables(this.tables);
         Map<Identifier, LootTable> currentMap = new HashMap<>(this.tables);
 
-        JelloLootTables.ADD_LOOT_TABLES_EVENT.invoker().afterResourceLoad(currentMap);
+        LootTableInjectionEvent.ADD_LOOT_TABLES_EVENT.invoker().afterResourceLoad(new LootTableInjectionEvent.LootTableMapHelper(currentMap));
 
         this.tables = Map.copyOf(currentMap);
     }
