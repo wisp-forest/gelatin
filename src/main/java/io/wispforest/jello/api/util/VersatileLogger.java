@@ -3,6 +3,8 @@ package io.wispforest.jello.api.util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.function.Supplier;
+
 public class VersatileLogger {
 
     private static final Logger LOGGER = LogManager.getLogger(VersatileLogger.class);
@@ -10,9 +12,20 @@ public class VersatileLogger {
     private long startTime;
     private final String prefix;
 
+    public final Supplier<Boolean> debugCheck;
+
     public VersatileLogger(String prefix) {
         this.startTime = System.currentTimeMillis();
         this.prefix = prefix;
+
+        this.debugCheck = () -> false;
+    }
+
+    public VersatileLogger(String prefix, Supplier<Boolean> debugCheck) {
+        this.startTime = System.currentTimeMillis();
+        this.prefix = prefix;
+
+        this.debugCheck = debugCheck;
     }
 
     //-------------------------------------------------------------

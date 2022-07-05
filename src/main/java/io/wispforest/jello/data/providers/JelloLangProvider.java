@@ -14,6 +14,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -21,6 +22,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class JelloLangProvider extends AbstractLanguageProvider {
@@ -48,7 +50,7 @@ public class JelloLangProvider extends AbstractLanguageProvider {
 
         addBlock(JelloBlocks.PAINT_MIXER);
 
-        add(SpongeItem.DIRTINESS_TRANSLATION_KEY, "Dirty Sponge");
+        addTranslation(SpongeItem.DIRTINESS_TRANSLATION_KEY, "Dirty Sponge");
 
         addACToolTipAndNameEntry("enableGrayScalingOfEntities", "Enable GrayScaling of Entities", "[Warning: Will break texturepacks!] Used to allow for true color when a entity is dyed or color.");
 
@@ -62,41 +64,41 @@ public class JelloLangProvider extends AbstractLanguageProvider {
         addACCategoryName("common", "Main Config");
         addACCategoryName("client", "Client Config");
 
-        add("text.jello.dye_bundle_pattern", "%1$s [%2$s]");
+        addTranslation("text.jello.dye_bundle_pattern", "%1$s [%2$s]");
 
-        add("itemGroup.misc.tab.dyes", "Custom Dyes");
-        add("itemGroup.misc.tab.block_vars", "Colored Block Variants");
+        addTranslation("itemGroup.misc.tab.dyes", "Custom Dyes");
+        addTranslation("itemGroup.misc.tab.block_vars", "Colored Block Variants");
 
-        add("item.jello.sponge.desc", "Use on a block to remove dye");
-        add("item.jello.sponge.desc.dirty", "Clean by using on water cauldron");
+        addTranslation("item.jello.sponge.desc", "Use on a block to remove dye");
+        addTranslation("item.jello.sponge.desc.dirty", "Clean by using on water cauldron");
 
-        add("vanilla_slime_slabs_condensed", "Slime Slabs");
-        add("vanilla_slime_blocks_condensed", "Slime Blocks");
+        addTranslation("vanilla_slime_slabs_condensed", "Slime Slabs");
+        addTranslation("vanilla_slime_blocks_condensed", "Slime Blocks");
 
-        add("tooltip.vanilla_slime_slabs_condensed", "Only contains Vanilla Colors");
-        add("tooltip.vanilla_slime_blocks_condensed", "Only contains Vanilla Colors");
+        addTranslation("tooltip.vanilla_slime_slabs_condensed", "Only contains Vanilla Colors");
+        addTranslation("tooltip.vanilla_slime_blocks_condensed", "Only contains Vanilla Colors");
 
-        add("itemGroup.jello.jello_group", "Jello");
+        addTranslation("itemGroup.jello.jello_group", "Jello");
 
-        add("itemGroup.jello.jello_group.tab.jello_tools", "Jello Stuff");
-        add("itemGroup.jello.jello_group.tab.dyed_item_variants", "Jello Item Variants");
-        add("itemGroup.jello.jello_group.tab.dyed_block_variants", "Jello Block Variants");
+        addTranslation("itemGroup.jello.jello_group.tab.jello_tools", "Jello Stuff");
+        addTranslation("itemGroup.jello.jello_group.tab.dyed_item_variants", "Jello Item Variants");
+        addTranslation("itemGroup.jello.jello_group.tab.dyed_block_variants", "Jello Block Variants");
 
-        DyeableBlockVariant.getAllBlockVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.alwaysReadOnly() && dyeableBlockVariant.createBlockItem()).forEach(dyeableBlockVariant -> {
-            add(dyeableBlockVariant.variantIdentifier.getPath() + "_condensed", titleFormatString(dyeableBlockVariant.variantIdentifier.getPath().split("_")));
-        });
-
-        DyeableItemVariant.getAllItemVariants().stream().filter(dyeableItemVariant -> !dyeableItemVariant.alwaysReadOnly()).forEach(dyeableItemVariant -> {
-            add(dyeableItemVariant.variantIdentifier.getPath() + "_condensed", titleFormatString(dyeableItemVariant.variantIdentifier.getPath().split("_")));
-        });
-
-        for (DyeableVariantManager.DyeColorantVariantData dyedVariant : DyeableVariantManager.getVariantMap().values()) {
-            for (Block block : dyedVariant.dyedBlocks().values()) {
-                addBlock(block);
-            }
-
-            addItem(dyedVariant.dyeItem());
-        }
+//        DyeableBlockVariant.getAllBlockVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.alwaysReadOnly() && dyeableBlockVariant.createBlockItem()).forEach(dyeableBlockVariant -> {
+//            addTranslation(dyeableBlockVariant.variantIdentifier.getPath() + "_condensed", titleFormatString(dyeableBlockVariant.variantIdentifier.getPath().split("_"), true));
+//        });
+//
+//        DyeableItemVariant.getAllItemVariants().stream().filter(dyeableItemVariant -> !dyeableItemVariant.alwaysReadOnly()).forEach(dyeableItemVariant -> {
+//            addTranslation(dyeableItemVariant.variantIdentifier.getPath() + "_condensed", titleFormatString(dyeableItemVariant.variantIdentifier.getPath().split("_"), true));
+//        });
+//
+//        for (DyeableVariantManager.DyeColorantVariantData dyedVariant : DyeableVariantManager.getVariantMap().values()) {
+//            for (Block block : dyedVariant.dyedBlocks().values()) {
+//                addBlock(block);
+//            }
+//
+//            addItem(dyedVariant.dyeItem());
+//        }
     }
 
     public static String titleFormatString(String titleString){
@@ -129,23 +131,35 @@ public class JelloLangProvider extends AbstractLanguageProvider {
         addEntityType(entity, getAutomaticNameForEntry(entity));
     }
 
-    private static final Map<Class<?>, Registry<?>> entryClassToRegistryMap = new HashMap<>();
+    private static final Map<Predicate<Object>, Registry<?>> predicteToRegistryMap = new HashMap<>();
 
     static {
-        entryClassToRegistryMap.put(Item.class, Registry.ITEM);
-        entryClassToRegistryMap.put(Block.class, Registry.BLOCK);
-        entryClassToRegistryMap.put(DyeColorant.class, DyeColorantRegistry.DYE_COLOR);
-        entryClassToRegistryMap.put(EntityType.class, Registry.ENTITY_TYPE);
+        predicteToRegistryMap.put(o -> o instanceof Item, Registry.ITEM);
+        predicteToRegistryMap.put(o -> o instanceof Block, Registry.BLOCK);
+        predicteToRegistryMap.put(o -> o instanceof DyeColorant, DyeColorantRegistry.DYE_COLOR);
+        predicteToRegistryMap.put(o -> o instanceof EntityType, Registry.ENTITY_TYPE);
     }
 
     public static <T> String getAutomaticNameForEntry(T entry) {
-        Registry<T> registry = (Registry<T>) entryClassToRegistryMap.get(entry.getClass());
+        Registry<T> registry = null;
 
-        if(registry != null) {
-            return toEnglishName(registry.getId(entry).getPath());
-        } else {
+        for(Map.Entry<Predicate<Object>, Registry<?>> mapEntry : predicteToRegistryMap.entrySet()){
+            if(mapEntry.getKey().test(entry)){
+                registry = (Registry<T>) mapEntry.getValue();
+            }
+        }
+
+        if (registry == null) {
             throw new InvalidEntry(entry + ": Is a invaild entry and could not be found within the get entryClassToRegistryMap.");
         }
+
+        Identifier identifier = registry.getId(entry);
+
+        if (identifier == null) {
+            throw new NullPointerException(entry + ": Dose not have a identifier from the found registry it matches!");
+        }
+
+        return toEnglishName(identifier.getPath());
     }
 
     public static class InvalidEntry extends RuntimeException {
@@ -169,11 +183,11 @@ public class JelloLangProvider extends AbstractLanguageProvider {
     }
 
     private void addACCategoryName(String keyName, String nameTranslation) {
-        add("text.autoconfig.jello.category." + keyName, nameTranslation);
+        addTranslation("text.autoconfig.jello.category." + keyName, nameTranslation);
     }
 
     private void addACToolTipAndNameEntry(String keyName, String nameTranslation, String tooltipTranslation) {
-        add("text.autoconfig.jello.option." + keyName + ".@Tooltip", tooltipTranslation);
-        add("text.autoconfig.jello.option." + keyName, nameTranslation);
+        addTranslation("text.autoconfig.jello.option." + keyName + ".@Tooltip", tooltipTranslation);
+        addTranslation("text.autoconfig.jello.option." + keyName, nameTranslation);
     }
 }

@@ -17,36 +17,37 @@ import java.util.Map;
 
 public interface LangInterface {
 
-    void addToDataMap();
-
     Map<String, String> getDataMap();
 
     default void addBlock(Block key, String name) {
-        add(key.getTranslationKey(), name);
+        addTranslation(key.getTranslationKey(), name);
     }
 
     default void addItem(Item key, String name) {
-        add(key.getTranslationKey(), name);
+        addTranslation(key.getTranslationKey(), name);
     }
 
     default void addItemStack(ItemStack key, String name) {
-        add(key.getTranslationKey(), name);
+        addTranslation(key.getTranslationKey(), name);
     }
 
     default void addEnchantment(Enchantment key, String name) {
-        add(key.getTranslationKey(), name);
+        addTranslation(key.getTranslationKey(), name);
     }
 
     default void addEffect(StatusEffect key, String name) {
-        add(key.getTranslationKey(), name);
+        addTranslation(key.getTranslationKey(), name);
     }
 
     default void addEntityType(EntityType<?> key, String name) {
-        add(key.getTranslationKey(), name);
+        addTranslation(key.getTranslationKey(), name);
     }
 
-    default void add(String key, String value) {
-        if (getDataMap().put(key, value) != null)
+    default boolean addTranslation(String key, String value) {
+        if (getDataMap().put(key, value) != null) {
             throw new IllegalStateException("Duplicate translation key " + key);
+        }
+
+        return true;
     }
 }

@@ -29,13 +29,8 @@ public abstract class AbstractLanguageProvider implements DataProvider, LangInte
     protected abstract void addTranslations();
 
     @Override
-    public void addToDataMap() {
-        addTranslations();
-    }
-
-    @Override
     public void run(DataWriter writer) throws IOException {
-        addToDataMap();
+        addTranslations();
 
         if (!langData.isEmpty()) {
             DataProvider.writeToPath(writer, GSON.toJsonTree(langData), this.dataGenerator.getOutput().resolve("assets/" + dataGenerator.getModId() + "/lang/" + locale + ".json"));
