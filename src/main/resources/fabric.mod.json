@@ -39,6 +39,9 @@
     ],
     "modmenu": [
       "io.wispforest.jello.compat.modmenu.JelloModMenuIntegration"
+    ],
+    "rei_client": [
+       "io.wispforest.jello.compat.rei.JelloREIClientPlugin"
     ]
   },
   "mixins": [
