@@ -18,13 +18,11 @@ import java.util.function.Supplier;
 
 public abstract class DyeableVariant<T extends DyeableVariant<T>> {
 
-    public static final Set<DyeableItemVariant> ALL_ITEM_VARIANTS = new LinkedHashSet<>();
+    /**
+     * Sets that contain all the given variants that were registered
+     */
     public static final Set<DyeableItemVariant> REGISTERED_ITEM_VARIANTS = new LinkedHashSet<>();
-
-    public static final Set<DyeableBlockVariant> ALL_BLOCK_VARIANTS = new LinkedHashSet<>();
     public static final Set<DyeableBlockVariant> REGISTERED_BLOCK_VARIANTS = new LinkedHashSet<>();
-
-    public static final Set<DyeableItemVariant> ALL_BLOCK_ITEM_VARIANTS = new LinkedHashSet<>();
     public static final Set<DyeableItemVariant> REGISTERED_BLOCK_ITEM_VARIANTS = new LinkedHashSet<>();
 
     /**
@@ -46,6 +44,8 @@ public abstract class DyeableVariant<T extends DyeableVariant<T>> {
     public RecursiveType recursiveType = RecursiveType.NONE;
     public Supplier<T> childVariant = () -> null;
 
+    public @Nullable Identifier parentVariantIdentifier = null;
+
     public DyeableVariant(Identifier variantIdentifier, @Nullable Supplier<T> possibleChildVariant){
         this.variantIdentifier = variantIdentifier;
         this.wordCount = variantIdentifier.getPath().split("_").length;
@@ -58,6 +58,10 @@ public abstract class DyeableVariant<T extends DyeableVariant<T>> {
 
     public final boolean vanillaDyesOnly(){
         return this.vanillaColorsOnly;
+    }
+
+    public final boolean customDefaultBlock() {
+        return !defaultEntryIdentifier.getPath().contains("white");
     }
 
     //-------------------------------------------------------------------------------------
@@ -161,7 +165,7 @@ public abstract class DyeableVariant<T extends DyeableVariant<T>> {
 
     /**
      * Safe way of making sure all variants are added to the main Set that contains all the Registered Block Variants
-     * @return {@link #ALL_BLOCK_VARIANTS} safely
+     * @return {@link #REGISTERED_BLOCK_VARIANTS} safely
      */
     public static <T extends DyeableVariant> Set<T> getAllVariants(){
         Set<T> allVariants = new HashSet<>();

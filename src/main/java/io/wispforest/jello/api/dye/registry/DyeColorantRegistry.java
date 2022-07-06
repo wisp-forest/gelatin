@@ -156,7 +156,7 @@ public class DyeColorantRegistry {
         RegistryEntry<DyeColorant> dyeColor = DYE_COLOR.getRandom(rand).get();
 
         while (!nonVanillaDyeColor) {
-            if (!dyeColor.isIn(JelloTags.DyeColor.VANILLA_DYES)) {
+            if (!Constants.VANILLA_DYES.contains(dyeColor.value())) {
                 nonVanillaDyeColor = true;
             } else {
                 dyeColor = DYE_COLOR.getRandom(rand).get();

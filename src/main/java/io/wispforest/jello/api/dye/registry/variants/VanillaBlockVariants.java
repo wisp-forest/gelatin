@@ -23,9 +23,11 @@ import net.minecraft.tag.ItemTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * An implementation of all vanilla Dyeable blocks used when a {@link DyeColorant} is registered for Variant creation
@@ -41,6 +43,7 @@ public class VanillaBlockVariants {
     public static final DyeableBlockVariant CONCRETE_POWDER = DyeableBlockVariant.Builder.of(new Identifier("concrete_powder"), itemSettings, (dyeColorant, parentBlock) -> {
         return new ColoredConcretePowderBlock(parentBlock, AbstractBlock.Settings.of(Material.AGGREGATE, MapColor.CLEAR).strength(0.5F).sounds(BlockSoundGroup.SAND), dyeColorant);
     }).setBlockTags(BlockTags.PICKAXE_MINEABLE, BlockTags.NEEDS_STONE_TOOL)
+            .setParentVariantIdentifier(new Identifier("concrete"))
             .register();
 
     public static final DyeableBlockVariant CONCRETE = DyeableBlockVariant.Builder.of(new Identifier("concrete"), itemSettings, () -> CONCRETE_POWDER, (dyeColorant, parentBlock) -> {
@@ -78,6 +81,7 @@ public class VanillaBlockVariants {
     public static final DyeableBlockVariant CANDLE_CAKE = DyeableBlockVariant.Builder.of(new Identifier("candle_cake"), itemSettings, (dyeColorant, parentBlock) -> {
         return new ColoredCandleCakeBlock(dyeColorant, parentBlock, AbstractBlock.Settings.copy(Blocks.CANDLE_CAKE));
     }).setDefaultEntry("candle_cake")
+        .setParentVariantIdentifier(new Identifier("candle"))
         .setBlockTags(BlockTags.CANDLE_CAKES)
         .noBlockItem()
         .setLootTable(block -> JelloLootTables.candleCakeDrops((Block)block).build())
@@ -174,16 +178,25 @@ public class VanillaBlockVariants {
 
     //-----------------------------------------------------------------
 
-    public static final List<DyeableBlockVariant> VANILLA_VARIANTS =
+    public static final List<DyeableBlockVariant> ALL_VANILLA_VARIANTS =
             List.of(CONCRETE,
+                    CONCRETE_POWDER,
                     TERRACOTTA,
                     WOOL,
                     CARPET,
                     CANDLE,
+                    CANDLE_CAKE,
                     BED,
                     GLASS,
                     GLASS_PANE,
                     SHULKER_BOX);
+
+    /**
+     * Returns a list containing only the base vanilla variants without the recursive children
+     */
+    public static List<DyeableBlockVariant> getBaseVanillaBlockVariants(){
+        return ALL_VANILLA_VARIANTS.stream().filter(dyeableBlockVariant -> dyeableBlockVariant.parentVariantIdentifier == null).collect(Collectors.toList());
+    }
 
     private static Block addToBlockEntitieset(Block block, BlockEntityType<?> blockEntityType) {
         Set<Block> BLOCK_SET = new HashSet<>(((BlockEntityTypeAccessor) blockEntityType).jello$getBlocks());

@@ -23,6 +23,7 @@ import org.jetbrains.annotations.ApiStatus;
 import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * A {@link DyeableItemVariant} is a way to add your own
@@ -133,6 +134,12 @@ public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant> {
             return this;
         }
 
+        public final Builder setParentVariantIdentifier(Identifier identifier){
+            itemVariant.parentVariantIdentifier = identifier;
+
+            return this;
+        }
+
         /**
          * Method must be called when the Variant is finished being edited
          * Will add your variant to the {@link #REGISTERED_ITEM_VARIANTS} and
@@ -140,7 +147,9 @@ public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant> {
          */
         public DyeableItemVariant register() {
             if (!DyeableItemVariant.REGISTERED_ITEM_VARIANTS.contains(itemVariant)) {
-                DyeableVariantManager.updateExistingDataForItem(itemVariant);
+                if(itemVariant.parentVariantIdentifier == null) {
+                    DyeableVariantManager.updateExistingDataForItem(itemVariant);
+                }
             }
 
             //ColorBlockRegistry.registerBlockTypeWithRecursion(this);
@@ -231,49 +240,26 @@ public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant> {
 
     /**
      * Safe way of making sure all variants are added to the main Set that contains all the Registered Item Variants
-     * @return {@link #ALL_ITEM_VARIANTS} safely
+     * @return {@link #REGISTERED_ITEM_VARIANTS} safely
      */
     public static Set<DyeableItemVariant> getAllItemVariants(){
-        //TODO: Is such really needed?
-
-        if(ALL_ITEM_VARIANTS.isEmpty() || ALL_ITEM_VARIANTS.size() < DyeableVariantManager.getVariantMap().get(DyeColorantRegistry.WHITE).dyedItems().size()){
-            for(DyeableItemVariant dyeableItemVariant : REGISTERED_ITEM_VARIANTS){
-                addToAllItemVariantsRecursive(dyeableItemVariant);
-            }
-        }
-
-        return ALL_ITEM_VARIANTS;
+        return REGISTERED_ITEM_VARIANTS;
     }
 
-    private static void addToAllItemVariantsRecursive(DyeableItemVariant dyeableItemVariant){
-        ALL_ITEM_VARIANTS.add(dyeableItemVariant);
-        if(dyeableItemVariant.childVariant.get() != null){
-            addToAllItemVariantsRecursive(dyeableItemVariant.childVariant.get());
-        }
+    public static Set<DyeableItemVariant> AllBaseItemVariants(){
+        return REGISTERED_ITEM_VARIANTS.stream().filter(dyeableItemVariant -> dyeableItemVariant.parentVariantIdentifier == null).collect(Collectors.toSet());
     }
 
     /**
      * Safe way of making sure all variants are added to the main Set that contains all the Registered Block Item Variants
-     * @return {@link #ALL_BLOCK_ITEM_VARIANTS} safely
+     * @return {@link #REGISTERED_BLOCK_ITEM_VARIANTS} safely
      */
     public static Set<DyeableItemVariant> getAllBlockItemVariants(){
-        //TODO: Is such really needed?
-
-        if(ALL_BLOCK_ITEM_VARIANTS.isEmpty() ||
-                ALL_BLOCK_ITEM_VARIANTS.size() < DyeableVariantManager.getVariantMap().get(DyeColorantRegistry.WHITE).dyedBlocks().entrySet().stream().filter(entry -> entry.getKey().createBlockItem()).count()){
-            for(DyeableItemVariant dyeableItemVariant : REGISTERED_BLOCK_ITEM_VARIANTS){
-                addToAllBlockItemVariantsRecursive(dyeableItemVariant);
-            }
-        }
-
-        return ALL_BLOCK_ITEM_VARIANTS;
+        return REGISTERED_BLOCK_ITEM_VARIANTS;
     }
 
-    private static void addToAllBlockItemVariantsRecursive(DyeableItemVariant dyeableItemVariant){
-        ALL_ITEM_VARIANTS.add(dyeableItemVariant);
-        if(dyeableItemVariant.childVariant.get() != null){
-            addToAllItemVariantsRecursive(dyeableItemVariant.childVariant.get());
-        }
+    public static Set<DyeableItemVariant> AllBaseBlockItemVariants(){
+        return REGISTERED_BLOCK_ITEM_VARIANTS.stream().filter(dyeableItemVariant -> dyeableItemVariant.parentVariantIdentifier != null).collect(Collectors.toSet());
     }
 
     /**

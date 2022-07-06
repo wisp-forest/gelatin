@@ -74,7 +74,7 @@ public abstract class ModelLoaderMixin {
     // cope
     // @Unique private static final Logger LOGGER_MALD = LogManager.getLogger("Jello");
 
-    @Unique private static final Set<DyeableBlockVariant> ALL_VARIANTS = new HashSet<>();
+    @Unique private static final Set<DyeableBlockVariant> ALL_BLOCK_VARIANTS = new HashSet<>();
 
     @Unique private final Map<String, UnbakedModel> test_map = new HashMap<>();
 
@@ -83,16 +83,8 @@ public abstract class ModelLoaderMixin {
         if (DyeColorantRegistry.shouldRedirectModelResource(new Identifier(modelId.getNamespace(), modelId.getPath()))) {
             String[] stringParts = modelId.getPath().split("_");
 
-
-
-            if (ALL_VARIANTS.isEmpty()) {
-//                for (DyeableBlockVariant dyeableBlockVariant : VanillaBlockVariants.VANILLA_VARIANTS) {
-//                    jello$addToListWithRecursion(dyeableBlockVariant);
-//                }
-
-                for (DyeableBlockVariant dyeableBlockVariant : DyeableBlockVariant.getAllBlockVariants()) {
-                    jello$addToListWithRecursion(dyeableBlockVariant);
-                }
+            if (ALL_BLOCK_VARIANTS.isEmpty()) {
+                ALL_BLOCK_VARIANTS.addAll(DyeableBlockVariant.getAllBlockVariants());
             }
 
             boolean isItemVersion = Objects.equals(modelId.getVariant(), "inventory");
@@ -104,7 +96,7 @@ public abstract class ModelLoaderMixin {
                 return;
             }
 
-            for (DyeableBlockVariant blockVariant : ALL_VARIANTS) {
+            for (DyeableBlockVariant blockVariant : ALL_BLOCK_VARIANTS) {
                 if (blockVariant.isSuchAVariant(modelId)) {
                     String nameSpace = Objects.equals(blockVariant.variantIdentifier.getNamespace(), "minecraft") ? Jello.MODID : blockVariant.variantIdentifier.getNamespace();
 
@@ -167,15 +159,6 @@ public abstract class ModelLoaderMixin {
             test_map.putIfAbsent(cachedBlockStateRedirectID + modelId.getVariant(), unbakedModel);
         } else if (cachedItemRedirectID != null) {
             test_map.putIfAbsent(cachedItemRedirectID + "/item", unbakedModel);
-        }
-    }
-
-    @Unique
-    private static void jello$addToListWithRecursion(DyeableBlockVariant parentBlockVariant) {
-        ALL_VARIANTS.add(parentBlockVariant);
-
-        if (parentBlockVariant.childVariant.get() != null) {
-            jello$addToListWithRecursion(parentBlockVariant.childVariant.get());
         }
     }
 

@@ -29,6 +29,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * A {@link DyeableBlockVariant} is a way to add your own
@@ -204,6 +205,12 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant> {
             return this;
         }
 
+        public final Builder setParentVariantIdentifier(Identifier identifier){
+            blockVariant.parentVariantIdentifier = identifier;
+
+            return this;
+        }
+
         //--------------------------------------------------------------------------------------------------------------
 
         /**
@@ -213,7 +220,9 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant> {
          */
         public final DyeableBlockVariant register() {
             if (!DyeableBlockVariant.REGISTERED_BLOCK_VARIANTS.contains(blockVariant)) {
-                DyeableVariantManager.updateExistingDataForBlock(blockVariant);
+                if(blockVariant.parentVariantIdentifier == null) {
+                    DyeableVariantManager.updateExistingDataForBlock(blockVariant);
+                }
 
                 DyeableBlockVariant.REGISTERED_BLOCK_VARIANTS.add(blockVariant);
             }
@@ -344,25 +353,14 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant> {
 
     /**
      * Safe way of making sure all variants are added to the main Set that contains all the Registered Block Variants
-     * @return {@link #ALL_BLOCK_VARIANTS} safely
+     * @return {@link #REGISTERED_BLOCK_VARIANTS} safely
      */
     public static Set<DyeableBlockVariant> getAllBlockVariants(){
-        //TODO: Is such really needed?
-
-        if(ALL_BLOCK_VARIANTS.isEmpty() || ALL_BLOCK_VARIANTS.size() < DyeableVariantManager.getVariantMap().get(DyeColorantRegistry.WHITE).dyedBlocks().size()){
-            for(DyeableBlockVariant dyeableBlockVariant : REGISTERED_BLOCK_VARIANTS){
-                addToAllBlockVariantsRecursive(dyeableBlockVariant);
-            }
-        }
-
-        return ALL_BLOCK_VARIANTS;
+        return REGISTERED_BLOCK_VARIANTS;
     }
 
-    private static void addToAllBlockVariantsRecursive(DyeableBlockVariant dyeableBlockVariant){
-        ALL_BLOCK_VARIANTS.add(dyeableBlockVariant);
-        if(dyeableBlockVariant.childVariant.get() != null){
-            addToAllBlockVariantsRecursive(dyeableBlockVariant.childVariant.get());
-        }
+    public static Set<DyeableBlockVariant> AllBaseBlockVariants(){
+        return REGISTERED_BLOCK_VARIANTS.stream().filter(dyeableItemVariant -> dyeableItemVariant.parentVariantIdentifier == null).collect(Collectors.toSet());
     }
 
     /**
@@ -442,7 +440,7 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant> {
 
     @ApiStatus.Internal
     public void generateAllLootTables(LootTableInjectionEvent.LootTableMapHelper helper){
-        if(alwaysReadOnly())
+        if(alwaysReadOnly() || !createBlockItem())
             return;
 
         Set<DyeColorant> dyeColorants = new HashSet<>();
@@ -458,8 +456,13 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant> {
         for(DyeColorant dyeColorant : dyeColorants){
             Block block = this.getColoredEntry(dyeColorant);
 
+            Identifier blockId = Registry.BLOCK.getId(block);
+
+            if(Objects.equals(blockId.getNamespace(), "minecraft") || (Objects.equals(this.defaultEntryIdentifier.getPath(), blockId.getPath()) && this.customDefaultBlock()))
+                continue;
+
             if(!helper.addLootTable(block.getLootTableId(), this.lootTableBuilder.apply(block))){
-                logger.failMessage("Seems that a lootTable for a block already exists, will not be added then");
+                logger.failMessage("Seems that a lootTable for a block [" + "lootTableId: " + block.getLootTableId() + ", " + "colorId: " + dyeColorant.toString() + ", " + "blockId: " + block.toString() + ", " + "variantId: " + this.toString() + "] already exists, will not be added then");
             }
         }
     }
@@ -472,5 +475,10 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant> {
     @ApiStatus.Internal
     public BlockItem makeBlockItem(DyeColorant dyeColorant, Block block, Item.Settings settings) {
         return (BlockItem) this.blockItemVariant.makeItem(dyeColorant, block, settings);
+    }
+
+    @Override
+    public String toString() {
+        return this.variantIdentifier.toString();
     }
 }

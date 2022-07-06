@@ -48,7 +48,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class Jello implements ModInitializer {
@@ -178,7 +177,7 @@ public class Jello implements ModInitializer {
     //------------------------------------------------------------------------------
 
     public void setDyeColorantForMinecraftBlocks(){
-        List<String> allVanillaBlockVariants = VanillaBlockVariants.VANILLA_VARIANTS.stream().map(dyeableBlockVariant -> dyeableBlockVariant.variantIdentifier.getPath()).collect(Collectors.toList());
+        List<String> allVanillaBlockVariants = VanillaBlockVariants.ALL_VANILLA_VARIANTS.stream().map(dyeableBlockVariant -> dyeableBlockVariant.variantIdentifier.getPath()).collect(Collectors.toList());
 
         Set<Map.Entry<RegistryKey<Block>, Block>> coloredBlocks = Registry.BLOCK.getEntrySet().stream().filter(entry -> {
             Identifier entryId = entry.getKey().getValue();

@@ -165,7 +165,7 @@ public class DyeableVariantManager {
         protected Map<DyeableBlockVariant, Block> buildVariantMapFromDye(DyeColorant dyeColorant, @Nullable OwoItemSettings overrideSettings) {
             Map<DyeableBlockVariant, Block> dyedBlocks = new HashMap<>();
 
-            for (DyeableBlockVariant dyeableBlockVariant : VanillaBlockVariants.VANILLA_VARIANTS) {
+            for (DyeableBlockVariant dyeableBlockVariant : DyeableBlockVariant.AllBaseBlockVariants()) {
                 this.recursivelyBuildBlocksFromVariant(dyedBlocks, null, dyeableBlockVariant, dyeColorant, overrideSettings);
             }
 
@@ -177,12 +177,11 @@ public class DyeableVariantManager {
         private void recursivelyBuildBlocksFromVariant(Map<DyeableBlockVariant, Block> dyedBlocks, Block possibleParentBlock, DyeableBlockVariant parentBlockVariant, DyeColorant dyeColorant, @Nullable OwoItemSettings overrideSettings) {
             Pair<Block, Item.Settings> info = null;
 
-            if (!isReadOnly(parentBlockVariant)) {
+            if (!(isReadOnly(parentBlockVariant) || (Objects.equals(dyeColorant.getId().getNamespace(), "minecraft") && Objects.equals(parentBlockVariant.variantIdentifier.getNamespace(), "minecraft")))) {
                 info = parentBlockVariant.makeChildBlock(dyeColorant, possibleParentBlock);
 
                 if (overrideSettings != null)
                     info.setRight(overrideSettings);
-
             }
 
             Block childBlock = registerBlock(parentBlockVariant, info, dyeColorant);
@@ -199,7 +198,7 @@ public class DyeableVariantManager {
         }
 
         private Block registerBlock(DyeableBlockVariant dyeableBlockVariant, @Nullable Pair<Block, Item.Settings> registryInfo, DyeColorant dyeColorant) {
-            if ((readOnly && Objects.equals(dyeColorant.getId().getNamespace(), "minecraft")) || isReadOnly(dyeableBlockVariant))
+            if (registryInfo == null)
                 return dyeableBlockVariant.getColoredEntry(dyeColorant);
 
             String nameSpace = Objects.equals(dyeableBlockVariant.variantIdentifier.getNamespace(), "minecraft") ?
@@ -253,7 +252,7 @@ public class DyeableVariantManager {
         private void recursivelyBuildItemsFromVariant(Map<DyeableItemVariant, Item> dyedBlocks, Item possibleParentItem, DyeableItemVariant parentItemVariant, DyeColorant dyeColorant, @Nullable OwoItemSettings overrideSettings) {
             Item item = null;
 
-            if (!isReadOnly(parentItemVariant)) {
+            if (!(isReadOnly(parentItemVariant) || (Objects.equals(dyeColorant.getId().getNamespace(), "minecraft") && Objects.equals(parentItemVariant.variantIdentifier.getNamespace(), "minecraft")))) {
                 item = parentItemVariant.makeItem(dyeColorant, possibleParentItem, overrideSettings != null ? overrideSettings : parentItemVariant.defaultItemSettings);
             }
 
@@ -271,7 +270,7 @@ public class DyeableVariantManager {
         }
 
         private Item registerItem(DyeableItemVariant dyeableItemVariant, @Nullable Item item, DyeColorant dyeColorant) {
-            if ((readOnly && Objects.equals(dyeColorant.getId().getNamespace(), "minecraft")) || isReadOnly(dyeableItemVariant))
+            if (item == null)
                 return dyeableItemVariant.getColoredEntry(dyeColorant);
 
             String nameSpace = Objects.equals(dyeableItemVariant.variantIdentifier.getNamespace(), "minecraft") ?
