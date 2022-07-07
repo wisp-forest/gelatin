@@ -47,6 +47,7 @@
   "itemGroup.jello.jello_group.tab.jello_tools": "Jello Stuff",
   "itemGroup.misc.tab.block_vars": "Colored Block Variants",
   "itemGroup.misc.tab.dyes": "Custom Dyes",
+  "jello.gui.dye_mixer": "Dye Mixer",
   "text.autoconfig.jello.category.client": "Client Config",
   "text.autoconfig.jello.category.common": "Main Config",
   "text.autoconfig.jello.option.addCustomJsonColors": "Enable Json Colors",
