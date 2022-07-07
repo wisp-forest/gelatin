@@ -86,7 +86,6 @@ public class DyeBundleDummyScreen extends Screen {
             RenderSystem.disableTexture();
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
-            bufferBuilder.end();
             BufferRenderer.drawWithShader(bufferBuilder.end());
             RenderSystem.disableBlend();
             RenderSystem.enableTexture();
