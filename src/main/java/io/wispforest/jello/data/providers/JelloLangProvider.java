@@ -84,21 +84,7 @@ public class JelloLangProvider extends AbstractLanguageProvider {
         addTranslation("itemGroup.jello.jello_group.tab.dyed_item_variants", "Jello Item Variants");
         addTranslation("itemGroup.jello.jello_group.tab.dyed_block_variants", "Jello Block Variants");
 
-//        DyeableBlockVariant.getAllBlockVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.alwaysReadOnly() && dyeableBlockVariant.createBlockItem()).forEach(dyeableBlockVariant -> {
-//            addTranslation(dyeableBlockVariant.variantIdentifier.getPath() + "_condensed", titleFormatString(dyeableBlockVariant.variantIdentifier.getPath().split("_"), true));
-//        });
-//
-//        DyeableItemVariant.getAllItemVariants().stream().filter(dyeableItemVariant -> !dyeableItemVariant.alwaysReadOnly()).forEach(dyeableItemVariant -> {
-//            addTranslation(dyeableItemVariant.variantIdentifier.getPath() + "_condensed", titleFormatString(dyeableItemVariant.variantIdentifier.getPath().split("_"), true));
-//        });
-//
-//        for (DyeableVariantManager.DyeColorantVariantData dyedVariant : DyeableVariantManager.getVariantMap().values()) {
-//            for (Block block : dyedVariant.dyedBlocks().values()) {
-//                addBlock(block);
-//            }
-//
-//            addItem(dyedVariant.dyeItem());
-//        }
+        addTranslation("jello.gui.dye_mixer", "Dye Mixer");
     }
 
     public static String titleFormatString(String titleString){
