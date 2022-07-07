@@ -1,5 +1,7 @@
 package io.wispforest.jello.block;
 
+import io.wispforest.jello.Jello;
+import io.wispforest.owo.itemgroup.OwoItemSettings;
 import io.wispforest.owo.registration.reflect.BlockRegistryContainer;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
@@ -16,6 +18,14 @@ public class JelloBlocks implements BlockRegistryContainer {
 
     @Override
     public BlockItem createBlockItem(Block block, String identifier) {
+        if(block == PAINT_MIXER){
+            return new BlockItem(block, new OwoItemSettings().group(Jello.MAIN_ITEM_GROUP).tab(0));
+        }
+
         return new BlockItem(block, new Item.Settings().group(ItemGroup.REDSTONE));
     }
+
+
 }
+
+

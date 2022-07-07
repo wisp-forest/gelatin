@@ -1,22 +1,29 @@
 package io.wispforest.jello.item;
 
+import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
+import io.wispforest.jello.api.item.JelloItemSettings;
 import io.wispforest.jello.item.dyebundle.DyeBundleItem;
+import io.wispforest.owo.itemgroup.OwoItemSettings;
 import io.wispforest.owo.registration.reflect.ItemRegistryContainer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.util.List;
 
 public class JelloItems implements ItemRegistryContainer {
 
-    public static final Item SPONGE = new SpongeItem(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1));
-    public static final Item DYE_BUNDLE = new DyeBundleItem(new FabricItemSettings().group(ItemGroup.TOOLS));
-    public static final Item EMPTY_ARTIST_PALETTE = new Item(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1));
-    public static final Item ARTIST_PALETTE = new ArtistPaletteItem(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1));
+    public static final Item SPONGE = new SpongeItem(new OwoItemSettings().group(Jello.MAIN_ITEM_GROUP).tab(0).maxCount(1));
+    public static final Item DYE_BUNDLE = new DyeBundleItem(new OwoItemSettings().group(Jello.MAIN_ITEM_GROUP).tab(0));
+    public static final Item EMPTY_ARTIST_PALETTE = new Item(new OwoItemSettings().group(Jello.MAIN_ITEM_GROUP).tab(0).maxCount(1));
+    public static final Item ARTIST_PALETTE = new ArtistPaletteItem(new OwoItemSettings().group(Jello.MAIN_ITEM_GROUP).tab(0).maxCount(1));
 
     public static class Slimeballs implements ItemRegistryContainer {
         public static final Item WHITE_SLIME_BALL = new ColoredItem(DyeColorantRegistry.WHITE, (new Item.Settings()).group(ItemGroup.MISC));
@@ -45,9 +52,9 @@ public class JelloItems implements ItemRegistryContainer {
     }
 
     public static class JelloCups implements ItemRegistryContainer {
-        private static final FabricItemSettings JELLO_CUP_DEFAULT = new FabricItemSettings().group(ItemGroup.FOOD).fireproof();
+        private static final OwoItemSettings JELLO_CUP_DEFAULT = new OwoItemSettings().group(Jello.MAIN_ITEM_GROUP).tab(0).fireproof();
 
-        public static final Item SUGAR_CUP = new Item(JELLO_CUP_DEFAULT.food(JelloFoodComponents.SUGAR_CUP));
+        public static final Item SUGAR_CUP = new Item(JelloItemSettings.copyFrom(JELLO_CUP_DEFAULT).food(JelloFoodComponents.SUGAR_CUP));
 
         public static final Item WHITE_JELLO_CUP = createJelloCup(DyeColorantRegistry.WHITE, JelloFoodComponents.WHITE_JELLO_CUP);
         public static final Item ORANGE_JELLO_CUP = createJelloCup(DyeColorantRegistry.ORANGE, JelloFoodComponents.ORANGE_JELLO_CUP);
@@ -73,7 +80,8 @@ public class JelloItems implements ItemRegistryContainer {
                         BROWN_JELLO_CUP, GREEN_JELLO_CUP, RED_JELLO_CUP, BLACK_JELLO_CUP);
 
         private static ColoredItem createJelloCup(DyeColorant dyeColor, FoodComponent foodComponent) {
-            return new ColoredItem(dyeColor, JELLO_CUP_DEFAULT.food(foodComponent), value -> value > 1);
+            return new ColoredItem(dyeColor, JelloItemSettings.copyFrom(JELLO_CUP_DEFAULT).food(foodComponent), value -> value > 1);
         }
     }
 }
+
