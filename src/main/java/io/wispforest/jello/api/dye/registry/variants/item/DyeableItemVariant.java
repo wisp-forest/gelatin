@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  * Dyed Item Variants to Jello's System so that
  * any {@link DyeColorant} created gets made with your Variant.
  */
-public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant> {
+public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant, Item> {
 
     public @Nullable ItemMaker itemMaker;
     public Item.Settings defaultItemSettings;
@@ -205,6 +205,16 @@ public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant> {
         return Registry.ITEM.get(new Identifier(nameSpace, getColoredEntryPath(dyeColorant)));
     }
 
+    @Override
+    protected Item getEntryFromIdentifier(Identifier identifier) {
+        return Registry.ITEM.get(identifier);
+    }
+
+    @Override
+    protected TagKey<Item> getPrimaryTag() {
+        return this.getPrimaryItemTag();
+    }
+
     /**
      * @return An Item based on the given {@link #defaultEntryIdentifier}.
      */
@@ -230,7 +240,7 @@ public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant> {
     @Nullable
     private static DyeableItemVariant getVariantFromItem(Identifier identifier){
         for(DyeableItemVariant variant : getAllItemVariants()){
-            if(variant.isSuchAVariant(identifier)){
+            if(variant.isSuchAVariant(identifier, true)){
                 return variant;
             }
         }
@@ -282,7 +292,7 @@ public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant> {
     public DyeColorant getColorFromEntry(ItemConvertible convertible){
         Identifier identifier = JelloItemSettings.getIdFromConvertible(convertible);
 
-        if(!this.isSuchAVariant(identifier))
+        if(!this.isSuchAVariant(identifier, true))
             return null;
 
         String[] pathParts = identifier.getPath().split("_");

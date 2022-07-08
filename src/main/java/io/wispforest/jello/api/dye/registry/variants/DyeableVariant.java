@@ -8,7 +8,9 @@ import io.wispforest.jello.api.item.JelloItemSettings;
 import io.wispforest.jello.data.tags.JelloTags;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -16,7 +18,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Supplier;
 
-public abstract class DyeableVariant<T extends DyeableVariant<T>> {
+public abstract class DyeableVariant<T extends DyeableVariant<T, V>, V extends ItemConvertible> {
 
     /**
      * Sets that contain all the given variants that were registered
@@ -72,12 +74,12 @@ public abstract class DyeableVariant<T extends DyeableVariant<T>> {
      * @param convertible possible variant
      * @return True if the given Entry is a Variant
      */
-    public boolean isSuchAVariant(ItemConvertible convertible) {
-        return this.isSuchAVariant(JelloItemSettings.getIdFromConvertible(convertible));
+    public boolean isSuchAVariant(ItemConvertible convertible, boolean tagCheck) {
+        return this.isSuchAVariant(JelloItemSettings.getIdFromConvertible(convertible), tagCheck);
     }
 
     @ApiStatus.Internal
-    public boolean isSuchAVariant(Identifier identifier) {
+    public boolean isSuchAVariant(Identifier identifier, boolean tagCheck) {
         if(Objects.equals(identifier.getPath(), defaultEntryIdentifier.getPath()))
             return true;
 
@@ -95,12 +97,30 @@ public abstract class DyeableVariant<T extends DyeableVariant<T>> {
             }
         }
 
-        return stringBuilder.toString().equals(this.variantIdentifier.getPath());
+        if(stringBuilder.toString().equals(this.variantIdentifier.getPath())){
+            if(tagCheck) {
+                V entry = getEntryFromIdentifier(identifier);
+
+                if (entry instanceof Item item) {
+                    return item.getRegistryEntry().isIn((TagKey<Item>) getPrimaryTag());
+                } else if (entry instanceof Block block) {
+                    return block.getRegistryEntry().isIn((TagKey<Block>) getPrimaryTag());
+                }
+            } else {
+                return true;
+            }
+        }
+
+        return false;
     }
 
+    protected abstract V getEntryFromIdentifier(Identifier identifier);
+
+    protected abstract TagKey<V> getPrimaryTag();
+
     /**
-     * Attempts to get a {@link DyeableBlockVariant} from a given {@link ItemConvertible}
-     * @param convertible possible Block or Item of a {@link DyeableBlockVariant}
+     * Attempts to get a {@link DyeableVariant} from a given {@link ItemConvertible}
+     * @param convertible possible Block or Item of a {@link DyeableVariant}
      * @return {@link DyeableVariant} or null if the given Entry doesn't have one
      */
     @Nullable
@@ -109,14 +129,16 @@ public abstract class DyeableVariant<T extends DyeableVariant<T>> {
     }
 
     /**
-     * Attempts to get a {@link DyeableBlockVariant} from a given {@link Identifier}
+     * Attempts to get a {@link DyeableVariant} from a given {@link Identifier}
      * @param identifier possible identifier
-     * @return {@link DyeableItemVariant} or null if the given Entry doesn't have one
+     * @return {@link DyeableVariant} or null if the given Entry doesn't have one
      */
     @Nullable
     private static <T extends DyeableVariant> T getVariantFromEntry(Identifier identifier){
+
+
         for(DyeableVariant variant : getAllVariants()){
-            if(variant.isSuchAVariant(identifier)){
+            if(variant.isSuchAVariant(identifier, true)){
                 return (T) variant;
             }
         }

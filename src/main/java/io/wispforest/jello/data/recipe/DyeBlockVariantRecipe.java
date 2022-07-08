@@ -54,7 +54,7 @@ public class DyeBlockVariantRecipe extends SpecialCraftingRecipe {
                         }
                     }else{
                         stackReturnCount++;
-                        if(!variant.isSuchAVariant(stack.getItem())){
+                        if(!variant.isSuchAVariant(stack.getItem(), true)){
                             return false;
                         }
                     }

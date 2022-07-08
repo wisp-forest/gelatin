@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
  * to Jello's System so that any {@link DyeColorant}
  * created gets made with your Variant.
  */
-public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant> {
+public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant, Block> {
 
     private @Nullable final BlockMaker blockMaker;
     public final DyeableItemVariant blockItemVariant;
@@ -303,6 +303,16 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant> {
         return Registry.BLOCK.get(new Identifier(nameSpace, getColoredBlockPath(dyeColorant)));
     }
 
+    @Override
+    protected Block getEntryFromIdentifier(Identifier identifier) {
+        return Registry.BLOCK.get(identifier);
+    }
+
+    @Override
+    protected TagKey<Block> getPrimaryTag() {
+        return this.getPrimaryBlockTag();
+    }
+
     /**
      * @return A Block based on the given {@link #defaultEntryIdentifier}.
      */
@@ -343,7 +353,7 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant> {
     @Nullable
     private static DyeableBlockVariant getVariantFromBlock(Identifier identifier){
         for(DyeableBlockVariant variant : getAllBlockVariants()){
-            if(variant.isSuchAVariant(identifier)){
+            if(variant.isSuchAVariant(identifier, true)){
                 return variant;
             }
         }
@@ -383,7 +393,7 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant> {
     public DyeColorant getColorFromEntry(ItemConvertible convertible){
         Identifier identifier = JelloItemSettings.getIdFromConvertible(convertible);
 
-        if(!this.isSuchAVariant(identifier))
+        if(!this.isSuchAVariant(identifier, true))
             return null;
 
         String[] pathParts = identifier.getPath().split("_");

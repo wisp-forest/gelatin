@@ -146,9 +146,9 @@ public class JelloREIClientPlugin implements REIClientPlugin {
         @Override
         public Optional<List<DefaultCraftingDisplay<ShapedRecipe>>> getRecipeFor(EntryStack<?> entry) {
             if(entry.getValue() instanceof ItemStack itemStack && itemStack.getItem() instanceof BlockItem blockItem){
-                DyeableVariant<?> dyeableVariant = DyeableVariant.getVariantFromEntry(blockItem.getBlock());
+                DyeableVariant<?, ? extends ItemConvertible> dyeableVariant = DyeableVariant.getVariantFromEntry(blockItem.getBlock());
 
-                if(dyeableVariant instanceof DyeableBlockVariant dyeableBlockVariant && dyeableBlockVariant.createBlockItem()){
+                if(dyeableVariant instanceof DyeableBlockVariant dyeableBlockVariant && dyeableBlockVariant.createBlockItem() && blockItem.getBlock().getRegistryEntry().isIn(dyeableBlockVariant.getPrimaryBlockTag())){
                     return Optional.of(List.of(DyeBlockVaraintDisplay.recipeForBlock(dyeableBlockVariant, blockItem.getBlock())));
                 }
             }
@@ -159,7 +159,7 @@ public class JelloREIClientPlugin implements REIClientPlugin {
         @Override
         public Optional<List<DefaultCraftingDisplay<ShapedRecipe>>> getUsageFor(EntryStack<?> entry) {
             if(entry.getValue() instanceof ItemStack itemStack && itemStack.getItem() instanceof BlockItem blockItem){
-                DyeableVariant<?> dyeableVariant = DyeableVariant.getVariantFromEntry(blockItem.getBlock());
+                DyeableVariant<?, ? extends ItemConvertible> dyeableVariant = DyeableVariant.getVariantFromEntry(blockItem.getBlock());
 
                 if(dyeableVariant instanceof DyeableBlockVariant dyeableBlockVariant && dyeableBlockVariant.createBlockItem()){
                     return Optional.of(List.of(DyeBlockVaraintDisplay.usageOfBlock(dyeableBlockVariant, blockItem.getBlock())));

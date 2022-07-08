@@ -97,7 +97,7 @@ public abstract class ModelLoaderMixin {
             }
 
             for (DyeableBlockVariant blockVariant : ALL_BLOCK_VARIANTS) {
-                if (blockVariant.isSuchAVariant(modelId)) {
+                if (blockVariant.isSuchAVariant(modelId, false)) {
                     String nameSpace = Objects.equals(blockVariant.variantIdentifier.getNamespace(), "minecraft") ? Jello.MODID : blockVariant.variantIdentifier.getNamespace();
 
                     Identifier identifier = new Identifier(nameSpace, "colored_" + blockVariant.variantIdentifier.getPath());
@@ -153,6 +153,7 @@ public abstract class ModelLoaderMixin {
         }
     }
 
+    @SuppressWarnings("InvalidInjectorMethodSignature")
     @Inject(method = "addModel", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/client/render/model/ModelLoader;getOrLoadModel(Lnet/minecraft/util/Identifier;)Lnet/minecraft/client/render/model/UnbakedModel;"), locals = LocalCapture.CAPTURE_FAILHARD)
     private void cacheBlockModel(ModelIdentifier modelId, CallbackInfo ci, UnbakedModel unbakedModel) {
         if (cachedBlockStateRedirectID != null) {
