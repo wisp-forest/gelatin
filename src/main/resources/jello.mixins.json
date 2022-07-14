@@ -30,6 +30,7 @@
     "dye.MapBannerMarkerMixin",
     "dye.SheepEntityMixin",
     "dye.ShulkerBoxBlockEntityMixin",
+    "dye.ShulkerBoxBlockMixin",
     "dye.SimpleRegistryAccessor",
     "dye.bugfix.AbstractDonkeyEntityMixin",
     "dye.bugfix.HorseEntityMixin",
