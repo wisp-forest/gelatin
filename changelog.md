@@ -1,4 +1,1 @@
-Jello 4.0.1 is a simple bug fix for Custom Colored shulker boxes not dropping 
-
-##### Bug Fixes:
-- Fix for Custom Colored Shulker Boxes not dropping due to internal getItemStack method getting passed an invalid DyeColor
+Jello 4.0.2 fixes major bug for random loading deadlocks due to some bad logic when making the ItemGroup
