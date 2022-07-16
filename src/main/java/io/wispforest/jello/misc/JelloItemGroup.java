@@ -43,7 +43,7 @@ public class JelloItemGroup extends OwoItemGroup {
         if(DyeColorantRegistry.DYE_COLOR.size() > 17) {
             DyeColorant color = DyeColorantRegistry.DYE_COLOR.get(new Identifier(Jello.MODID, "international_klein_blue")); //"cold_turkey"
 
-            List<DyeableBlockVariant> allVariants = DyeableBlockVariant.getAllBlockVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.vanillaDyesOnly()).toList();
+            List<DyeableBlockVariant> allVariants = DyeableBlockVariant.getAllBlockVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.vanillaDyesOnly() && dyeableBlockVariant.createBlockItem()).toList();
 
             DyeableBlockVariant variant = allVariants.get(new Random().nextInt(allVariants.size()));
 
