@@ -4,6 +4,9 @@ import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.registry.variants.block.DyeableBlockVariant;
 import io.wispforest.jello.api.dye.registry.variants.item.DyeableItemVariant;
+import io.wispforest.jello.api.item.JelloItemSettings;
+import io.wispforest.jello.mixin.accessors.SettingsAccessor;
+import io.wispforest.jello.mixin.client.accessors.ScreenAccessor;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -94,21 +97,26 @@ public class DyeableVariantManager {
 
     @ApiStatus.Internal
     public static DyeColorantVariantData createVariantContainer(DyeColorant dyeColorant) {
-        return createVariantContainer(dyeColorant, null, null, true, false);
+        return createVariantContainer(dyeColorant, null, false, false);
     }
 
     @ApiStatus.Internal
-    public static DyeColorantVariantData createVariantContainer(DyeColorant dyeColorant, Item.Settings dyeItemSettings, boolean useModelRedirectSystem) {
-        return createVariantContainer(dyeColorant, dyeItemSettings, null, false, useModelRedirectSystem);
+    public static DyeColorantVariantData createVariantContainer(DyeColorant dyeColorant, boolean readOnly) {
+        return createVariantContainer(dyeColorant, null, readOnly, false);
     }
 
     @ApiStatus.Internal
-    public static DyeColorantVariantData createVariantContainer(DyeColorant dyeColorant, Item.Settings dyeItemSettings, OwoItemSettings owoItemSettings, boolean readOnly, boolean useModelRedirectSystem) {
+    public static DyeColorantVariantData createVariantContainer(DyeColorant dyeColorant, Item.Settings itemGroupSettings, boolean useModelRedirectSystem) {
+        return createVariantContainer(dyeColorant, itemGroupSettings, false, useModelRedirectSystem);
+    }
+
+    @ApiStatus.Internal
+    public static DyeColorantVariantData createVariantContainer(DyeColorant dyeColorant, Item.Settings itemGroupSettings, boolean readOnly, boolean useModelRedirectSystem) {
         BlockBuilder blockBuilder = new BlockBuilder(readOnly, useModelRedirectSystem);
         ItemBuilder itemBuilder = new ItemBuilder(readOnly, useModelRedirectSystem);
 
-        Map<DyeableBlockVariant, Block> dyedBlocks = blockBuilder.buildVariantMapFromDye(dyeColorant, owoItemSettings);
-        Map<DyeableItemVariant, Item> dyedItems = itemBuilder.buildVariantMapFromDye(dyeColorant, owoItemSettings);
+        Map<DyeableBlockVariant, Block> dyedBlocks = blockBuilder.buildVariantMapFromDye(dyeColorant, itemGroupSettings);
+        Map<DyeableItemVariant, Item> dyedItems = itemBuilder.buildVariantMapFromDye(dyeColorant, itemGroupSettings);
 //        DyeItem dyeItem = itemBuilder.createDyeItem(dyeColorant, dyeItemSettings);
 
         DyeColorantVariantData dyedVariantContainer = new DyeColorantVariantData(dyedBlocks, dyedItems, blockBuilder, itemBuilder);
@@ -162,11 +170,11 @@ public class DyeableVariantManager {
             this.useModelRedirectSystem = useModelRedirectSystem;
         }
 
-        protected Map<DyeableBlockVariant, Block> buildVariantMapFromDye(DyeColorant dyeColorant, @Nullable OwoItemSettings overrideSettings) {
+        protected Map<DyeableBlockVariant, Block> buildVariantMapFromDye(DyeColorant dyeColorant, @Nullable Item.Settings itemGroupSettings) {
             Map<DyeableBlockVariant, Block> dyedBlocks = new HashMap<>();
 
             for (DyeableBlockVariant dyeableBlockVariant : DyeableBlockVariant.AllBaseBlockVariants()) {
-                this.recursivelyBuildBlocksFromVariant(dyedBlocks, null, dyeableBlockVariant, dyeColorant, overrideSettings);
+                this.recursivelyBuildBlocksFromVariant(dyedBlocks, null, dyeableBlockVariant, dyeColorant, itemGroupSettings);
             }
 
             this.readOnly = false;
@@ -174,14 +182,23 @@ public class DyeableVariantManager {
             return dyedBlocks;
         }
 
-        private void recursivelyBuildBlocksFromVariant(Map<DyeableBlockVariant, Block> dyedBlocks, Block possibleParentBlock, DyeableBlockVariant parentBlockVariant, DyeColorant dyeColorant, @Nullable OwoItemSettings overrideSettings) {
+        private void recursivelyBuildBlocksFromVariant(Map<DyeableBlockVariant, Block> dyedBlocks, Block possibleParentBlock, DyeableBlockVariant parentBlockVariant, DyeColorant dyeColorant, @Nullable Item.Settings itemGroupSettings) {
             Pair<Block, Item.Settings> info = null;
 
             if (!(isReadOnly(parentBlockVariant) || (Objects.equals(dyeColorant.getId().getNamespace(), "minecraft") && Objects.equals(parentBlockVariant.variantIdentifier.getNamespace(), "minecraft")))) {
                 info = parentBlockVariant.makeChildBlock(dyeColorant, possibleParentBlock);
 
-                if (overrideSettings != null)
-                    info.setRight(overrideSettings);
+                if (itemGroupSettings != null) {
+                    Item.Settings infoSettings = JelloItemSettings.copyFrom(info.getRight());
+
+                    infoSettings.group(((SettingsAccessor) itemGroupSettings).getGroup());
+
+                    if(infoSettings instanceof OwoItemSettings owoItemSettings && itemGroupSettings instanceof OwoItemSettings owoItemSettings1){
+                        owoItemSettings.tab(owoItemSettings1.getTab());
+                    }
+
+                    info.setRight(infoSettings);
+                }
             }
 
             Block childBlock = registerBlock(parentBlockVariant, info, dyeColorant);
@@ -193,7 +210,7 @@ public class DyeableVariantManager {
             if (parentBlockVariant.childVariant.get() != null) {
                 DyeableBlockVariant childBlockVariant = parentBlockVariant.childVariant.get();
 
-                recursivelyBuildBlocksFromVariant(dyedBlocks, childBlock, childBlockVariant, dyeColorant, overrideSettings);
+                recursivelyBuildBlocksFromVariant(dyedBlocks, childBlock, childBlockVariant, dyeColorant, itemGroupSettings);
             }
         }
 
@@ -237,11 +254,11 @@ public class DyeableVariantManager {
             this.useModelRedirectSystem = useModelRedirectSystem;
         }
 
-        protected Map<DyeableItemVariant, Item> buildVariantMapFromDye(DyeColorant dyeColorant, @Nullable OwoItemSettings overrideSettings) {
+        protected Map<DyeableItemVariant, Item> buildVariantMapFromDye(DyeColorant dyeColorant, @Nullable Item.Settings itemGroupSettings) {
             Map<DyeableItemVariant, Item> dyedItems = new HashMap<>();
 
             for (DyeableItemVariant dyeableItemVariant : VanillaItemVariants.VANILLA_VARIANTS) {
-                this.recursivelyBuildItemsFromVariant(dyedItems, null, dyeableItemVariant, dyeColorant, overrideSettings);
+                this.recursivelyBuildItemsFromVariant(dyedItems, null, dyeableItemVariant, dyeColorant, itemGroupSettings);
             }
 
             this.readOnly = false;
@@ -249,11 +266,21 @@ public class DyeableVariantManager {
             return dyedItems;
         }
 
-        private void recursivelyBuildItemsFromVariant(Map<DyeableItemVariant, Item> dyedBlocks, Item possibleParentItem, DyeableItemVariant parentItemVariant, DyeColorant dyeColorant, @Nullable OwoItemSettings overrideSettings) {
+        private void recursivelyBuildItemsFromVariant(Map<DyeableItemVariant, Item> dyedBlocks, Item possibleParentItem, DyeableItemVariant parentItemVariant, DyeColorant dyeColorant, @Nullable Item.Settings itemGroupSettings) {
             Item item = null;
 
             if (!(isReadOnly(parentItemVariant) || (Objects.equals(dyeColorant.getId().getNamespace(), "minecraft") && Objects.equals(parentItemVariant.variantIdentifier.getNamespace(), "minecraft")))) {
-                item = parentItemVariant.makeItem(dyeColorant, possibleParentItem, overrideSettings != null ? overrideSettings : parentItemVariant.defaultItemSettings);
+                Item.Settings itemSettings = parentItemVariant.defaultItemSettings;
+
+                if(itemGroupSettings != null){
+                    itemSettings.group(((SettingsAccessor)itemGroupSettings).getGroup());
+
+                    if(itemSettings instanceof OwoItemSettings owoItemSettings && itemGroupSettings instanceof OwoItemSettings owoItemSettings1){
+                        owoItemSettings.tab(owoItemSettings1.getTab());
+                    }
+                }
+
+                item = parentItemVariant.makeItem(dyeColorant, possibleParentItem, itemSettings);
             }
 
             item = registerItem(parentItemVariant, item, dyeColorant);
@@ -265,7 +292,7 @@ public class DyeableVariantManager {
             if (parentItemVariant.childVariant.get() != null) {
                 DyeableItemVariant childItemVariant = parentItemVariant.childVariant.get();
 
-                recursivelyBuildItemsFromVariant(dyedBlocks, item, childItemVariant, dyeColorant, overrideSettings);
+                recursivelyBuildItemsFromVariant(dyedBlocks, item, childItemVariant, dyeColorant, itemGroupSettings);
             }
         }
 

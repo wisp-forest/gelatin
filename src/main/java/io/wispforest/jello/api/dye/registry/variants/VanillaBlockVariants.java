@@ -97,7 +97,7 @@ public class VanillaBlockVariants {
 
     //-----------------------------------------------------------------
 
-    public static final DyeableBlockVariant BED = DyeableBlockVariant.Builder.of(new Identifier("bed"), itemSettings, (dyeColorant, parentBlock) -> {
+    public static final DyeableBlockVariant BED = DyeableBlockVariant.Builder.of(new Identifier("bed"), JelloItemSettings.copyFrom(itemSettings).maxCount(1), (dyeColorant, parentBlock) -> {
         Block block = new ColoredBedBlock(dyeColorant,
                 AbstractBlock.Settings.of(Material.WOOL, state -> state.get(BedBlock.PART) == BedPart.FOOT ? MapColor.CLEAR : MapColor.WHITE_GRAY).sounds(BlockSoundGroup.WOOD).strength(0.2F).nonOpaque());
 

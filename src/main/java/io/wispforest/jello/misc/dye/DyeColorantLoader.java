@@ -40,7 +40,7 @@ public class DyeColorantLoader {
                 }
 
                 DyeColorant currentDyeColor = DyeColorantRegistry.registerDyeColor(colorIdentifier, MapColor.CLEAR, colorValue);
-                DyeableVariantManager.createVariantContainer(currentDyeColor, new OwoItemSettings().group(Jello.MAIN_ITEM_GROUP).tab(1), BASE_BLOCK_ITEM_SETTINGS, false, false);
+                DyeableVariantManager.createVariantContainer(currentDyeColor);//, BASE_BLOCK_ITEM_SETTINGS, false, false);
             }
 
             logger.stopTimerPrint("It seems that the registry filling took ");
