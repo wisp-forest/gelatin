@@ -30,20 +30,20 @@ public class JelloItemSettings extends OwoItemSettings {
     /**
      * Method to make an exact copy of {@link Item.Settings} given and will keep the level of Settings whether {@link OwoItemSettings} or {@link FabricItemSettings}
      *
-     * @param settings Origin Settings
+     * @param settingsOld Origin Settings
      * @return a full copy of the given settings
      */
-    public static Item.Settings copyFrom(Item.Settings settings) {
+    public static Item.Settings copyFrom(Item.Settings settingsOld) {
 
         Item.Settings settingsNew = null;
 
-        if(settings instanceof OwoItemSettings oldOwoItemSettings){
+        if(settingsOld instanceof OwoItemSettings oldOwoItemSettings){
             settingsNew = new OwoItemSettings();
 
             ((OwoItemSettings)settingsNew).tab(oldOwoItemSettings.getTab());
         }
 
-        if(settings instanceof FabricItemSettings oldFabricItemSettings){
+        if(settingsOld instanceof FabricItemSettings oldFabricItemSettings){
             if(settingsNew == null) {
                 settingsNew = new FabricItemSettings();
             }
@@ -60,18 +60,22 @@ public class JelloItemSettings extends OwoItemSettings {
             settingsNew = new Item.Settings();
         }
 
-        SettingsAccessor settingsAccessor = (SettingsAccessor) settings;
+        SettingsAccessor settingsAccessor = (SettingsAccessor) settingsOld;
 
-        if (((SettingsAccessor) settings).isFireproof()) {
+        if (settingsAccessor.isFireproof()) {
             settingsNew.fireproof();
         }
 
         settingsNew.group(settingsAccessor.getGroup())
                 .food(settingsAccessor.getFoodComponent())
                 .recipeRemainder(settingsAccessor.getRecipeRemainder())
-                .maxCount(settingsAccessor.getMaxCount())
-                .maxDamageIfAbsent(settingsAccessor.getMaxDamage())
                 .rarity(settingsAccessor.getRarity());
+
+        if(settingsAccessor.getMaxDamage() > 0){
+            settingsNew.maxDamageIfAbsent(settingsAccessor.getMaxDamage());
+        } else {
+            settingsNew.maxCount(settingsAccessor.getMaxCount());
+        }
 
         return settingsNew;
     }
