@@ -2,9 +2,11 @@ package io.wispforest.jello.data.recipe;
 
 import io.wispforest.jello.api.ducks.DyeItemStorage;
 import io.wispforest.jello.api.dye.DyeColorant;
+import io.wispforest.jello.api.dye.registry.variants.VanillaItemVariants;
 import io.wispforest.jello.api.dye.registry.variants.block.DyeableBlockVariant;
 import io.wispforest.jello.data.tags.JelloTags;
 import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
@@ -34,7 +36,7 @@ public class DyeBlockVariantRecipe extends SpecialCraftingRecipe {
             for(int height = 0; height < inventory.getHeight(); height++){
                 ItemStack stack = inventory.getStack(width + height * inventory.getWidth());
 
-                if (stack.isIn(JelloTags.Items.VANILLA_DYE) || stack.isIn(JelloTags.Items.DYE)) {
+                if (stack.isIn(JelloTags.Items.VANILLA_DYE) || stack.isIn(VanillaItemVariants.DYE.getPrimaryItemTag())) {
                     if(alreadyHasDye || !((DyeItemStorage)stack.getItem()).isDyeItem()) {
                         return false;
                     }
@@ -42,23 +44,25 @@ public class DyeBlockVariantRecipe extends SpecialCraftingRecipe {
                     dyeColorant = ((DyeItemStorage)stack.getItem()).getDyeColorant();
 
                     alreadyHasDye = true;
-                }else if(stack.isIn(JelloTags.Items.ALL_COLORED_VARIANTS)){
-                    hasBlockVariant = true;
-
+                } else if(stack.getItem() instanceof BlockItem){ //stack.isIn(JelloTags.Items.ALL_COLORED_VARIANTS)
                     if(variant == null) {
                         DyeableBlockVariant possibleVariant = DyeableBlockVariant.getVariantFromBlock(stack.getItem());
 
                         if (possibleVariant != null) {
                             stackReturnCount = 1;
                             variant = possibleVariant;
+
+                            hasBlockVariant = true;
                         }
-                    }else{
+                    } else {
                         stackReturnCount++;
-                        if(!variant.isSuchAVariant(stack.getItem(), true)){
+                        if(variant.isSuchAVariant(stack.getItem(), true)){
+                            hasBlockVariant = true;
+                        } else {
                             return false;
                         }
                     }
-                }else if(!stack.isEmpty()){
+                } else if(!stack.isEmpty()){
                     return false;
                 }
             }
@@ -70,7 +74,7 @@ public class DyeBlockVariantRecipe extends SpecialCraftingRecipe {
             this.dyeColorant = dyeColorant;
 
             return true;
-        }else{
+        } else {
             return false;
         }
     }
