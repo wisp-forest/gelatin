@@ -4,7 +4,7 @@ import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.ducks.DyeTool;
 import io.wispforest.jello.api.ducks.entity.ConstantColorEntity;
 import io.wispforest.jello.api.ducks.entity.DyeableEntity;
-import io.wispforest.jello.api.registry.ColorizeRegistry;
+import io.wispforest.jello.api.registry.ColorizeBlackListRegistry;
 import net.minecraft.block.pattern.CachedBlockPosition;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -33,7 +33,7 @@ public abstract class ItemStackMixin {
                 return;
             }
 
-            if (ColorizeRegistry.isRegistered(entity)) {
+            if (!ColorizeBlackListRegistry.isBlackListed(entity)) {
                 if (entity instanceof ConstantColorEntity constantColorEntity && constantColorEntity.isColored()) {
                     return;
                 }

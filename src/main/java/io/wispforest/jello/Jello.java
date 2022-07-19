@@ -61,7 +61,7 @@ public class Jello implements ModInitializer {
     public static final boolean DEBUG_ENV_VAR = Boolean.getBoolean("jello.debug");
     public static final boolean DEBUG_ENV = FabricLoader.getInstance().isDevelopmentEnvironment();
 
-    private static ConfigHolder<JelloConfig> MAIN_CONFIG;
+    public static ConfigHolder<JelloConfig> MAIN_CONFIG;
 
     @Override
     public void onInitialize() {

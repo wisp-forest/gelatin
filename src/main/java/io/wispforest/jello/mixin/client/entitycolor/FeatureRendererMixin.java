@@ -4,7 +4,7 @@ import io.wispforest.jello.api.ducks.entity.ConstantColorEntity;
 import io.wispforest.jello.api.ducks.entity.DyeableEntity;
 import io.wispforest.jello.api.ducks.entity.GrayScaleEntity;
 import io.wispforest.jello.api.ducks.entity.RainbowEntity;
-import io.wispforest.jello.api.registry.ColorizeRegistry;
+import io.wispforest.jello.api.registry.ColorizeBlackListRegistry;
 import io.wispforest.jello.api.registry.GrayScaleRegistry;
 import io.wispforest.jello.api.util.ColorUtil;
 import net.minecraft.client.render.RenderLayer;
@@ -33,7 +33,7 @@ public class FeatureRendererMixin<T extends Entity, M extends EntityModel<T>> {
 
     @Inject(method = "renderModel", at = @At(value = "HEAD"), cancellable = true)
     private static <T extends LivingEntity> void renderWithColor(EntityModel<T> model, Identifier texture, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, T livingEntity, float red, float green, float blue, CallbackInfo ci) {
-        if (ColorizeRegistry.isRegistered(livingEntity)) {
+        if (!ColorizeBlackListRegistry.isBlackListed(livingEntity)) {
             if (!(livingEntity instanceof WolfEntity)) {
                 boolean hasCustomColor = false;
                 float[] colorComp = new float[]{1.0F, 1.0F, 1.0F};

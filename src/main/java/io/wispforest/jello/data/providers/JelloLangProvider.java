@@ -52,14 +52,19 @@ public class JelloLangProvider extends AbstractLanguageProvider {
 
         addTranslation(SpongeItem.DIRTINESS_TRANSLATION_KEY, "Dirty Sponge");
 
-        addACToolTipAndNameEntry("enableGrayScalingOfEntities", "Enable GrayScaling of Entities", "[Warning: Will break texturepacks!] Used to allow for true color when a entity is dyed or color.");
 
         addACToolTipAndNameEntry("enableDyeingEntities", "Enable Dyeing of Entities", "Allow for the dyeing of entities using any dye.");
         addACToolTipAndNameEntry("enableDyeingPlayers", "Enable Dyeing of Players", "Allow for the dyeing of players using any dye.");
         addACToolTipAndNameEntry("enableDyeingBlocks", "Enable Dyeing of Blocks", "Allow for the dyeing of blocks using any vanilla dye.");
 
+        addACToolTipAndNameEntry("enableGrayScalingOfEntities", "Enable GrayScaling of Entities", "[Warning: Will break texturepacks!] Used to allow for true color when a entity is dyed or color.");
         addACToolTipAndNameEntry("addCustomJsonColors", "Enable Json Colors", "Whether or not Jello will add it's included 1822 colors to Minecraft internally.");
         addACToolTipAndNameEntry("enableTransparencyFixCauldrons", "Enable Transparency Fix for Cauldrons", "Enables a fix for water within cauldrons just being Opaque rather than translucent.");
+        addACToolTipAndNameEntry("enableGrayScaleRainbowEntities", "Enable Grayscale for Rainbowed Entities", "Just makes the Entity's texture to be grayscaled for correct rainbow colors");
+
+        addACToolTipAndNameEntry("grayScaledBlackListModid", "Grayscale Modid Blacklist", "List of modid's banned from the Grayscaling API.");
+        addACToolTipAndNameEntry("dyeColorBlackListModid", "DyeColoring Modid Blacklist", "List of modid's banned from the DyeColoring API.");
+
 
         addACCategoryName("common", "Main Config");
         addACCategoryName("client", "Client Config");

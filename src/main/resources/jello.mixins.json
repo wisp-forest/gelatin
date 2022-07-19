@@ -54,6 +54,7 @@
     "client.dye.BedBlockEntityRendererMixin",
     "client.dye.BuiltinModelItemRendererMixin",
     "client.dye.ModelLoaderMixin",
+    "client.dye.TextureManagerMixin",
     "client.dye.SheepWoolFeatureRendererMixin",
     "client.dye.ShulkerBoxBlockEntityRendererMixin",
     "client.dye.sheep_consistency.SheepShearedFeatureRendererMixin",

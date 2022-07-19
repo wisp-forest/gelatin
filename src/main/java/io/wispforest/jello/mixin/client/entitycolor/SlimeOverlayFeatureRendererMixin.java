@@ -3,7 +3,7 @@ package io.wispforest.jello.mixin.client.entitycolor;
 import io.wispforest.jello.api.ducks.entity.ConstantColorEntity;
 import io.wispforest.jello.api.ducks.entity.DyeableEntity;
 import io.wispforest.jello.api.ducks.entity.RainbowEntity;
-import io.wispforest.jello.api.registry.ColorizeRegistry;
+import io.wispforest.jello.api.registry.ColorizeBlackListRegistry;
 import io.wispforest.jello.api.util.ColorUtil;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.SlimeOverlayFeatureRenderer;
@@ -29,7 +29,7 @@ public class SlimeOverlayFeatureRendererMixin<T extends LivingEntity> {
     private void gatherRenderColor(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, T livingEntity, float f, float g, float h, float j, float k, float l, CallbackInfo ci) {
         float[] colorComp = new float[]{1.0F, 1.0F, 1.0F};
 
-        if (ColorizeRegistry.isRegistered(livingEntity)) {
+        if (!ColorizeBlackListRegistry.isBlackListed(livingEntity)) {
 
             if (livingEntity instanceof DyeableEntity dyeableEntity && dyeableEntity.isDyed()) {
                 colorComp = dyeableEntity.getDyeColor().getColorComponents();

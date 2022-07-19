@@ -6,7 +6,7 @@ import net.minecraft.entity.Entity;
 public interface GrayScaleEntity {
 
     default boolean isGrayScaled(Entity entity) {
-        return GrayScaleRegistry.isRegistered(entity);
+        return GrayScaleRegistry.isRegistered(entity) && !GrayScaleRegistry.isBlacklisted(entity);
     }
 
     default boolean isTrueColored() {

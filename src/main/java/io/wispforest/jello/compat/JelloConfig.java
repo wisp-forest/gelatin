@@ -5,12 +5,11 @@ import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Config(name = Jello.MODID)
 public class JelloConfig implements ConfigData {
-
-    @ConfigEntry.Category("common")
-    @ConfigEntry.Gui.Tooltip
-    public boolean enableGrayScalingOfEntities = false;
 
     @ConfigEntry.Category("common")
     @ConfigEntry.Gui.Tooltip
@@ -33,6 +32,21 @@ public class JelloConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip
     public boolean enableTransparencyFixCauldrons = true;
 
+    @ConfigEntry.Category("client")
+    @ConfigEntry.Gui.Tooltip
+    public boolean enableGrayScalingOfEntities = false;
+
+    @ConfigEntry.Category("client")
+    @ConfigEntry.Gui.Tooltip
+    public boolean enableGrayScaleRainbowEntities = false;
+
+    @ConfigEntry.Category("client")
+    @ConfigEntry.Gui.Tooltip
+    public List<String> grayScaledBlackListModid = new ArrayList<>();
+
+    @ConfigEntry.Category("client")
+    @ConfigEntry.Gui.Tooltip
+    public List<String> dyeColorBlackListModid = new ArrayList<>();
 }
 
 

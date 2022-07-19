@@ -4,15 +4,18 @@ import io.wispforest.jello.api.ducks.entity.ConstantColorEntity;
 import io.wispforest.jello.api.ducks.entity.DyeableEntity;
 import io.wispforest.jello.api.ducks.entity.GrayScaleEntity;
 import io.wispforest.jello.api.ducks.entity.RainbowEntity;
-import io.wispforest.jello.api.registry.ColorizeRegistry;
+import io.wispforest.jello.api.registry.ColorizeBlackListRegistry;
 import io.wispforest.jello.api.registry.GrayScaleRegistry;
 import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.jello.Jello;
+import io.wispforest.jello.misc.ducks.TextureManagerDuck;
 import net.fabricmc.loader.impl.FabricLoaderImpl;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.model.EntityModel;
+import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -41,7 +44,7 @@ public abstract class LivingEntityRenderMixin<T extends LivingEntity, M extends 
     private void gatherRenderColor(T livingEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
         float[] colorComp = new float[]{1.0F, 1.0F, 1.0F};
 
-        if (ColorizeRegistry.isRegistered(livingEntity) && Jello.getConfig().enableDyeingEntities) {
+        if (!ColorizeBlackListRegistry.isBlackListed(livingEntity) && Jello.getConfig().enableDyeingEntities) {
             if (livingEntity instanceof DyeableEntity dyeableEntity && dyeableEntity.isDyed()) {
                 colorComp = dyeableEntity.getDyeColor().getColorComponents();
             } else if (livingEntity instanceof ConstantColorEntity constantColorEntity && constantColorEntity.isColored()) {
@@ -74,26 +77,20 @@ public abstract class LivingEntityRenderMixin<T extends LivingEntity, M extends 
         } else {
             jello$grayScaleCache = null;
         }
-
-//        Identifier identifier = grayScaleCache != null ? grayScaleCache: ((LivingEntityRenderer)(Object)this).getTexture(entity);
-//
-//        if (translucent) {
-//            cir.setReturnValue(RenderLayer.getItemEntityTranslucentCull(identifier));
-//        } else if (showBody) {
-//            cir.setReturnValue(model.getLayer(identifier));
-//        } else {
-//            if(showOutline){
-//                cir.setReturnValue(RenderLayer.getOutline(identifier));
-//            }else{
-//                cir.setReturnValue(null);
-//            }
-//        }
     }
 
     @ModifyVariable(method = "getRenderLayer", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/client/render/entity/LivingEntityRenderer;getTexture(Lnet/minecraft/entity/Entity;)Lnet/minecraft/util/Identifier;"))
     private Identifier checkForGrayScaleTextureTest(Identifier value) {
         if (jello$grayScaleCache != null) {
-            return jello$grayScaleCache;
+            TextureManager textureManager = MinecraftClient.getInstance().getTextureManager();
+
+            if(!((TextureManagerDuck) textureManager).hasGrayScaledTextureBeenMade(jello$grayScaleCache)) {
+                ((TextureManagerDuck) textureManager).createGrayScaledTexture(jello$grayScaleCache, value);
+
+                return value;
+            } else {
+                return jello$grayScaleCache;
+            }
         } else {
             return value;
         }

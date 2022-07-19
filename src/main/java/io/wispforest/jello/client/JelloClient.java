@@ -8,12 +8,15 @@ import io.wispforest.jello.api.dye.registry.variants.block.DyeableBlockVariant;
 import io.wispforest.jello.api.dye.registry.variants.item.DyeableItemVariant;
 import io.wispforest.jello.api.events.HotbarMouseEvents;
 import io.wispforest.jello.api.events.TranslationInjectionEvent;
+import io.wispforest.jello.api.registry.ColorizeBlackListRegistry;
+import io.wispforest.jello.api.registry.GrayScaleRegistry;
 import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.block.colored.ColoredGlassBlock;
 import io.wispforest.jello.block.colored.ColoredGlassPaneBlock;
 import io.wispforest.jello.client.render.DyeBundleTooltipRender;
 import io.wispforest.jello.client.render.screen.ColorMixerScreen;
 import io.wispforest.jello.client.render.screen.JelloScreenHandlerTypes;
+import io.wispforest.jello.compat.JelloConfig;
 import io.wispforest.jello.data.providers.JelloLangProvider;
 import io.wispforest.jello.item.JelloDyeItem;
 import io.wispforest.jello.item.JelloItems;
@@ -45,6 +48,7 @@ import net.minecraft.client.render.TexturedRenderLayers;
 import net.minecraft.item.BundleItem;
 import net.minecraft.item.Item;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
@@ -52,6 +56,8 @@ import net.minecraft.util.registry.Registry;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class JelloClient implements ClientModInitializer {
 
@@ -113,6 +119,24 @@ public class JelloClient implements ClientModInitializer {
         FabricModelPredicateProviderRegistry.register(JelloItems.DYE_BUNDLE, new Identifier("filled"), (stack, world, entity, seed) -> BundleItem.getAmountFilled(stack));
 
         //----------------------------------------------------------------------------------
+
+        Jello.MAIN_CONFIG.registerSaveListener((configHolder, jelloConfig) -> {
+            GrayScaleRegistry.GRAYSCALABLE_MODID_BLACKLIST.addAll(jelloConfig.grayScaledBlackListModid);
+            ColorizeBlackListRegistry.MODID_BLACKLIST.addAll(jelloConfig.grayScaledBlackListModid);
+
+            toggleRenderLayer(jelloConfig);
+
+            return ActionResult.SUCCESS;
+        });
+
+        Jello.MAIN_CONFIG.registerLoadListener((configHolder, jelloConfig) -> {
+            GrayScaleRegistry.GRAYSCALABLE_MODID_BLACKLIST.addAll(jelloConfig.grayScaledBlackListModid);
+            ColorizeBlackListRegistry.MODID_BLACKLIST.addAll(jelloConfig.grayScaledBlackListModid);
+
+            toggleRenderLayer(jelloConfig);
+
+            return ActionResult.SUCCESS;
+        });
     }
 
     //------------------------------------------------------------------------------
@@ -216,6 +240,16 @@ public class JelloClient implements ClientModInitializer {
             registerBlockLayer(JelloBlockVariants.SLIME_SLAB.getColoredEntry(dyeColorant), RenderLayer.getTranslucent());
             registerBlockItemLayer(JelloBlockVariants.SLIME_SLAB.getColoredEntry(dyeColorant).asItem(), RenderLayer.getTranslucent());
         }
+    }
+
+    private static void toggleRenderLayer(JelloConfig jelloConfig){
+        if(jelloConfig.enableTransparencyFixCauldrons) {
+            registerBlockLayer(Blocks.WATER_CAULDRON, TRANSLUCENT);
+        } else {
+            registerBlockLayer(Blocks.WATER_CAULDRON, RenderLayer.getSolid());
+        }
+
+        MinecraftClient.getInstance().worldRenderer.reload();
     }
 
     private static void registerBlockLayer(Block block, RenderLayer renderLayer){

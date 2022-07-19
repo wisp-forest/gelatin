@@ -1,6 +1,9 @@
 package io.wispforest.jello.api.ducks.entity;
 
+import io.wispforest.jello.Jello;
+import io.wispforest.jello.api.registry.GrayScaleRegistry;
 import io.wispforest.jello.mixin.dye.item.EnchantedGoldenAppleMixin;
+import net.minecraft.entity.Entity;
 
 /**
  * RainbowEntity Interface is used to give your entity a Rainbow effect like the _Jeb easter Egg.
@@ -8,7 +11,7 @@ import io.wispforest.jello.mixin.dye.item.EnchantedGoldenAppleMixin;
  * <br><br>
  * e.g. If you want your entity to default rainbow, change the {@link #isRainbowTime()} such that it only returns true
  */
-public interface RainbowEntity {
+public interface RainbowEntity extends GrayScaleEntity {
 
     /**
      * A method used to tell if A entity will be rendered with the Rainbow Effect similar to _Jeb
@@ -24,13 +27,18 @@ public interface RainbowEntity {
      */
     default void setRainbowTime(boolean value) {}
 
-    ;
-
     /**
      * A method used to forever have Rainbow Effect Enabled
      */
     default boolean rainbowOverride() {
         return false;
+    }
+
+    //--------------------
+
+    @Override
+    default boolean isGrayScaled(Entity entity) {
+        return Jello.getConfig().enableGrayScaleRainbowEntities && (isRainbowTime() && !GrayScaleRegistry.isBlacklisted(entity));
     }
 
 }

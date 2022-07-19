@@ -12,9 +12,7 @@ import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * {@link GrayScaleRegistry} is used to register either a Mod ID for global colorization or
@@ -24,53 +22,41 @@ import java.util.Objects;
  * if your entity extends {@link LivingEntity} in any way, but If you want different effects; just implement either {@link DyeableEntity} or {@link RainbowEntity} and Override the methods to change the effect of your entity.
  */
 public class GrayScaleRegistry {
-    private static final Logger LOGGER = LogManager.getLogger(GrayScaleRegistry.class);
 
-    private static final Map<EntityType<?>, Identifier> GRAYSCALABLE_ENTITIES = new HashMap<>();
+    public static final Set<String> GRAYSCALABLE_MODID_BLACKLIST = new HashSet<>();
+    public static final Set<EntityType<?>> GRAYSCALABLE_ENTITIES = new HashSet<>();
 
     /**
-     * Registers a give Entity texture and Entity Type for DyeAbility
-     *
-     * @param entityTexture Texture Location for the given entity type
-     * @param entityType    The entity type being enabled for colorization
+     * Register an EntityType to be always GrayScaled
      */
-    public static void registerGrayScalable(Identifier entityTexture, EntityType<?> entityType) {
-        GRAYSCALABLE_ENTITIES.put(entityType, entityTexture);
+    public static void registerGrayScalable(EntityType<?> entityType) {
+        GRAYSCALABLE_ENTITIES.add(entityType);
     }
 
     /**
-     * [Registry Check ONLY] <br>
+     * Set a Modid to be BlackListed from being GrayScaled
+     */
+    public static void setModidBlacklist(String modid) {
+        GRAYSCALABLE_MODID_BLACKLIST.add(modid);
+    }
+
+    /**
      * Checks if a given Entity is registered for GrayScaleAbility
-     *
-     * @param entity Possible Dyeable Entity
      */
     public static boolean isRegistered(Entity entity) {
-        if (GRAYSCALABLE_ENTITIES.containsKey(entity.getType())) {
-            return true;
-        } else if (Objects.equals(Registry.ENTITY_TYPE.getId(entity.getType()).getNamespace(), "minecraft")) {
-            return true;
-        }
-
-        return false;
+        return GRAYSCALABLE_ENTITIES.contains(entity.getType());
     }
 
     /**
-     * @param entity
+     * Checks if a given Entity is Blacklisted for GrayScaleAbility
      */
-    public static Identifier getTexture(Entity entity) {
-        return GRAYSCALABLE_ENTITIES.get(entity.getType());
+    public static boolean isBlacklisted(Entity entity) {
+        return GRAYSCALABLE_MODID_BLACKLIST.contains(Registry.ENTITY_TYPE.getId(entity.getType()).getNamespace());
     }
 
     public static Identifier getOrFindTexture(Entity entity, Identifier defaultIdentifier) {
         if (entity instanceof GrayScaleEntity grayScaleEntity && grayScaleEntity.isGrayScaled(entity)) {
-            Identifier identifierGrayScale = GRAYSCALABLE_ENTITIES.get(entity.getType());
-
-            if (identifierGrayScale != null) {
-                return identifierGrayScale;
-            }
-
             return createGrayScaleID(defaultIdentifier);
-
         } else {
             return defaultIdentifier;
         }
