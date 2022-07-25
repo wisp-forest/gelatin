@@ -9,6 +9,7 @@ import io.wispforest.jello.api.dye.registry.variants.item.DyeableItemVariant;
 import io.wispforest.jello.api.events.HotbarMouseEvents;
 import io.wispforest.jello.api.events.TranslationInjectionEvent;
 import io.wispforest.jello.api.registry.ColorizeBlackListRegistry;
+import io.wispforest.jello.api.registry.GrayScaleBlockRegistry;
 import io.wispforest.jello.api.registry.GrayScaleEntityRegistry;
 import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.block.colored.ColoredGlassBlock;
@@ -56,8 +57,6 @@ import net.minecraft.util.registry.Registry;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 public class JelloClient implements ClientModInitializer {
 
@@ -91,6 +90,8 @@ public class JelloClient implements ClientModInitializer {
         });
 
         JelloClient.clientEventRegistry();
+
+        GrayScaleBlockRegistry.register(Blocks.GLOWSTONE);
 
         //----------------------------------------------------------------------------------
 

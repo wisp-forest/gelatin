@@ -2,6 +2,7 @@ package io.wispforest.jello.client;
 
 import com.mojang.blaze3d.platform.TextureUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
+import io.wispforest.jello.api.util.ColorUtil;
 import net.minecraft.client.resource.metadata.TextureResourceMetadata;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.ResourceTexture;
@@ -53,7 +54,7 @@ public class GrayScaledTexture extends ResourceTexture {
         return ResourceTexture.TextureData.load(resourceManager, this.parentImageLocation);
     }
 
-    private NativeImage convertImageToGrayScale(NativeImage nativeImageOrigin){
+    public static NativeImage convertImageToGrayScale(NativeImage nativeImageOrigin){
         NativeImage imageCopy = new NativeImage(nativeImageOrigin.getWidth(), nativeImageOrigin.getHeight(),false);
         imageCopy.copyFrom(nativeImageOrigin);
 
@@ -74,7 +75,9 @@ public class GrayScaledTexture extends ResourceTexture {
                 int g1 = (currentColor >> 8) & 0xFF;
                 int b1 = (currentColor >> 0) & 0xFF;
 
-                int grayValue = (r1 + g1 + b1) / 3;
+                //int grayValue = (r1 + g1 + b1) / 3;
+
+                int grayValue = ColorUtil.toGray(ColorUtil.luminance(r1, g1, b1));
 
                 pixelColors[index] = ((a1 & 0xFF) << 24) | ((grayValue & 0xFF) << 16) | ((grayValue & 0xFF) << 8)  | ((grayValue & 0xFF) << 0);
             }

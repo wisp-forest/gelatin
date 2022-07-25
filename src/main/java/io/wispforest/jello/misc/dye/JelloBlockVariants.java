@@ -2,8 +2,10 @@ package io.wispforest.jello.misc.dye;
 
 import io.wispforest.jello.api.dye.registry.variants.block.DyeableBlockVariant;
 import io.wispforest.jello.Jello;
+import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.jello.block.SlimeBlockColored;
 import io.wispforest.jello.block.SlimeSlabColored;
+import io.wispforest.jello.block.colored.ColoredBlock;
 import io.wispforest.jello.data.loot.JelloLootTables;
 import io.wispforest.jello.data.tags.JelloTags;
 import io.wispforest.jello.item.ColoredBlockItem;
@@ -13,6 +15,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
+
+import java.awt.*;
 
 public class JelloBlockVariants {
 
@@ -34,6 +39,11 @@ public class JelloBlockVariants {
             .setBlockTags(JelloTags.Blocks.COLORED_SLIME_SLABS, JelloTags.Blocks.SLIME_SLABS, JelloTags.Blocks.STICKY_BLOCKS)
             .setLootTable(block -> JelloLootTables.slabDrops((Block)block).build())
             .register();
+
+    public static final DyeableBlockVariant GLOW_STONE = DyeableBlockVariant.Builder.of(Jello.id("glowstone"), itemSettings, (dyeColorant, parentBlock) -> {
+        return new ColoredBlock(FabricBlockSettings.copyOf(Blocks.GLOWSTONE).luminance(MathHelper.ceil(15F * ColorUtil.luminance(dyeColorant.getColorComponents()))), dyeColorant);
+    }).setDefaultEntry(new Identifier("glowstone"))
+    .register();
 
     public static void initialize() {}
 }
