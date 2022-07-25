@@ -9,7 +9,7 @@ import io.wispforest.jello.api.dye.registry.variants.item.DyeableItemVariant;
 import io.wispforest.jello.api.events.HotbarMouseEvents;
 import io.wispforest.jello.api.events.TranslationInjectionEvent;
 import io.wispforest.jello.api.registry.ColorizeBlackListRegistry;
-import io.wispforest.jello.api.registry.GrayScaleRegistry;
+import io.wispforest.jello.api.registry.GrayScaleEntityRegistry;
 import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.block.colored.ColoredGlassBlock;
 import io.wispforest.jello.block.colored.ColoredGlassPaneBlock;
@@ -121,7 +121,7 @@ public class JelloClient implements ClientModInitializer {
         //----------------------------------------------------------------------------------
 
         Jello.MAIN_CONFIG.registerSaveListener((configHolder, jelloConfig) -> {
-            GrayScaleRegistry.GRAYSCALABLE_MODID_BLACKLIST.addAll(jelloConfig.grayScaledBlackListModid);
+            GrayScaleEntityRegistry.GRAYSCALABLE_MODID_BLACKLIST.addAll(jelloConfig.grayScaledBlackListModid);
             ColorizeBlackListRegistry.MODID_BLACKLIST.addAll(jelloConfig.grayScaledBlackListModid);
 
             toggleRenderLayer(jelloConfig);
@@ -130,7 +130,7 @@ public class JelloClient implements ClientModInitializer {
         });
 
         Jello.MAIN_CONFIG.registerLoadListener((configHolder, jelloConfig) -> {
-            GrayScaleRegistry.GRAYSCALABLE_MODID_BLACKLIST.addAll(jelloConfig.grayScaledBlackListModid);
+            GrayScaleEntityRegistry.GRAYSCALABLE_MODID_BLACKLIST.addAll(jelloConfig.grayScaledBlackListModid);
             ColorizeBlackListRegistry.MODID_BLACKLIST.addAll(jelloConfig.grayScaledBlackListModid);
 
             toggleRenderLayer(jelloConfig);

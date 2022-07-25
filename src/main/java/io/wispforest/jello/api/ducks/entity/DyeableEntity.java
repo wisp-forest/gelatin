@@ -2,7 +2,7 @@ package io.wispforest.jello.api.ducks.entity;
 
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.api.registry.GrayScaleRegistry;
+import io.wispforest.jello.api.registry.GrayScaleEntityRegistry;
 import io.wispforest.jello.mixin.dye.item.EnchantedGoldenAppleMixin;
 import io.wispforest.jello.mixin.entitycolor.LivingEntityMixin;
 import net.minecraft.entity.Entity;
@@ -47,7 +47,7 @@ public interface DyeableEntity extends ConstantColorEntity, RainbowEntity {
 
     @Override
     default boolean isGrayScaled(Entity entity) {
-        return (isDyed() || isColored() || RainbowEntity.super.isGrayScaled(entity)) && !GrayScaleRegistry.isBlacklisted(entity);
+        return (isDyed() || isColored() || RainbowEntity.super.isGrayScaled(entity)) && !GrayScaleEntityRegistry.isBlacklisted(entity);
     }
 
 }

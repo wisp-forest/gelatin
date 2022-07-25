@@ -5,7 +5,7 @@ import io.wispforest.jello.api.ducks.entity.DyeableEntity;
 import io.wispforest.jello.api.ducks.entity.GrayScaleEntity;
 import io.wispforest.jello.api.ducks.entity.RainbowEntity;
 import io.wispforest.jello.api.registry.ColorizeBlackListRegistry;
-import io.wispforest.jello.api.registry.GrayScaleRegistry;
+import io.wispforest.jello.api.registry.GrayScaleEntityRegistry;
 import io.wispforest.jello.api.util.ColorUtil;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -53,7 +53,7 @@ public class FeatureRendererMixin<T extends Entity, M extends EntityModel<T>> {
                     VertexConsumer vertexConsumer;
 
                     if (livingEntity instanceof GrayScaleEntity grayScaleEntity && grayScaleEntity.isGrayScaled(livingEntity)) {
-                        vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(GrayScaleRegistry.getOrFindTexture(livingEntity, texture)));
+                        vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(GrayScaleEntityRegistry.INSTANCE.getOrFindTexture(livingEntity, texture)));
                     } else {
                         vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(texture));
                     }
@@ -68,7 +68,7 @@ public class FeatureRendererMixin<T extends Entity, M extends EntityModel<T>> {
     @Inject(method = "getTexture", at = @At(value = "RETURN"), cancellable = true)
     private void getGrayScaleID(T entity, CallbackInfoReturnable<Identifier> cir) {
         if (!(entity instanceof PlayerEntity) && (entity instanceof GrayScaleEntity grayScaleEntity && grayScaleEntity.isGrayScaled(entity))) {
-            cir.setReturnValue(GrayScaleRegistry.getOrFindTexture(entity, cir.getReturnValue()));
+            cir.setReturnValue(GrayScaleEntityRegistry.INSTANCE.getOrFindTexture(entity, cir.getReturnValue()));
         }
     }
 }
