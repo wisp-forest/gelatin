@@ -23,6 +23,7 @@ import io.wispforest.jello.item.JelloDyeItem;
 import io.wispforest.jello.item.JelloItems;
 import io.wispforest.jello.item.SpongeItem;
 import io.wispforest.jello.item.dyebundle.DyeBundleScreenEvent;
+import io.wispforest.jello.misc.JelloConstants;
 import io.wispforest.jello.misc.dye.JelloBlockVariants;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -60,8 +61,8 @@ import java.util.concurrent.CompletableFuture;
 
 public class JelloClient implements ClientModInitializer {
 
-    public static final Identifier BED_BLANKET_ONLY = Jello.id("block/bed/blanket_only");
-    public static final Identifier BED_PILLOW_ONLY = Jello.id("block/bed/pillow_only");
+    public static final Identifier BED_BLANKET_ONLY = JelloConstants.id("block/bed/blanket_only");
+    public static final Identifier BED_PILLOW_ONLY = JelloConstants.id("block/bed/pillow_only");
 
     private static final RenderLayer TRANSLUCENT = RenderLayer.getTranslucent();
 
@@ -74,12 +75,12 @@ public class JelloClient implements ClientModInitializer {
 
         if (FabricLoader.getInstance().isModLoaded("continuity")) {
             FabricLoader.getInstance().getModContainer(Jello.MODID).ifPresent(container -> {
-                ResourceManagerHelper.registerBuiltinResourcePack(Jello.id("continuity_comp"), container, ResourcePackActivationType.NORMAL);
+                ResourceManagerHelper.registerBuiltinResourcePack(JelloConstants.id("continuity_comp"), container, ResourcePackActivationType.NORMAL);
             });
         }
 
         FabricLoader.getInstance().getModContainer(Jello.MODID).ifPresent(container -> {
-            ResourceManagerHelper.registerBuiltinResourcePack(Jello.id("cauldron_cull_fix"), container, ResourcePackActivationType.DEFAULT_ENABLED);
+            ResourceManagerHelper.registerBuiltinResourcePack(JelloConstants.id("cauldron_cull_fix"), container, ResourcePackActivationType.DEFAULT_ENABLED);
         });
 
         JelloClient.registerColorProvidersForBlockVariants();
@@ -148,7 +149,7 @@ public class JelloClient implements ClientModInitializer {
         HotbarMouseEvents.ALLOW_MOUSE_SCROLL.register(
                 (player, horizontalAmount, verticalAmount) -> new DyeBundleScreenEvent().allowMouseScroll(player, horizontalAmount, verticalAmount));
 
-        ClientLoginNetworking.registerGlobalReceiver(Jello.id("json_color_sync"), (client, handler, buf, listenerAdder) -> {
+        ClientLoginNetworking.registerGlobalReceiver(JelloConstants.id("json_color_sync"), (client, handler, buf, listenerAdder) -> {
             PacketByteBuf buffer = PacketByteBufs.create();
 
             buffer.writeBoolean(Jello.getConfig().addCustomJsonColors);

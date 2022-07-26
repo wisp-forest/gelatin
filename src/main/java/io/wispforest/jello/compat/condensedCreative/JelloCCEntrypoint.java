@@ -11,6 +11,7 @@ import io.wispforest.jello.api.dye.registry.variants.block.DyeableBlockVariant;
 import io.wispforest.jello.api.dye.registry.variants.item.DyeableItemVariant;
 import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.jello.block.JelloBlocks;
+import io.wispforest.jello.misc.JelloConstants;
 import io.wispforest.jello.misc.dye.JelloBlockVariants;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -122,7 +123,7 @@ public class JelloCCEntrypoint implements CondensedCreativeInitializer {
 
         slimeSlabs.add(0, JelloBlocks.SLIME_SLAB.asItem());
 
-        CondensedEntryRegistry.fromItems(Jello.id("vanilla_slime_slabs"), JelloBlocks.SLIME_SLAB, slimeSlabs)
+        CondensedEntryRegistry.fromItems(JelloConstants.id("vanilla_slime_slabs"), JelloBlocks.SLIME_SLAB, slimeSlabs)
                 .setTitleString(Text.translatable("vanilla_slime_slabs_condensed"))
                 .setExtraInfoText(Text.translatable("tooltip.vanilla_slime_slabs_condensed").formatted(Formatting.GRAY))
                 .addItemGroup(ItemGroup.REDSTONE);
@@ -133,7 +134,7 @@ public class JelloCCEntrypoint implements CondensedCreativeInitializer {
 
         slimeBlocks.add(0, Blocks.SLIME_BLOCK.asItem());
 
-        CondensedEntryRegistry.fromItems(Jello.id("vanilla_slime_blocks"), Blocks.SLIME_BLOCK, slimeBlocks)
+        CondensedEntryRegistry.fromItems(JelloConstants.id("vanilla_slime_blocks"), Blocks.SLIME_BLOCK, slimeBlocks)
                 .setTitleString(Text.translatable("vanilla_slime_blocks_condensed"))
                 .setExtraInfoText(Text.translatable("tooltip.vanilla_slime_blocks_condensed").formatted(Formatting.GRAY))
                 .addItemGroup(ItemGroup.REDSTONE);

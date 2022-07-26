@@ -1,8 +1,7 @@
 package io.wispforest.jello.compat.rei;
 
-import io.wispforest.jello.Jello;
 import io.wispforest.jello.block.JelloBlocks;
-import me.shedaniel.math.Dimension;
+import io.wispforest.jello.misc.JelloConstants;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
@@ -54,7 +53,7 @@ public class ColorMixerCategory implements DisplayCategory<ColorMixerDisplay> {
         widgets.add(Widgets.createSlot(new Point(bounds.getX() + 7, bounds.getY() + 58)).entries(display.getInputEntries().get(0)).disableBackground());
         widgets.add(Widgets.createSlot(new Point(bounds.getX() + 28, bounds.getY() + 22)).entries(display.getOutputEntries().get(0)).disableBackground());
 
-        widgets.add(Widgets.createTexturedWidget(Jello.id("textures/gui/color_mixer_rei.png"), bounds.getX(), bounds.getY(), 0, 0, 141, 82, 160, 96));
+        widgets.add(Widgets.createTexturedWidget(JelloConstants.id("textures/gui/color_mixer_rei.png"), bounds.getX(), bounds.getY(), 0, 0, 141, 82, 160, 96));
 
         if(display.getOutputEntries().get(0).get(0).getValue() instanceof ItemStack stack){
             widgets.add(Widgets.createLabel(new Point(bounds.getX() + 29, bounds.getY() + 8), Text.translatable(stack.getItem().getTranslationKey())).leftAligned());

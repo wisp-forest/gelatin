@@ -4,8 +4,7 @@ import com.mojang.serialization.Lifecycle;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.variants.DyeableVariantManager;
 import io.wispforest.jello.api.util.ColorUtil;
-import io.wispforest.jello.Jello;
-import io.wispforest.jello.data.tags.JelloTags;
+import io.wispforest.jello.misc.JelloConstants;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.block.MapColor;
 import net.minecraft.item.Item;
@@ -31,13 +30,13 @@ import java.util.stream.Collectors;
  */
 public class DyeColorantRegistry {
 
-    public static final RegistryKey<Registry<DyeColorant>> DYE_COLOR_KEY = RegistryKey.ofRegistry(Jello.id("dye_color"));
-    public static final DefaultedRegistry<DyeColorant> DYE_COLOR = FabricRegistryBuilder.from(new DefaultedRegistry<>(Jello.id("_null").toString(), DYE_COLOR_KEY, Lifecycle.stable(), DyeColorant::getRegistryEntry)).buildAndRegister();
+    public static final RegistryKey<Registry<DyeColorant>> DYE_COLOR_KEY = RegistryKey.ofRegistry(JelloConstants.id("dye_color"));
+    public static final DefaultedRegistry<DyeColorant> DYE_COLOR = FabricRegistryBuilder.from(new DefaultedRegistry<>(JelloConstants.id("_null").toString(), DYE_COLOR_KEY, Lifecycle.stable(), DyeColorant::getRegistryEntry)).buildAndRegister();
 
     public static final Set<Identifier> IDENTIFIER_RESOURCE_REDIRECTS = new HashSet<>();
     public static final Set<String> NAMESPACE_RESOURCE_REDIRECTS = new HashSet<>();
 
-    public static final DyeColorant NULL_VALUE_NEW = registerDyeColor(Jello.id("_null"), MapColor.CLEAR, 0);
+    public static final DyeColorant NULL_VALUE_NEW = registerDyeColor(JelloConstants.id("_null"), MapColor.CLEAR, 0);
 
     public static final DyeColorant WHITE = registerDyeColorVanilla("white", 0xF9FFFE, MapColor.WHITE, 0xF0F0F0, 0xFFFFFF);
     public static final DyeColorant ORANGE = registerDyeColorVanilla("orange", 0xF9801D, MapColor.ORANGE, 0xEB8844, 0xFF681F);

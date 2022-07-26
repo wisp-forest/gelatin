@@ -3,11 +3,11 @@ package io.wispforest.jello.data.providers;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.api.ducks.DyeBlockStorage;
-import io.wispforest.jello.Jello;
 import io.wispforest.jello.data.JelloComplexRecipeJsonBuilder;
 import io.wispforest.jello.data.tags.JelloTags;
 import io.wispforest.jello.item.JelloItems;
 import io.wispforest.jello.data.recipe.JelloRecipeSerializers;
+import io.wispforest.jello.misc.JelloConstants;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.block.Block;
@@ -34,10 +34,10 @@ public class JelloRecipeProvider extends FabricRecipeProvider {
     protected void generateRecipes(Consumer<RecipeJsonProvider> exporter) {
         for (int i = 0; i < DyeColorantRegistry.Constants.VANILLA_DYES.size(); i++) {
             String slabPath = DyeColorantRegistry.Constants.VANILLA_DYES.get(i).getName() + "_slime_slab";
-            Block slab = Registry.BLOCK.get(Jello.id(slabPath));
+            Block slab = Registry.BLOCK.get(JelloConstants.id(slabPath));
 
             String blockPath = DyeColorantRegistry.Constants.VANILLA_DYES.get(i).getName() + "_slime_block";
-            Block block = Registry.BLOCK.get(Jello.id(blockPath));
+            Block block = Registry.BLOCK.get(JelloConstants.id(blockPath));
 
             Item item = JelloItems.Slimeballs.SLIME_BALLS.get(i);
             String itemPath = Registry.ITEM.getId(item).getPath();
@@ -116,7 +116,7 @@ public class JelloRecipeProvider extends FabricRecipeProvider {
                 .group("")
                 .criterion("has_sponge_item", conditionsFromItem(Items.WET_SPONGE))
                 .criterion("has_shears_item", conditionsFromItem(Items.SHEARS))
-                .offerTo(exporter, Jello.id("sponge_item_from_wet_sponge"));
+                .offerTo(exporter, JelloConstants.id("sponge_item_from_wet_sponge"));
 
         ShapelessRecipeJsonBuilder.create(JelloItems.SPONGE)
                 .input(Items.SPONGE)
@@ -124,19 +124,19 @@ public class JelloRecipeProvider extends FabricRecipeProvider {
                 .group("")
                 .criterion("has_sponge_item", conditionsFromItem(Items.SPONGE))
                 .criterion("has_shears_item", conditionsFromItem(Items.SHEARS))
-                .offerTo(exporter, Jello.id("sponge_item_from_dry_sponge"));
+                .offerTo(exporter, JelloConstants.id("sponge_item_from_dry_sponge"));
 
-        JelloComplexRecipeJsonBuilder.create(JelloRecipeSerializers.ARTIST_PALETTE).offerTo(exporter, Jello.id("fill_artist_palette"));
+        JelloComplexRecipeJsonBuilder.create(JelloRecipeSerializers.ARTIST_PALETTE).offerTo(exporter, JelloConstants.id("fill_artist_palette"));
 
-        JelloComplexRecipeJsonBuilder.create(JelloRecipeSerializers.DYE_BLOCK_VARIANT).offerTo(exporter, Jello.id("dyeing_dyeable_block_variants"));
+        JelloComplexRecipeJsonBuilder.create(JelloRecipeSerializers.DYE_BLOCK_VARIANT).offerTo(exporter, JelloConstants.id("dyeing_dyeable_block_variants"));
 
-        JelloComplexRecipeJsonBuilder.create(JelloRecipeSerializers.BED_BLOCK_VARIANT).offerTo(exporter, Jello.id("bed_block_variants"));
+        JelloComplexRecipeJsonBuilder.create(JelloRecipeSerializers.BED_BLOCK_VARIANT).offerTo(exporter, JelloConstants.id("bed_block_variants"));
 
         ShapelessRecipeJsonBuilder.create(JelloItems.EMPTY_ARTIST_PALETTE)
                 .input(Items.SHEARS)
                 .input(ItemTags.WOODEN_PRESSURE_PLATES)
                 .criterion("has_shears_item", conditionsFromItem(Items.SHEARS))
-                .offerTo(exporter, Jello.id("artist_palette"));
+                .offerTo(exporter, JelloConstants.id("artist_palette"));
 
         ShapedRecipeJsonBuilder.create(JelloBlocks.PAINT_MIXER)
                 .input('l', Items.LAPIS_LAZULI)
@@ -146,7 +146,7 @@ public class JelloRecipeProvider extends FabricRecipeProvider {
                 .pattern("lcl")
                 .pattern("lll")
                 .criterion("has_cauldron", conditionsFromItem(Blocks.CAULDRON))
-                .offerTo(exporter, Jello.id("paint_mixer"));
+                .offerTo(exporter, JelloConstants.id("paint_mixer"));
     }
 
     public static void offerSlimeBlockDyeingRecipe(Consumer<RecipeJsonProvider> exporter, ItemConvertible output, ItemConvertible input, String blockPath, String dyePath) {
@@ -155,7 +155,7 @@ public class JelloRecipeProvider extends FabricRecipeProvider {
                 .input(JelloTags.Items.SLIME_BLOCKS)
                 .group("slime_block")
                 .criterion("has_slime_block_var", conditionsFromTag(JelloTags.Items.SLIME_BLOCKS))
-                .offerTo(exporter, Jello.id(blockPath + "_" + dyePath));
+                .offerTo(exporter, JelloConstants.id(blockPath + "_" + dyePath));
     }
 
     public static void offerSlimeBlockDyeingFullRecipe(Consumer<RecipeJsonProvider> exporter, ItemConvertible output, ItemConvertible input, String blockPath, String dyePath) {
@@ -167,7 +167,7 @@ public class JelloRecipeProvider extends FabricRecipeProvider {
                 .pattern("###")
                 .group("slime_block")
                 .criterion("has_slime_block_var", conditionsFromTag(JelloTags.Items.SLIME_BLOCKS))
-                .offerTo(exporter, Jello.id(blockPath + "_" + dyePath + "_full"));
+                .offerTo(exporter, JelloConstants.id(blockPath + "_" + dyePath + "_full"));
     }
 
     //TODO: CONVERT TO SPECIAL RECIPE!!!! CAUSES HUGE LAG
@@ -177,7 +177,7 @@ public class JelloRecipeProvider extends FabricRecipeProvider {
                 .input(JelloTags.Items.SLIME_SLABS)
                 .group("slime_block")
                 .criterion("has_slime_block_var", conditionsFromTag(JelloTags.Items.SLIME_SLABS))
-                .offerTo(exporter, Jello.id(blockPath + "_" + dyePath));
+                .offerTo(exporter, JelloConstants.id(blockPath + "_" + dyePath));
     }
 
     public static void offerSlimeSlabDyeingFullRecipe(Consumer<RecipeJsonProvider> exporter, ItemConvertible output, ItemConvertible input, String blockPath, String dyePath) {
@@ -189,7 +189,7 @@ public class JelloRecipeProvider extends FabricRecipeProvider {
                 .pattern("###")
                 .group("slime_block")
                 .criterion("has_slime_block_var", conditionsFromTag(JelloTags.Items.SLIME_SLABS))
-                .offerTo(exporter, Jello.id(blockPath + "_" + dyePath + "_full"));
+                .offerTo(exporter, JelloConstants.id(blockPath + "_" + dyePath + "_full"));
     }
 
     public static void offerSlimeBallDyeingRecipe(Consumer<RecipeJsonProvider> exporter, ItemConvertible output, ItemConvertible input, String itemPath, String dyePath) {
@@ -198,6 +198,6 @@ public class JelloRecipeProvider extends FabricRecipeProvider {
                 .input(JelloTags.Items.SLIME_BALLS)
                 .group("slime_ball")
                 .criterion("has_slime_block_var", conditionsFromTag(JelloTags.Items.SLIME_BLOCKS))
-                .offerTo(exporter, Jello.id(itemPath + "_" + dyePath));
+                .offerTo(exporter, JelloConstants.id(itemPath + "_" + dyePath));
     }
 }

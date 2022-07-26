@@ -1,6 +1,6 @@
 package io.wispforest.jello.api.util;
 
-import io.wispforest.jello.Jello;
+import io.wispforest.jello.misc.JelloConstants;
 import net.minecraft.util.Identifier;
 
 public interface GrayScaleHelper<T> {
@@ -19,6 +19,6 @@ public interface GrayScaleHelper<T> {
 
         path = path + "/" + array2[0] + getGrayscaleSuffix();
 
-        return Jello.id(path);
+        return JelloConstants.id(path);
     }
 }

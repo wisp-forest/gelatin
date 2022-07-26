@@ -14,6 +14,7 @@ import io.wispforest.jello.api.util.VersatileLogger;
 import io.wispforest.jello.data.loot.JelloLootTables;
 import io.wispforest.jello.data.tags.JelloTags;
 import io.wispforest.jello.api.item.JelloItemSettings;
+import io.wispforest.jello.misc.JelloConstants;
 import io.wispforest.jello.misc.dye.JelloBlockVariants;
 import io.wispforest.owo.util.TagInjector;
 import net.minecraft.block.Block;
@@ -64,7 +65,7 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant, Blo
 
         this.defaultEntryIdentifier = new Identifier(variantIdentifier.getNamespace(), "white_" + variantIdentifier.getPath());
 
-        allBlockTags.add(TagKey.of(Registry.BLOCK_KEY, Jello.id(variantIdentifier.getPath())));
+        allBlockTags.add(TagKey.of(Registry.BLOCK_KEY, JelloConstants.id(variantIdentifier.getPath())));
     }
 
     //---------------------------------------------------------------------------------------------------
