@@ -39,10 +39,10 @@ public class JelloBlockVariants {
             .setLootTable(block -> JelloLootTables.slabDrops((Block)block).build())
             .register();
 
-    public static final DyeableBlockVariant GLOW_STONE = DyeableBlockVariant.Builder.of(JelloConstants.id("glowstone"), itemSettings, (dyeColorant, parentBlock) -> {
-        return new ColoredBlock(FabricBlockSettings.copyOf(Blocks.GLOWSTONE).luminance(MathHelper.ceil(15F * ColorUtil.luminance(dyeColorant.getColorComponents()))), dyeColorant);
-    }).setDefaultEntry(new Identifier("glowstone"))
-    .register();
+//    public static final DyeableBlockVariant GLOW_STONE = DyeableBlockVariant.Builder.of(JelloConstants.id("glowstone"), itemSettings, (dyeColorant, parentBlock) -> {
+//        return new ColoredBlock(FabricBlockSettings.copyOf(Blocks.GLOWSTONE).luminance(MathHelper.ceil(15F * ColorUtil.luminance(dyeColorant.getColorComponents()))), dyeColorant);
+//    }).setDefaultEntry(new Identifier("glowstone"))
+//    .register();
 
     public static void initialize() {}
 }
