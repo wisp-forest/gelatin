@@ -14,11 +14,7 @@ import net.minecraft.util.registry.Registry;
 import java.util.*;
 
 /**
- * {@link GrayScaleEntityRegistry} is used to register either a Mod ID for global colorization or
- * to register specific entity's for colorization.
- * <br> <br>
- * After registering your entity, the default Colorization code will be already in place
- * if your entity extends {@link LivingEntity} in any way, but If you want different effects; just implement either {@link DyeableEntity} or {@link RainbowEntity} and Override the methods to change the effect of your entity.
+ * {@link GrayScaleEntityRegistry} is used to control GrayScalability of an Entity Type or Mod thru its ModId
  */
 public class GrayScaleEntityRegistry implements GrayScaleHelper<EntityType<?>> {
 

@@ -5,10 +5,12 @@ import io.wispforest.jello.api.util.GrayScaleHelper;
 import net.minecraft.block.Block;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@ApiStatus.Experimental
 public class GrayScaleBlockRegistry implements GrayScaleHelper<Block> {
 
     public static final Set<Identifier> GRAYSCALABLE_BLOCK_SPRITES = new HashSet<>();
