@@ -14,24 +14,21 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.SheepEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemConvertible;
-import net.minecraft.loot.LootTables;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Map;
 
@@ -74,37 +71,20 @@ public abstract class SheepEntityMixin extends AnimalEntity implements SheepDyeC
         nbt.putString("JelloWoolColor", this.getWoolDyeColor().getId().toString());
     }
 
-    /**
-     * @author Dragon_seeker
-     * @reason As it really makes no sense not too
-     */
-    @Overwrite
-    public Identifier getLootTableId() {
-        if (this.isSheared()) {
-            return this.getType().getLootTableId();
-        } else {
-            if (this.getWoolDyeColor() != DyeColorantRegistry.NULL_VALUE_NEW) {
-                return CustomSheepLootTables.createSheepLootTableIdFromColor(this.getWoolDyeColor());
-            } else {
-                return LootTables.WHITE_SHEEP_ENTITY;
-            }
-        }
+    @Inject(method = "getLootTableId", at = @At("HEAD"), cancellable = true)
+    private void useProperLootTableId(CallbackInfoReturnable<Identifier> cir) {
+        if (this.isSheared()) return;
+
+        DyeColorant color = this.getWoolDyeColor();
+
+        if (color != DyeColorantRegistry.NULL_VALUE_NEW)
+            cir.setReturnValue(CustomSheepLootTables.createSheepLootTableIdFromColor(this.getWoolDyeColor()));
     }
 
-    /**
-     * @author Dragon_seeker
-     * @reason As it really makes no sense not too
-     */
-    @Overwrite
-    public void readCustomDataFromNbt(NbtCompound nbt) {
-        super.readCustomDataFromNbt(nbt);
-        this.setSheared(nbt.getBoolean("Sheared"));
-
+    @Inject(method = "readCustomDataFromNbt", at = @At("RETURN"))
+    private void readJelloWoolData(NbtCompound nbt, CallbackInfo ci) {
         if (nbt.contains("Color")) {
-            var color = nbt.getByte("Color");
-
-            this.setWoolDyeColor(DyeColorant.byOldIntId(color));
-            this.setColor(DyeColor.byId(color));
+            this.setWoolDyeColor(DyeColorant.byOldDyeColor(this.getColor()));
         }
 
         if (nbt.contains("JelloWoolColor")) {
@@ -113,60 +93,23 @@ public abstract class SheepEntityMixin extends AnimalEntity implements SheepDyeC
         }
     }
 
-    /**
-     * @author Dragon_seeker
-     * @reason As it really makes no sense not too
-     */
-    @Overwrite
-    public void sheared(SoundCategory shearedSoundCategory) {
-        this.world.playSoundFromEntity((PlayerEntity) null, this, SoundEvents.ENTITY_SHEEP_SHEAR, shearedSoundCategory, 1.0F, 1.0F);
-        this.setSheared(true);
-        int i = 1 + this.random.nextInt(3);
-
-        for (int j = 0; j < i; ++j) {
-            ItemEntity itemEntity;
-
-            if (this.getWoolDyeColor() != DyeColorantRegistry.NULL_VALUE_NEW) {
-                itemEntity = this.dropItem((ItemConvertible) DyeableVariantManager.getDyedBlockVariant(this.getWoolDyeColor(), VanillaBlockVariants.WOOL), 1);
-            } else {
-                itemEntity = this.dropItem((ItemConvertible) DROPS.get(this.getColor()), 1);
-            }
-
-            if (itemEntity != null) {
-                itemEntity.setVelocity(
-                        itemEntity.getVelocity()
-                                .add(
-                                        (double) ((this.random.nextFloat() - this.random.nextFloat()) * 0.1F),
-                                        (double) (this.random.nextFloat() * 0.05F),
-                                        (double) ((this.random.nextFloat() - this.random.nextFloat()) * 0.1F)
-                                )
-                );
-            }
+    @ModifyArg(method = "sheared", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/passive/SheepEntity;dropItem(Lnet/minecraft/item/ItemConvertible;I)Lnet/minecraft/entity/ItemEntity;"))
+    private ItemConvertible useProperDropItem(ItemConvertible par1) {
+        if (this.getWoolDyeColor() != DyeColorantRegistry.NULL_VALUE_NEW) {
+            return DyeableVariantManager.getDyedBlockVariant(this.getWoolDyeColor(), VanillaBlockVariants.WOOL);
         }
+
+        return par1;
     }
 
-    /**
-     * @author Dragon_seeker
-     * @reason As it really makes no sense not too
-     */
-    @Nullable
-    @Overwrite
-    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+    @Inject(method = "initialize", at = @At("RETURN"))
+    private void setWoolDyeColorOnInit(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, EntityData entityData, NbtCompound entityNbt, CallbackInfoReturnable<EntityData> cir) {
         this.setWoolDyeColor(generateDefaultDyeColorColorant(world.getRandom()));
-        return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
     }
 
-    /**
-     * @author Dragon_seeker
-     * @reason As it really makes no sense not too
-     */
-    @Nullable
-    @Overwrite
-    public SheepEntity createChild(ServerWorld serverWorld, PassiveEntity passiveEntity) {
-        SheepEntity sheepEntity = (SheepEntity) passiveEntity;
-        SheepEntity sheepEntity2 = EntityType.SHEEP.create(serverWorld);
-        ((SheepDyeColorStorage) sheepEntity2).setWoolDyeColor(this.getChildDyeColorant(this, sheepEntity));
-        return sheepEntity2;
+    @Inject(method = "createChild(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/passive/PassiveEntity;)Lnet/minecraft/entity/passive/SheepEntity;", at = @At("RETURN"))
+    private void setChildColor(ServerWorld serverWorld, PassiveEntity passiveEntity, CallbackInfoReturnable<SheepEntity> cir) {
+        ((SheepDyeColorStorage) cir.getReturnValue()).setWoolDyeColor(this.getChildDyeColorant(this, (AnimalEntity) passiveEntity));
     }
 
     @Unique
