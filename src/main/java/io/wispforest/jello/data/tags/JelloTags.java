@@ -2,7 +2,7 @@ package io.wispforest.jello.data.tags;
 
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
-import io.wispforest.jello.Jello;
+import io.wispforest.jello.misc.JelloConstants;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.tag.TagKey;
@@ -112,6 +112,6 @@ public class JelloTags {
     }
 
     private static Identifier jello(String path){
-        return Jello.id(path);
+        return JelloConstants.id(path);
     }
 }

@@ -1,6 +1,5 @@
 package io.wispforest.jello.api.dye.registry.variants.item;
 
-import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.dye.ColorManipulators;
 import io.wispforest.jello.api.dye.DyeColorant;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
@@ -9,14 +8,13 @@ import io.wispforest.jello.api.dye.registry.variants.DyeableVariantManager;
 import io.wispforest.jello.api.dye.registry.variants.block.DyeableBlockVariant;
 import io.wispforest.jello.api.item.JelloItemSettings;
 import io.wispforest.jello.data.tags.JelloTags;
+import io.wispforest.jello.misc.JelloConstants;
 import io.wispforest.owo.util.TagInjector;
-import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Pair;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -53,7 +51,7 @@ public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant, Item>
 
         this.defaultEntryIdentifier = new Identifier(variantIdentifier.getNamespace(), "white_" + variantIdentifier.getPath());
 
-        allItemTags.add(TagKey.of(Registry.ITEM_KEY, Jello.id(variantIdentifier.getPath())));
+        allItemTags.add(TagKey.of(Registry.ITEM_KEY, JelloConstants.id(variantIdentifier.getPath())));
     }
 
     public static class Builder {

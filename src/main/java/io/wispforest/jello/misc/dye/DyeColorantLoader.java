@@ -6,6 +6,7 @@ import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.registry.variants.DyeableVariantManager;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.util.VersatileLogger;
+import io.wispforest.jello.misc.JelloConstants;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
 import net.minecraft.block.MapColor;
 import net.minecraft.util.Identifier;
@@ -27,12 +28,12 @@ public class DyeColorantLoader {
             for (var i = 0; i < names.size(); i++) {
                 JsonObject currentObject = names.get(i).getAsJsonObject();
 
-                Identifier colorIdentifier = Jello.id(currentObject.get("identifierSafeName").getAsString());
+                Identifier colorIdentifier = JelloConstants.id(currentObject.get("identifierSafeName").getAsString());
                 int colorValue = Integer.parseInt(currentObject.get("hexValue").getAsString(), 16);
 
                 if (DyeColorantRegistry.DYE_COLOR.containsId(colorIdentifier)) {
                     //continue;
-                    colorIdentifier = Jello.id(currentObject.get("identifierSafeName").getAsString() + "_2");
+                    colorIdentifier = JelloConstants.id(currentObject.get("identifierSafeName").getAsString() + "_2");
                 }
 
                 if (DyeColorantRegistry.DYE_COLOR.containsId(new Identifier(currentObject.get("identifierSafeName").getAsString()))) {

@@ -1,4 +1,4 @@
-package io.wispforest.jello.mixin.client.dye;
+package io.wispforest.jello.mixin.client.entitycolor;
 
 import io.wispforest.jello.client.GrayScaledTexture;
 import io.wispforest.jello.misc.ducks.TextureManagerDuck;

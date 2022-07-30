@@ -11,6 +11,7 @@ import io.wispforest.jello.blockentity.JelloBlockEntityTypes;
 import io.wispforest.jello.client.render.screen.ColorMixerScreenHandler;
 import io.wispforest.jello.client.render.screen.JelloScreenHandlerTypes;
 import io.wispforest.jello.data.loot.JelloLootTables;
+import io.wispforest.jello.misc.JelloConstants;
 import io.wispforest.jello.misc.dye.JelloGameEvents;
 import io.wispforest.jello.misc.JelloItemGroup;
 import io.wispforest.jello.misc.dye.JelloStats;
@@ -56,7 +57,7 @@ public class Jello implements ModInitializer {
 
     public static final OwoNetChannel CHANNEL = OwoNetChannel.create(new Identifier(MODID, "main"));
 
-    public static final OwoItemGroup MAIN_ITEM_GROUP = new JelloItemGroup(id("jello_group"));
+    public static final OwoItemGroup MAIN_ITEM_GROUP = new JelloItemGroup(JelloConstants.id("jello_group"));
 
     public static final boolean DEBUG_ENV_VAR = Boolean.getBoolean("jello.debug");
     public static final boolean DEBUG_ENV = FabricLoader.getInstance().isDevelopmentEnvironment();
@@ -65,7 +66,6 @@ public class Jello implements ModInitializer {
 
     @Override
     public void onInitialize() {
-
         AutoConfig.register(JelloConfig.class, GsonConfigSerializer::new);
 
         MAIN_CONFIG = AutoConfig.getConfigHolder(JelloConfig.class);
@@ -104,9 +104,9 @@ public class Jello implements ModInitializer {
 
         //---------------------------------------------------------------------------------
 
-        RecipeSpecificRemainders.add(Jello.id("sponge_item_from_wet_sponge"), Items.SHEARS);
-        RecipeSpecificRemainders.add(Jello.id("sponge_item_from_dry_sponge"), Items.SHEARS);
-        RecipeSpecificRemainders.add(Jello.id("artist_palette"), Items.SHEARS);
+        RecipeSpecificRemainders.add(JelloConstants.id("sponge_item_from_wet_sponge"), Items.SHEARS);
+        RecipeSpecificRemainders.add(JelloConstants.id("sponge_item_from_dry_sponge"), Items.SHEARS);
+        RecipeSpecificRemainders.add(JelloConstants.id("artist_palette"), Items.SHEARS);
 
         JelloLootTables.registerLootTablesGeneration();
 
@@ -144,10 +144,10 @@ public class Jello implements ModInitializer {
         //------------------------------------------------------------------
 
         ServerLoginConnectionEvents.QUERY_START.register((handler, server, sender, synchronizer) -> {
-            sender.sendPacket(id("json_color_sync"), PacketByteBufs.create());
+            sender.sendPacket(JelloConstants.id("json_color_sync"), PacketByteBufs.create());
         });
 
-        ServerLoginNetworking.registerGlobalReceiver(id("json_color_sync"), (server, handler, understood, buf, synchronizer, responseSender) -> {
+        ServerLoginNetworking.registerGlobalReceiver(JelloConstants.id("json_color_sync"), (server, handler, understood, buf, synchronizer, responseSender) -> {
             CustomJsonColorSync.confirmMatchingConfigOptions(buf.getBoolean(0), handler);
         });
 
@@ -169,10 +169,6 @@ public class Jello implements ModInitializer {
 //    private static void ColorBlockRegistryCompat() {
 //        ModCompatHelpers.getRegistryHelper(Registry.ITEM).runWhenPresent(new Identifier(ConsistencyPlusTags.CONSISTENCY_PLUS_MODID, "stone_wall"), item -> ConsistencyPlusColorBlockRegistry.init());
 //    }
-
-    public static Identifier id(String path) {
-        return new Identifier(MODID, path);
-    }
 
     //------------------------------------------------------------------------------
 

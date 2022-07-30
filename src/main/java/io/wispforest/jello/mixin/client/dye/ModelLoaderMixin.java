@@ -3,6 +3,7 @@ package io.wispforest.jello.mixin.client.dye;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.dye.registry.DyeColorantRegistry;
 import io.wispforest.jello.api.dye.registry.variants.block.DyeableBlockVariant;
+import io.wispforest.jello.misc.JelloConstants;
 import net.minecraft.client.render.model.ModelLoader;
 import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.client.render.model.json.JsonUnbakedModel;
@@ -132,7 +133,7 @@ public abstract class ModelLoaderMixin {
 
             if (isItemVersion) {
                 if (Objects.equals(stringParts[stringParts.length - 1], "dye")) {
-                    this.cachedItemRedirectID = Jello.id("dynamic_dye");
+                    this.cachedItemRedirectID = JelloConstants.id("dynamic_dye");
 
                     if (test_map.get(cachedItemRedirectID + "/item") != null) {
                         this.unbakedModels.put(modelId, test_map.get(cachedItemRedirectID + "/item"));

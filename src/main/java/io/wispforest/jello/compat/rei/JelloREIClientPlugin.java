@@ -1,6 +1,5 @@
 package io.wispforest.jello.compat.rei;
 
-import io.wispforest.jello.Jello;
 import io.wispforest.jello.api.ducks.DyeBlockStorage;
 import io.wispforest.jello.api.ducks.DyeItemStorage;
 import io.wispforest.jello.api.dye.DyeColorant;
@@ -12,6 +11,7 @@ import io.wispforest.jello.api.dye.registry.variants.item.DyeableItemVariant;
 import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.jello.item.ArtistPaletteItem;
 import io.wispforest.jello.item.JelloItems;
+import io.wispforest.jello.misc.JelloConstants;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 
 public class JelloREIClientPlugin implements REIClientPlugin {
 
-    public static final CategoryIdentifier<ColorMixerDisplay> DYE_MIXING = CategoryIdentifier.of(Jello.id("dye_mixing"));
+    public static final CategoryIdentifier<ColorMixerDisplay> DYE_MIXING = CategoryIdentifier.of(JelloConstants.id("dye_mixing"));
 
     @Override
     public void registerCollapsibleEntries(CollapsibleEntryRegistry registry) {

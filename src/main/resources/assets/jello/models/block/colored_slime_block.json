@@ -1,4 +1,5 @@
-{   "parent": "block/block",
+{
+    "parent": "block/block",
     "textures": {
         "particle": "jello:block/slime_block_gray",
         "texture": "jello:block/slime_block_gray"

@@ -174,5 +174,28 @@ public class ColorUtil {
         }
     }
 
+    public static double luminance(Color color) {
+        return luminance(color.getRed(), color.getGreen(), color.getBlue());
+    }
+
+    public static double luminance(float[] colorComp) {
+        return luminance((int) (colorComp[0] * 255.0F), (int) (colorComp[1] * 255.0F), (int) (colorComp[2] * 255.0F));
+    }
+
+    public static double luminance(int r, int g, int b) {
+        if (r == g && r == b) return r;
+
+        return 0.299 * r + 0.587 * g + 0.114 * b;
+    }
+
+    public static int toGray(double luminance) {
+        return (int) (Math.round(luminance));
+    }
+
+    public static Color toGray(Color color) {
+        int y = (int) (Math.round(luminance(color)));
+
+        return new Color(y, y, y);
+    }
 
 }

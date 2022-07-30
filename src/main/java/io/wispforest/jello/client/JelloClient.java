@@ -9,7 +9,8 @@ import io.wispforest.jello.api.dye.registry.variants.item.DyeableItemVariant;
 import io.wispforest.jello.api.events.HotbarMouseEvents;
 import io.wispforest.jello.api.events.TranslationInjectionEvent;
 import io.wispforest.jello.api.registry.ColorizeBlackListRegistry;
-import io.wispforest.jello.api.registry.GrayScaleRegistry;
+import io.wispforest.jello.api.registry.GrayScaleBlockRegistry;
+import io.wispforest.jello.api.registry.GrayScaleEntityRegistry;
 import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.block.colored.ColoredGlassBlock;
 import io.wispforest.jello.block.colored.ColoredGlassPaneBlock;
@@ -22,6 +23,7 @@ import io.wispforest.jello.item.JelloDyeItem;
 import io.wispforest.jello.item.JelloItems;
 import io.wispforest.jello.item.SpongeItem;
 import io.wispforest.jello.item.dyebundle.DyeBundleScreenEvent;
+import io.wispforest.jello.misc.JelloConstants;
 import io.wispforest.jello.misc.dye.JelloBlockVariants;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -56,13 +58,11 @@ import net.minecraft.util.registry.Registry;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 public class JelloClient implements ClientModInitializer {
 
-    public static final Identifier BED_BLANKET_ONLY = Jello.id("block/bed/blanket_only");
-    public static final Identifier BED_PILLOW_ONLY = Jello.id("block/bed/pillow_only");
+    public static final Identifier BED_BLANKET_ONLY = JelloConstants.id("block/bed/blanket_only");
+    public static final Identifier BED_PILLOW_ONLY = JelloConstants.id("block/bed/pillow_only");
 
     private static final RenderLayer TRANSLUCENT = RenderLayer.getTranslucent();
 
@@ -75,12 +75,12 @@ public class JelloClient implements ClientModInitializer {
 
         if (FabricLoader.getInstance().isModLoaded("continuity")) {
             FabricLoader.getInstance().getModContainer(Jello.MODID).ifPresent(container -> {
-                ResourceManagerHelper.registerBuiltinResourcePack(Jello.id("continuity_comp"), container, ResourcePackActivationType.NORMAL);
+                ResourceManagerHelper.registerBuiltinResourcePack(JelloConstants.id("continuity_comp"), container, ResourcePackActivationType.NORMAL);
             });
         }
 
         FabricLoader.getInstance().getModContainer(Jello.MODID).ifPresent(container -> {
-            ResourceManagerHelper.registerBuiltinResourcePack(Jello.id("cauldron_cull_fix"), container, ResourcePackActivationType.DEFAULT_ENABLED);
+            ResourceManagerHelper.registerBuiltinResourcePack(JelloConstants.id("cauldron_cull_fix"), container, ResourcePackActivationType.DEFAULT_ENABLED);
         });
 
         JelloClient.registerColorProvidersForBlockVariants();
@@ -91,6 +91,8 @@ public class JelloClient implements ClientModInitializer {
         });
 
         JelloClient.clientEventRegistry();
+
+        GrayScaleBlockRegistry.register(Blocks.GLOWSTONE);
 
         //----------------------------------------------------------------------------------
 
@@ -121,7 +123,7 @@ public class JelloClient implements ClientModInitializer {
         //----------------------------------------------------------------------------------
 
         Jello.MAIN_CONFIG.registerSaveListener((configHolder, jelloConfig) -> {
-            GrayScaleRegistry.GRAYSCALABLE_MODID_BLACKLIST.addAll(jelloConfig.grayScaledBlackListModid);
+            GrayScaleEntityRegistry.GRAYSCALABLE_MODID_BLACKLIST.addAll(jelloConfig.grayScaledBlackListModid);
             ColorizeBlackListRegistry.MODID_BLACKLIST.addAll(jelloConfig.grayScaledBlackListModid);
 
             toggleRenderLayer(jelloConfig);
@@ -130,7 +132,7 @@ public class JelloClient implements ClientModInitializer {
         });
 
         Jello.MAIN_CONFIG.registerLoadListener((configHolder, jelloConfig) -> {
-            GrayScaleRegistry.GRAYSCALABLE_MODID_BLACKLIST.addAll(jelloConfig.grayScaledBlackListModid);
+            GrayScaleEntityRegistry.GRAYSCALABLE_MODID_BLACKLIST.addAll(jelloConfig.grayScaledBlackListModid);
             ColorizeBlackListRegistry.MODID_BLACKLIST.addAll(jelloConfig.grayScaledBlackListModid);
 
             toggleRenderLayer(jelloConfig);
@@ -147,7 +149,7 @@ public class JelloClient implements ClientModInitializer {
         HotbarMouseEvents.ALLOW_MOUSE_SCROLL.register(
                 (player, horizontalAmount, verticalAmount) -> new DyeBundleScreenEvent().allowMouseScroll(player, horizontalAmount, verticalAmount));
 
-        ClientLoginNetworking.registerGlobalReceiver(Jello.id("json_color_sync"), (client, handler, buf, listenerAdder) -> {
+        ClientLoginNetworking.registerGlobalReceiver(JelloConstants.id("json_color_sync"), (client, handler, buf, listenerAdder) -> {
             PacketByteBuf buffer = PacketByteBufs.create();
 
             buffer.writeBoolean(Jello.getConfig().addCustomJsonColors);

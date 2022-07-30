@@ -5,7 +5,7 @@ import io.wispforest.jello.api.ducks.entity.DyeableEntity;
 import io.wispforest.jello.api.ducks.entity.GrayScaleEntity;
 import io.wispforest.jello.api.ducks.entity.RainbowEntity;
 import io.wispforest.jello.api.registry.ColorizeBlackListRegistry;
-import io.wispforest.jello.api.registry.GrayScaleRegistry;
+import io.wispforest.jello.api.registry.GrayScaleEntityRegistry;
 import io.wispforest.jello.api.util.ColorUtil;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.misc.ducks.TextureManagerDuck;
@@ -73,7 +73,7 @@ public abstract class LivingEntityRenderMixin<T extends LivingEntity, M extends 
         }
 
         if (!(entity instanceof PlayerEntity) && (entity instanceof GrayScaleEntity grayScaleEntity && grayScaleEntity.isGrayScaled(entity))) {
-            jello$grayScaleCache = GrayScaleRegistry.getOrFindTexture(entity, ((LivingEntityRenderer<T, M>) (Object) this).getTexture(entity));
+            jello$grayScaleCache = GrayScaleEntityRegistry.INSTANCE.getOrFindTexture(entity, ((LivingEntityRenderer<T, M>) (Object) this).getTexture(entity));
         } else {
             jello$grayScaleCache = null;
         }

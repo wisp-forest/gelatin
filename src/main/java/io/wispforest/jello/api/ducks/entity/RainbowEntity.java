@@ -1,7 +1,7 @@
 package io.wispforest.jello.api.ducks.entity;
 
 import io.wispforest.jello.Jello;
-import io.wispforest.jello.api.registry.GrayScaleRegistry;
+import io.wispforest.jello.api.registry.GrayScaleEntityRegistry;
 import io.wispforest.jello.mixin.dye.item.EnchantedGoldenAppleMixin;
 import net.minecraft.entity.Entity;
 
@@ -38,7 +38,7 @@ public interface RainbowEntity extends GrayScaleEntity {
 
     @Override
     default boolean isGrayScaled(Entity entity) {
-        return Jello.getConfig().enableGrayScaleRainbowEntities && (isRainbowTime() && !GrayScaleRegistry.isBlacklisted(entity));
+        return Jello.getConfig().enableGrayScaleRainbowEntities && (isRainbowTime() && !GrayScaleEntityRegistry.isBlacklisted(entity));
     }
 
 }
