@@ -1,10 +1,14 @@
-Jello 4.1.0 adds two big fixes for Item count on DyeableBlockItemVariants and resolve issues with the Main variant crafting recipe
+Jello 4.3.0 fixes some mod incompatibility, Includes better gray scaling method for Entities and some other new Features.
 
 ##### Bug Fixes:
-- Fix for Item count for DyeableBlockVariants being set to 1 due to vanilla logic issues in the base Item.Settings
-- Fixes for the main Dyeing Variant Crafting Recipe:
-  - Fix issues with using the Wrong Dye Tag
-  - Fix issues with crafting logic not matching certain edge cases
+- Fix for Issue with Jello ItemGroup loading to early causing a crash within Polymer
+- Fix Mixin Conflict with Critical Shearing
 
 ##### API Changes:
-- Change to how the override setting when registering Dyes to the DyeableVariantManager to only get the ItemGroup and Tab index if an OwoItemSettings
+- [NEW]: Dynamic Block/Item Texture Grayscaling
+  - Feature allows for already existing Blocks and Items contained within the Block atlas to be copied and greyscaled for use within Colored Blocks
+- Major Change certain Colored Registry's
+  - ColorizeRegistry is now ColorizeBlackListRegistry as Colorization is Dynamic without hardcoded textures meaning it should work on other modded entities
+  - GrayScaleRegistry is now GrayScaleEntityRegistry with some changes to the classes function
+
+*API Note: Java docs will come within a future update*
