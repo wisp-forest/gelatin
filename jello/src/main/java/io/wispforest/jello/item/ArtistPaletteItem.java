@@ -1,7 +1,7 @@
 package io.wispforest.jello.item;
 
-import io.wispforest.dye_registry.DyeColorant;
-import io.wispforest.dye_registry.DyeColorantRegistry;
+import io.wispforest.gelatin.dye_registry.DyeColorant;
+import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.EnvironmentInterface;
 import net.minecraft.client.color.item.ItemColorProvider;

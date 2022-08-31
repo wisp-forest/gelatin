@@ -1,8 +1,7 @@
 package io.wispforest.jello.client.render.screen;
 
-import io.wispforest.common.CommonInit;
-import io.wispforest.dye_entries.item.GelatinDyeItem;
-import io.wispforest.dye_entries.variants.DyeableVariantManager;
+import io.wispforest.gelatin.dye_entries.item.GelatinDyeItem;
+import io.wispforest.gelatin.dye_entries.variants.DyeableVariantManager;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.item.ArtistPaletteItem;
@@ -28,7 +27,7 @@ public class ColorMixerScreenHandler extends ScreenHandler {
     public static final List<ItemStack> ALL_DYE_ITEMS;
 
     static{
-        if(CommonInit.getConfig().addCustomJsonColors){
+        if(Jello.getConfig().addCustomJsonColors()){
             ALL_DYE_ITEMS = DyeableVariantManager.getVariantMap().values().stream()
                     .filter(dyedVariantContainer -> dyedVariantContainer.dyeItem() instanceof GelatinDyeItem)
                     .map(dyedVariantContainer -> dyedVariantContainer.dyeItem().getDefaultStack())

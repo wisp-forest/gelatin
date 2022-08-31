@@ -1,5 +1,3 @@
-archivesBaseName = "dye-registry"
-
 moduleDependencies(project, [
     'common'
 ])

@@ -1,41 +1,40 @@
 {
   "schemaVersion": 1,
-  "id": "gelatin_common",
+  "id": "gelatin-common",
   "version": "${version}",
 
   "name": "Common",
-  "description": "A Module containing some common code for Gelatin Library",
+  "description": "A Module contain within the Gelatin API which contain some common API code used all around the Library",
   "authors": [
-    "blodhgarm"
+    "Blodhgarm"
   ],
   "contact": {
-    "homepage": "https://github.com/Dragon-Seeker/Jello",
-    "issues": "https://github.com/Dragon-Seeker/Jello/issues",
-    "sources": "https://github.com/Dragon-Seeker/Jello"
+    "homepage": "https://github.com/wisp-forest/gelatin",
+    "issues": "https://github.com/wisp-forest/gelatin/issues",
+    "sources": "https://github.com/wisp-forest/gelatin"
   },
 
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/gelatin/icon.png",
   "accessWidener" : "common.accesswidener",
 
   "environment": "*",
-  "entrypoints": {
-    "main": [
-      "io.wispforest.common.CommonInit"
-    ],
-    "modmenu": [
-      "io.wispforest.common.compat.modmenu.GelatinModMenuIntegration"
-    ]
-  },
   "mixins": [
     "common.mixins.json"
   ],
+
+  "entrypoints": {
+    "main": [
+      "io.wispforest.gelatin.common.CommonInit"
+    ]
+  },
 
   "depends": {
     "fabricloader": ">=0.14.6",
     "fabric": "*",
     "minecraft": "~1.19",
-    "java": ">=17"
+    "java": ">=17",
+    "owo": ">=0.8.0+1.19"
   },
   "suggests": {
     "modmenu": "*"
@@ -43,13 +42,7 @@
   "custom": {
     "modmenu": {
       "badges": [ "library" ],
-      "parent": {
-        "id": "gelatin",
-        "name": "Gelatin",
-        "description": "A API full of Random Colorful stuff",
-        "icon": "assets/gelatin/icon.png",
-        "badges": [ "library" ]
-      }
+      "parent": "gelatin"
     }
   }
 }

@@ -1,46 +1,39 @@
 {
   "schemaVersion": 1,
-  "id": "dye_registry",
+  "id": "gelatin-dye-registry",
   "version": "${version}",
 
   "name": "Dye Colorant Registry",
-  "description": "This library module that contains a DyeColorant Registry used within Gelatin",
+  "description": "A Module contain within the Gelatin API which contains the core DyeColorant Registry that all modules use and depend on.",
   "authors": [
-    "Me!"
+    "Blodhgarm"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/wisp-forest/gelatin",
+    "issues": "https://github.com/wisp-forest/gelatin/issues",
+    "sources": "https://github.com/wisp-forest/gelatin"
   },
 
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/gelatin/icon.png",
+  "accessWidener" : "dye-registry.accesswidener",
 
   "environment": "*",
   "mixins": [
     "dye-registry.mixins.json"
   ],
-  "accessWidener" : "dye-registry.accesswidener",
 
   "depends": {
     "fabricloader": ">=0.14.6",
     "fabric": "*",
     "minecraft": "~1.19",
-    "java": ">=17"
-  },
-  "suggests": {
-    "another-mod": "*"
+    "java": ">=17",
+    "owo": ">=0.8.0+1.19"
   },
   "custom": {
     "modmenu": {
       "badges": [ "library" ],
-      "parent": {
-        "id": "gelatin",
-        "name": "Gelatin",
-        "description": "A API full of Random Colorful stuff",
-        "icon": "assets/gelatin/icon.png",
-        "badges": [ "library" ]
-      }
+      "parent": "gelatin"
     }
   }
 }

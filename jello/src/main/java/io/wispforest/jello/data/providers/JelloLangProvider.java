@@ -1,9 +1,9 @@
 package io.wispforest.jello.data.providers;
 
-import io.wispforest.common.data.providers.AbstractLanguageProvider;
-import io.wispforest.common.util.WordMagic;
-import io.wispforest.dye_registry.DyeColorant;
-import io.wispforest.dye_registry.DyeColorantRegistry;
+import io.wispforest.gelatin.common.data.providers.AbstractLanguageProvider;
+import io.wispforest.gelatin.common.util.WordMagic;
+import io.wispforest.gelatin.dye_registry.DyeColorant;
+import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.item.JelloItems;
 import io.wispforest.jello.item.SpongeItem;
@@ -49,22 +49,9 @@ public class JelloLangProvider extends AbstractLanguageProvider {
 
         addTranslation(SpongeItem.DIRTINESS_TRANSLATION_KEY, "Dirty Sponge");
 
+        addOCToolTipAndNameEntry("addCustomJsonColors", "Enable Json Colors", "Whether or not Jello will add it's included 1822 colors to Minecraft internally.");
 
-        addACToolTipAndNameEntry("enableDyeingEntities", "Enable Dyeing of Entities", "Allow for the dyeing of entities using any dye.");
-        addACToolTipAndNameEntry("enableDyeingPlayers", "Enable Dyeing of Players", "Allow for the dyeing of players using any dye.");
-        addACToolTipAndNameEntry("enableDyeingBlocks", "Enable Dyeing of Blocks", "Allow for the dyeing of blocks using any vanilla dye.");
-
-        addACToolTipAndNameEntry("enableGrayScalingOfEntities", "Enable GrayScaling of Entities", "[Warning: Will break texturepacks!] Used to allow for true color when a entity is dyed or color.");
-        addACToolTipAndNameEntry("addCustomJsonColors", "Enable Json Colors", "Whether or not Jello will add it's included 1822 colors to Minecraft internally.");
-        addACToolTipAndNameEntry("enableTransparencyFixCauldrons", "Enable Transparency Fix for Cauldrons", "Enables a fix for water within cauldrons just being Opaque rather than translucent.");
-        addACToolTipAndNameEntry("enableGrayScaleRainbowEntities", "Enable Grayscale for Rainbowed Entities", "Just makes the Entity's texture to be grayscaled for correct rainbow colors");
-
-        addACToolTipAndNameEntry("grayScaledBlackListModid", "Grayscale Modid Blacklist", "List of modid's banned from the Grayscaling API.");
-        addACToolTipAndNameEntry("dyeColorBlackListModid", "DyeColoring Modid Blacklist", "List of modid's banned from the DyeColoring API.");
-
-
-        addACCategoryName("common", "Main Config");
-        addACCategoryName("client", "Client Config");
+        addOCCategoryName("common", "Main Config");
 
         addTranslation("text.jello.dye_bundle_pattern", "%1$s [%2$s]");
 
@@ -74,11 +61,11 @@ public class JelloLangProvider extends AbstractLanguageProvider {
         addTranslation("item.jello.sponge.desc", "Use on a block to remove dye");
         addTranslation("item.jello.sponge.desc.dirty", "Clean by using on water cauldron");
 
-        addTranslation("vanilla_slime_slabs_condensed", "Slime Slabs");
-        addTranslation("vanilla_slime_blocks_condensed", "Slime Blocks");
+        addTranslation("slime_slabs_condensed", "Slime Slabs");
+        addTranslation("slime_blocks_condensed", "Slime Blocks");
 
-        addTranslation("tooltip.vanilla_slime_slabs_condensed", "Only contains Vanilla Colors");
-        addTranslation("tooltip.vanilla_slime_blocks_condensed", "Only contains Vanilla Colors");
+//        addTranslation("tooltip.vanilla_slime_slabs_condensed", "Only contains Vanilla Colors");
+//        addTranslation("tooltip.vanilla_slime_blocks_condensed", "Only contains Vanilla Colors");
 
         addTranslation("itemGroup.jello.jello_group", "Jello");
 
@@ -170,12 +157,12 @@ public class JelloLangProvider extends AbstractLanguageProvider {
                 .collect(Collectors.joining(" "));
     }
 
-    private void addACCategoryName(String keyName, String nameTranslation) {
-        addTranslation("text.autoconfig.jello.category." + keyName, nameTranslation);
+    private void addOCCategoryName(String keyName, String nameTranslation) {
+        addTranslation("text.config.jello.section." + keyName, nameTranslation);
     }
 
-    private void addACToolTipAndNameEntry(String keyName, String nameTranslation, String tooltipTranslation) {
-        addTranslation("text.autoconfig.jello.option." + keyName + ".@Tooltip", tooltipTranslation);
-        addTranslation("text.autoconfig.jello.option." + keyName, nameTranslation);
+    private void addOCToolTipAndNameEntry(String keyName, String nameTranslation, String tooltipTranslation) {
+        addTranslation("text.config.jello.option." + keyName + ".tooltip", tooltipTranslation);
+        addTranslation("text.config.jello.option." + keyName, nameTranslation);
     }
 }

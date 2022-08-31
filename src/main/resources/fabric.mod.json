@@ -6,14 +6,15 @@
   "name": "Gelatin",
   "description": "A Library Mod full of colorful tools to make it easier to Color Minecraft's various colorful blocks",
   "authors": [
-    "Me!"
+    "Blodhgarm"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/wisp-forest/gelatin",
+    "issues": "https://github.com/wisp-forest/gelatin/issues",
+    "sources": "https://github.com/wisp-forest/gelatin"
   },
 
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/gelatin/icon.png",
 
   "environment": "*",

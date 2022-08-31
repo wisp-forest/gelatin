@@ -38,7 +38,6 @@
 				"north": {"uv": [5.5, 5.5, 9.5, 6], "rotation": 180, "texture": "#2", "cullface": "north"},
 				"east": {"uv": [0, 7, 0.5, 11], "rotation": 270, "texture": "#2", "cullface": "east"},
 				"west": {"uv": [6.5, 7, 7, 11], "rotation": 90, "texture": "#2", "cullface": "west"},
-				"up": {"uv": [0, 0, 0, 0], "rotation": 180, "texture": "#2"},
 				"down": {"uv": [7, 7, 11, 11], "texture": "#2"}
 			}
 		},
@@ -50,8 +49,7 @@
 				"north": {"uv": [5.5, 6, 9.5, 7], "rotation": 180, "texture": "#2", "cullface": "north", "tintindex": 1},
 				"east": {"uv": [0.5, 7, 1.5, 11], "rotation": 270, "texture": "#2", "cullface": "east", "tintindex": 1},
 				"west": {"uv": [5.5, 7, 6.5, 11], "rotation": 90, "texture": "#2", "cullface": "west", "tintindex": 1},
-				"up": {"uv": [1.5, 7, 5.5, 11], "rotation": 180, "texture": "#2", "tintindex": 1},
-				"down": {"uv": [0, 0, 0, 0], "texture": "#2"}
+				"up": {"uv": [1.5, 7, 5.5, 11], "rotation": 180, "texture": "#2", "tintindex": 1}
 			}
 		}
 	],
@@ -60,7 +58,7 @@
 			"name": "bed_foot",
 			"origin": [8, 8, 8],
 			"color": 0,
-			"children": [0, 1, 2, 3]
+			"children": [0, 1, 2, 3, 4]
 		}
 	]
 }

@@ -1,66 +1,15 @@
-archivesBaseName = "jello"
-
 moduleDependencies(project, [
     'dye-registry',
     'dye-entries',
     'dye-cauldron',
     'dye-entities',
-    'common'
+    'common',
+    ''
 ])
 
 sourceSets.main.resources {
     srcDir 'src/generated/resources'
     exclude("src/generated/resources/.cache")
-}
-
-
-dependencies {
-    modImplementation("me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei}"){
-        exclude group: "net.fabricmc.fabric-api"
-        exclude group: "com.terraformersmc"
-    }
-
-    modImplementation("me.shedaniel:RoughlyEnoughItems-fabric:${project.rei}"){
-        exclude group: "net.fabricmc.fabric-api"
-        exclude group: "com.terraformersmc"
-    }
-
-}
-
-loom {
-//    sourceSets {
-//        generated {
-//            resources {
-//                srcDir("src/generated/resources")
-//                exclude("src/generated/resources/.cache")
-//            }
-//        }
-//    }
-
-    runs {
-        datagen {
-            client()
-
-            name "[${archivesBaseName}] Data Generation"
-            vmArg "-Dfabric-api.datagen"
-            vmArg "-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}"
-            vmArg "-Dfabric-api.datagen.modid=jello"
-
-            runDir "build/datagen"
-        }
-        client {
-            client()
-            ideConfigGenerated project.rootProject == project
-            name = "[${project.name}] Client"
-            source sourceSets.main
-        }
-        server {
-            server()
-            ideConfigGenerated project.rootProject == project
-            name = "[${project.name}] Server"
-            source sourceSets.main
-        }
-    }
 }
 
 processResources {

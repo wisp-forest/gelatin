@@ -1,8 +1,8 @@
 package io.wispforest.jello.misc;
 
-import io.wispforest.dye_entries.data.GelatinLootTables;
-import io.wispforest.dye_entries.item.ColoredBlockItem;
-import io.wispforest.dye_entries.variants.block.DyeableBlockVariant;
+import io.wispforest.gelatin.dye_entries.data.GelatinLootTables;
+import io.wispforest.gelatin.dye_entries.item.ColoredBlockItem;
+import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.block.SlimeBlockColored;
 import io.wispforest.jello.block.SlimeSlabColored;
@@ -18,7 +18,7 @@ import net.minecraft.util.Identifier;
 public class JelloBlockVariants {
 
     private static final Item.Settings itemSettings = new OwoItemSettings()
-            .group(ItemGroup.MISC)
+            .group(ItemGroup.REDSTONE)
             .tab(2)
             .maxCount(64);
 

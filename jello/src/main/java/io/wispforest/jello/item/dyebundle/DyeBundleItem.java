@@ -1,14 +1,14 @@
 package io.wispforest.jello.item.dyebundle;
 
-import io.wispforest.dye_entries.BlockColorManipulators;
-import io.wispforest.dye_entities.ducks.DyeableEntity;
-import io.wispforest.dye_entities.misc.EntityColorManipulators;
-import io.wispforest.dye_registry.ducks.DyeBlockTool;
-import io.wispforest.dye_entries.ducks.SheepDyeColorStorage;
-import io.wispforest.dye_registry.DyeColorant;
-import io.wispforest.dye_registry.DyeColorantRegistry;
-import io.wispforest.dye_registry.ducks.DyeEntityTool;
-import io.wispforest.dye_registry.ducks.DyeItemStorage;
+import io.wispforest.gelatin.dye_entries.BlockColorManipulators;
+import io.wispforest.gelatin.dye_entities.ducks.DyeableEntity;
+import io.wispforest.gelatin.dye_entities.misc.EntityColorManipulators;
+import io.wispforest.gelatin.dye_registry.ducks.DyeBlockTool;
+import io.wispforest.gelatin.dye_entries.ducks.SheepDyeColorStorage;
+import io.wispforest.gelatin.dye_registry.DyeColorant;
+import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
+import io.wispforest.gelatin.dye_registry.ducks.DyeEntityTool;
+import io.wispforest.gelatin.dye_registry.ducks.DyeItemStorage;
 import io.wispforest.jello.Jello;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;

@@ -1,6 +1,6 @@
 package io.wispforest.jello.item.dyebundle;
 
-import io.wispforest.common.events.HotbarMouseEvents;
+import io.wispforest.gelatin.common.events.HotbarMouseEvents;
 import io.wispforest.jello.mixins.client.accessors.HandledScreenAccessor;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenMouseEvents;
 import net.minecraft.client.gui.screen.Screen;

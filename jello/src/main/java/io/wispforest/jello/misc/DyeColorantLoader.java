@@ -1,10 +1,10 @@
 package io.wispforest.jello.misc;
 
 import com.google.gson.*;
-import io.wispforest.common.util.VersatileLogger;
-import io.wispforest.dye_registry.DyeColorant;
-import io.wispforest.dye_registry.DyeColorantRegistry;
-import io.wispforest.dye_entries.variants.DyeableVariantManager;
+import io.wispforest.gelatin.common.util.VersatileLogger;
+import io.wispforest.gelatin.dye_registry.DyeColorant;
+import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
+import io.wispforest.gelatin.dye_entries.variants.DyeableVariantManager;
 import io.wispforest.jello.Jello;
 import net.minecraft.block.MapColor;
 import net.minecraft.util.Identifier;

@@ -1,9 +1,9 @@
 package io.wispforest.jello.data.providers;
 
 import io.wispforest.jello.data.GelatinComplexRecipeJsonBuilder;
-import io.wispforest.dye_registry.DyeColorantRegistry;
-import io.wispforest.dye_registry.data.GelatinTags;
-import io.wispforest.dye_registry.ducks.DyeBlockStorage;
+import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
+import io.wispforest.gelatin.dye_registry.data.GelatinTags;
+import io.wispforest.gelatin.dye_registry.ducks.DyeBlockStorage;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.data.JelloTags;

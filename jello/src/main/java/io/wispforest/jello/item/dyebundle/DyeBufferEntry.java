@@ -1,7 +1,7 @@
 package io.wispforest.jello.item.dyebundle;
 
-import io.wispforest.dye_registry.DyeColorant;
-import io.wispforest.dye_registry.DyeColorantRegistry;
+import io.wispforest.gelatin.dye_registry.DyeColorant;
+import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;

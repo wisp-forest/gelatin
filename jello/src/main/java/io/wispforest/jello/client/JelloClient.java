@@ -1,11 +1,10 @@
 package io.wispforest.jello.client;
 
-import io.wispforest.common.CommonInit;
-import io.wispforest.common.events.HotbarMouseEvents;
-import io.wispforest.dye_entries.utils.DyeableVariantRegistry;
-import io.wispforest.dye_entries.variants.DyeableVariantManager;
-import io.wispforest.dye_entries.variants.block.DyeableBlockVariant;
-import io.wispforest.dye_registry.DyeColorant;
+import io.wispforest.gelatin.common.events.HotbarMouseEvents;
+import io.wispforest.gelatin.dye_entries.utils.DyeableVariantRegistry;
+import io.wispforest.gelatin.dye_entries.variants.DyeableVariantManager;
+import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
+import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.client.render.DyeBundleTooltipRender;
@@ -86,7 +85,7 @@ public class JelloClient implements ClientModInitializer {
         ClientLoginNetworking.registerGlobalReceiver(Jello.id("json_color_sync"), (client, handler, buf, listenerAdder) -> {
             PacketByteBuf buffer = PacketByteBufs.create();
 
-            buffer.writeBoolean(CommonInit.getConfig().addCustomJsonColors);
+            buffer.writeBoolean(Jello.getConfig().addCustomJsonColors());
 
             return CompletableFuture.completedFuture(buffer);
         });

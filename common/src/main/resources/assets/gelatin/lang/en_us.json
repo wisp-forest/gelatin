@@ -1,0 +1,20 @@
+{
+  "text.config.gelatin.section.client": "Client Config",
+  "text.config.gelatin.section.common": "Main Config",
+  "text.config.gelatin.option.addCustomJsonColors": "Enable Json Colors",
+  "text.config.gelatin.option.addCustomJsonColors.tooltip": "Whether or not Jello will add it's included 1822 colors to Minecraft internally.",
+  "text.config.gelatin.option.enableDyeingBlocks": "Enable Dyeing of Blocks",
+  "text.config.gelatin.option.enableDyeingBlocks.tooltip": "Allow for the dyeing of blocks using any vanilla dye.",
+  "text.config.gelatin.option.enableDyeingEntities": "Enable Dyeing of Entities",
+  "text.config.gelatin.option.enableDyeingEntities.tooltip": "Allow for the dyeing of entities using any dye.",
+  "text.config.gelatin.option.enableDyeingPlayers": "Enable Dyeing of Players",
+  "text.config.gelatin.option.enableDyeingPlayers.tooltip": "Allow for the dyeing of players using any dye.",
+  "text.config.gelatin.option.enableGrayScalingOfEntities.tooltip": "Used to allow for true color when a entity is dyed or color.",
+  "text.config.gelatin.option.enableGrayScalingOfEntities": "Enable GrayScaling of Entities",
+  "text.config.gelatin.option.enableGrayScaleRainbowEntities.tooltip": "Used to allow for true color when a entity is rainbow effected.",
+  "text.config.gelatin.option.enableGrayScaleRainbowEntities": "Enable GrayScaling of Rainbow Entities",
+  "text.config.gelatin.option.enableTransparencyFixCauldrons.tooltip": "Enables a fix for water within cauldrons just being Opaque rather than translucent.",
+  "text.config.gelatin.option.enableTransparencyFixCauldrons": "Enable Transparency Fix for Cauldrons",
+  "text.config.gelatin.option.gelatinBlackListModid.tooltip": "Used to Blacklist mods from allowing Gelatin to change its entities encase of Rendering issues",
+  "text.config.gelatin.option.gelatinBlackListModid": "Gelatin Modid Blacklist"
+}

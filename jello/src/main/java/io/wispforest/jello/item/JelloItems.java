@@ -1,9 +1,9 @@
 package io.wispforest.jello.item;
 
-import io.wispforest.common.util.BetterItemOps;
-import io.wispforest.dye_entries.item.ColoredItem;
-import io.wispforest.dye_registry.DyeColorant;
-import io.wispforest.dye_registry.DyeColorantRegistry;
+import io.wispforest.gelatin.common.util.BetterItemOps;
+import io.wispforest.gelatin.dye_entries.item.ColoredItem;
+import io.wispforest.gelatin.dye_registry.DyeColorant;
+import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import io.wispforest.jello.item.dyebundle.DyeBundleItem;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
 import io.wispforest.owo.registration.reflect.ItemRegistryContainer;

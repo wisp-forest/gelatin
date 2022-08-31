@@ -1,8 +1,8 @@
 package io.wispforest.jello.compat.rei;
 
-import io.wispforest.dye_entries.variants.VanillaItemVariants;
-import io.wispforest.dye_registry.DyeColorant;
-import io.wispforest.dye_registry.DyeColorantRegistry;
+import io.wispforest.gelatin.dye_entries.variants.VanillaItemVariants;
+import io.wispforest.gelatin.dye_registry.DyeColorant;
+import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.item.ArtistPaletteItem;
 import io.wispforest.jello.item.JelloItems;

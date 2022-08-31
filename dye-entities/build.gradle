@@ -1,5 +1,3 @@
-archivesBaseName = "dye-entities"
-
 moduleDependencies(project, [
     'dye-registry',
     'common'

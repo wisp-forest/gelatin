@@ -1,11 +1,11 @@
 package io.wispforest.jello;
 
-import io.wispforest.common.CommonInit;
-import io.wispforest.common.events.CauldronEvent;
+import io.wispforest.gelatin.common.events.CauldronEvent;
 import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.blockentity.JelloBlockEntityTypes;
 import io.wispforest.jello.client.render.screen.ColorMixerScreenHandler;
 import io.wispforest.jello.client.render.screen.JelloScreenHandlerTypes;
+import io.wispforest.jello.compat.JelloConfig;
 import io.wispforest.jello.data.recipe.JelloRecipeSerializers;
 import io.wispforest.jello.misc.DyeColorantLoader;
 import io.wispforest.jello.item.JelloItems;
@@ -31,6 +31,8 @@ import java.util.Map;
 public class Jello implements ModInitializer {
 
     public static final String MODID = "jello";
+
+    public static JelloConfig MAIN_CONFIG = null;
 
     public static Identifier id(String path){
         return new Identifier(MODID, path);
@@ -75,7 +77,7 @@ public class Jello implements ModInitializer {
         RecipeRemainderStorage.store(Jello.id("sponge_item_from_dry_sponge"), Map.of(Items.SHEARS, Items.SHEARS.getDefaultStack()));
         RecipeRemainderStorage.store(Jello.id("artist_palette"), Map.of(Items.SHEARS, Items.SHEARS.getDefaultStack()));
 
-        if(CommonInit.getConfig().addCustomJsonColors) {
+        if(Jello.getConfig().addCustomJsonColors()) {
             DyeColorantLoader.loadFromJson();
         }
 
@@ -109,6 +111,14 @@ public class Jello implements ModInitializer {
             CustomJsonColorSync.confirmMatchingConfigOptions(buf.getBoolean(0), handler);
         });
 
+    }
+
+    public static JelloConfig getConfig() {
+        if(MAIN_CONFIG == null){
+            MAIN_CONFIG = JelloConfig.createAndLoad();
+        }
+
+        return MAIN_CONFIG;
     }
 
     //TODO: GET WORKING AGAIN WITHIN THE FUTURE

@@ -1,60 +1,53 @@
 {
   "schemaVersion": 1,
-  "id": "dye_block_and_item",
+  "id": "gelatin-dye-entries",
   "version": "${version}",
 
-  "name": "Dye Blocks And Items",
-  "description": "Main Module within Gelatin which contains the bulk code for Custom Block and Item Colors",
+  "name": "Dye Entries",
+  "description": "A Module contain within the Gelatin API which contains the bulk code for Creating and interacting with Colored Blocks and Items.",
   "authors": [
-    "blodhgarm"
+    "Blodhgarm"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/wisp-forest/gelatin",
+    "issues": "https://github.com/wisp-forest/gelatin/issues",
+    "sources": "https://github.com/wisp-forest/gelatin"
   },
 
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/gelatin/icon.png",
   "accessWidener" : "dye-entries.accesswidener",
 
   "environment": "*",
-  "entrypoints": {
-    "main": [
-      "io.wispforest.dye_entries.DyeEntriesInit"
-    ],
-    "client": [
-      "io.wispforest.dye_entries.client.DyeEntriesClientInit"
-    ],
-    "condensed_creative": [
-      "io.wispforest.dye_entries.compat.condensedCreative.JelloCCEntrypoint"
-    ],
-    "rei_client": [
-      "io.wispforest.dye_entries.compat.rei.GelatinREIClientPlugin"
-    ]
-  },
   "mixins": [
     "dye-entries.mixins.json"
   ],
 
+  "entrypoints": {
+    "main": [
+      "io.wispforest.gelatin.dye_entries.DyeEntriesInit"
+    ],
+    "client": [
+      "io.wispforest.gelatin.dye_entries.client.DyeEntriesClientInit"
+    ],
+    "condensed_creative": [
+      "io.wispforest.gelatin.dye_entries.compat.condensedCreative.GelatinCCEntrypoint"
+    ],
+    "rei_client": [
+      "io.wispforest.gelatin.dye_entries.compat.rei.GelatinREIClientPlugin"
+    ]
+  },
   "depends": {
     "fabricloader": ">=0.14.6",
     "fabric": "*",
     "minecraft": "~1.19",
-    "java": ">=17"
-  },
-  "suggests": {
-    "another-mod": "*"
+    "java": ">=17",
+    "owo": ">=0.8.0+1.19"
   },
   "custom": {
     "modmenu": {
       "badges": [ "library" ],
-      "parent": {
-        "id": "gelatin",
-        "name": "Gelatin",
-        "description": "A API full of Random Colorful stuff",
-        "icon": "assets/gelatin/icon.png",
-        "badges": [ "library" ]
-      }
+      "parent": "gelatin"
     }
   }
 }

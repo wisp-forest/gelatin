@@ -1,31 +1,12 @@
-archivesBaseName = "dye-entries"
-
 moduleDependencies(project, [
     'dye-registry',
     'common'
 ])
 
 dependencies {
-    modLocalRuntime("maven.modrinth:better-beds:${project.better_beds}")
+
     include("maven.modrinth:better-beds:${project.better_beds}")
 
-    //-----------------
-
-    modImplementation("me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei}"){
-        exclude group: "net.fabricmc.fabric-api"
-        exclude group: "com.terraformersmc"
-    }
-
-    modImplementation("me.shedaniel:RoughlyEnoughItems-fabric:${project.rei}"){
-        exclude group: "net.fabricmc.fabric-api"
-        exclude group: "com.terraformersmc"
-    }
-
-    modLocalRuntime "dev.architectury:architectury-fabric:${project.architectury}"
-
-    //-----------------
-
-    modImplementation "io.wispforest:condensed_creative-fabric:${project.cc}"
 }
 
 processResources {

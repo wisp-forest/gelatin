@@ -1,13 +1,13 @@
 package io.wispforest.jello.item;
 
-import io.wispforest.cauldron.blockentity.ColorStorageBlockEntity;
-import io.wispforest.common.events.CauldronEvent;
-import io.wispforest.dye_entries.BlockColorManipulators;
-import io.wispforest.dye_entities.ducks.DyeableEntity;
-import io.wispforest.dye_entities.misc.EntityColorManipulators;
-import io.wispforest.dye_registry.DyeColorantRegistry;
-import io.wispforest.dye_registry.ducks.DyeBlockTool;
-import io.wispforest.dye_registry.ducks.DyeEntityTool;
+import io.wispforest.gelatin.cauldron.blockentity.ColorStorageBlockEntity;
+import io.wispforest.gelatin.common.events.CauldronEvent;
+import io.wispforest.gelatin.dye_entries.BlockColorManipulators;
+import io.wispforest.gelatin.dye_entities.ducks.DyeableEntity;
+import io.wispforest.gelatin.dye_entities.misc.EntityColorManipulators;
+import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
+import io.wispforest.gelatin.dye_registry.ducks.DyeBlockTool;
+import io.wispforest.gelatin.dye_registry.ducks.DyeEntityTool;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FluidDrainable;
 import net.minecraft.block.LeveledCauldronBlock;
