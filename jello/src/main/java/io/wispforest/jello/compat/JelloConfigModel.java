@@ -8,7 +8,7 @@ import io.wispforest.owo.config.annotation.*;
 @Config(name = Jello.MODID, wrapperName = "JelloConfig")
 public class JelloConfigModel {
 
-    @SectionHeader("client")
+    @SectionHeader("common")
     @RestartRequired
     @Sync(Option.SyncMode.OVERRIDE_CLIENT)
     public boolean addCustomJsonColors = true;

@@ -1,4 +1,5 @@
 {
+  "text.config.gelatin.title": "Gelatin Config",
   "text.config.gelatin.section.client": "Client Config",
   "text.config.gelatin.section.common": "Main Config",
   "text.config.gelatin.option.addCustomJsonColors": "Enable Json Colors",

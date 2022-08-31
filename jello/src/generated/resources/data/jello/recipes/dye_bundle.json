@@ -5,7 +5,7 @@
       "item": "minecraft:bundle"
     },
     "~": {
-      "tag": "jello:vanilla_dye_items"
+      "tag": "gelatin:vanilla_dye_items"
     }
   },
   "pattern": [

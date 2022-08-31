@@ -41,10 +41,18 @@
   "item.jello.white_slime_ball": "White Slime Ball",
   "item.jello.yellow_jello_cup": "Yellow Jello Cup",
   "item.jello.yellow_slime_ball": "Yellow Slime Ball",
+  "itemGroup.jello.jello_group": "Jello Config",
+  "itemGroup.jello.jello_group.tab.dyed_block_variants": "Jello Block Variants",
+  "itemGroup.jello.jello_group.tab.dyed_item_variants": "Jello Item Variants",
+  "itemGroup.jello.jello_group.tab.jello_tools": "Jello Stuff",
+  "itemGroup.misc.tab.block_vars": "Colored Block Variants",
+  "itemGroup.misc.tab.dyes": "Custom Dyes",
   "jello.gui.dye_mixer": "Dye Mixer",
-  "text.jello.dye_bundle_pattern": "%1$s [%2$s]",
-  "tooltip.vanilla_slime_blocks_condensed": "Only contains Vanilla Colors",
-  "tooltip.vanilla_slime_slabs_condensed": "Only contains Vanilla Colors",
-  "vanilla_slime_blocks_condensed": "Slime Blocks",
-  "vanilla_slime_slabs_condensed": "Slime Slabs"
+  "slime_blocks_condensed": "Slime Blocks",
+  "slime_slabs_condensed": "Slime Slabs",
+  "text.config.jello.option.addCustomJsonColors": "Enable Json Colors",
+  "text.config.jello.option.addCustomJsonColors.tooltip": "Whether or not Jello will add it's included 1822 colors to Minecraft internally.",
+  "text.config.jello.section.common": "Main Config",
+  "text.config.jello.title": "Jello",
+  "text.jello.dye_bundle_pattern": "%1$s [%2$s]"
 }

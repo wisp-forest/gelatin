@@ -133,7 +133,7 @@ public class JelloRecipeProvider extends FabricRecipeProvider {
                 .input(Items.SHEARS)
                 .input(ItemTags.WOODEN_PRESSURE_PLATES)
                 .criterion("has_shears_item", conditionsFromItem(Items.SHEARS))
-                .offerTo(exporter, Jello.id("artist_palette"));
+                .offerTo(exporter, Jello.id("empty_artist_palette"));
 
         ShapedRecipeJsonBuilder.create(JelloBlocks.PAINT_MIXER)
                 .input('l', Items.LAPIS_LAZULI)

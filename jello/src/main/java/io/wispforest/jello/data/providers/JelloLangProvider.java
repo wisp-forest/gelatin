@@ -49,6 +49,8 @@ public class JelloLangProvider extends AbstractLanguageProvider {
 
         addTranslation(SpongeItem.DIRTINESS_TRANSLATION_KEY, "Dirty Sponge");
 
+        addOCName("Jello Config");
+
         addOCToolTipAndNameEntry("addCustomJsonColors", "Enable Json Colors", "Whether or not Jello will add it's included 1822 colors to Minecraft internally.");
 
         addOCCategoryName("common", "Main Config");
@@ -155,6 +157,10 @@ public class JelloLangProvider extends AbstractLanguageProvider {
         return Arrays.stream(internalNameParts)
                 .map(WordUtils::capitalize)
                 .collect(Collectors.joining(" "));
+    }
+
+    private void addOCName(String nameTranslation) {
+        addTranslation("text.config.jello.title", nameTranslation);
     }
 
     private void addOCCategoryName(String keyName, String nameTranslation) {

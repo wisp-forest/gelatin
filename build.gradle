@@ -232,6 +232,15 @@ void setupRepositories(RepositoryHandler repositories) {
 subprojects {
 
 	loom {
+		sourceSets {
+			main {
+				resources {
+					srcDir(project.file("src/generated/resources"))
+					exclude(project.file("src/generated/resources/.cache").toString())
+				}
+			}
+		}
+
 		runs {
 			datagen {
 				client()
