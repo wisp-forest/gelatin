@@ -1,0 +1,33 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "io.wispforest.dye_entries.mixins",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "AbstractBlockStateMixin",
+    "BeaconBlockEntityMixin",
+    "DyeItemMixin",
+    "ItemStackMixin",
+    "PointOfInterestTypeMixin",
+    "PointOfInterestTypesMixin",
+    "SheepEntityMixin",
+    "ShulkerBoxBlockEntityMixin",
+    "ShulkerBoxBlockMixin",
+    "accessors.BlockEntityTypeAccessor",
+    "accessors.ShulkerBoxBlockEntityAccessor"
+  ],
+  "client": [
+    "client.ShulkerBoxBlockEntityRendererMixin",
+    "client.SpriteAtlasTextureMixin",
+    "client.SpriteInfoAccessor",
+    "client.TextureStitcherAccessor",
+    "client.dye.BedBlockEntityRendererMixin",
+    "client.dye.ModelLoaderMixin",
+    "client.dye.SheepWoolFeatureRendererMixin",
+    "client.dye.ShulkerBoxBlockEntityRendererMixin",
+    "client.dye.sheep_consistency.SheepShearedFeatureRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,11 @@
+archivesBaseName = "dye-cauldrons"
+
+moduleDependencies(project, [
+    'dye-registry',
+    'dye-entries',
+    'common'
+])
+
+processResources {
+    duplicatesStrategy = DuplicatesStrategy.WARN
+}

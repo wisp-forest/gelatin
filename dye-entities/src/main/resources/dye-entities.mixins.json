@@ -1,0 +1,28 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "io.wispforest.dye_entities.mixins",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "DyeItemMixin",
+    "EnchantedGoldenAppleMixin",
+    "ItemStackMixin",
+    "LivingEntityMixin",
+    "WaterBucketMixin",
+    "WolfEntityMixin",
+    "CatEntityMixin",
+    "bugfix.AbstractDonkeyEntityMixin",
+    "bugfix.HorseEntityMixin"
+  ],
+  "client": [
+    "client.FeatureRendererMixin",
+    "client.LivingEntityRenderMixin",
+    "client.SlimeOverlayFeatureRendererMixin",
+    "client.TextureManagerMixin",
+    "client.CatCollarFeatureRendererMixin",
+    "client.WolfCollarFeatureRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "id": "dye_entities",
+  "version": "${version}",
+
+  "name": "Dye Entities",
+  "description": "Main Module within Gelatin which contains the bulk code for Coloring Entities",
+  "authors": [
+    "blodhgarm"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/gelatin/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "io.wispforest.dye_entities.DyeEntityApiInit"
+    ],
+    "client": [
+      "io.wispforest.dye_entities.client.DyeEntityApiClientInit"
+    ]
+  },
+  "mixins": [
+    "dye-entities.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.6",
+    "fabric": "*",
+    "minecraft": "~1.19",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "badges": [ "library" ],
+      "parent": {
+        "id": "gelatin",
+        "name": "Gelatin",
+        "description": "A API full of Random Colorful stuff",
+        "icon": "assets/gelatin/icon.png",
+        "badges": [ "library" ]
+      }
+    }
+  }
+}

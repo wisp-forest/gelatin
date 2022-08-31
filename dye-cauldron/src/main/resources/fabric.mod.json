@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "id": "dye_cauldron",
+  "version": "${version}",
+
+  "name": "Cauldron",
+  "description": "API for dealing with Cauldrons within Gelatin",
+  "authors": [
+    "Blodhgarm"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+
+  "license": "MIT",
+  "icon": "assets/gelatin/icon.png",
+  "accessWidener" : "dye-cauldron.accesswidener",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "io.wispforest.cauldron.CauldronInit"
+    ],
+    "client": [
+      "io.wispforest.cauldron.CauldronClientInit"
+    ]
+  },
+  "mixins": [
+    "dye-cauldron.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.6",
+    "fabric": "*",
+    "minecraft": "~1.19",
+    "java": ">=17",
+    "owo": ">=0.7.2+1.18"
+  },
+  "breaks": {
+    "cauldron_dyeing": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "badges": [ "library" ],
+      "parent": {
+        "id": "gelatin",
+        "name": "Gelatin",
+        "description": "A API full of Random Colorful stuff",
+        "icon": "assets/gelatin/icon.png",
+        "badges": [ "library" ]
+      }
+    }
+  }
+}

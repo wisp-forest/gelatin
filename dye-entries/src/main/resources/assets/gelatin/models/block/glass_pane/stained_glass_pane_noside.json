@@ -1,0 +1,6 @@
+{
+  "parent": "gelatin:block/glass_pane/template_glass_pane_noside",
+  "textures": {
+    "pane": "minecraft:block/white_stained_glass"
+  }
+}

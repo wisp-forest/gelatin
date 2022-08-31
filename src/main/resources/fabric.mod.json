@@ -1,64 +1,30 @@
 {
   "schemaVersion": 1,
-  "id": "jello",
+  "id": "gelatin",
   "version": "${version}",
 
-  "name": "Jello",
-  "description": "A Library mod that adds some useful entity coloring API's and new Blocks & Features based around Color!",
+  "name": "Gelatin",
+  "description": "A Library Mod full of colorful tools to make it easier to Color Minecraft's various colorful blocks",
   "authors": [
-    "Dragon_Seeker"
+    "Me!"
   ],
   "contact": {
-    "homepage": "https://github.com/Dragon-Seeker/Jello",
-    "issues": "https://github.com/Dragon-Seeker/Jello/issues",
-    "sources": "https://github.com/Dragon-Seeker/Jello"
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
   },
 
-  "license": "LGPL-3.0",
-  "contributors": [
-    "glisco - Major Work on the Paint Mixer GUI",
-    "Dr.Zeal - Texture Artist for Jello Cups",
-    "pois1x - Texture Artist for the Artist Palette"
-  ],
+  "license": "CC0-1.0",
+  "icon": "assets/gelatin/icon.png",
 
-  "icon": "assets/jello/icon.png",
-  "accessWidener" : "jello.accesswidener",
   "environment": "*",
-  "entrypoints": {
-    "client": [
-      "io.wispforest.jello.client.JelloClient"
-    ],
-    "main": [
-      "io.wispforest.jello.Jello"
-    ],
-    "fabric-datagen": [
-      "io.wispforest.jello.data.JelloDataEntrypoint"
-    ],
-    "condensed_creative": [
-      "io.wispforest.jello.compat.condensedCreative.JelloCCEntrypoint"
-    ],
-    "modmenu": [
-      "io.wispforest.jello.compat.modmenu.JelloModMenuIntegration"
-    ],
-    "rei_client": [
-       "io.wispforest.jello.compat.rei.JelloREIClientPlugin"
-    ]
-  },
-  "mixins": [
-    "jello.mixins.json"
-  ],
+
   "depends": {
-    "owo": ">=0.7.2+1.18",
-    "cloth-config": ">=6.2.57",
-    "fabricloader": ">=0.13.3",
+    "fabricloader": ">=0.14.6",
     "fabric": "*",
-    "minecraft": ">=1.18.2"
+    "minecraft": "~1.19",
+    "java": ">=17"
   },
   "suggests": {
-    "modmenu": "*",
-    "consistency_plus": "*"
-  },
-  "breaks": {
-    "cauldron_dyeing": "*"
+    "another-mod": "*"
   }
 }

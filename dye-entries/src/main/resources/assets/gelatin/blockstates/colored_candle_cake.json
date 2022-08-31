@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "gelatin:block/candle_cake"
+    },
+    "lit=true": {
+      "model": "gelatin:block/candle_cake_lit"
+    }
+  }
+}

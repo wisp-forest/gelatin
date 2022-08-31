@@ -1,6 +1,0 @@
-{
-  "parent": "jello:block/cube_all",
-  "textures": {
-    "all": "jello:block/glowstone_gray"
-  }
-}

@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=east,part=head": {
+      "model": "gelatin:block/bed/bed_head_tint",
+      "y": 270
+    },
+    "facing=north,part=head": {
+      "model": "gelatin:block/bed/bed_head_tint",
+      "y": 180
+    },
+    "facing=south,part=head": {
+      "model": "gelatin:block/bed/bed_head_tint"
+    },
+    "facing=west,part=head": {
+      "model": "gelatin:block/bed/bed_head_tint",
+      "y": 90
+    },
+	"facing=east,part=foot": {
+      "model": "gelatin:block/bed/bed_foot_tint",
+      "y": 270
+    },
+    "facing=north,part=foot": {
+      "model": "gelatin:block/bed/bed_foot_tint",
+      "y": 180
+    },
+    "facing=south,part=foot": {
+      "model": "gelatin:block/bed/bed_foot_tint"
+    },
+    "facing=west,part=foot": {
+      "model": "gelatin:block/bed/bed_foot_tint",
+      "y": 90
+    }
+  }
+}

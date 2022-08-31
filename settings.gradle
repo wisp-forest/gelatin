@@ -8,6 +8,15 @@ pluginManagement {
             name = 'Cotton'
             url = 'https://server.bbkr.space/artifactory/libs-release/'
         }
+        mavenCentral()
         gradlePluginPortal()
     }
 }
+rootProject.name = "gelatin"
+
+include("common")
+include("dye-registry")
+include("dye-entries")
+include("dye-entities")
+include("dye-cauldron")
+include("jello")

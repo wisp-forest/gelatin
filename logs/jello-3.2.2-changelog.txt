@@ -1,1 +1,0 @@
-Small Bug Fix for Crashing due to NullPointerException within the Cauldron Color Helper Block Entity

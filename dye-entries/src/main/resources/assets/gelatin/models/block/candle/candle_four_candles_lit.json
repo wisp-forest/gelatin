@@ -1,0 +1,7 @@
+{
+  "parent": "gelatin:block/candle/template_four_candles",
+  "textures": {
+    "all": "minecraft:block/white_candle_lit",
+    "particle": "minecraft:block/white_candle_lit"
+  }
+}

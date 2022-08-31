@@ -1,0 +1,13 @@
+archivesBaseName = "common"
+
+processResources {
+    duplicatesStrategy = DuplicatesStrategy.WARN
+}
+
+dependencies {
+    include "io.wispforest:owo-sentinel:${project.owo_version}"
+
+    include("org.atteo:evo-inflector:1.3")
+    implementation("org.atteo:evo-inflector:1.3")
+
+}

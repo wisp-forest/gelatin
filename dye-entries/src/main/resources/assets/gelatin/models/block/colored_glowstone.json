@@ -1,0 +1,6 @@
+{
+  "parent": "gelatin:block/cube_all",
+  "textures": {
+    "all": "gelatin:block/glowstone_gray"
+  }
+}

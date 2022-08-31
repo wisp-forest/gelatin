@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "gelatin:block/colored_slime_slab"
+    },
+    "type=double": {
+      "model": "gelatin:block/colored_slime_block"
+    },
+    "type=top": {
+      "model": "gelatin:block/colored_slime_slab_top"
+    }
+  }
+}

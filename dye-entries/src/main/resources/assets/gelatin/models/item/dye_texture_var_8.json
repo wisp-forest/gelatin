@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gelatin:item/dye_item_variant/var_8"
+  }
+}

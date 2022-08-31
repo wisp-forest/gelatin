@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "id": "gelatin_common",
+  "version": "${version}",
+
+  "name": "Common",
+  "description": "A Module containing some common code for Gelatin Library",
+  "authors": [
+    "blodhgarm"
+  ],
+  "contact": {
+    "homepage": "https://github.com/Dragon-Seeker/Jello",
+    "issues": "https://github.com/Dragon-Seeker/Jello/issues",
+    "sources": "https://github.com/Dragon-Seeker/Jello"
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/gelatin/icon.png",
+  "accessWidener" : "common.accesswidener",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "io.wispforest.common.CommonInit"
+    ],
+    "modmenu": [
+      "io.wispforest.common.compat.modmenu.GelatinModMenuIntegration"
+    ]
+  },
+  "mixins": [
+    "common.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.6",
+    "fabric": "*",
+    "minecraft": "~1.19",
+    "java": ">=17"
+  },
+  "suggests": {
+    "modmenu": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "badges": [ "library" ],
+      "parent": {
+        "id": "gelatin",
+        "name": "Gelatin",
+        "description": "A API full of Random Colorful stuff",
+        "icon": "assets/gelatin/icon.png",
+        "badges": [ "library" ]
+      }
+    }
+  }
+}

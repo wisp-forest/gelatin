@@ -1,0 +1,56 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gelatin:item/dye_item_variant/var_0"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "variant": 0.125
+      },
+      "model": "gelatin:item/dye_texture_var_1"
+    },
+    {
+      "predicate": {
+        "variant": 0.25
+      },
+      "model": "gelatin:item/dye_texture_var_2"
+    },
+    {
+      "predicate": {
+        "variant": 0.375
+      },
+      "model": "gelatin:item/dye_texture_var_3"
+    },
+    {
+      "predicate": {
+        "variant": 0.5
+      },
+      "model": "gelatin:item/dye_texture_var_4"
+    },
+    {
+      "predicate": {
+        "variant": 0.625
+      },
+      "model": "gelatin:item/dye_texture_var_5"
+    },
+    {
+      "predicate": {
+        "variant": 0.75
+      },
+      "model": "gelatin:item/dye_texture_var_6"
+    },
+    {
+      "predicate": {
+        "variant": 0.875
+      },
+      "model": "gelatin:item/dye_texture_var_7"
+    },
+    {
+      "predicate": {
+        "variant": 1
+      },
+      "model": "gelatin:item/dye_texture_var_8"
+    }
+  ]
+}

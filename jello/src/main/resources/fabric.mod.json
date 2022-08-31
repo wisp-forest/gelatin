@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "id": "jello",
+  "version": "${version}",
+
+  "name": "Jello",
+  "description": "A mod used to test Gelatin's API with some other wacky stuff",
+  "authors": [
+    "Dragon_Seeker"
+  ],
+  "contact": {
+    "homepage": "https://github.com/Dragon-Seeker/Jello",
+    "issues": "https://github.com/Dragon-Seeker/Jello/issues",
+    "sources": "https://github.com/Dragon-Seeker/Jello"
+  },
+
+  "license": "MIT",
+  "contributors": [
+    "glisco - Major Work on the Paint Mixer GUI",
+    "Dr.Zeal - Texture Artist for Jello Cups",
+    "pois1x - Texture Artist for the Artist Palette"
+  ],
+
+  "icon": "assets/jello/icon.png",
+  "accessWidener" : "jello.accesswidener",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "io.wispforest.jello.client.JelloClient"
+    ],
+    "main": [
+      "io.wispforest.jello.Jello"
+    ],
+    "fabric-datagen": [
+      "io.wispforest.jello.data.JelloDataEntrypoint"
+    ],
+    "modmenu": [
+      "io.wispforest.common.compat.modmenu.GelatinModMenuIntegration"
+    ],
+    "rei_client": [
+       "io.wispforest.jello.compat.rei.JelloREIClientPlugin"
+    ]
+  },
+  "mixins": [
+    "jello.mixins.json"
+  ],
+  "depends": {
+    "owo": ">=0.7.2+1.18",
+    "cloth-config": ">=6.2.57",
+    "fabricloader": ">=0.13.3",
+    "fabric": "*",
+    "minecraft": ">=1.18.2"
+  },
+  "suggests": {
+    "modmenu": "*",
+    "consistency_plus": "*"
+  },
+  "breaks": {
+    "cauldron_dyeing": "*"
+  }
+}
