@@ -9,17 +9,17 @@ import net.minecraft.item.Items;
 
 public class JelloTagsProvider {
 
-    public static class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
-
-        public BlockTagProvider(FabricDataGenerator dataGenerator) {
-            super(dataGenerator);
-        }
-
-        @Override
-        protected void generateTags() {
-            this.getOrCreateTagBuilder(JelloTags.Blocks.STICKY_BLOCKS).add(Blocks.HONEY_BLOCK);
-        }
-    }
+//    public static class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
+//
+//        public BlockTagProvider(FabricDataGenerator dataGenerator) {
+//            super(dataGenerator);
+//        }
+//
+//        @Override
+//        protected void generateTags() {
+//            this.getOrCreateTagBuilder(JelloTags.Blocks.STICKY_BLOCKS).add(Blocks.HONEY_BLOCK);
+//        }
+//    }
 
     public static class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
 

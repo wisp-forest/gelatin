@@ -41,7 +41,12 @@ public abstract class LivingEntityMixin implements DyeableEntity, RainbowEntity 
     public void readDyeColorNBT(NbtCompound nbt, CallbackInfo ci) {
         String possibleIdentifier = nbt.getString(DataConstants.getDyeColorNbtKey());
 
-        ((LivingEntity) (Object) this).getDataTracker().set(DYE_COLOR, !Objects.equals(possibleIdentifier, "") ? Identifier.tryParse(possibleIdentifier) : DyeColorantRegistry.NULL_VALUE_NEW.getId());
+        if(Objects.equals(possibleIdentifier, "jello:_null")){
+            setDyeColor(DyeColorantRegistry.NULL_VALUE_NEW);
+        } else {
+            ((LivingEntity) (Object) this).getDataTracker().set(DYE_COLOR, !Objects.equals(possibleIdentifier, "") ? Identifier.tryParse(possibleIdentifier) : DyeColorantRegistry.NULL_VALUE_NEW.getId());
+        }
+
         ((LivingEntity) (Object) this).getDataTracker().set(RAINBOW_MODE, nbt.getByte(DataConstants.getRainbowNbtKey()));
         ((LivingEntity) (Object) this).getDataTracker().set(CONSTANT_COLOR, getOrDefaultNbtColor(DataConstants.getConstantColorNbtKey(), nbt, DataConstants.DEFAULT_NULL_COLOR_VALUE));
     }

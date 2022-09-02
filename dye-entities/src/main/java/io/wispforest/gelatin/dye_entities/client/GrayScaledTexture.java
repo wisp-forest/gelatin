@@ -37,13 +37,11 @@ public class GrayScaledTexture extends ResourceTexture {
 
         NativeImage nativeImage = ColorUtil.convertImageToGrayScale(textureData.getImage());
 
-
         if (!RenderSystem.isOnRenderThreadOrInit()) {
             RenderSystem.recordRenderCall(() -> this.upload(nativeImage, bl, bl2));
         } else {
             this.upload(nativeImage, bl, bl2);
         }
-
     }
 
     @Override

@@ -115,7 +115,7 @@ allprojects {
 //    modImplementation("maven.modrinth:lithium:${project.lithium}")
 //    modLocalRuntime("maven.modrinth:lithium:${project.lithium}")
 
-		modImplementation("maven.modrinth:sodium:${project.sodium}")
+		modCompileOnly("maven.modrinth:sodium:${project.sodium}")
 		modLocalRuntime("maven.modrinth:sodium:${project.sodium}")
 
 		modImplementation('org.joml:joml:1.10.2')
@@ -145,7 +145,7 @@ allprojects {
 	}
 
 	tasks.withType(AbstractArchiveTask) {
-		preserveFileTimestamps = false
+		preserveFileTimestamps = true
 		reproducibleFileOrder = true
 	}
 
@@ -287,11 +287,13 @@ subprojects {
 
 	afterEvaluate {
 		afterEvaluate {
-			genSourcesWithQuiltflower.enabled = false
-			genSourcesWithFernFlower.enabled = false
-			genSourcesWithCfr.enabled = false
-			unpickJar.enabled = false
-			downloadAssets.enabled = false
+			if(project.archivesBaseName != "gelatin") {
+				genSourcesWithQuiltflower.enabled = false
+				genSourcesWithFernFlower.enabled = false
+				genSourcesWithCfr.enabled = false
+				unpickJar.enabled = false
+				downloadAssets.enabled = false
+			}
 		}
 	}
 }

@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 public class DyeEntriesInit implements ModInitializer {
 
-    public static final OwoItemGroup MAIN_ITEM_GROUP = new GelatinItemGroup(GelatinConstants.id("jello_group"));
+    public static final OwoItemGroup MAIN_ITEM_GROUP = new GelatinItemGroup(GelatinConstants.id("gelatin_group"));
 
     @Override
     public void onInitialize() {

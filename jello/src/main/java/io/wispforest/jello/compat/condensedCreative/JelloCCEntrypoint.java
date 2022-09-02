@@ -33,7 +33,7 @@ public class JelloCCEntrypoint implements CondensedCreativeInitializer {
     @Override
     public void onInitializeCondensedEntries(boolean refreshed) {
         CondensedEntryRegistry.fromBlockTag(Jello.id("slime_slabs"), JelloBlocks.SLIME_SLAB, JelloBlockVariants.SLIME_SLAB.getPrimaryBlockTag())
-                .setEntrySorting(allStacks -> GelatinCCEntrypoint.sortItemStacks(allStacks, Blocks.SLIME_BLOCK.asItem(),
+                .setEntrySorting(allStacks -> GelatinCCEntrypoint.sortItemStacks(allStacks, JelloBlocks.SLIME_SLAB.asItem(),
                         stack -> ((DyeBlockStorage)((BlockItem)stack.getItem()).getBlock()).getDyeColorant()))
                 .setTitleString(Text.translatable("slime_slabs_condensed"))
                 .addItemGroup(ItemGroup.REDSTONE);

@@ -2,3 +2,5 @@ accessWidener	v2	named
 
 accessible class net/minecraft/client/texture/ResourceTexture$TextureData
 
+accessible method net/minecraft/client/texture/ResourceTexture loadTextureData (Lnet/minecraft/resource/ResourceManager;)Lnet/minecraft/client/texture/ResourceTexture$TextureData;
+accessible method net/minecraft/client/texture/ResourceTexture upload (Lnet/minecraft/client/texture/NativeImage;ZZ)V

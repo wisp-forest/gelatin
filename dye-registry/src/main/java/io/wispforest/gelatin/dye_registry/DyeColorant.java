@@ -147,6 +147,10 @@ public class DyeColorant {
         return byOldIntId(dyeColor.getId());
     }
 
+    public boolean nullColorCheck(){
+        return this == DyeColorantRegistry.NULL_VALUE_NEW;
+    }
+
     //----------------------------------------------------------------
 
     public static int blendDyeColors(DyeColorant... colors) {

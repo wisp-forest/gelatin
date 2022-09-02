@@ -1,12 +1,10 @@
 package io.wispforest.jello.mixins;
 
+import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.ducks.DyeBlockStorage;
 import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.data.JelloTags;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.FacingBlock;
-import net.minecraft.block.SlabBlock;
+import net.minecraft.block.*;
 import net.minecraft.block.enums.SlabType;
 import net.minecraft.block.piston.PistonHandler;
 import net.minecraft.util.math.BlockPos;
@@ -51,21 +49,34 @@ public abstract class PistonHandlerMixin {
 
     @Inject(method = "isAdjacentBlockStuck", at = @At(value = "HEAD"), cancellable = true)
     private static void isAdjacentBlockStuckExt(BlockState state, BlockState adjacentState, CallbackInfoReturnable<Boolean> cir) {
+        Block block1 = state.getBlock();
+        Block block2 = adjacentState.getBlock();
 
-        if ((isCustomSlimeBlock(state) && isCustomSlimeBlock(adjacentState))) {
-            DyeBlockStorage dyeableBlock1 = (DyeBlockStorage) state.getBlock();
-            DyeBlockStorage dyeableBlock2 = (DyeBlockStorage) adjacentState.getBlock();
+        boolean bl1 = state.isIn(JelloTags.Blocks.STICKY_BLOCKS);
+        boolean bl2 = adjacentState.isIn(JelloTags.Blocks.STICKY_BLOCKS);
 
-            if ((dyeableBlock1.isBlockDyed() && dyeableBlock2.isBlockDyed())) {
-                cir.setReturnValue(dyeableBlock1.getDyeColorant() == dyeableBlock2.getDyeColorant());
+        boolean returnValue = false;
+
+        if(bl1 && bl2){
+            DyeColorant dyeColorant1 = ((DyeBlockStorage)block1).getDyeColorant();
+            DyeColorant dyeColorant2 = ((DyeBlockStorage)block2).getDyeColorant();
+
+            if(block1 == block2){
+                returnValue = true;
+            } else if(dyeColorant1 == dyeColorant2){
+                if(!(dyeColorant1.nullColorCheck() && (crossCompareToHoney(state, adjacentState) || crossCompareToHoney(adjacentState, state)))){
+                    returnValue = true;
+                }
             }
-        } else if (isDefaultStickyBlock(state, adjacentState)) {
-            cir.setReturnValue(true);
-        } else if (isCustomSlimeBlock(state) && isSlimeOrHoneyBlock(adjacentState)) {
-            cir.setReturnValue(false);
-        } else if (isSlimeOrHoneyBlock(state) && isCustomSlimeBlock(adjacentState)) {
-            cir.setReturnValue(false);
+        } else if(bl1 || bl2) {
+            returnValue = true;
         }
+
+        cir.setReturnValue(returnValue);
+    }
+
+    private static boolean crossCompareToHoney(BlockState state, BlockState adjacentState){
+        return state.isOf(Blocks.HONEY_BLOCK) && !adjacentState.isOf(Blocks.HONEY_BLOCK);
     }
 
     @Unique
@@ -80,11 +91,8 @@ public abstract class PistonHandlerMixin {
 
     @Unique
     private static boolean isDefaultStickyBlock(BlockState state, BlockState adjacentState) {
-        if(state.isOf(JelloBlocks.SLIME_SLAB) || state.isOf(Blocks.SLIME_BLOCK)){
-            return adjacentState.isOf(JelloBlocks.SLIME_SLAB) || adjacentState.isOf(Blocks.SLIME_BLOCK);
-        }
-
-        return false;
+        return state.isOf(JelloBlocks.SLIME_SLAB) || state.isOf(Blocks.SLIME_BLOCK)
+                && adjacentState.isOf(JelloBlocks.SLIME_SLAB) || adjacentState.isOf(Blocks.SLIME_BLOCK);
     }
 
     //----------------------------------------------------------------------------//
