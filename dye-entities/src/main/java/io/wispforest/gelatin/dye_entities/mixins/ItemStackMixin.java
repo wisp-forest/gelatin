@@ -3,7 +3,7 @@ package io.wispforest.gelatin.dye_entities.mixins;
 import io.wispforest.gelatin.common.CommonInit;
 import io.wispforest.gelatin.dye_entities.ducks.ConstantColorEntity;
 import io.wispforest.gelatin.dye_entities.client.utils.ColorizeBlackListRegistry;
-import io.wispforest.gelatin.dye_registry.ducks.DyeEntityTool;
+import io.wispforest.gelatin.dye_entities.ducks.DyeEntityTool;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;

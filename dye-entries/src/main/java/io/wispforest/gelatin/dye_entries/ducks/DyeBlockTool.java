@@ -1,8 +1,9 @@
-package io.wispforest.gelatin.dye_registry.ducks;
+package io.wispforest.gelatin.dye_entries.ducks;
 
 import io.wispforest.gelatin.common.CommonInit;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
+import io.wispforest.gelatin.dye_registry.ducks.DyeBaseTool;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

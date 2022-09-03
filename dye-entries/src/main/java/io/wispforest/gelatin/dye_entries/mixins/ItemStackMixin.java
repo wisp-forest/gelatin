@@ -1,6 +1,6 @@
 package io.wispforest.gelatin.dye_entries.mixins;
 
-import io.wispforest.gelatin.dye_registry.ducks.DyeBlockTool;
+import io.wispforest.gelatin.dye_entries.ducks.DyeBlockTool;
 import net.minecraft.block.pattern.CachedBlockPosition;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;

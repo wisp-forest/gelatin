@@ -3,7 +3,6 @@ package io.wispforest.gelatin.dye_entries.ducks;
 import io.wispforest.gelatin.dye_entries.BlockColorManipulators;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
-import io.wispforest.gelatin.dye_registry.ducks.DyeBlockTool;
 import io.wispforest.gelatin.dye_registry.ducks.DyeItemStorage;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;

@@ -25,7 +25,6 @@ public class JelloBlockVariants {
     public static final DyeableBlockVariant SLIME_BLOCK = DyeableBlockVariant.Builder.of(Jello.id("slime_block"), itemSettings, (dyeColorant, parentBlock) -> {
         return new SlimeBlockColored(dyeColorant, FabricBlockSettings.copyOf(Blocks.SLIME_BLOCK));
     }).setDefaultEntry(new Identifier("slime_block"))
-            .setBlockItemMaker((dyeColorant, block, settings) -> new ColoredBlockItem((Block)block, settings))
             .setBlockTags(JelloTags.Blocks.COLORED_SLIME_BLOCKS, JelloTags.Blocks.SLIME_BLOCKS, JelloTags.Blocks.STICKY_BLOCKS)
             .register();
 

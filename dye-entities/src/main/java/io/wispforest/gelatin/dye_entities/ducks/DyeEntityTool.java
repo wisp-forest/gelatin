@@ -1,5 +1,6 @@
-package io.wispforest.gelatin.dye_registry.ducks;
+package io.wispforest.gelatin.dye_entities.ducks;
 
+import io.wispforest.gelatin.dye_registry.ducks.DyeBaseTool;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -9,7 +10,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-public interface DyeEntityTool extends DyeBaseTool{
+public interface DyeEntityTool extends DyeBaseTool {
 
     /**
      * Main method call for Dyeing any Entity before the items {@link Item#useOnEntity(ItemStack, PlayerEntity, LivingEntity, Hand)} method call. Override this for custom DyeColoring for an Item

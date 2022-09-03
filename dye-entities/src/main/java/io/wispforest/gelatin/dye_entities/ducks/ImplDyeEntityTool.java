@@ -2,8 +2,6 @@ package io.wispforest.gelatin.dye_entities.ducks;
 
 import io.wispforest.gelatin.dye_entities.misc.EntityColorManipulators;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
-import io.wispforest.gelatin.dye_registry.ducks.CustomCollarColorStorage;
-import io.wispforest.gelatin.dye_registry.ducks.DyeEntityTool;
 import io.wispforest.gelatin.dye_registry.ducks.DyeItemStorage;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;

@@ -83,10 +83,6 @@ public abstract class ModelLoaderMixin {
         if (DyeableVariantRegistry.shouldRedirectModelResource(new Identifier(modelId.getNamespace(), modelId.getPath()))) {
             String[] stringParts = modelId.getPath().split("_");
 
-            if(Objects.equals(modelId.getNamespace(), "jello")){
-
-            }
-
             if (ALL_BLOCK_VARIANTS.isEmpty()) {
                 ALL_BLOCK_VARIANTS.addAll(DyeableBlockVariant.getAllBlockVariants());
             }

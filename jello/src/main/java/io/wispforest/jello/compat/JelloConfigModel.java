@@ -12,4 +12,8 @@ public class JelloConfigModel {
     @RestartRequired
     @Sync(Option.SyncMode.OVERRIDE_CLIENT)
     public boolean addCustomJsonColors = true;
+
+    @SectionHeader("common")
+    @Sync(Option.SyncMode.OVERRIDE_CLIENT)
+    public boolean allowVanillaColorsInPaintMixer = true;
 }

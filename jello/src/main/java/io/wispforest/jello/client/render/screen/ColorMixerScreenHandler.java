@@ -27,20 +27,12 @@ public class ColorMixerScreenHandler extends ScreenHandler {
     public static final List<ItemStack> ALL_DYE_ITEMS;
 
     static{
-        if(Jello.getConfig().addCustomJsonColors()){
-            ALL_DYE_ITEMS = DyeableVariantManager.getVariantMap().values().stream()
-                    .filter(dyedVariantContainer -> dyedVariantContainer.dyeItem() instanceof GelatinDyeItem)
-                    .map(dyedVariantContainer -> dyedVariantContainer.dyeItem().getDefaultStack())
-                    .sorted(GelatinDyeItem.dyeStackHslComparator(2))
-                    .sorted(GelatinDyeItem.dyeStackHslComparator(1))
-                    .sorted(GelatinDyeItem.dyeStackHslComparator(0)).toList();
-        } else {
-            ALL_DYE_ITEMS = DyeableVariantManager.getVariantMap().values().stream()
-                    .map(dyedVariantContainer -> dyedVariantContainer.dyeItem().getDefaultStack())
-                    .sorted(GelatinDyeItem.dyeStackHslComparator(2))
-                    .sorted(GelatinDyeItem.dyeStackHslComparator(1))
-                    .sorted(GelatinDyeItem.dyeStackHslComparator(0)).toList();
-        }
+        ALL_DYE_ITEMS = DyeableVariantManager.getVariantMap().values().stream()
+            .filter(dyedVariantContainer -> Jello.getConfig().allowVanillaColorsInPaintMixer() || dyedVariantContainer.dyeItem() instanceof GelatinDyeItem)
+            .map(dyedVariantContainer -> dyedVariantContainer.dyeItem().getDefaultStack())
+            .sorted(GelatinDyeItem.dyeStackHslComparator(2))
+            .sorted(GelatinDyeItem.dyeStackHslComparator(1))
+            .sorted(GelatinDyeItem.dyeStackHslComparator(0)).toList();
     }
 
 

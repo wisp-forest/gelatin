@@ -1,7 +1,7 @@
 package io.wispforest.gelatin.dye_entities.mixins.client;
 
 import io.wispforest.gelatin.common.util.ColorUtil;
-import io.wispforest.gelatin.dye_registry.ducks.CustomCollarColorStorage;
+import io.wispforest.gelatin.dye_entities.ducks.CustomCollarColorStorage;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;

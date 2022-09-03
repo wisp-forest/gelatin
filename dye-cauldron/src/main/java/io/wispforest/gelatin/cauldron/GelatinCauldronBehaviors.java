@@ -5,7 +5,7 @@ import io.wispforest.gelatin.common.events.CauldronEvent;
 import io.wispforest.gelatin.dye_entries.BlockColorManipulators;
 import io.wispforest.gelatin.dye_entries.misc.GelatinStats;
 import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
-import io.wispforest.gelatin.dye_registry.ducks.DyeBlockTool;
+import io.wispforest.gelatin.dye_entries.ducks.DyeBlockTool;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import net.minecraft.block.BlockState;

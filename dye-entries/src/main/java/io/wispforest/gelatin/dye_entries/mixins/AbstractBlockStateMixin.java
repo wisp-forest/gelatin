@@ -1,7 +1,7 @@
 package io.wispforest.gelatin.dye_entries.mixins;
 
 import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
-import io.wispforest.gelatin.dye_registry.ducks.DyeBlockTool;
+import io.wispforest.gelatin.dye_entries.ducks.DyeBlockTool;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;

@@ -1,7 +1,7 @@
 package io.wispforest.gelatin.dye_entities.mixins.bugfix;
 
 import io.wispforest.gelatin.common.CommonInit;
-import io.wispforest.gelatin.dye_registry.ducks.DyeBlockTool;
+import io.wispforest.gelatin.dye_entities.ducks.DyeEntityTool;
 import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -19,7 +19,7 @@ public class HorseEntityMixin {
     private void fixInablityToDyeLlamaAndDonkey(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         Item item = player.getStackInHand(hand).getItem();
 
-        if ((item instanceof DyeBlockTool) && CommonInit.getConfig().enableDyeingEntities()) {
+        if ((item instanceof DyeEntityTool) && CommonInit.getConfig().enableDyeingEntities()) {
             cir.setReturnValue(ActionResult.PASS);
         }
     }

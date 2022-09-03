@@ -1,4 +1,4 @@
-package io.wispforest.gelatin.dye_registry.ducks;
+package io.wispforest.gelatin.dye_entities.ducks;
 
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;

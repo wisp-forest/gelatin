@@ -1,6 +1,8 @@
 package io.wispforest.jello.client.render.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import io.wispforest.gelatin.dye_registry.DyeColorant;
+import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.item.ArtistPaletteItem;
 import io.wispforest.jello.item.JelloItems;
@@ -207,11 +209,17 @@ public class ColorMixerScreen extends HandledScreen<ColorMixerScreenHandler> {
         this.addSelectableChild(this.searchBox);
 
         this.searchBox.setVisible(true);
-        this.searchBox.setFocusUnlocked(false);
-        this.searchBox.setTextFieldFocused(true);
 
-        this.searchBox.setText("");
+        if((Jello.getConfig().allowVanillaColorsInPaintMixer() && Jello.getConfig().addCustomJsonColors()) || DyeColorantRegistry.DYE_COLOR.size() == 16) {
+            this.searchBox.setFocusUnlocked(false);
 
-        this.search();
+            this.searchBox.setTextFieldFocused(true);
+
+            this.searchBox.setText("");
+
+            this.search();
+        } else {
+            this.searchBox.setText("There is not current Colors to Search ): Check Config if you don't want this");
+        }
     }
 }

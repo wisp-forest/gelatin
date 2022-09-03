@@ -1,10 +1,10 @@
 package io.wispforest.gelatin.dye_entities.mixins;
 
 import io.wispforest.gelatin.common.util.TrackedDataHandlerExtended;
-import io.wispforest.gelatin.dye_registry.ducks.CustomCollarColorStorage;
+import io.wispforest.gelatin.dye_entities.ducks.CustomCollarColorStorage;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
-import io.wispforest.gelatin.dye_registry.ducks.DyeEntityTool;
+import io.wispforest.gelatin.dye_entities.ducks.DyeEntityTool;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;

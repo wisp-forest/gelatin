@@ -63,12 +63,12 @@ public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant, Item>
             this.itemVariant = variant;
         }
 
-        public static Builder of(Identifier variantIdentifier, Item.Settings blockItemSettings, Supplier<DyeableItemVariant> possibleChildVariant, ItemMaker blockMaker) {
-            return new Builder(new DyeableItemVariant(variantIdentifier, possibleChildVariant, blockItemSettings, blockMaker));
+        public static Builder of(Identifier variantIdentifier, Item.Settings blockItemSettings, Supplier<DyeableItemVariant> possibleChildVariant, ItemMaker itemMaker) {
+            return new Builder(new DyeableItemVariant(variantIdentifier, possibleChildVariant, blockItemSettings, itemMaker));
         }
 
-        public static Builder of(Identifier variantIdentifier, Item.Settings blockItemSettings, ItemMaker blockMaker) {
-            return new Builder(new DyeableItemVariant(variantIdentifier, null, blockItemSettings, blockMaker));
+        public static Builder of(Identifier variantIdentifier, Item.Settings blockItemSettings, ItemMaker itemMaker) {
+            return new Builder(new DyeableItemVariant(variantIdentifier, null, blockItemSettings, itemMaker));
         }
 
         /**
