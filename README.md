@@ -30,3 +30,7 @@ dependencies {
     modImplementation "io.wispforest.gelatin:(moudle name here):${project.jello_version}"
 }
 ```
+
+### Jello
+
+Jello is a content mod used as a showcase of the features found within Gelatin. More Info can be found on the [Modrinth Page](https://modrinth.com/mod/jello).
