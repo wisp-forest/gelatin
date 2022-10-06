@@ -13,7 +13,7 @@ public interface DyeBaseTool {
         BetterItemOps.decrementPlayerHandItemCC(player, hand);
     }
 
-    default boolean afterInteraction(ItemStack stack, DyeColorant dyeColorant){
-        return ItemOps.emptyAwareDecrement(stack);
+    default void afterInteraction(ItemStack stack, DyeColorant dyeColorant){
+        ItemOps.emptyAwareDecrement(stack);
     }
 }

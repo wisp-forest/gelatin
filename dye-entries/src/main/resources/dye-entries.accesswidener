@@ -4,3 +4,5 @@ accessible method net/minecraft/block/CandleCakeBlock <init> (Lnet/minecraft/blo
 accessible method net/minecraft/block/DyedCarpetBlock <init> (Lnet/minecraft/util/DyeColor;Lnet/minecraft/block/AbstractBlock$Settings;)V
 
 extendable class net/minecraft/client/texture/Sprite$Info
+
+accessible class net/minecraft/client/texture/TextureStitcher$Holder

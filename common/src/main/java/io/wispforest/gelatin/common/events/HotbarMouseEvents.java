@@ -17,15 +17,15 @@ public class HotbarMouseEvents {
      * <p>This event tracks amount a mouse was scrolled vertically but not horizontally.
      */
     public static Event<AllowMouseScroll> ALLOW_MOUSE_SCROLL = EventFactory.createArrayBacked(AllowMouseScroll.class,
-            (listeners) -> (player, verticalAmount, horizontalAmount) -> {
-                for (AllowMouseScroll event : listeners) {
-                    if (!event.allowMouseScroll(player, verticalAmount, horizontalAmount)) {
-                        return false;
-                    }
+        (listeners) -> (player, verticalAmount, horizontalAmount) -> {
+            for (AllowMouseScroll event : listeners) {
+                if (!event.allowMouseScroll(player, verticalAmount, horizontalAmount)) {
+                    return false;
                 }
-
-                return true;
             }
+
+            return true;
+        }
     );
 
     /**
@@ -34,11 +34,11 @@ public class HotbarMouseEvents {
      * <p>This event tracks amount a mouse was scrolled vertically but not horizontally.
      */
     public static Event<BeforeMouseScroll> BEFORE_MOUSE_SCROLL = EventFactory.createArrayBacked(BeforeMouseScroll.class,
-            (listeners) -> (player, verticalAmount, horizontalAmount) -> {
-                for (BeforeMouseScroll event : listeners) {
-                    event.beforeMouseScroll(player, verticalAmount, horizontalAmount);
-                }
+        (listeners) -> (player, verticalAmount, horizontalAmount) -> {
+            for (BeforeMouseScroll event : listeners) {
+                event.beforeMouseScroll(player, verticalAmount, horizontalAmount);
             }
+        }
     );
 
     /**
@@ -47,11 +47,11 @@ public class HotbarMouseEvents {
      * <p>This event tracks amount a mouse was scrolled vertically but not horizontally.
      */
     public static Event<AfterMouseScroll> AFTER_MOUSE_SCROLL = EventFactory.createArrayBacked(AfterMouseScroll.class,
-            (listeners) -> (player, verticalAmount, horizontalAmount) -> {
-                for (AfterMouseScroll event : listeners) {
-                    event.afterMouseScroll(player, verticalAmount, horizontalAmount);
-                }
+        (listeners) -> (player, verticalAmount, horizontalAmount) -> {
+            for (AfterMouseScroll event : listeners) {
+                event.afterMouseScroll(player, verticalAmount, horizontalAmount);
             }
+        }
     );
 
     @Environment(EnvType.CLIENT)

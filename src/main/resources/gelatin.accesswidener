@@ -1,18 +1,19 @@
 accessWidener	v2	named
 
-accessible field net/minecraft/item/BucketItem fluid Lnet/minecraft/fluid/Fluid;
+# Common AccessWidener
+
+accessible field net/minecraft/client/texture/NativeImage pointer J
+
+
+# Dye Entities AccessWidener
 
 accessible class net/minecraft/client/texture/ResourceTexture$TextureData
+
 accessible method net/minecraft/client/texture/ResourceTexture loadTextureData (Lnet/minecraft/resource/ResourceManager;)Lnet/minecraft/client/texture/ResourceTexture$TextureData;
 accessible method net/minecraft/client/texture/ResourceTexture upload (Lnet/minecraft/client/texture/NativeImage;ZZ)V
-accessible field net/minecraft/client/texture/NativeImage pointer J
-accessible field net/minecraft/client/texture/ResourceTexture location Lnet/minecraft/util/Identifier;
 
-accessible method net/minecraft/item/BundleItem getBundledStacks (Lnet/minecraft/item/ItemStack;)Ljava/util/stream/Stream;
 
-extendable method net/minecraft/client/gui/screen/Screen renderTooltipFromComponents (Lnet/minecraft/client/util/math/MatrixStack;Ljava/util/List;II)V
-
-accessible method net/minecraft/client/render/entity/feature/FeatureRenderer getTexture (Lnet/minecraft/entity/Entity;)Lnet/minecraft/util/Identifier;
+# Dye Entries AccessWidener
 
 accessible method net/minecraft/block/CandleCakeBlock <init> (Lnet/minecraft/block/Block;Lnet/minecraft/block/AbstractBlock$Settings;)V
 accessible method net/minecraft/block/DyedCarpetBlock <init> (Lnet/minecraft/util/DyeColor;Lnet/minecraft/block/AbstractBlock$Settings;)V
@@ -20,3 +21,18 @@ accessible method net/minecraft/block/DyedCarpetBlock <init> (Lnet/minecraft/uti
 extendable class net/minecraft/client/texture/Sprite$Info
 
 accessible class net/minecraft/client/texture/TextureStitcher$Holder
+
+
+# Jello Registry AccessWidener
+
+accessible method net/minecraft/item/BundleItem getBundledStacks (Lnet/minecraft/item/ItemStack;)Ljava/util/stream/Stream;
+extendable method net/minecraft/client/gui/screen/Screen renderTooltipFromComponents (Lnet/minecraft/client/util/math/MatrixStack;Ljava/util/List;II)V
+accessible class net/minecraft/client/gui/screen/ingame/CreativeInventoryScreen$CreativeSlot
+
+accessible class net/minecraft/client/texture/ResourceTexture$TextureData
+
+accessible method net/minecraft/client/texture/ResourceTexture loadTextureData (Lnet/minecraft/resource/ResourceManager;)Lnet/minecraft/client/texture/ResourceTexture$TextureData;
+accessible method net/minecraft/client/texture/ResourceTexture upload (Lnet/minecraft/client/texture/NativeImage;ZZ)V
+
+
+

@@ -29,6 +29,7 @@ import net.minecraft.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.color.block.BlockColorProvider;
 import net.minecraft.client.color.item.ItemColorProvider;
+import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.TexturedRenderLayers;
 import net.minecraft.item.Item;
@@ -126,7 +127,7 @@ public class DyeEntriesClientInit implements ClientModInitializer {
 
                 ColorProviderRegistry.ITEM.register((GelatinDyeItem)dyeItem, dyeItem);
 
-                FabricModelPredicateProviderRegistry.register(dyeItem, new Identifier("variant"), (stack, world, entity, seed) -> GelatinDyeItem.getTextureVariant(stack));
+                ModelPredicateProviderRegistry.register(dyeItem, new Identifier("variant"), (stack, world, entity, seed) -> GelatinDyeItem.getTextureVariant(stack));
             }
         }
     }
