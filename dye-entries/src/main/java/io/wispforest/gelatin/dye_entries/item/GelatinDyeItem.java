@@ -72,7 +72,7 @@ public class GelatinDyeItem extends DyeItem implements DyeItemStorage, ItemColor
     }
 
     public static Comparator<ItemStack> dyeStackHslComparator(int component) {
-        return Comparator.comparingDouble(stack -> ColorUtil.rgbToHsl(((GelatinDyeItem) stack.getItem()).getDyeColorant().getBaseColor())[component]);
+        return Comparator.comparingDouble(stack -> ColorUtil.rgbToHsl(((DyeItemStorage) stack.getItem()).getDyeColorant().getBaseColor())[component]);
     }
 
     @Override
