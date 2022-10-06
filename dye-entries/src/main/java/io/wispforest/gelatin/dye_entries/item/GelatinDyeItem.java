@@ -27,20 +27,18 @@ public class GelatinDyeItem extends DyeItem implements DyeItemStorage, ItemColor
     public static final String TEXTURE_VARIANT_KEY = "Texture_variant";
     public static final int NUMBER_OF_TEXTURE_VAR = 9;
 
-    protected int textureVariant = 0;
+    protected int textureVariant;
 
     public GelatinDyeItem(DyeColorant mainColor, Settings settings) {
         super(DyeColorantRegistry.Constants.NULL_VALUE_OLD, settings);
 
         this.setDyeColor(mainColor);
 
-        if (mainColor != null) {
-            char[] chracters = mainColor.getName().toCharArray();
+        char[] chracters = mainColor.getName().toCharArray();
 
-            Random rand = new Random(Character.getNumericValue(chracters[0]) + Character.getNumericValue(chracters[chracters.length - 1]));
+        Random rand = new Random(Character.getNumericValue(chracters[0]) + Character.getNumericValue(chracters[chracters.length - 1]));
 
-            this.textureVariant = rand.nextInt(NUMBER_OF_TEXTURE_VAR);
-        }
+        this.textureVariant = rand.nextInt(NUMBER_OF_TEXTURE_VAR);
     }
 
     @Override
@@ -64,19 +62,11 @@ public class GelatinDyeItem extends DyeItem implements DyeItemStorage, ItemColor
     public void postProcessNbt(NbtCompound nbt) {
         super.postProcessNbt(nbt);
 
-        this.setTextureVariant(nbt);
-    }
-
-    private void setTextureVariant(NbtCompound nbt) {
-        nbt.putInt(TEXTURE_VARIANT_KEY, textureVariant);
-    }
-
-    private static int getTextureValue(ItemStack stack) {
-        return stack.getOrCreateNbt().getInt(TEXTURE_VARIANT_KEY);
+        nbt.remove(TEXTURE_VARIANT_KEY);
     }
 
     public static float getTextureVariant(ItemStack itemStack) {
-        float textureVar = getTextureValue(itemStack);
+        float textureVar = ((GelatinDyeItem)itemStack.getItem()).textureVariant;
 
         return textureVar / (NUMBER_OF_TEXTURE_VAR - 1);
     }
