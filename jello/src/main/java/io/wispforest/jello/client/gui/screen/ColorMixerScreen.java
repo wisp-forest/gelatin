@@ -1,7 +1,6 @@
-package io.wispforest.jello.client.render.screen;
+package io.wispforest.jello.client.gui.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.item.ArtistPaletteItem;

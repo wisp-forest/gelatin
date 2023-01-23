@@ -33,9 +33,7 @@ public class DyeBufferEntry {
     public static void writeDyeBufferEntries(List<DyeBufferEntry> dyeBufferEntryList, NbtCompound nbt) {
         NbtList list = new NbtList();
 
-        for (DyeBufferEntry dyeBufferEntry : dyeBufferEntryList) {
-            list.add(dyeBufferEntry.toNbtString());
-        }
+        dyeBufferEntryList.forEach(dyeBufferEntry -> list.add(dyeBufferEntry.toNbtString()));
 
         nbt.put(DYE_ENTRY_BUFFER_KEY, list);
     }
@@ -52,9 +50,8 @@ public class DyeBufferEntry {
 
             for (NbtString dyeBufferString : list.toArray(new NbtString[0])) {
                 DyeBufferEntry entry = DyeBufferEntry.readBuffer(dyeBufferString.asString());
-                if (entry != NULL) {
-                    dyeBufferEntryList.add(entry);
-                }
+
+                if (entry != NULL) dyeBufferEntryList.add(entry);
             }
         }
 

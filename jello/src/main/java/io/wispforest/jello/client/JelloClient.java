@@ -43,7 +43,11 @@ public class JelloClient implements ClientModInitializer {
 
         //-------------------------------[Other Block Stuff's]------------------------------
 
-        ScreenRegistry.register(JelloScreenHandlerTypes.COLOR_MIXER_TYPE, ColorMixerScreen::new);
+        HandledScreens.register(JelloScreenHandlerTypes.COLOR_MIXER_TYPE, ColorMixerScreen::new);
+
+        //----------------------------------------------------------------------------------
+
+        Jello.CHANNEL.registerClientbound(DyeBundleTooltipBuilder.UpdateDyeBundleTooltip.class, DyeBundleTooltipBuilder.UpdateDyeBundleTooltip::updateTooltip);
 
         //----------------------------------------------------------------------------------
 
@@ -57,9 +61,9 @@ public class JelloClient implements ClientModInitializer {
 
         ColorProviderRegistry.ITEM.register((ItemColorProvider) JelloItems.ARTIST_PALETTE, JelloItems.ARTIST_PALETTE);
 
-        FabricModelPredicateProviderRegistry.register(JelloItems.SPONGE, new Identifier("dirtiness"), (stack, world, entity, seed) -> SpongeItem.getDirtinessStage(stack));
+        ModelPredicateProviderRegistry.register(JelloItems.SPONGE, new Identifier("dirtiness"), (stack, world, entity, seed) -> SpongeItem.getDirtinessStage(stack));
 
-        FabricModelPredicateProviderRegistry.register(JelloItems.DYE_BUNDLE, new Identifier("filled"), (stack, world, entity, seed) -> BundleItem.getAmountFilled(stack));
+        ModelPredicateProviderRegistry.register(JelloItems.DYE_BUNDLE, new Identifier("filled"), (stack, world, entity, seed) -> BundleItem.getAmountFilled(stack));
 
         //----------------------------------------------------------------------------------
 
@@ -92,5 +96,4 @@ public class JelloClient implements ClientModInitializer {
     }
 
     //-------------------------------------------------------------------------------------
-
 }

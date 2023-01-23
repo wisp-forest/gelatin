@@ -1,6 +1,6 @@
 package io.wispforest.jello.blockentity;
 
-import io.wispforest.jello.client.render.screen.ColorMixerScreenHandler;
+import io.wispforest.jello.client.gui.screen.ColorMixerScreenHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;

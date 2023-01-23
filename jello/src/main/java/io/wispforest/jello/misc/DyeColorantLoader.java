@@ -14,26 +14,26 @@ import java.io.InputStreamReader;
 
 public class DyeColorantLoader {
 
-    private static final Gson BIG_BRO_GSON = new GsonBuilder().setPrettyPrinting().create();
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     public static void loadFromJson() {
         VersatileLogger logger = new VersatileLogger("JsonToRegistry");
 
         try {
-            JsonArray names = JsonHelper.getArray(BIG_BRO_GSON.fromJson(new InputStreamReader(DyeColorantRegistry.class.getClassLoader().getResourceAsStream("assets/jello/other/colorDatabase.json")), JsonObject.class), "colors");
+            JsonArray names = JsonHelper.getArray(GSON.fromJson(new InputStreamReader(DyeColorantRegistry.class.getClassLoader().getResourceAsStream("assets/jello/other/colorDatabase.json")), JsonObject.class), "colors");
 
             for (var i = 0; i < names.size(); i++) {
-                JsonObject currentObject = names.get(i).getAsJsonObject();
+                JsonObject colorJson = names.get(i).getAsJsonObject();
 
-                Identifier colorIdentifier = Jello.id(currentObject.get("identifierSafeName").getAsString());
-                int colorValue = Integer.parseInt(currentObject.get("hexValue").getAsString(), 16);
+                Identifier colorIdentifier = Jello.id(colorJson.get("identifierSafeName").getAsString());
+                int colorValue = Integer.parseInt(colorJson.get("hexValue").getAsString(), 16);
 
                 if (DyeColorantRegistry.DYE_COLOR.containsId(colorIdentifier)) {
                     //continue;
-                    colorIdentifier = Jello.id(currentObject.get("identifierSafeName").getAsString() + "_2");
+                    colorIdentifier = Jello.id(colorIdentifier.getPath() + "_2");
                 }
 
-                if (DyeColorantRegistry.DYE_COLOR.containsId(new Identifier(currentObject.get("identifierSafeName").getAsString()))) {
+                if (DyeColorantRegistry.DYE_COLOR.containsId(new Identifier(colorIdentifier.getPath()))) {
                     continue;
                 }
 

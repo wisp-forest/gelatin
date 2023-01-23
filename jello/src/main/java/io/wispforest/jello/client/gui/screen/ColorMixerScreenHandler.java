@@ -1,4 +1,4 @@
-package io.wispforest.jello.client.render.screen;
+package io.wispforest.jello.client.gui.screen;
 
 import io.wispforest.gelatin.dye_entries.item.GelatinDyeItem;
 import io.wispforest.gelatin.dye_entries.variants.DyeableVariantManager;
@@ -8,6 +8,7 @@ import io.wispforest.jello.item.ArtistPaletteItem;
 import io.wispforest.jello.item.JelloItems;
 import io.wispforest.jello.network.ColorMixerScrollPacket;
 import io.wispforest.owo.client.screens.ScreenUtils;
+import io.wispforest.owo.client.screens.SlotGenerator;
 import io.wispforest.owo.client.screens.ValidatingSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -68,13 +69,13 @@ public class ColorMixerScreenHandler extends ScreenHandler {
                 itemStack -> itemStack.isOf(JelloItems.ARTIST_PALETTE)
                         && itemStack.getOrCreateNbt().contains("PaletteOrder", NbtElement.LIST_TYPE)));
 
-        for (int row = 0; row < 5; ++row) {
-            for (int col = 0; col < 6; ++col) {
-                this.addSlot(new DyeOutputSlot(this.dyeInventory, col + row * 6, 44 + col * 18, 24 + row * 18));
-            }
-        }
+        SlotGenerator.begin(this::addSlot, 44, 24)
+                .slotFactory(DyeOutputSlot::new)
+                .grid(dyeInventory, 0, 5, 6)
+                .moveTo(8, 122)
+                .defaultSlotFactory()
+                .playerInventory(playerInventory);
 
-        ScreenUtils.generatePlayerSlots(8, 122, playerInventory, this::addSlot);
         this.reFilter();
     }
 

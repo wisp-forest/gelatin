@@ -16,6 +16,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.MathHelper;
 
+import java.util.Arrays;
 import java.util.Set;
 
 @EnvironmentInterface(value = EnvType.CLIENT, itf = ItemColorProvider.class)
@@ -39,9 +40,7 @@ public class ArtistPaletteItem extends Item implements ItemColorProvider {
 
     @Override
     public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
-        if (this.isIn(group)) {
-            stacks.add(getDefaultStack());
-        }
+        if (this.isIn(group)) stacks.add(getDefaultStack());
     }
 
     @Override
@@ -76,39 +75,29 @@ public class ArtistPaletteItem extends Item implements ItemColorProvider {
     }
 
     @Override
-    public void onItemEntityDestroyed(ItemEntity entity) {
-        super.onItemEntityDestroyed(entity);
-    }
-
-    @Override
     public int getColor(ItemStack stack, int tintIndex) {
-        if (tintIndex == 0) {
-            return -1;
-        }
         NbtCompound nbt = stack.getOrCreateNbt();
 
-        if (nbt.getBoolean(COLORED_KEY)) {
+        if (tintIndex != 0 && nbt.getBoolean(COLORED_KEY)) {
             NbtList nbtList = nbt.getList(PALETTE_KEY, NbtList.STRING_TYPE);
 
             return DyeColorantRegistry.DYE_COLOR.get(Identifier.tryParse(nbtList.getString(tintIndex - 1))).getBaseColor();
-        } else {
-            return -1;
         }
+
+        return -1;
     }
 
     public static void setStackColors(NbtCompound nbt, DyeColorant... dyeColorants) {
-        if (dyeColorants.length != 5) {
+        if (dyeColorants.length == 5) {
+            NbtList nbtList = new NbtList();
+
+            Arrays.stream(dyeColorants)
+                    .forEach(dyeColorant -> nbtList.add(NbtString.of(dyeColorant.toString())));
+
+            nbt.put(PALETTE_KEY, nbtList);
+            nbt.putBoolean(COLORED_KEY, true);
+        } else {
             nbt.putBoolean(COLORED_KEY, false);
-            return;
         }
-
-        NbtList nbtList = new NbtList();
-
-        for (DyeColorant dyeColorant : dyeColorants) {
-            nbtList.add(NbtString.of(dyeColorant.toString()));
-        }
-
-        nbt.putBoolean(COLORED_KEY, true);
-        nbt.put(PALETTE_KEY, nbtList);
     }
 }

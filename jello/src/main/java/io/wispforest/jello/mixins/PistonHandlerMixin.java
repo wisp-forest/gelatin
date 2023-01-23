@@ -20,15 +20,9 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 @Mixin(value = PistonHandler.class, priority = 100)
 public abstract class PistonHandlerMixin {
 
-    @Shadow
-    @Final
-    private World world;
-    @Shadow
-    @Final
-    private Direction motionDirection;
-    @Shadow
-    @Final
-    private BlockPos posFrom;
+    @Shadow @Final private World world;
+    @Shadow @Final private Direction motionDirection;
+    @Shadow @Final private BlockPos posFrom;
 
     @Shadow
     protected abstract boolean tryMove(BlockPos pos, Direction dir);

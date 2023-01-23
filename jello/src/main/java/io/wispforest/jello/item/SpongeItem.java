@@ -39,9 +39,9 @@ import java.util.List;
 public class SpongeItem extends Item implements DyeBlockTool, DyeEntityTool {
 
     public static final String DIRTINESS_TRANSLATION_KEY = "item.jello.sponge.dirty";
-
     public static final String DIRTINESS_KEY = "Dirtiness";
-    private static final int MAX_DIRTINESS = 64;
+
+    public static final int MAX_DIRTINESS = 64;
 
     public SpongeItem(Settings settings) {
         super(settings);
@@ -49,10 +49,9 @@ public class SpongeItem extends Item implements DyeBlockTool, DyeEntityTool {
 
     @Override
     public String getTranslationKey(ItemStack stack) {
-        if (getDirtinessValue(stack) == 64) {
-            return DIRTINESS_TRANSLATION_KEY;
-        }
-        return super.getTranslationKey(stack);
+        return getDirtinessValue(stack) == 64
+                ? DIRTINESS_TRANSLATION_KEY
+                : super.getTranslationKey(stack);
     }
 
     @Override
@@ -71,111 +70,106 @@ public class SpongeItem extends Item implements DyeBlockTool, DyeEntityTool {
     }
 
     @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        tooltip.add(Text.translatable(this.getTranslationKey() + ".desc").formatted(Formatting.GRAY));
+        tooltip.add(Text.translatable(this.getTranslationKey() + ".desc.dirty").formatted(Formatting.GRAY));
+    }
+
+    @Override
     public ActionResult attemptToDyeBlock(World world, PlayerEntity player, BlockPos blockPos, ItemStack stack, Hand hand) {
-        if (canClean(stack)) {
-            if (!BlockColorManipulators.changeBlockColor(world, blockPos, DyeColorantRegistry.NULL_VALUE_NEW, player, false)) {
-                return ActionResult.PASS;
-            }
+        if (!canClean(stack)) return ActionResult.FAIL;
 
-            if (!world.isClient) {
-                incrementDirtiness(stack, player);
-                world.playSound(null, player.getBlockPos(), SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.PLAYERS, 1.0F, 1.55F);
-            }
-
-            return ActionResult.SUCCESS;
-        } else {
-            return ActionResult.FAIL;
+        if (!BlockColorManipulators.changeBlockColor(world, blockPos, DyeColorantRegistry.NULL_VALUE_NEW, player, false)) {
+            return ActionResult.PASS;
         }
+
+        if (!world.isClient()) {
+            incrementDirtiness(stack, player);
+            world.playSound(null, player.getBlockPos(), SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.PLAYERS, 1.0F, 1.55F);
+        }
+
+        return ActionResult.SUCCESS;
     }
 
     @Override
     public ActionResult attemptToDyeEntity(World world, PlayerEntity user, LivingEntity entity, ItemStack stack, Hand hand) {
         if (stack.getDamage() != -1 && EntityColorManipulators.washEntityEvent((DyeableEntity) entity)) {
-            if (!user.world.isClient) {
+            if (!world.isClient()) {
                 incrementDirtiness(stack, user);
 
                 world.playSound(null, user.getBlockPos(), SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.PLAYERS, 1.0F, 1.55F);
             }
 
             return ActionResult.SUCCESS;
-        } else {
-            return ActionResult.FAIL;
         }
+
+        return ActionResult.FAIL;
     }
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemInHand = user.getStackInHand(hand);
 
-        if (user.shouldCancelInteraction()) {
-            if (canClean(itemInHand)) {
-                if (user instanceof DyeableEntity dyeableEntity && dyeableEntity.isDyed()) {
-                    dyeableEntity.setDyeColor(DyeColorantRegistry.NULL_VALUE_NEW);
+        if (user.shouldCancelInteraction()
+                && canClean(itemInHand)
+                && user instanceof DyeableEntity dyeableEntity
+                && dyeableEntity.isDyed()) {
 
-                    if (!world.isClient) {
-                        incrementDirtiness(itemInHand, user);
+            dyeableEntity.setDyeColor(DyeColorantRegistry.NULL_VALUE_NEW);
 
-                        world.playSound(null, user.getBlockPos(), SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.PLAYERS, 1.0F, 1.55F);
-                    }
+            if (!world.isClient()) {
+                incrementDirtiness(itemInHand, user);
 
-                    return TypedActionResult.success(itemInHand);
-                }
+                world.playSound(null, user.getBlockPos(), SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.PLAYERS, 1.0F, 1.55F);
             }
-        } else {
-            if (itemInHand.getOrCreateNbt().getInt(DIRTINESS_KEY) != 0) {
-                BlockHitResult blockHitResult = raycast(world, user, RaycastContext.FluidHandling.SOURCE_ONLY);
 
-                if (blockHitResult.getType() == HitResult.Type.MISS || blockHitResult.getType() != HitResult.Type.BLOCK) {
-                    return TypedActionResult.pass(itemInHand);
-                } else {
-                    BlockPos blockPos = blockHitResult.getBlockPos();
+            return TypedActionResult.success(itemInHand);
+        }
 
-                    if (world.canPlayerModifyAt(user, blockPos) && user.canPlaceOn(blockPos.offset(blockHitResult.getSide()), blockHitResult.getSide(), itemInHand) && world.getBlockState(blockPos).getBlock() instanceof FluidDrainable fluidDrainable) {
+        if (itemInHand.getOrCreateNbt().getInt(DIRTINESS_KEY) > 0) {
+            BlockHitResult blockHitResult = raycast(world, user, RaycastContext.FluidHandling.SOURCE_ONLY);
 
-                        fluidDrainable.tryDrainFluid(world, blockPos, world.getBlockState(blockPos));
-                        fluidDrainable.getBucketFillSound().ifPresent(sound -> user.playSound(sound, 1.0F, 1.0F));
+            if (blockHitResult.getType() == HitResult.Type.BLOCK) {
+                BlockPos blockPos = blockHitResult.getBlockPos();
 
-                        user.incrementStat(Stats.USED.getOrCreateStat(this));
-                        world.emitGameEvent(user, GameEvent.FLUID_PICKUP, blockPos);
+                if (world.canPlayerModifyAt(user, blockPos)
+                        && user.canPlaceOn(blockPos.offset(blockHitResult.getSide()), blockHitResult.getSide(), itemInHand)
+                        && world.getBlockState(blockPos).getBlock() instanceof FluidDrainable fluidDrainable) {
 
-                        if (!world.isClient) {
-                            cleanSponge(itemInHand, user);
-                        }
+                    fluidDrainable.tryDrainFluid(world, blockPos, world.getBlockState(blockPos));
+                    fluidDrainable.getBucketFillSound().ifPresent(sound -> user.playSound(sound, 1.0F, 1.0F));
 
-                        return TypedActionResult.success(itemInHand, world.isClient());
-                    }
+                    user.incrementStat(Stats.USED.getOrCreateStat(this));
+                    world.emitGameEvent(user, GameEvent.FLUID_PICKUP, blockPos);
+
+                    if (!world.isClient()) cleanSponge(itemInHand, user);
+
+                    return TypedActionResult.success(itemInHand, world.isClient());
                 }
             }
         }
 
-        return TypedActionResult.pass(user.getStackInHand(hand));
-    }
 
-    @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        tooltip.add(Text.translatable(this.getTranslationKey() + ".desc").formatted(Formatting.GRAY));
-        tooltip.add(Text.translatable(this.getTranslationKey() + ".desc.dirty").formatted(Formatting.GRAY));
+        return TypedActionResult.pass(itemInHand);
     }
 
     public static ActionResult cleanSponge(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack, CauldronEvent.CauldronType cauldronType) {
         if (cauldronType == CauldronEvent.CauldronType.WATER) {
-            ColorStorageBlockEntity blockEntity = (ColorStorageBlockEntity) world.getBlockEntity(pos);
-
-            if (blockEntity != null && ColorStorageBlockEntity.isWaterColored(blockEntity)) {
+            if (world.getBlockEntity(pos) instanceof ColorStorageBlockEntity blockEntity
+                    && ColorStorageBlockEntity.isWaterColored(blockEntity)) {
                 return ActionResult.PASS;
             }
 
-            if (stack.getItem() instanceof SpongeItem) {
-                if (stack.getOrCreateNbt().getInt(SpongeItem.DIRTINESS_KEY) != 0) {
-                    if (!world.isClient) {
-                        stack.getOrCreateNbt().putInt(SpongeItem.DIRTINESS_KEY, 0);
+            if (stack.getItem() instanceof SpongeItem && stack.getOrCreateNbt().getInt(SpongeItem.DIRTINESS_KEY) != 0) {
+                if (!world.isClient) {
+                    cleanSponge(stack, player);
 
-                        LeveledCauldronBlock.decrementFluidLevel(state, world, pos);
+                    LeveledCauldronBlock.decrementFluidLevel(state, world, pos);
 
-                        world.playSound((PlayerEntity) null, pos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.4F);
-                    }
-                    return ActionResult.success(world.isClient);
+                    world.playSound(null, pos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.4F);
                 }
+
+                return ActionResult.success(world.isClient);
             }
         }
 
@@ -183,9 +177,7 @@ public class SpongeItem extends Item implements DyeBlockTool, DyeEntityTool {
     }
 
     private static void cleanSponge(ItemStack itemStack, PlayerEntity player) {
-        if (!player.getAbilities().creativeMode) {
-            setDirtiness(itemStack.getOrCreateNbt(), 0);
-        }
+        if (!player.getAbilities().creativeMode) setDirtiness(itemStack.getOrCreateNbt(), 0);
     }
 
     private static void incrementDirtiness(ItemStack itemStack, PlayerEntity player) {

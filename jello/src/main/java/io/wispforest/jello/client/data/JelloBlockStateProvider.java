@@ -53,18 +53,19 @@ public class JelloBlockStateProvider extends FabricModelProvider {
 
         JelloItems.Slimeballs.SLIME_BALLS.forEach((item) -> {
             Model model = Models.GENERATED;
-            model.upload(ModelIds.getItemModelId(item), (new TextureMap()).put(TextureKey.LAYER0, Jello.id("item/slime_ball_gray")), ((ItemModelGeneratorAccessor) itemModelGenerator).getWriter());
+            model.upload(ModelIds.getItemModelId(item), (new TextureMap()).put(TextureKey.LAYER0, Jello.id("item/slime_ball_gray")), ((ItemModelGeneratorAccessor) itemModelGenerator).jello$getWriter());
         });
 
-        Model template_cup = ModelsAccessor.callItem("generated", TEXTURE0, TEXTURE1);
-        template_cup.upload(Jello.id("item/" + "template_cup"), (new TextureMap())
-                .put(TEXTURE0, Jello.id("item/jello_cup/cup_outline"))
-                .put(TEXTURE1, Jello.id("item/jello_cup/cup_translucent_front")), ((ItemModelGeneratorAccessor) itemModelGenerator).getWriter());
+
+        ModelsAccessor.jello$item("generated", TEXTURE0, TEXTURE1)
+                .upload(Jello.id("item/" + "template_cup"), (new TextureMap())
+                    .put(TEXTURE0, Jello.id("item/jello_cup/cup_outline"))
+                    .put(TEXTURE1, Jello.id("item/jello_cup/cup_translucent_front")), ((ItemModelGeneratorAccessor) itemModelGenerator).jello$getWriter());
 
         jelloItem("template_cup", TextureKey.LAYER0, LAYER1)
                 .upload(ModelIds.getItemModelId(JelloItems.JelloCups.SUGAR_CUP), (new TextureMap())
                         .put(TextureKey.LAYER0, new pathOnlyIdentifier(TEXTURE0.getName()))
-                        .put(LAYER1, new pathOnlyIdentifier(TEXTURE1.getName())), ((ItemModelGeneratorAccessor) itemModelGenerator).getWriter());
+                        .put(LAYER1, new pathOnlyIdentifier(TEXTURE1.getName())), ((ItemModelGeneratorAccessor) itemModelGenerator).jello$getWriter());
 
         Model jello_cup = jelloItem("template_cup", TextureKey.LAYER0, LAYER1, LAYER2, LAYER3); //LAYER2, LAYER3); //jelloItem("generated", LAYER2, LAYER3);
 
@@ -73,17 +74,17 @@ public class JelloBlockStateProvider extends FabricModelProvider {
                     .put(TextureKey.LAYER0, new pathOnlyIdentifier(TEXTURE0.getName()))
                     .put(LAYER1, new pathOnlyIdentifier(TEXTURE1.getName()))
                     .put(LAYER2, Jello.id("item/jello_cup/jello_front"))
-                    .put(LAYER3, Jello.id("item/jello_cup/jello_top")), ((ItemModelGeneratorAccessor) itemModelGenerator).getWriter());
+                    .put(LAYER3, Jello.id("item/jello_cup/jello_top")), ((ItemModelGeneratorAccessor) itemModelGenerator).jello$getWriter());
         });
 
         for (int i = 1; i < 8; i++) {
             Model model = Models.GENERATED;
-            model.upload(new Identifier(Jello.MODID, "item/sponge_stage_" + i), TextureMap.layer0(Jello.id("item/sponge/sponge_stage_" + i)), ((ItemModelGeneratorAccessor) itemModelGenerator).getWriter());
+            model.upload(new Identifier(Jello.MODID, "item/sponge_stage_" + i), TextureMap.layer0(Jello.id("item/sponge/sponge_stage_" + i)), ((ItemModelGeneratorAccessor) itemModelGenerator).jello$getWriter());
         }
 
         for (int i = 1; i < 9; i++) {
             Model model = Models.GENERATED;
-            model.upload(new Identifier(Jello.MODID, "item/dye_texture_var_" + i), TextureMap.layer0(Jello.id("item/dye_item_variant/var_" + i)), ((ItemModelGeneratorAccessor) itemModelGenerator).getWriter());
+            model.upload(new Identifier(Jello.MODID, "item/dye_texture_var_" + i), TextureMap.layer0(Jello.id("item/dye_item_variant/var_" + i)), ((ItemModelGeneratorAccessor) itemModelGenerator).jello$getWriter());
         }
     }
 

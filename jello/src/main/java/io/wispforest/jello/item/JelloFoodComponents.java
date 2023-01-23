@@ -24,7 +24,6 @@ public class JelloFoodComponents {
     public static final FoodComponent RED_JELLO_CUP = createJelloBase().statusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, (int) (200 * 1.5)), 1.0F).build();
     public static final FoodComponent BLACK_JELLO_CUP = createJelloBase().statusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, (int) (200 * 2.5)), 1.0F).build();
 
-
     private static FoodComponent.Builder createJelloBase() {
         return new FoodComponent.Builder().alwaysEdible().snack().hunger(2).saturationModifier(0.9F).statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 200), 1.0F);//.statusEffect(new StatusEffectInstance(JelloStatusEffectsRegistry.BOUNCE, 600), 1.0F);
     }

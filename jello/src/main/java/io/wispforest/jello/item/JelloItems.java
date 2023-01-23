@@ -16,7 +16,7 @@ import java.util.List;
 public class JelloItems implements ItemRegistryContainer {
 
     public static final Item SPONGE = new SpongeItem(new OwoItemSettings().group(ItemGroup.TOOLS).tab(0).maxCount(1));
-    public static final Item DYE_BUNDLE = new DyeBundleItem(new OwoItemSettings().group(ItemGroup.TOOLS).tab(0));
+    public static final Item DYE_BUNDLE = new DyeBundleItem(new OwoItemSettings().group(ItemGroup.TOOLS).tab(0).maxCount(1));
     public static final Item EMPTY_ARTIST_PALETTE = new Item(new OwoItemSettings().group(ItemGroup.MISC).tab(0).maxCount(1));
     public static final Item ARTIST_PALETTE = new ArtistPaletteItem(new OwoItemSettings().group(ItemGroup.MISC).tab(0).maxCount(1));
 
