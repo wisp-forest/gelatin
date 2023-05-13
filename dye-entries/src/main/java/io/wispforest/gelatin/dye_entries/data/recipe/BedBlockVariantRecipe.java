@@ -1,6 +1,6 @@
 package io.wispforest.gelatin.dye_entries.data.recipe;
 
-import io.wispforest.gelatin.dye_entries.variants.VanillaBlockVariants;
+import io.wispforest.gelatin.dye_entries.variants.impl.VanillaBlockVariants;
 import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.data.GelatinTags;
@@ -19,7 +19,7 @@ public class BedBlockVariantRecipe extends SpecialCraftingRecipe {
 
     private DyeColorant dyeColorant = null;
 
-    private static final TagKey<Item> WOOL_BLOCK_TAG = VanillaBlockVariants.WOOL.blockItemVariant.getPrimaryItemTag();
+    private static final TagKey<Item> WOOL_BLOCK_TAG = VanillaBlockVariants.WOOL.blockItemVariant.getPrimaryTag();
 
     public BedBlockVariantRecipe(Identifier id) {
         super(id);
@@ -40,7 +40,7 @@ public class BedBlockVariantRecipe extends SpecialCraftingRecipe {
 
                 if (craftingInvIndex < 3) {
                     if(woolTop){
-                        if(!stack.isIn(WOOL_BLOCK_TAG) || dyeColorant != variant.getColorFromEntry((BlockItem) stack.getItem())){
+                        if(!stack.isIn(WOOL_BLOCK_TAG) || dyeColorant != variant.blockItemVariant.getColorFromEntry((BlockItem) stack.getItem())){
                             return false;
                         }
                     }
@@ -53,7 +53,7 @@ public class BedBlockVariantRecipe extends SpecialCraftingRecipe {
                             return false;
                         }
 
-                        dyeColorant = variant.getColorFromEntry((BlockItem) stack.getItem());
+                        dyeColorant = variant.blockItemVariant.getColorFromEntry((BlockItem) stack.getItem());
                     }
                 } else if (craftingInvIndex < 6) {
                     if(woolTop){
@@ -61,7 +61,7 @@ public class BedBlockVariantRecipe extends SpecialCraftingRecipe {
                             return false;
                         }
                     } else if(woolMiddle){
-                        if(!stack.isIn(WOOL_BLOCK_TAG) || dyeColorant != variant.getColorFromEntry((BlockItem) stack.getItem())){
+                        if(!stack.isIn(WOOL_BLOCK_TAG) || dyeColorant != variant.blockItemVariant.getColorFromEntry((BlockItem) stack.getItem())){
                             return false;
                         }
                     } else if (stack.isIn(WOOL_BLOCK_TAG)) {
@@ -73,7 +73,7 @@ public class BedBlockVariantRecipe extends SpecialCraftingRecipe {
                             return false;
                         }
 
-                        dyeColorant = variant.getColorFromEntry((BlockItem) stack.getItem());
+                        dyeColorant = variant.blockItemVariant.getColorFromEntry((BlockItem) stack.getItem());
                     }
                 }else{
                     if(woolMiddle){

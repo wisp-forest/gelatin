@@ -9,8 +9,8 @@ import io.wispforest.gelatin.dye_entries.block.ColoredGlassPaneBlock;
 import io.wispforest.gelatin.dye_entries.item.GelatinDyeItem;
 import io.wispforest.gelatin.dye_entries.utils.GrayScaleBlockRegistry;
 import io.wispforest.gelatin.dye_entries.variants.DyeableVariantManager;
+import io.wispforest.gelatin.dye_entries.variants.DyeableVariantRegistry;
 import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
-import io.wispforest.gelatin.dye_entries.variants.item.DyeableItemVariant;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import net.fabricmc.api.ClientModInitializer;
@@ -18,7 +18,6 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
-import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
@@ -75,11 +74,11 @@ public class DyeEntriesClientInit implements ClientModInitializer {
                 }
             }
 
-            DyeableBlockVariant.getAllBlockVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.alwaysReadOnly() && dyeableBlockVariant.createBlockItem()).forEach(dyeableBlockVariant -> {
+            DyeableVariantRegistry.getAllBlockVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.alwaysReadOnly() && dyeableBlockVariant.createBlockItem()).forEach(dyeableBlockVariant -> {
                 helper.addTranslation(dyeableBlockVariant.variantIdentifier.getPath() + "_condensed", ImplLangProvider.titleFormatString(dyeableBlockVariant.variantIdentifier.getPath().split("_"), true));
             });
 
-            DyeableItemVariant.getAllItemVariants().stream().filter(dyeableItemVariant -> !dyeableItemVariant.alwaysReadOnly()).forEach(dyeableItemVariant -> {
+            DyeableVariantRegistry.getAllItemVariants().stream().filter(dyeableItemVariant -> !dyeableItemVariant.alwaysReadOnly()).forEach(dyeableItemVariant -> {
                 helper.addTranslation(dyeableItemVariant.variantIdentifier.getPath() + "_condensed", ImplLangProvider.titleFormatString(dyeableItemVariant.variantIdentifier.getPath().split("_"), true));
             });
         });

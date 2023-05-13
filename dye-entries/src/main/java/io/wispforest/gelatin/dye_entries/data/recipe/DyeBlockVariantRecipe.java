@@ -3,7 +3,7 @@ package io.wispforest.gelatin.dye_entries.data.recipe;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.data.GelatinTags;
 import io.wispforest.gelatin.dye_registry.ducks.DyeItemStorage;
-import io.wispforest.gelatin.dye_entries.variants.VanillaItemVariants;
+import io.wispforest.gelatin.dye_entries.variants.impl.VanillaItemVariants;
 import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.BlockItem;
@@ -36,7 +36,7 @@ public class DyeBlockVariantRecipe extends SpecialCraftingRecipe {
             for(int height = 0; height < inventory.getHeight(); height++){
                 ItemStack stack = inventory.getStack(width + height * inventory.getWidth());
 
-                if (stack.isIn(GelatinTags.Items.VANILLA_DYE) || stack.isIn(VanillaItemVariants.DYE.getPrimaryItemTag())) {
+                if (stack.isIn(GelatinTags.Items.VANILLA_DYE) || stack.isIn(VanillaItemVariants.DYE.getPrimaryTag())) {
                     if(alreadyHasDye || !((DyeItemStorage)stack.getItem()).isDyeItem()) {
                         return false;
                     }

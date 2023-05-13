@@ -47,7 +47,7 @@
   ],
   "depends": {
     "owo": ">=0.8.0+1.19",
-    "gelatin": ">=1.0.0+1.19",
+    "gelatin": "*",
     "cloth-config": ">=6.2.57",
     "fabricloader": ">=0.13.3",
     "fabric": "*",

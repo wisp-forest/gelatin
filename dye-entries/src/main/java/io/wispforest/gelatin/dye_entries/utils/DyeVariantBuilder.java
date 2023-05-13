@@ -10,7 +10,7 @@ import org.jetbrains.annotations.ApiStatus;
 import java.util.HashSet;
 import java.util.Set;
 
-public class DyeableVariantRegistry {
+public class DyeVariantBuilder {
 
     public static final Set<Identifier> IDENTIFIER_RESOURCE_REDIRECTS = new HashSet<>();
     public static final Set<String> NAMESPACE_RESOURCE_REDIRECTS = new HashSet<>();

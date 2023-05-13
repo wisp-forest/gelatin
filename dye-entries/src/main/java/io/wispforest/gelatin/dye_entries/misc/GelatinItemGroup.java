@@ -1,6 +1,7 @@
 package io.wispforest.gelatin.dye_entries.misc;
 
 import io.wispforest.gelatin.common.util.ColorUtil;
+import io.wispforest.gelatin.dye_entries.variants.DyeableVariantRegistry;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import io.wispforest.gelatin.dye_registry.ducks.DyeBlockStorage;
@@ -41,7 +42,7 @@ public class GelatinItemGroup extends OwoItemGroup {
         if(DyeColorantRegistry.DYE_COLOR.size() > 17) {
             DyeColorant color = DyeColorantRegistry.DYE_COLOR.get(new Identifier("jello","international_klein_blue"));//"cold_turkey"
 
-            List<DyeableBlockVariant> allVariants = DyeableBlockVariant.getAllBlockVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.vanillaDyesOnly() && dyeableBlockVariant.createBlockItem()).toList();
+            List<DyeableBlockVariant> allVariants = DyeableVariantRegistry.getAllBlockVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.vanillaDyesOnly() && dyeableBlockVariant.createBlockItem()).toList();
 
             DyeableBlockVariant variant = allVariants.get(new Random().nextInt(allVariants.size()));
 
@@ -49,7 +50,7 @@ public class GelatinItemGroup extends OwoItemGroup {
 
             for(boolean validItems = false; !validItems;){
                 dyeItem = Registry.ITEM.get(new Identifier(color.getId().getNamespace(), color.getName() + "_dye"));
-                blockItem = Registry.ITEM.get(new Identifier(color.getId().getNamespace(), variant.getColoredBlockPath(color)));
+                blockItem = Registry.ITEM.get(new Identifier(color.getId().getNamespace(), variant.getColoredEntryPath(color)));
 
                 if(color == DyeColorantRegistry.NULL_VALUE_NEW || blockItem == Items.AIR || dyeItem == Items.AIR) {
                     color = DyeColorantRegistry.getRandomColorant();

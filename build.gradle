@@ -1,6 +1,6 @@
 plugins {
 	id "fabric-loom" version "0.12-SNAPSHOT"
-	id "io.github.juuxel.loom-quiltflower" version "1.7.3" // Quiltflower, a better decompiler
+	id "io.github.juuxel.loom-quiltflower" version "1.8.0" // Quiltflower, a better decompiler
 //	id "io.github.p03w.machete" version "1.+" // automatic jar compressing on build
 	id "maven-publish"
 }
@@ -86,8 +86,10 @@ allprojects {
 
 		implementation("org.atteo:evo-inflector:1.3")
 
-		modImplementation "io.wispforest:owo-lib:${project.owo_version}"
-		annotationProcessor modImplementation("io.wispforest:owo-lib:${project.owo_version}")
+		annotationProcessor modImplementation ("io.wispforest:owo-lib:${project.owo_version}", {
+			exclude group: "net.fabricmc.fabric-api"
+		})
+		//annotationProcessor modImplementation("io.wispforest:owo-lib:${project.owo_version}")
 
 		modImplementation("me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei}"){
 			exclude group: "net.fabricmc.fabric-api"
@@ -101,7 +103,9 @@ allprojects {
 
 		modLocalRuntime("maven.modrinth:better-beds:${project.better_beds}")
 
-		modImplementation "io.wispforest:condensed_creative-fabric:${project.cc}"
+		modImplementation("io.wispforest:condensed_creative-fabric:${project.cc}", {
+			exclude group: "net.fabricmc.fabric-api"
+		})
 
 		modCompileOnly("com.terraformersmc:modmenu:${project.modmenu}")
 		modLocalRuntime("com.terraformersmc:modmenu:${project.modmenu}")

@@ -16,4 +16,9 @@ public class JelloConfigModel {
     @SectionHeader("common")
     @Sync(Option.SyncMode.OVERRIDE_CLIENT)
     public boolean allowVanillaColorsInPaintMixer = true;
+
+    @SectionHeader("client")
+    public HudPosition bundlePosition = new HudPosition(-1, -1);
+
+    public record HudPosition(int x, int y) {}
 }

@@ -1,7 +1,7 @@
 package io.wispforest.gelatin.dye_entries.mixins;
 
 import io.wispforest.gelatin.dye_entries.block.ColoredShulkerBoxBlock;
-import io.wispforest.gelatin.dye_entries.variants.VanillaBlockVariants;
+import io.wispforest.gelatin.dye_entries.variants.impl.VanillaBlockVariants;
 import io.wispforest.gelatin.dye_registry.ducks.DyeBlockStorage;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;

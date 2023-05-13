@@ -12,11 +12,10 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-public class BetterItemOps {
+public class ItemFunctions {
 
     public static void decrementPlayerHandItemCC(PlayerEntity player, Hand hand) {
-        if (!player.getAbilities().creativeMode)
-            ItemOps.decrementPlayerHandItem(player, hand);
+        if (!player.getAbilities().creativeMode) ItemOps.decrementPlayerHandItem(player, hand);
     }
 
     /**
@@ -31,14 +30,12 @@ public class BetterItemOps {
         OwoItemSettings settingsNew = new OwoItemSettings();
 
         if(settings instanceof OwoItemSettings oldOwoItemSettings){
-            settingsNew.tab(oldOwoItemSettings.getTab());
+            settingsNew.tab(oldOwoItemSettings.tab());
         }
 
         SettingsAccessor settingsAccessor = (SettingsAccessor) settings;
 
-        if (settingsAccessor.jello$isFireproof()) {
-            settingsNew.fireproof();
-        }
+        if (settingsAccessor.jello$isFireproof()) settingsNew.fireproof();
 
         settingsNew.group(settingsAccessor.jello$getGroup())
                 .food(settingsAccessor.jello$getFoodComponent())

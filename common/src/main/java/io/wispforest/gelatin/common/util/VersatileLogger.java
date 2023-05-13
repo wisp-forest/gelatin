@@ -41,12 +41,12 @@ public class VersatileLogger {
 
     //-------------------------------------------------------------
 
-    public void failMessage(String message) {
-        LOGGER.error("[" + prefix + "]: " + message);
+    public void failMessage(String message, Object... variables) {
+        LOGGER.error("[" + prefix + "]: " + message, variables);
     }
 
-    public void infoMessage(String message) {
-        LOGGER.info("[" + prefix + "]: " + message);
+    public void infoMessage(String message, Object... variables) {
+        LOGGER.info("[" + prefix + "]: " + message, variables);
     }
 
 }

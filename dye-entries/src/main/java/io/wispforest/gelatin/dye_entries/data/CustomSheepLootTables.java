@@ -3,7 +3,7 @@ package io.wispforest.gelatin.dye_entries.data;
 import io.wispforest.gelatin.common.events.LootTableInjectionEvent;
 import io.wispforest.gelatin.common.util.VersatileLogger;
 import io.wispforest.gelatin.dye_entries.variants.DyeableVariantManager;
-import io.wispforest.gelatin.dye_entries.variants.VanillaBlockVariants;
+import io.wispforest.gelatin.dye_entries.variants.impl.VanillaBlockVariants;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import net.minecraft.block.Block;

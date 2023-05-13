@@ -2,9 +2,9 @@ package io.wispforest.gelatin.dye_entries.compat.rei;
 
 import io.wispforest.gelatin.common.util.ColorUtil;
 import io.wispforest.gelatin.dye_entries.variants.DyeableVariant;
-import io.wispforest.gelatin.dye_entries.variants.VanillaItemVariants;
+import io.wispforest.gelatin.dye_entries.variants.DyeableVariantRegistry;
+import io.wispforest.gelatin.dye_entries.variants.impl.VanillaItemVariants;
 import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
-import io.wispforest.gelatin.dye_entries.variants.item.DyeableItemVariant;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import io.wispforest.gelatin.dye_registry.ducks.DyeBlockStorage;
@@ -38,8 +38,8 @@ public class GelatinREIClientPlugin implements REIClientPlugin {
 
     @Override
     public void registerCollapsibleEntries(CollapsibleEntryRegistry registry) {
-        DyeableBlockVariant.getAllBlockVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.alwaysReadOnly() && dyeableBlockVariant.createBlockItem()).forEach(dyeableBlockVariant -> {
-            List<ItemStack> items = Registry.ITEM.stream().filter(item -> item.getRegistryEntry().isIn(dyeableBlockVariant.blockItemVariant.getPrimaryItemTag())).map(Item::getDefaultStack).collect(Collectors.toList());
+        DyeableVariantRegistry.getAllBlockVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.alwaysReadOnly() && dyeableBlockVariant.createBlockItem()).forEach(dyeableBlockVariant -> {
+            List<ItemStack> items = Registry.ITEM.stream().filter(item -> item.getRegistryEntry().isIn(dyeableBlockVariant.blockItemVariant.getPrimaryTag())).map(Item::getDefaultStack).collect(Collectors.toList());
 
             Predicate<ItemStack> getNonVanillaBlocks = stack -> {
                 DyeColorant dyeColorant = ((DyeBlockStorage) ((BlockItem) stack.getItem()).getBlock()).getDyeColorant();
@@ -70,7 +70,7 @@ public class GelatinREIClientPlugin implements REIClientPlugin {
 
             items.addAll(nonVanillaStacks);
 
-            Block defaultBlock = dyeableBlockVariant.getDefaultBlock();
+            Block defaultBlock = dyeableBlockVariant.getDefaultEntry();
 
             if(defaultBlock instanceof DyeBlockStorage dyeBlockStorage && dyeBlockStorage.getDyeColorant() != DyeColorantRegistry.WHITE){
                 items.add(0, defaultBlock.asItem().getDefaultStack());
@@ -79,8 +79,8 @@ public class GelatinREIClientPlugin implements REIClientPlugin {
             registry.group(dyeableBlockVariant.variantIdentifier, Text.translatable(dyeableBlockVariant.variantIdentifier.getPath() + "_condensed"), items.stream().map(EntryStacks::of).collect(Collectors.toList()));
         });
 
-        DyeableItemVariant.getAllItemVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.alwaysReadOnly()).forEach(dyeableItemVariant -> {
-            List<ItemStack> items = Registry.ITEM.stream().filter(item -> item.getRegistryEntry().isIn(dyeableItemVariant.getPrimaryItemTag())).map(Item::getDefaultStack).collect(Collectors.toList());
+        DyeableVariantRegistry.getAllItemVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.alwaysReadOnly()).forEach(dyeableItemVariant -> {
+            List<ItemStack> items = Registry.ITEM.stream().filter(item -> item.getRegistryEntry().isIn(dyeableItemVariant.getPrimaryTag())).map(Item::getDefaultStack).collect(Collectors.toList());
 
             Predicate<ItemStack> getNonVanillaBlocks = stack -> {
                 DyeColorant dyeColorant = ((DyeItemStorage) stack.getItem()).getDyeColorant();
@@ -111,7 +111,7 @@ public class GelatinREIClientPlugin implements REIClientPlugin {
 
             items.addAll(nonVanillaStacks);
 
-            Item defaultItem = dyeableItemVariant.getDefaultItem();
+            Item defaultItem = dyeableItemVariant.getDefaultEntry();
 
             if(defaultItem instanceof DyeBlockStorage dyeBlockStorage && dyeBlockStorage.getDyeColorant() != DyeColorantRegistry.WHITE){
                 items.add(0, defaultItem.getDefaultStack());
@@ -132,7 +132,7 @@ public class GelatinREIClientPlugin implements REIClientPlugin {
             if(entry.getValue() instanceof ItemStack itemStack && itemStack.getItem() instanceof BlockItem blockItem){
                 DyeableVariant<?, ? extends ItemConvertible> dyeableVariant = DyeableVariant.getVariantFromEntry(blockItem.getBlock());
 
-                if(dyeableVariant instanceof DyeableBlockVariant dyeableBlockVariant && dyeableBlockVariant.createBlockItem() && blockItem.getBlock().getRegistryEntry().isIn(dyeableBlockVariant.getPrimaryBlockTag())){
+                if(dyeableVariant instanceof DyeableBlockVariant dyeableBlockVariant && dyeableBlockVariant.createBlockItem() && blockItem.getBlock().getRegistryEntry().isIn(dyeableBlockVariant.getPrimaryTag())){
                     return Optional.of(List.of(DyeBlockVaraintDisplay.recipeForBlock(dyeableBlockVariant, blockItem.getBlock())));
                 }
             }
@@ -175,7 +175,7 @@ public class GelatinREIClientPlugin implements REIClientPlugin {
         public static DyeBlockVaraintDisplay recipeForBlock(DyeableBlockVariant variant, Block orginblock){
             DyeColorant dyeColorant = variant.getColorFromEntry(orginblock);
 
-            return new DyeBlockVaraintDisplay(createRecipeInputList(variant.blockItemVariant.getPrimaryItemTag(), VanillaItemVariants.DYE.getColoredEntry(dyeColorant)), Collections.singletonList(EntryIngredients.of(orginblock)));
+            return new DyeBlockVaraintDisplay(createRecipeInputList(variant.blockItemVariant.getPrimaryTag(), VanillaItemVariants.DYE.getColoredEntry(dyeColorant)), Collections.singletonList(EntryIngredients.of(orginblock)));
         }
 
         public static DyeBlockVaraintDisplay usageOfBlock(DyeableBlockVariant variant, Block orginblock){

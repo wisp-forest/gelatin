@@ -14,4 +14,10 @@ public interface HandledScreenAccessor {
 
     @Invoker("getSlotAt")
     Slot jello$getSlotAt(double x, double y);
+
+    @Accessor("x")
+    int jello$getX();
+
+    @Accessor("y")
+    int jello$getY();
 }

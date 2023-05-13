@@ -5,8 +5,8 @@ import io.wispforest.gelatin.dye_entries.data.GelatinLootTables;
 import io.wispforest.gelatin.dye_entries.data.recipe.GelatinRecipeSerializers;
 import io.wispforest.gelatin.dye_entries.misc.GelatinItemGroup;
 import io.wispforest.gelatin.dye_entries.misc.GelatinStats;
-import io.wispforest.gelatin.dye_entries.utils.DyeableVariantRegistry;
-import io.wispforest.gelatin.dye_entries.variants.VanillaBlockVariants;
+import io.wispforest.gelatin.dye_entries.utils.DyeVariantBuilder;
+import io.wispforest.gelatin.dye_entries.variants.impl.VanillaBlockVariants;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import io.wispforest.gelatin.dye_registry.ducks.DyeBlockStorage;
@@ -30,10 +30,10 @@ public class DyeEntriesInit implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        DyeableVariantRegistry.registerModidModelRedirect(GelatinConstants.MODID);
+        DyeVariantBuilder.registerModidModelRedirect(GelatinConstants.MODID);
 
         //----------------------------[Independent Api Stuff's]----------------------------
-        DyeableVariantRegistry.initVanillaDyes();
+        DyeVariantBuilder.initVanillaDyes();
 
         setDyeColorantForMinecraftBlocks();
         //---------------------------------------------------------------------------------

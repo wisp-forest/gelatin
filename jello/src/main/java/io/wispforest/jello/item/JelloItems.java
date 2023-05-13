@@ -1,6 +1,6 @@
 package io.wispforest.jello.item;
 
-import io.wispforest.gelatin.common.util.BetterItemOps;
+import io.wispforest.gelatin.common.util.ItemFunctions;
 import io.wispforest.gelatin.dye_entries.item.ColoredItem;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
@@ -48,7 +48,7 @@ public class JelloItems implements ItemRegistryContainer {
     public static class JelloCups implements ItemRegistryContainer {
         private static final OwoItemSettings JELLO_CUP_DEFAULT = new OwoItemSettings().group(ItemGroup.FOOD).tab(0).fireproof();
 
-        public static final Item SUGAR_CUP = new Item(BetterItemOps.copyFrom(JELLO_CUP_DEFAULT).food(JelloFoodComponents.SUGAR_CUP));
+        public static final Item SUGAR_CUP = new Item(ItemFunctions.copyFrom(JELLO_CUP_DEFAULT).food(JelloFoodComponents.SUGAR_CUP));
 
         public static final Item WHITE_JELLO_CUP = createJelloCup(DyeColorantRegistry.WHITE, JelloFoodComponents.WHITE_JELLO_CUP);
         public static final Item ORANGE_JELLO_CUP = createJelloCup(DyeColorantRegistry.ORANGE, JelloFoodComponents.ORANGE_JELLO_CUP);
@@ -74,7 +74,7 @@ public class JelloItems implements ItemRegistryContainer {
                         BROWN_JELLO_CUP, GREEN_JELLO_CUP, RED_JELLO_CUP, BLACK_JELLO_CUP);
 
         private static ColoredItem createJelloCup(DyeColorant dyeColor, FoodComponent foodComponent) {
-            return new ColoredItem(dyeColor, BetterItemOps.copyFrom(JELLO_CUP_DEFAULT).food(foodComponent), value -> value > 1);
+            return new ColoredItem(dyeColor, ItemFunctions.copyFrom(JELLO_CUP_DEFAULT).food(foodComponent), value -> value > 1);
         }
     }
 }

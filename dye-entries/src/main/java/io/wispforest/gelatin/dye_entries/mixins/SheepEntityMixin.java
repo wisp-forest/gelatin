@@ -4,7 +4,7 @@ import io.wispforest.gelatin.common.util.TrackedDataHandlerExtended;
 import io.wispforest.gelatin.dye_entries.data.CustomSheepLootTables;
 import io.wispforest.gelatin.dye_entries.ducks.SheepDyeColorStorage;
 import io.wispforest.gelatin.dye_entries.variants.DyeableVariantManager;
-import io.wispforest.gelatin.dye_entries.variants.VanillaBlockVariants;
+import io.wispforest.gelatin.dye_entries.variants.impl.VanillaBlockVariants;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import net.minecraft.entity.EntityData;

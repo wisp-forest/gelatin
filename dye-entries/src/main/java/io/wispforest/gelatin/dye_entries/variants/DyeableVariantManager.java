@@ -1,10 +1,11 @@
 package io.wispforest.gelatin.dye_entries.variants;
 
-import io.wispforest.gelatin.common.util.BetterItemOps;
+import io.wispforest.gelatin.common.util.ItemFunctions;
 import io.wispforest.gelatin.common.mixins.SettingsAccessor;
+import io.wispforest.gelatin.dye_entries.variants.impl.VanillaItemVariants;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
-import io.wispforest.gelatin.dye_entries.utils.DyeableVariantRegistry;
+import io.wispforest.gelatin.dye_entries.utils.DyeVariantBuilder;
 import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
 import io.wispforest.gelatin.dye_entries.variants.item.DyeableItemVariant;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
@@ -21,10 +22,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 /**
  * Main Class for storing all data on all registered {@link DyeColorant} used to create colored {@link DyeableBlockVariant}
- * <p>Look at {@link DyeableVariantRegistry#createDyedVariants(DyeColorant, Item.Settings, boolean)} if you want to create variants off of your {@link DyeColorant}</p>
+ * <p>Look at {@link DyeVariantBuilder#createDyedVariants(DyeColorant, Item.Settings, boolean)} if you want to create variants off of your {@link DyeColorant}</p>
  */
 public class DyeableVariantManager {
 
@@ -44,8 +46,6 @@ public class DyeableVariantManager {
 
     protected static final Map<DyeColorant, DyeColorantVariantData> DYED_VARIANTS = new HashMap<>();
 
-
-
     /**
      * Get the Block Based on the given {@link DyeColorant} and {@link DyeableBlockVariant}
      *
@@ -57,16 +57,14 @@ public class DyeableVariantManager {
         for (Map.Entry<DyeColorant, DyeColorantVariantData> variantContainerEntry : DYED_VARIANTS.entrySet()) {
             DyeColorant possibleDyeColorant = variantContainerEntry.getKey();
 
-            if (dyeColorant == possibleDyeColorant) {
-                DyeColorantVariantData container = variantContainerEntry.getValue();
+            if (dyeColorant != possibleDyeColorant) continue;
 
-                for (Map.Entry<DyeableBlockVariant, Block> variantBlockEntry : container.dyedBlocks.entrySet()) {
-                    DyeableBlockVariant possibleVariant = variantBlockEntry.getKey();
+            DyeColorantVariantData container = variantContainerEntry.getValue();
 
-                    if (dyeableBlockVariant == possibleVariant) {
-                        return variantBlockEntry.getValue();
-                    }
-                }
+            for (Map.Entry<DyeableBlockVariant, Block> variantBlockEntry : container.dyedBlocks.entrySet()) {
+                DyeableBlockVariant possibleVariant = variantBlockEntry.getKey();
+
+                if (dyeableBlockVariant == possibleVariant) return variantBlockEntry.getValue();
             }
         }
 
@@ -117,13 +115,10 @@ public class DyeableVariantManager {
 
         Map<DyeableBlockVariant, Block> dyedBlocks = blockBuilder.buildVariantMapFromDye(dyeColorant, itemGroupSettings);
         Map<DyeableItemVariant, Item> dyedItems = itemBuilder.buildVariantMapFromDye(dyeColorant, itemGroupSettings);
-//        DyeItem dyeItem = itemBuilder.createDyeItem(dyeColorant, dyeItemSettings);
 
         DyeColorantVariantData dyedVariantContainer = new DyeColorantVariantData(dyedBlocks, dyedItems, blockBuilder, itemBuilder);
 
         DYED_VARIANTS.put(dyeColorant, dyedVariantContainer);
-
-        //ColorBlockRegistry.registerDyeColorant(dyeColorant, dyedVariantContainer);
 
         return dyedVariantContainer;
     }
@@ -137,8 +132,7 @@ public class DyeableVariantManager {
             DyeColorant dyeColorant = entry.getKey();
 
             //Skips if the DyeableBlockVariant doesn't want any modded dyes to be added
-            if(!DyeColorantRegistry.Constants.VANILLA_DYES.contains(dyeColorant) && dyeableBlockVariant.vanillaDyesOnly())
-                continue;
+            if(!DyeColorantRegistry.Constants.VANILLA_DYES.contains(dyeColorant) && dyeableBlockVariant.vanillaDyesOnly()) continue;
 
             entry.getValue().addToExistingContainerWithRecursionBlock(dyeColorant, dyeableBlockVariant);
         }
@@ -151,8 +145,7 @@ public class DyeableVariantManager {
             DyeColorant dyeColorant = entry.getKey();
 
             //Skips if the DyeableBlockVariant doesn't want any modded dyes to be added
-            if(!DyeColorantRegistry.Constants.VANILLA_DYES.contains(dyeColorant) && dyeableItemVariant.vanillaDyesOnly())
-                continue;
+            if(!DyeColorantRegistry.Constants.VANILLA_DYES.contains(dyeColorant) && dyeableItemVariant.vanillaDyesOnly()) continue;
 
             entry.getValue().addToExistingContainerWithRecursionItem(dyeColorant, dyeableItemVariant);
         }
@@ -173,7 +166,7 @@ public class DyeableVariantManager {
         protected Map<DyeableBlockVariant, Block> buildVariantMapFromDye(DyeColorant dyeColorant, @Nullable Item.Settings itemGroupSettings) {
             Map<DyeableBlockVariant, Block> dyedBlocks = new HashMap<>();
 
-            for (DyeableBlockVariant dyeableBlockVariant : DyeableBlockVariant.AllBaseBlockVariants()) {
+            for (DyeableBlockVariant dyeableBlockVariant : DyeableVariantRegistry.getParentBlockVariants()) {
                 this.recursivelyBuildBlocksFromVariant(dyedBlocks, null, dyeableBlockVariant, dyeColorant, itemGroupSettings);
             }
 
@@ -189,12 +182,12 @@ public class DyeableVariantManager {
                 info = parentBlockVariant.makeChildBlock(dyeColorant, possibleParentBlock);
 
                 if (itemGroupSettings != null) {
-                    Item.Settings infoSettings = BetterItemOps.copyFrom(info.getRight());
+                    Item.Settings infoSettings = ItemFunctions.copyFrom(info.getRight());
 
                     infoSettings.group(((SettingsAccessor) itemGroupSettings).jello$getGroup());
 
                     if(infoSettings instanceof OwoItemSettings owoItemSettings && itemGroupSettings instanceof OwoItemSettings owoItemSettings1){
-                        owoItemSettings.tab(owoItemSettings1.getTab());
+                        owoItemSettings.tab(owoItemSettings1.tab());
                     }
 
                     info.setRight(infoSettings);
@@ -207,11 +200,9 @@ public class DyeableVariantManager {
 
             dyedBlocks.put(parentBlockVariant, childBlock);
 
-            if (parentBlockVariant.childVariant.get() != null) {
-                DyeableBlockVariant childBlockVariant = parentBlockVariant.childVariant.get();
-
-                recursivelyBuildBlocksFromVariant(dyedBlocks, childBlock, childBlockVariant, dyeColorant, itemGroupSettings);
-            }
+            parentBlockVariant.childVariant.stream().map(Supplier::get).forEach(variant -> {
+                recursivelyBuildBlocksFromVariant(dyedBlocks, childBlock, variant, dyeColorant, itemGroupSettings);
+            });
         }
 
         private Block registerBlock(DyeableBlockVariant dyeableBlockVariant, @Nullable Pair<Block, Item.Settings> registryInfo, DyeColorant dyeColorant) {
@@ -222,7 +213,7 @@ public class DyeableVariantManager {
                     dyeColorant.getId().getNamespace() :
                     dyeableBlockVariant.variantIdentifier.getNamespace();
 
-            Identifier identifier = new Identifier(nameSpace, dyeableBlockVariant.getColoredBlockPath(dyeColorant));
+            Identifier identifier = new Identifier(nameSpace, dyeableBlockVariant.getColoredEntryPath(dyeColorant));
 
             addToModelRedirectSystem(identifier);
 
@@ -236,8 +227,7 @@ public class DyeableVariantManager {
         }
 
         private void addToModelRedirectSystem(Identifier identifier){
-            if (this.useModelRedirectSystem)
-                DyeableVariantRegistry.IDENTIFIER_RESOURCE_REDIRECTS.add(identifier);
+            if (this.useModelRedirectSystem) DyeVariantBuilder.IDENTIFIER_RESOURCE_REDIRECTS.add(identifier);
         }
 
         private boolean isReadOnly(DyeableBlockVariant variant){
@@ -276,7 +266,7 @@ public class DyeableVariantManager {
                     itemSettings.group(((SettingsAccessor)itemGroupSettings).jello$getGroup());
 
                     if(itemSettings instanceof OwoItemSettings owoItemSettings && itemGroupSettings instanceof OwoItemSettings owoItemSettings1){
-                        owoItemSettings.tab(owoItemSettings1.getTab());
+                        owoItemSettings.tab(owoItemSettings1.tab());
                     }
                 }
 
@@ -289,11 +279,11 @@ public class DyeableVariantManager {
 
             dyedBlocks.put(parentItemVariant, item);
 
-            if (parentItemVariant.childVariant.get() != null) {
-                DyeableItemVariant childItemVariant = parentItemVariant.childVariant.get();
+            Item finalItem = item;
 
-                recursivelyBuildItemsFromVariant(dyedBlocks, item, childItemVariant, dyeColorant, itemGroupSettings);
-            }
+            parentItemVariant.childVariant.stream().map(Supplier::get).forEach(childItemVariant -> {
+                recursivelyBuildItemsFromVariant(dyedBlocks, finalItem, childItemVariant, dyeColorant, itemGroupSettings);
+            });
         }
 
         private Item registerItem(DyeableItemVariant dyeableItemVariant, @Nullable Item item, DyeColorant dyeColorant) {
@@ -313,7 +303,7 @@ public class DyeableVariantManager {
 
         private void addToModelRedirectSystem(Identifier identifier){
             if (this.useModelRedirectSystem)
-                DyeableVariantRegistry.IDENTIFIER_RESOURCE_REDIRECTS.add(identifier);
+                DyeVariantBuilder.IDENTIFIER_RESOURCE_REDIRECTS.add(identifier);
         }
 
         private boolean isReadOnly(DyeableItemVariant variant){

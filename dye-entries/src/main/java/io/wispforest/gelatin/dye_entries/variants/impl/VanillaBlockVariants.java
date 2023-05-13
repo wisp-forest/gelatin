@@ -1,6 +1,6 @@
-package io.wispforest.gelatin.dye_entries.variants;
+package io.wispforest.gelatin.dye_entries.variants.impl;
 
-import io.wispforest.gelatin.common.util.BetterItemOps;
+import io.wispforest.gelatin.common.util.ItemFunctions;
 import io.wispforest.gelatin.dye_entries.DyeEntriesInit;
 import io.wispforest.gelatin.dye_entries.block.*;
 import io.wispforest.gelatin.dye_entries.data.GelatinLootTables;
@@ -41,64 +41,66 @@ public class VanillaBlockVariants {
 
     //-----------------------------------------------------------------
 
-    public static final DyeableBlockVariant CONCRETE_POWDER = DyeableBlockVariant.Builder.of(new Identifier("concrete_powder"), itemSettings, (dyeColorant, parentBlock) -> {
+    public static final DyeableBlockVariant CONCRETE_POWDER = new DyeableBlockVariant(new Identifier("concrete_powder"), itemSettings, (dyeColorant, parentBlock) -> {
         return new ColoredConcretePowderBlock(parentBlock, AbstractBlock.Settings.of(Material.AGGREGATE, MapColor.CLEAR).strength(0.5F).sounds(BlockSoundGroup.SAND), dyeColorant);
-    }).setBlockTags(BlockTags.PICKAXE_MINEABLE, BlockTags.NEEDS_STONE_TOOL)
-            .setParentVariantIdentifier(new Identifier("concrete"))
+    }).addTags(BlockTags.PICKAXE_MINEABLE, BlockTags.NEEDS_STONE_TOOL)
+            .setParentId(new Identifier("concrete"))
             .register();
 
-    public static final DyeableBlockVariant CONCRETE = DyeableBlockVariant.Builder.of(new Identifier("concrete"), itemSettings, () -> CONCRETE_POWDER, (dyeColorant, parentBlock) -> {
+    public static final DyeableBlockVariant CONCRETE = new DyeableBlockVariant(new Identifier("concrete"), itemSettings, (dyeColorant, parentBlock) -> {
         return new ColoredBlock(AbstractBlock.Settings.of(Material.STONE, MapColor.CLEAR).requiresTool().strength(1.8F), dyeColorant);
-    }).setBlockTags(BlockTags.PICKAXE_MINEABLE, BlockTags.NEEDS_STONE_TOOL)
+    }).addTags(BlockTags.PICKAXE_MINEABLE, BlockTags.NEEDS_STONE_TOOL)
+            .linkChildEntry(() -> CONCRETE_POWDER)
             .register();
 
     //-----------------------------------------------------------------
 
-    public static final DyeableBlockVariant TERRACOTTA = DyeableBlockVariant.Builder.of(new Identifier("terracotta"), itemSettings, (dyeColorant, parentBlock) -> {
+    public static final DyeableBlockVariant TERRACOTTA = new DyeableBlockVariant(new Identifier("terracotta"), itemSettings, (dyeColorant, parentBlock) -> {
         return new ColoredBlock(AbstractBlock.Settings.of(Material.STONE, MapColor.CLEAR).requiresTool().strength(1.25F, 4.2F), dyeColorant);
     }).setDefaultEntry("terracotta")
-        .setBlockTags(BlockTags.TERRACOTTA, BlockTags.PICKAXE_MINEABLE, BlockTags.NEEDS_STONE_TOOL)
-        .setItemTags(ItemTags.TERRACOTTA)
+        .addTags(BlockTags.TERRACOTTA, BlockTags.PICKAXE_MINEABLE, BlockTags.NEEDS_STONE_TOOL)
+        .configureBlockItemVariant(dyeableItemVariant -> dyeableItemVariant.addTags((ItemTags.TERRACOTTA)))
         .register();
 
     //-----------------------------------------------------------------
 
-    public static final DyeableBlockVariant WOOL = DyeableBlockVariant.Builder.of(new Identifier("wool"), itemSettings, (dyeColorant, parentBlock) -> {
+    public static final DyeableBlockVariant WOOL = new DyeableBlockVariant(new Identifier("wool"), itemSettings, (dyeColorant, parentBlock) -> {
         return new ColoredBlock(AbstractBlock.Settings.of(Material.WOOL, MapColor.CLEAR).strength(0.8F).sounds(BlockSoundGroup.WOOL), dyeColorant);
-    }).setBlockTags(BlockTags.WOOL)
-        .setItemTags(ItemTags.WOOL)
+    }).addTags(BlockTags.WOOL)
+        .configureBlockItemVariant(dyeableItemVariant -> dyeableItemVariant.addTags(ItemTags.WOOL))
         .register();
 
     //-----------------------------------------------------------------
 
-    public static final DyeableBlockVariant CARPET = DyeableBlockVariant.Builder.of(new Identifier("carpet"), itemSettings, (dyeColorant, parentBlock) -> {
+    public static final DyeableBlockVariant CARPET = new DyeableBlockVariant(new Identifier("carpet"), itemSettings, (dyeColorant, parentBlock) -> {
         return new ColoredCarpetBlock(AbstractBlock.Settings.of(Material.CARPET, MapColor.CLEAR).strength(0.1F).sounds(BlockSoundGroup.WOOL), dyeColorant);
-    }).setBlockTags(BlockTags.WOOL_CARPETS)
-        .setItemTags(ItemTags.WOOL_CARPETS)
+    }).addTags(BlockTags.WOOL_CARPETS)
+        .configureBlockItemVariant(dyeableItemVariant -> dyeableItemVariant.addTags(ItemTags.WOOL_CARPETS))
         .register();
 
     //-----------------------------------------------------------------
 
-    public static final DyeableBlockVariant CANDLE_CAKE = DyeableBlockVariant.Builder.of(new Identifier("candle_cake"), itemSettings, (dyeColorant, parentBlock) -> {
+    public static final DyeableBlockVariant CANDLE_CAKE = new DyeableBlockVariant(new Identifier("candle_cake"), itemSettings, (dyeColorant, parentBlock) -> {
         return new ColoredCandleCakeBlock(dyeColorant, parentBlock, AbstractBlock.Settings.copy(Blocks.CANDLE_CAKE));
     }).setDefaultEntry("candle_cake")
-        .setParentVariantIdentifier(new Identifier("candle"))
-        .setBlockTags(BlockTags.CANDLE_CAKES)
+        .setParentId(new Identifier("candle"))
+        .addTags(BlockTags.CANDLE_CAKES)
         .noBlockItem()
         .setLootTable(block -> GelatinLootTables.candleCakeDrops((Block)block).build())
         .register();
 
-    public static final DyeableBlockVariant CANDLE = DyeableBlockVariant.Builder.of(new Identifier("candle"), itemSettings, () -> CANDLE_CAKE, (dyeColorant, parentBlock) -> {
+    public static final DyeableBlockVariant CANDLE = new DyeableBlockVariant(new Identifier("candle"), itemSettings, (dyeColorant, parentBlock) -> {
         return new ColoredCandleBlock(dyeColorant, AbstractBlock.Settings.of(Material.DECORATION, MapColor.CLEAR).nonOpaque().strength(0.1F).sounds(BlockSoundGroup.CANDLE).luminance(CandleBlock.STATE_TO_LUMINANCE));
     }).setDefaultEntry("candle")
-        .setBlockTags(BlockTags.CANDLES)
-        .setItemTags(ItemTags.CANDLES)
+        .linkChildEntry(() -> CANDLE_CAKE)
+        .addTags(BlockTags.CANDLES)
+        .configureBlockItemVariant(dyeableItemVariant -> dyeableItemVariant.addTags(ItemTags.CANDLES))
         .setLootTable(block -> GelatinLootTables.candleDrops((Block)block).build())
         .register();
 
     //-----------------------------------------------------------------
 
-    public static final DyeableBlockVariant BED = DyeableBlockVariant.Builder.of(new Identifier("bed"), BetterItemOps.copyFrom(itemSettings).maxCount(1), (dyeColorant, parentBlock) -> {
+    public static final DyeableBlockVariant BED = new DyeableBlockVariant(new Identifier("bed"), ItemFunctions.copyFrom(itemSettings).maxCount(1), (dyeColorant, parentBlock) -> {
         Block block = new ColoredBedBlock(dyeColorant,
                 AbstractBlock.Settings.of(Material.WOOL, state -> state.get(BedBlock.PART) == BedPart.FOOT ? MapColor.CLEAR : MapColor.WHITE_GRAY).sounds(BlockSoundGroup.WOOD).strength(0.2F).nonOpaque());
 
@@ -126,23 +128,23 @@ public class VanillaBlockVariants {
                 changedState.getBlock().onPlaced(world, blockPos, changedState, player, ItemStack.EMPTY);
             }
             return true;
-    }).setBlockTags(BlockTags.BEDS)
-        .setItemTags(ItemTags.BEDS)
+    }).addTags(BlockTags.BEDS)
+        .configureBlockItemVariant(dyeableItemVariant -> dyeableItemVariant.addTags(ItemTags.BEDS))
         .setLootTable(block -> GelatinLootTables.dropsWithProperty((Block)block, BedBlock.PART, BedPart.HEAD).build())
         .register();
 
     //-----------------------------------------------------------------
 
-    public static final DyeableBlockVariant GLASS = DyeableBlockVariant.Builder.of(new Identifier("stained_glass"), itemSettings, (dyeColorant, parentBlock) -> {
+    public static final DyeableBlockVariant GLASS = new DyeableBlockVariant(new Identifier("stained_glass"), itemSettings, (dyeColorant, parentBlock) -> {
         return new ColoredGlassBlock(dyeColorant, AbstractBlock.Settings.of(Material.GLASS).strength(0.3F).sounds(BlockSoundGroup.GLASS).nonOpaque());
     }).setDefaultEntry("glass")
-        .setBlockTags(BlockTags.IMPERMEABLE)
+        .addTags(BlockTags.IMPERMEABLE)
         .setLootTable(block -> GelatinLootTables.dropsWithSilkTouch(block).build())
         .register();
 
     //-----------------------------------------------------------------
 
-    public static final DyeableBlockVariant GLASS_PANE = DyeableBlockVariant.Builder.of(new Identifier("stained_glass_pane"), itemSettings, (dyeColorant, parentBlock) -> {
+    public static final DyeableBlockVariant GLASS_PANE = new DyeableBlockVariant(new Identifier("stained_glass_pane"), itemSettings, (dyeColorant, parentBlock) -> {
         return new ColoredGlassPaneBlock(dyeColorant, AbstractBlock.Settings.of(Material.GLASS).strength(0.3F).sounds(BlockSoundGroup.GLASS).nonOpaque());
     }).setDefaultEntry("glass_pane")
         .setLootTable(block -> GelatinLootTables.dropsWithSilkTouch(block).build())
@@ -150,7 +152,7 @@ public class VanillaBlockVariants {
 
     //-----------------------------------------------------------------
 
-    public static final DyeableBlockVariant SHULKER_BOX = DyeableBlockVariant.Builder.of(new Identifier("shulker_box"), BetterItemOps.copyFrom(itemSettings).maxCount(1),
+    public static final DyeableBlockVariant SHULKER_BOX = new DyeableBlockVariant(new Identifier("shulker_box"), ItemFunctions.copyFrom(itemSettings).maxCount(1),
         (dyeColorant, parentBlock) -> {
             AbstractBlock.ContextPredicate contextPredicate = (state, world, pos) -> !(world.getBlockEntity(pos) instanceof ShulkerBoxBlockEntity shulkerBoxBlockEntity) || shulkerBoxBlockEntity.suffocates();
 
@@ -175,8 +177,10 @@ public class VanillaBlockVariants {
 
                 return false;
         }).setDefaultEntry("shulker_box")
-            .setBlockTags(BlockTags.SHULKER_BOXES)
-            .setBlockItemMaker((dyeColorant, block, settings) -> new BlockItem((Block)block, settings))
+            .addTags(BlockTags.SHULKER_BOXES)
+            .configureBlockItemVariant(dyeableItemVariant -> {
+                dyeableItemVariant.itemMaker = (dyeColorant, block, settings) -> new BlockItem((Block)block, settings);
+            })
             .setLootTable(block -> GelatinLootTables.shulkerBoxDrops((Block)block).build())
             .register();
 

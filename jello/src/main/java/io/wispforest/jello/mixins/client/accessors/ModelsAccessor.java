@@ -9,8 +9,9 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(Models.class)
 public interface ModelsAccessor {
-    @Invoker
-    static Model callItem(String parent, TextureKey... requiredTextures) {
+
+    @Invoker("item")
+    static Model jello$item(String parent, TextureKey... requiredTextures) {
         throw new UnsupportedOperationException();
     }
 }

@@ -1,7 +1,8 @@
 package io.wispforest.gelatin.dye_entries.mixins.client.dye;
 
 import io.wispforest.gelatin.common.misc.GelatinConstants;
-import io.wispforest.gelatin.dye_entries.utils.DyeableVariantRegistry;
+import io.wispforest.gelatin.dye_entries.utils.DyeVariantBuilder;
+import io.wispforest.gelatin.dye_entries.variants.DyeableVariantRegistry;
 import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
 import net.minecraft.client.render.model.ModelLoader;
 import net.minecraft.client.render.model.UnbakedModel;
@@ -80,11 +81,11 @@ public abstract class ModelLoaderMixin {
 
     @Inject(method = "addModel", at = @At("HEAD"), cancellable = true)
     private void checkIfModelIsRedirectable(ModelIdentifier modelId, CallbackInfo ci) {
-        if (DyeableVariantRegistry.shouldRedirectModelResource(new Identifier(modelId.getNamespace(), modelId.getPath()))) {
+        if (DyeVariantBuilder.shouldRedirectModelResource(new Identifier(modelId.getNamespace(), modelId.getPath()))) {
             String[] stringParts = modelId.getPath().split("_");
 
             if (ALL_BLOCK_VARIANTS.isEmpty()) {
-                ALL_BLOCK_VARIANTS.addAll(DyeableBlockVariant.getAllBlockVariants());
+                ALL_BLOCK_VARIANTS.addAll(DyeableVariantRegistry.getAllBlockVariants());
             }
 
             boolean isItemVersion = Objects.equals(modelId.getVariant(), "inventory");

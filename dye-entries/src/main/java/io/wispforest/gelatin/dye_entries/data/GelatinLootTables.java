@@ -1,6 +1,7 @@
 package io.wispforest.gelatin.dye_entries.data;
 
 import io.wispforest.gelatin.common.events.LootTableInjectionEvent;
+import io.wispforest.gelatin.dye_entries.variants.DyeableVariantRegistry;
 import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
@@ -31,7 +32,7 @@ import net.minecraft.util.StringIdentifiable;
 import java.util.HashSet;
 import java.util.Set;
 
-import static io.wispforest.gelatin.dye_entries.variants.VanillaBlockVariants.SHULKER_BOX;
+import static io.wispforest.gelatin.dye_entries.variants.impl.VanillaBlockVariants.SHULKER_BOX;
 
 public class GelatinLootTables {
 
@@ -49,7 +50,7 @@ public class GelatinLootTables {
         CustomSheepLootTables.init();
 
         LootTableInjectionEvent.ADD_LOOT_TABLES_EVENT.register(helper -> {
-            for(DyeableBlockVariant blockVariant : DyeableBlockVariant.getAllBlockVariants()){
+            for(DyeableBlockVariant blockVariant : DyeableVariantRegistry.getAllBlockVariants()){
                 blockVariant.generateAllLootTables(helper);
             }
         });

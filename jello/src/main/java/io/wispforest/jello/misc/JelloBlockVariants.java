@@ -22,20 +22,20 @@ public class JelloBlockVariants {
             .tab(2)
             .maxCount(64);
 
-    public static final DyeableBlockVariant SLIME_BLOCK = DyeableBlockVariant.Builder.of(Jello.id("slime_block"), itemSettings, (dyeColorant, parentBlock) -> {
+    public static final DyeableBlockVariant SLIME_BLOCK = new DyeableBlockVariant(Jello.id("slime_block"), itemSettings, (dyeColorant, parentBlock) -> {
         return new SlimeBlockColored(dyeColorant, FabricBlockSettings.copyOf(Blocks.SLIME_BLOCK));
     }).setDefaultEntry(new Identifier("slime_block"))
-            .setBlockTags(JelloTags.Blocks.COLORED_SLIME_BLOCKS, JelloTags.Blocks.SLIME_BLOCKS, JelloTags.Blocks.STICKY_BLOCKS)
+            .addTags(JelloTags.Blocks.COLORED_SLIME_BLOCKS, JelloTags.Blocks.SLIME_BLOCKS, JelloTags.Blocks.STICKY_BLOCKS)
             .register();
 
-    public static final DyeableBlockVariant SLIME_SLAB = DyeableBlockVariant.Builder.of(Jello.id("slime_slab"), itemSettings, (dyeColorant, parentBlock) -> {
+    public static final DyeableBlockVariant SLIME_SLAB = new DyeableBlockVariant(Jello.id("slime_slab"), itemSettings, (dyeColorant, parentBlock) -> {
         return new SlimeSlabColored(dyeColorant, FabricBlockSettings.copyOf(Blocks.SLIME_BLOCK));
     }).setDefaultEntry("slime_slab")
-            .setBlockTags(JelloTags.Blocks.COLORED_SLIME_SLABS, JelloTags.Blocks.SLIME_SLABS, JelloTags.Blocks.STICKY_BLOCKS)
+            .addTags(JelloTags.Blocks.COLORED_SLIME_SLABS, JelloTags.Blocks.SLIME_SLABS, JelloTags.Blocks.STICKY_BLOCKS)
             .setLootTable(block -> GelatinLootTables.slabDrops((Block)block).build())
             .register();
 
-//    public static final DyeableBlockVariant GLOW_STONE = DyeableBlockVariant.Builder.of(JelloConstants.id("glowstone"), itemSettings, (dyeColorant, parentBlock) -> {
+//    public static final DyeableBlockVariant GLOW_STONE = DyeableBlockVariant.Builder.of(JelloConstants.interactionId("glowstone"), itemSettings, (dyeColorant, parentBlock) -> {
 //        return new ColoredBlock(FabricBlockSettings.copyOf(Blocks.GLOWSTONE).luminance(MathHelper.ceil(15F * ColorUtil.luminance(dyeColorant.getColorComponents()))), dyeColorant);
 //    }).setDefaultEntry(new Identifier("glowstone"))
 //    .register();
