@@ -1,6 +1,7 @@
 package io.wispforest.gelatin.dye_registry;
 
 import io.wispforest.gelatin.common.util.ColorUtil;
+import net.fabricmc.loader.impl.util.StringUtil;
 import net.minecraft.block.MapColor;
 import net.minecraft.item.DyeableItem;
 import net.minecraft.item.Item;
@@ -9,9 +10,12 @@ import net.minecraft.tag.TagKey;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.RegistryEntry;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.ApiStatus;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A replacement for Minecrafts {@link DyeColor} Enum with mostly the exact same functions (Planned).
@@ -49,6 +53,15 @@ public class DyeColorant {
      */
     public String getName() {
         return getId().getPath();
+    }
+
+    /**
+     * @return A Crude formatted version of the {@link DyeColorant} name
+     */
+    public String getFormattedName(){
+        return Arrays.stream(getName().split("_"))
+                .map(StringUtil::capitalize)
+                .collect(Collectors.joining(" "));
     }
 
     //----------------------------------------------------------------

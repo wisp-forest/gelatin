@@ -89,7 +89,7 @@ public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant, Item>
      * @return {@link DyeableItemVariant} or null if the given Entry doesn't have one
      */
     @Nullable
-    private static DyeableItemVariant getVariantFromItem(Identifier identifier){
+    public static DyeableItemVariant getVariantFromItem(Identifier identifier){
         for(DyeableItemVariant variant : DyeableVariantRegistry.getAllItemVariants()){
             if(variant.isSuchAVariant(identifier, true)) return variant;
         }

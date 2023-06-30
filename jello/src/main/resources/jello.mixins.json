@@ -5,17 +5,23 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "BlockBoxAccessor",
+    "BundleItemAccessor",
+    "BundleItemMixin",
     "ItemsMixin",
-    "PistonHandlerMixin"
+    "PistonHandlerMixin",
+    "DefaultedRegistryMixin"
   ],
   "client": [
-    "client.CreativeInventoryMixin",
-    "client.InventoryScreenMixin",
+    "client.HandledScreenMixin",
     "client.ItemModelGeneratorMixin",
+    "client.ItemRendererMixin",
+    "client.ScreenMixin",
+    "client.accessors.CreativeSlotAccessor",
     "client.accessors.HandledScreenAccessor",
     "client.accessors.ItemModelGeneratorAccessor",
-    "client.accessors.ScreenAccessor"
-    "client.accessors.ModelsAccessor"
+    "client.accessors.ModelsAccessor",
+    "client.owo.FlowLayoutMixin",
+    "client.owo.NinePatchRendererAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

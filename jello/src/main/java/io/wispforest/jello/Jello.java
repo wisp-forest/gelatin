@@ -1,12 +1,17 @@
 package io.wispforest.jello;
 
+import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.context.CommandContext;
 import io.wispforest.gelatin.common.events.CauldronEvent;
 import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.blockentity.JelloBlockEntityTypes;
-import io.wispforest.jello.client.render.screen.ColorMixerScreenHandler;
-import io.wispforest.jello.client.render.screen.JelloScreenHandlerTypes;
+import io.wispforest.jello.client.gui.dyebundle.DyeBundleTooltipBuilder;
+import io.wispforest.jello.client.gui.screen.ColorMixerScreenHandler;
+import io.wispforest.jello.client.gui.screen.JelloScreenHandlerTypes;
 import io.wispforest.jello.compat.JelloConfig;
 import io.wispforest.jello.data.recipe.JelloRecipeSerializers;
+import io.wispforest.jello.misc.ColorDebugHelper;
 import io.wispforest.jello.misc.DyeColorantLoader;
 import io.wispforest.jello.item.JelloItems;
 import io.wispforest.jello.item.SpongeItem;
@@ -19,14 +24,22 @@ import io.wispforest.owo.network.OwoNetChannel;
 import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
 import io.wispforest.owo.util.RecipeRemainderStorage;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerLoginConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerLoginNetworking;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.command.CommandSource;
 import net.minecraft.item.Items;
+import net.minecraft.server.command.CommandManager;
+import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Jello implements ModInitializer {
 
@@ -82,12 +95,58 @@ public class Jello implements ModInitializer {
         }
 
         initializeNetworking();
+
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
+            dispatcher.register(
+                    CommandManager.literal("generate_color_build")
+                            .then(
+                                    CommandManager.argument("type", StringArgumentType.string())
+                                            .suggests((context, builder) -> CommandSource.suggestMatching(List.of("delete", "cube"), builder))
+                                                    .then(
+                                                            CommandManager.argument("cube_size", IntegerArgumentType.integer(2))
+                                                                    .executes(context ->
+                                                                            runDebugCommand(context,
+                                                                                    StringArgumentType.getString(context, "type"),
+                                                                                    IntegerArgumentType.getInteger(context, "cube_size"))
+                                                                    )
+                                                    )
+                                                    .executes(context ->
+                                                            runDebugCommand(context,
+                                                                    StringArgumentType.getString(context, "type"),
+                                                                    5)
+                                                    )
+                            )
+            );
+        });
+    }
+
+    private static int runDebugCommand(CommandContext<ServerCommandSource> context, String type, int cubeSize){
+        Vec3d position = context.getSource().getPosition();
+
+        if(Objects.equals(type, "delete")){
+            ColorDebugHelper.INSTANCE.clearLastWorkspace(context.getSource().getWorld());
+        } else {
+            ColorDebugHelper.INSTANCE.runBuilderProgram(
+                    new BlockPos(Math.round(position.x), Math.round(position.y), Math.round(position.z)),
+                    context.getSource().getWorld(),
+                    cubeSize,
+                    1
+            );
+        }
+
+        return 0;
     }
 
     //------------------------------------------------------------------------------
 
     private static void initializeNetworking() {
-        CHANNEL.registerServerbound(DyeBundlePackets.ScreenScrollPacket.class, DyeBundlePackets.ScreenScrollPacket::scrollBundle);
+        CHANNEL.registerServerbound(DyeBundlePackets.ScrollGivenBundle.class, DyeBundlePackets.ScrollGivenBundle::scrollBundle);
+
+        CHANNEL.registerServerbound(DyeBundlePackets.StartStackTracking.class, DyeBundlePackets.StartStackTracking::startTracking);
+
+        CHANNEL.registerServerbound(DyeBundlePackets.DyeBundleStackInteraction.class, DyeBundlePackets.DyeBundleStackInteraction::interact);
+
+        CHANNEL.registerClientboundDeferred(DyeBundleTooltipBuilder.UpdateDyeBundleTooltip.class);
 
         //------------------------------------------------------------------
 

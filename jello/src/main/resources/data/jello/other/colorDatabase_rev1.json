@@ -1,0 +1,7578 @@
+{
+  "#comment": "Data was taken from https://chir.ag/projects/ntc/ntc.js, created by Chirag Mehta, under the Creative Commons License: Attribution 2.5 http://creativecommons.org/licenses/by/2.5/",
+  "#changes": "This JSON file is adapted with Identifier Safe Name for easy loading and also is now a JSON",
+  "colors": [
+    {
+      "hexValue": "E47698",
+      "colorName": "Deep Blush",
+      "identifierSafeName": "deep_blush"
+    },
+    {
+      "hexValue": "FF8243",
+      "colorName": "Mango Tango",
+      "identifierSafeName": "mango_tango"
+    },
+    {
+      "hexValue": "4E6649",
+      "colorName": "Axolotl",
+      "identifierSafeName": "axolotl"
+    },
+    {
+      "hexValue": "F4EBD3",
+      "colorName": "Janna",
+      "identifierSafeName": "janna"
+    },
+    {
+      "hexValue": "578363",
+      "colorName": "Spring Leaves",
+      "identifierSafeName": "spring_leaves"
+    },
+    {
+      "hexValue": "A68B5B",
+      "colorName": "Barley Corn",
+      "identifierSafeName": "barley_corn"
+    },
+    {
+      "hexValue": "92000A",
+      "colorName": "Sangria",
+      "identifierSafeName": "sangria"
+    },
+    {
+      "hexValue": "FF2B2B",
+      "colorName": "Orange Red",
+      "identifierSafeName": "orange_red"
+    },
+    {
+      "hexValue": "32127A",
+      "colorName": "Persian Indigo",
+      "identifierSafeName": "persian_indigo"
+    },
+    {
+      "hexValue": "02866F",
+      "colorName": "Observatory",
+      "identifierSafeName": "observatory"
+    },
+    {
+      "hexValue": "FEA904",
+      "colorName": "Yellow Sea",
+      "identifierSafeName": "yellow_sea"
+    },
+    {
+      "hexValue": "460B41",
+      "colorName": "Loulou",
+      "identifierSafeName": "loulou"
+    },
+    {
+      "hexValue": "D0C0E5",
+      "colorName": "Prelude",
+      "identifierSafeName": "prelude"
+    },
+    {
+      "hexValue": "BCC9C2",
+      "colorName": "Powder Ash",
+      "identifierSafeName": "powder_ash"
+    },
+    {
+      "hexValue": "391285",
+      "colorName": "Pixie Powder",
+      "identifierSafeName": "pixie_powder"
+    },
+    {
+      "hexValue": "B7410E",
+      "colorName": "Rust",
+      "identifierSafeName": "rust"
+    },
+    {
+      "hexValue": "5A87A0",
+      "colorName": "Horizon",
+      "identifierSafeName": "horizon"
+    },
+    {
+      "hexValue": "327C14",
+      "colorName": "Bilbao",
+      "identifierSafeName": "bilbao"
+    },
+    {
+      "hexValue": "E32636",
+      "colorName": "Alizarin Crimson",
+      "identifierSafeName": "alizarin_crimson"
+    },
+    {
+      "hexValue": "BAC7C9",
+      "colorName": "Submarine",
+      "identifierSafeName": "submarine"
+    },
+    {
+      "hexValue": "9DE093",
+      "colorName": "Granny Smith Apple",
+      "identifierSafeName": "granny_smith_apple"
+    },
+    {
+      "hexValue": "B05D54",
+      "colorName": "Matrix",
+      "identifierSafeName": "matrix"
+    },
+    {
+      "hexValue": "8B0723",
+      "colorName": "Monarch",
+      "identifierSafeName": "monarch"
+    },
+    {
+      "hexValue": "FFA6C9",
+      "colorName": "Carnation Pink",
+      "identifierSafeName": "carnation_pink"
+    },
+    {
+      "hexValue": "9FA0B1",
+      "colorName": "Santas Gray",
+      "identifierSafeName": "santas_gray"
+    },
+    {
+      "hexValue": "6F6A61",
+      "colorName": "Flint",
+      "identifierSafeName": "flint"
+    },
+    {
+      "hexValue": "CB8FA9",
+      "colorName": "Viola",
+      "identifierSafeName": "viola"
+    },
+    {
+      "hexValue": "7E3A15",
+      "colorName": "Copper Canyon",
+      "identifierSafeName": "copper_canyon"
+    },
+    {
+      "hexValue": "00A86B",
+      "colorName": "Jade",
+      "identifierSafeName": "jade"
+    },
+    {
+      "hexValue": "F8F99C",
+      "colorName": "Texas",
+      "identifierSafeName": "texas"
+    },
+    {
+      "hexValue": "D0F0C0",
+      "colorName": "Tea Green",
+      "identifierSafeName": "tea_green"
+    },
+    {
+      "hexValue": "8D4E85",
+      "colorName": "Razzmic Berry",
+      "identifierSafeName": "razzmic_berry"
+    },
+    {
+      "hexValue": "776F61",
+      "colorName": "Pablo",
+      "identifierSafeName": "pablo"
+    },
+    {
+      "hexValue": "FF9933",
+      "colorName": "Neon Carrot",
+      "identifierSafeName": "neon_carrot"
+    },
+    {
+      "hexValue": "204852",
+      "colorName": "Blue Dianne",
+      "identifierSafeName": "blue_dianne"
+    },
+    {
+      "hexValue": "1B2F11",
+      "colorName": "Seaweed",
+      "identifierSafeName": "seaweed"
+    },
+    {
+      "hexValue": "AE809E",
+      "colorName": "Bouquet",
+      "identifierSafeName": "bouquet"
+    },
+    {
+      "hexValue": "6A442E",
+      "colorName": "Spice",
+      "identifierSafeName": "spice"
+    },
+    {
+      "hexValue": "C02B18",
+      "colorName": "Thunderbird",
+      "identifierSafeName": "thunderbird"
+    },
+    {
+      "hexValue": "C54B8C",
+      "colorName": "Mulberry",
+      "identifierSafeName": "mulberry"
+    },
+    {
+      "hexValue": "AC8A56",
+      "colorName": "Limed Oak",
+      "identifierSafeName": "limed_oak"
+    },
+    {
+      "hexValue": "FCD667",
+      "colorName": "Goldenrod",
+      "identifierSafeName": "goldenrod"
+    },
+    {
+      "hexValue": "716E10",
+      "colorName": "Olivetone",
+      "identifierSafeName": "olivetone"
+    },
+    {
+      "hexValue": "C7C4BF",
+      "colorName": "Cloud",
+      "identifierSafeName": "cloud"
+    },
+    {
+      "hexValue": "F5E7A2",
+      "colorName": "Sandwisp",
+      "identifierSafeName": "sandwisp"
+    },
+    {
+      "hexValue": "DCB4BC",
+      "colorName": "Blossom",
+      "identifierSafeName": "blossom"
+    },
+    {
+      "hexValue": "93CCEA",
+      "colorName": "Cornflower",
+      "identifierSafeName": "cornflower"
+    },
+    {
+      "hexValue": "1164B4",
+      "colorName": "Green Blue",
+      "identifierSafeName": "green_blue"
+    },
+    {
+      "hexValue": "E9E3E3",
+      "colorName": "Ebb",
+      "identifierSafeName": "ebb"
+    },
+    {
+      "hexValue": "0A6906",
+      "colorName": "Japanese Laurel",
+      "identifierSafeName": "japanese_laurel"
+    },
+    {
+      "hexValue": "F3E9E5",
+      "colorName": "Dawn Pink",
+      "identifierSafeName": "dawn_pink"
+    },
+    {
+      "hexValue": "FFAE42",
+      "colorName": "Yellow Orange",
+      "identifierSafeName": "yellow_orange"
+    },
+    {
+      "hexValue": "C4F4EB",
+      "colorName": "Mint Tulip",
+      "identifierSafeName": "mint_tulip"
+    },
+    {
+      "hexValue": "7A58C1",
+      "colorName": "Fuchsia Blue",
+      "identifierSafeName": "fuchsia_blue"
+    },
+    {
+      "hexValue": "410056",
+      "colorName": "Ripe Plum",
+      "identifierSafeName": "ripe_plum"
+    },
+    {
+      "hexValue": "788A25",
+      "colorName": "Wasabi",
+      "identifierSafeName": "wasabi"
+    },
+    {
+      "hexValue": "3AA8C1",
+      "colorName": "Moonstone",
+      "identifierSafeName": "moonstone"
+    },
+    {
+      "hexValue": "B6BAA4",
+      "colorName": "Eagle",
+      "identifierSafeName": "eagle"
+    },
+    {
+      "hexValue": "A8E4A0",
+      "colorName": "Granny Smith Apple",
+      "identifierSafeName": "granny_smith_apple"
+    },
+    {
+      "hexValue": "724A2F",
+      "colorName": "Old Copper",
+      "identifierSafeName": "old_copper"
+    },
+    {
+      "hexValue": "796D62",
+      "colorName": "Sandstone",
+      "identifierSafeName": "sandstone"
+    },
+    {
+      "hexValue": "003532",
+      "colorName": "Deep Teal",
+      "identifierSafeName": "deep_teal"
+    },
+    {
+      "hexValue": "A2006D",
+      "colorName": "Flirt",
+      "identifierSafeName": "flirt"
+    },
+    {
+      "hexValue": "C45655",
+      "colorName": "Fuzzy Wuzzy Brown",
+      "identifierSafeName": "fuzzy_wuzzy_brown"
+    },
+    {
+      "hexValue": "87A96B",
+      "colorName": "Asparagus",
+      "identifierSafeName": "asparagus"
+    },
+    {
+      "hexValue": "F57584",
+      "colorName": "Froly",
+      "identifierSafeName": "froly"
+    },
+    {
+      "hexValue": "012731",
+      "colorName": "Daintree",
+      "identifierSafeName": "daintree"
+    },
+    {
+      "hexValue": "9FDD8C",
+      "colorName": "Feijoa",
+      "identifierSafeName": "feijoa"
+    },
+    {
+      "hexValue": "C9B35B",
+      "colorName": "Sundance",
+      "identifierSafeName": "sundance"
+    },
+    {
+      "hexValue": "E6FFE9",
+      "colorName": "Hint of Green",
+      "identifierSafeName": "hint_of_green"
+    },
+    {
+      "hexValue": "3F4C3A",
+      "colorName": "Cabbage Pont",
+      "identifierSafeName": "cabbage_pont"
+    },
+    {
+      "hexValue": "EDF5DD",
+      "colorName": "Frost",
+      "identifierSafeName": "frost"
+    },
+    {
+      "hexValue": "EF863F",
+      "colorName": "Jaffa",
+      "identifierSafeName": "jaffa"
+    },
+    {
+      "hexValue": "F400A1",
+      "colorName": "Hollywood Cerise",
+      "identifierSafeName": "hollywood_cerise"
+    },
+    {
+      "hexValue": "9F821C",
+      "colorName": "Reef Gold",
+      "identifierSafeName": "reef_gold"
+    },
+    {
+      "hexValue": "B2A1EA",
+      "colorName": "Biloba Flower",
+      "identifierSafeName": "biloba_flower"
+    },
+    {
+      "hexValue": "708090",
+      "colorName": "Slate Gray",
+      "identifierSafeName": "slate_gray"
+    },
+    {
+      "hexValue": "DDD6D5",
+      "colorName": "Swiss Coffee",
+      "identifierSafeName": "swiss_coffee"
+    },
+    {
+      "hexValue": "7AC488",
+      "colorName": "De York",
+      "identifierSafeName": "de_york"
+    },
+    {
+      "hexValue": "0A480D",
+      "colorName": "Dark Fern",
+      "identifierSafeName": "dark_fern"
+    },
+    {
+      "hexValue": "9EDEE0",
+      "colorName": "Morning Glory",
+      "identifierSafeName": "morning_glory"
+    },
+    {
+      "hexValue": "002FA7",
+      "colorName": "International Klein Blue",
+      "identifierSafeName": "international_klein_blue"
+    },
+    {
+      "hexValue": "AB0563",
+      "colorName": "Lipstick",
+      "identifierSafeName": "lipstick"
+    },
+    {
+      "hexValue": "286ACD",
+      "colorName": "Mariner",
+      "identifierSafeName": "mariner"
+    },
+    {
+      "hexValue": "5D76CB",
+      "colorName": "Indigo",
+      "identifierSafeName": "indigo"
+    },
+    {
+      "hexValue": "DA2647",
+      "colorName": "Cherry",
+      "identifierSafeName": "cherry"
+    },
+    {
+      "hexValue": "3C1206",
+      "colorName": "Rebel",
+      "identifierSafeName": "rebel"
+    },
+    {
+      "hexValue": "D05340",
+      "colorName": "Jasper",
+      "identifierSafeName": "jasper"
+    },
+    {
+      "hexValue": "52001F",
+      "colorName": "Castro",
+      "identifierSafeName": "castro"
+    },
+    {
+      "hexValue": "996666",
+      "colorName": "Copper Rose",
+      "identifierSafeName": "copper_rose"
+    },
+    {
+      "hexValue": "908D39",
+      "colorName": "Sycamore",
+      "identifierSafeName": "sycamore"
+    },
+    {
+      "hexValue": "E0B646",
+      "colorName": "Anzac",
+      "identifierSafeName": "anzac"
+    },
+    {
+      "hexValue": "624E9A",
+      "colorName": "Butterfly Bush",
+      "identifierSafeName": "butterfly_bush"
+    },
+    {
+      "hexValue": "E77200",
+      "colorName": "Mango Tango",
+      "identifierSafeName": "mango_tango"
+    },
+    {
+      "hexValue": "592804",
+      "colorName": "Brown Bramble",
+      "identifierSafeName": "brown_bramble"
+    },
+    {
+      "hexValue": "DFCD6F",
+      "colorName": "Chenin",
+      "identifierSafeName": "chenin"
+    },
+    {
+      "hexValue": "4A444B",
+      "colorName": "Gravel",
+      "identifierSafeName": "gravel"
+    },
+    {
+      "hexValue": "C8E3D7",
+      "colorName": "Edgewater",
+      "identifierSafeName": "edgewater"
+    },
+    {
+      "hexValue": "80DAEB",
+      "colorName": "Sky Blue",
+      "identifierSafeName": "sky_blue"
+    },
+    {
+      "hexValue": "C3B091",
+      "colorName": "Indian Khaki",
+      "identifierSafeName": "indian_khaki"
+    },
+    {
+      "hexValue": "E89928",
+      "colorName": "Fire Bush",
+      "identifierSafeName": "fire_bush"
+    },
+    {
+      "hexValue": "DFBE6F",
+      "colorName": "Apache",
+      "identifierSafeName": "apache"
+    },
+    {
+      "hexValue": "7B8265",
+      "colorName": "Flax Smoke",
+      "identifierSafeName": "flax_smoke"
+    },
+    {
+      "hexValue": "F77703",
+      "colorName": "Chilean Fire",
+      "identifierSafeName": "chilean_fire"
+    },
+    {
+      "hexValue": "C71585",
+      "colorName": "Red Violet",
+      "identifierSafeName": "red_violet"
+    },
+    {
+      "hexValue": "DA3287",
+      "colorName": "Cerise",
+      "identifierSafeName": "cerise"
+    },
+    {
+      "hexValue": "00FFFF",
+      "colorName": "Cyan / Aqua",
+      "identifierSafeName": "cyan_/_aqua"
+    },
+    {
+      "hexValue": "D65282",
+      "colorName": "Mystic Pearl",
+      "identifierSafeName": "mystic_pearl"
+    },
+    {
+      "hexValue": "FDD5B1",
+      "colorName": "Light Apricot",
+      "identifierSafeName": "light_apricot"
+    },
+    {
+      "hexValue": "DAFAFF",
+      "colorName": "Oyster Bay",
+      "identifierSafeName": "oyster_bay"
+    },
+    {
+      "hexValue": "1E90FF",
+      "colorName": "Dodger Blue",
+      "identifierSafeName": "dodger_blue"
+    },
+    {
+      "hexValue": "3F583B",
+      "colorName": "Tom Thumb",
+      "identifierSafeName": "tom_thumb"
+    },
+    {
+      "hexValue": "6A5D1B",
+      "colorName": "Himalaya",
+      "identifierSafeName": "himalaya"
+    },
+    {
+      "hexValue": "1B1B1B",
+      "colorName": "Eerie Black",
+      "identifierSafeName": "eerie_black"
+    },
+    {
+      "hexValue": "FFCFAB",
+      "colorName": "Peach",
+      "identifierSafeName": "peach"
+    },
+    {
+      "hexValue": "C8B568",
+      "colorName": "Laser",
+      "identifierSafeName": "laser"
+    },
+    {
+      "hexValue": "EEFDFF",
+      "colorName": "Twilight Blue",
+      "identifierSafeName": "twilight_blue"
+    },
+    {
+      "hexValue": "130000",
+      "colorName": "Diesel",
+      "identifierSafeName": "diesel"
+    },
+    {
+      "hexValue": "FBFFBA",
+      "colorName": "Shalimar",
+      "identifierSafeName": "shalimar"
+    },
+    {
+      "hexValue": "FFDCD6",
+      "colorName": "Peach Schnapps",
+      "identifierSafeName": "peach_schnapps"
+    },
+    {
+      "hexValue": "EDB381",
+      "colorName": "Tacao",
+      "identifierSafeName": "tacao"
+    },
+    {
+      "hexValue": "BD8260",
+      "colorName": "Chocolate",
+      "identifierSafeName": "chocolate_2"
+    },
+    {
+      "hexValue": "2EBFD4",
+      "colorName": "Scooter",
+      "identifierSafeName": "scooter"
+    },
+    {
+      "hexValue": "FFCBA4",
+      "colorName": "Flesh",
+      "identifierSafeName": "flesh"
+    },
+    {
+      "hexValue": "AAA9CD",
+      "colorName": "Logan",
+      "identifierSafeName": "logan"
+    },
+    {
+      "hexValue": "000FF6",
+      "colorName": "Unmellow Yellow",
+      "identifierSafeName": "unmellow_yellow"
+    },
+    {
+      "hexValue": "423921",
+      "colorName": "Lisbon Brown",
+      "identifierSafeName": "lisbon_brown"
+    },
+    {
+      "hexValue": "ECE090",
+      "colorName": "Wild Rice",
+      "identifierSafeName": "wild_rice"
+    },
+    {
+      "hexValue": "251F4F",
+      "colorName": "Port Gore",
+      "identifierSafeName": "port_gore"
+    },
+    {
+      "hexValue": "FD0E35",
+      "colorName": "Torch Red",
+      "identifierSafeName": "torch_red"
+    },
+    {
+      "hexValue": "523C94",
+      "colorName": "Gigas",
+      "identifierSafeName": "gigas"
+    },
+    {
+      "hexValue": "E3BEBE",
+      "colorName": "Cavern Pink",
+      "identifierSafeName": "cavern_pink"
+    },
+    {
+      "hexValue": "C1A004",
+      "colorName": "Buddha Gold",
+      "identifierSafeName": "buddha_gold"
+    },
+    {
+      "hexValue": "1C7C7D",
+      "colorName": "Elm",
+      "identifierSafeName": "elm"
+    },
+    {
+      "hexValue": "FAE600",
+      "colorName": "Turbo",
+      "identifierSafeName": "turbo"
+    },
+    {
+      "hexValue": "832A0D",
+      "colorName": "Smokey Topaz",
+      "identifierSafeName": "smokey_topaz"
+    },
+    {
+      "hexValue": "FAFFA4",
+      "colorName": "Milan",
+      "identifierSafeName": "milan"
+    },
+    {
+      "hexValue": "DB9690",
+      "colorName": "Petite Orchid",
+      "identifierSafeName": "petite_orchid"
+    },
+    {
+      "hexValue": "A59B91",
+      "colorName": "Zorba",
+      "identifierSafeName": "zorba"
+    },
+    {
+      "hexValue": "2F3CB3",
+      "colorName": "Governor Bay",
+      "identifierSafeName": "governor_bay"
+    },
+    {
+      "hexValue": "7C881A",
+      "colorName": "Trendy Green",
+      "identifierSafeName": "trendy_green"
+    },
+    {
+      "hexValue": "202E54",
+      "colorName": "Cloud Burst",
+      "identifierSafeName": "cloud_burst"
+    },
+    {
+      "hexValue": "A5694F",
+      "colorName": "Sepia",
+      "identifierSafeName": "sepia"
+    },
+    {
+      "hexValue": "FAFDE4",
+      "colorName": "Hint of Yellow",
+      "identifierSafeName": "hint_of_yellow"
+    },
+    {
+      "hexValue": "350E42",
+      "colorName": "Valentino",
+      "identifierSafeName": "valentino"
+    },
+    {
+      "hexValue": "40826D",
+      "colorName": "Viridian",
+      "identifierSafeName": "viridian"
+    },
+    {
+      "hexValue": "FBCEB1",
+      "colorName": "Apricot Peach",
+      "identifierSafeName": "apricot_peach"
+    },
+    {
+      "hexValue": "FF9966",
+      "colorName": "Atomic Tangerine",
+      "identifierSafeName": "atomic_tangerine"
+    },
+    {
+      "hexValue": "5B3013",
+      "colorName": "Jambalaya",
+      "identifierSafeName": "jambalaya"
+    },
+    {
+      "hexValue": "ACA59F",
+      "colorName": "Cloudy",
+      "identifierSafeName": "cloudy"
+    },
+    {
+      "hexValue": "C364C5",
+      "colorName": "Fuchsia",
+      "identifierSafeName": "fuchsia"
+    },
+    {
+      "hexValue": "FFA194",
+      "colorName": "Mona Lisa",
+      "identifierSafeName": "mona_lisa"
+    },
+    {
+      "hexValue": "4F2398",
+      "colorName": "Daisy Bush",
+      "identifierSafeName": "daisy_bush"
+    },
+    {
+      "hexValue": "894367",
+      "colorName": "Cannon Pink",
+      "identifierSafeName": "cannon_pink"
+    },
+    {
+      "hexValue": "AA4203",
+      "colorName": "Fire",
+      "identifierSafeName": "fire"
+    },
+    {
+      "hexValue": "D07D12",
+      "colorName": "Meteor",
+      "identifierSafeName": "meteor"
+    },
+    {
+      "hexValue": "DFCFDB",
+      "colorName": "Lola",
+      "identifierSafeName": "lola"
+    },
+    {
+      "hexValue": "003E40",
+      "colorName": "Cyprus",
+      "identifierSafeName": "cyprus"
+    },
+    {
+      "hexValue": "7C7631",
+      "colorName": "Pesto",
+      "identifierSafeName": "pesto"
+    },
+    {
+      "hexValue": "FF6600",
+      "colorName": "Blaze Orange",
+      "identifierSafeName": "blaze_orange"
+    },
+    {
+      "hexValue": "3BBCD0",
+      "colorName": "Turquoise Pearl",
+      "identifierSafeName": "turquoise_pearl"
+    },
+    {
+      "hexValue": "126B40",
+      "colorName": "Jewel",
+      "identifierSafeName": "jewel"
+    },
+    {
+      "hexValue": "7C7B82",
+      "colorName": "Jumbo",
+      "identifierSafeName": "jumbo"
+    },
+    {
+      "hexValue": "A1750D",
+      "colorName": "Buttered Rum",
+      "identifierSafeName": "buttered_rum"
+    },
+    {
+      "hexValue": "088370",
+      "colorName": "Elf Green",
+      "identifierSafeName": "elf_green"
+    },
+    {
+      "hexValue": "BA6F1E",
+      "colorName": "Bourbon",
+      "identifierSafeName": "bourbon"
+    },
+    {
+      "hexValue": "DF73FF",
+      "colorName": "Heliotrope",
+      "identifierSafeName": "heliotrope"
+    },
+    {
+      "hexValue": "D8BFD8",
+      "colorName": "Thistle",
+      "identifierSafeName": "thistle"
+    },
+    {
+      "hexValue": "F3FB62",
+      "colorName": "Canary",
+      "identifierSafeName": "canary"
+    },
+    {
+      "hexValue": "AAF0D1",
+      "colorName": "Magic Mint",
+      "identifierSafeName": "magic_mint"
+    },
+    {
+      "hexValue": "84DE02",
+      "colorName": "Alien Armpit",
+      "identifierSafeName": "alien_armpit"
+    },
+    {
+      "hexValue": "606E68",
+      "colorName": "Corduroy",
+      "identifierSafeName": "corduroy"
+    },
+    {
+      "hexValue": "AA4069",
+      "colorName": "Ruby",
+      "identifierSafeName": "ruby"
+    },
+    {
+      "hexValue": "FF3855",
+      "colorName": "Sizzling Red",
+      "identifierSafeName": "sizzling_red"
+    },
+    {
+      "hexValue": "162A40",
+      "colorName": "Big Stone",
+      "identifierSafeName": "big_stone"
+    },
+    {
+      "hexValue": "BDEDFD",
+      "colorName": "French Pass",
+      "identifierSafeName": "french_pass"
+    },
+    {
+      "hexValue": "66023C",
+      "colorName": "Tyrian Purple",
+      "identifierSafeName": "tyrian_purple"
+    },
+    {
+      "hexValue": "DECBC6",
+      "colorName": "Wafer",
+      "identifierSafeName": "wafer"
+    },
+    {
+      "hexValue": "BDC8B3",
+      "colorName": "Clay Ash",
+      "identifierSafeName": "clay_ash"
+    },
+    {
+      "hexValue": "044022",
+      "colorName": "Zuccini",
+      "identifierSafeName": "zuccini"
+    },
+    {
+      "hexValue": "F03865",
+      "colorName": "Rose Pearl",
+      "identifierSafeName": "rose_pearl"
+    },
+    {
+      "hexValue": "79DEEC",
+      "colorName": "Spray",
+      "identifierSafeName": "spray"
+    },
+    {
+      "hexValue": "FFF46E",
+      "colorName": "Paris Daisy",
+      "identifierSafeName": "paris_daisy"
+    },
+    {
+      "hexValue": "7DD8C6",
+      "colorName": "Bermuda",
+      "identifierSafeName": "bermuda"
+    },
+    {
+      "hexValue": "A23B6C",
+      "colorName": "Rouge",
+      "identifierSafeName": "rouge"
+    },
+    {
+      "hexValue": "CEC291",
+      "colorName": "Yuma",
+      "identifierSafeName": "yuma"
+    },
+    {
+      "hexValue": "FC2847",
+      "colorName": "Scarlet",
+      "identifierSafeName": "scarlet"
+    },
+    {
+      "hexValue": "ADFF2F",
+      "colorName": "Green Yellow",
+      "identifierSafeName": "green_yellow"
+    },
+    {
+      "hexValue": "926F5B",
+      "colorName": "Beaver",
+      "identifierSafeName": "beaver"
+    },
+    {
+      "hexValue": "48BF91",
+      "colorName": "Ocean Green Pearl",
+      "identifierSafeName": "ocean_green_pearl"
+    },
+    {
+      "hexValue": "64CCDB",
+      "colorName": "Viking",
+      "identifierSafeName": "viking"
+    },
+    {
+      "hexValue": "A72525",
+      "colorName": "Mexican Red",
+      "identifierSafeName": "mexican_red"
+    },
+    {
+      "hexValue": "8C6495",
+      "colorName": "Trendy Pink",
+      "identifierSafeName": "trendy_pink"
+    },
+    {
+      "hexValue": "FDFEB8",
+      "colorName": "Pale Prim",
+      "identifierSafeName": "pale_prim"
+    },
+    {
+      "hexValue": "6FD0C5",
+      "colorName": "Downy",
+      "identifierSafeName": "downy"
+    },
+    {
+      "hexValue": "F19BAB",
+      "colorName": "Wewak",
+      "identifierSafeName": "wewak"
+    },
+    {
+      "hexValue": "FF48D0",
+      "colorName": "Razzle Dazzle Rose",
+      "identifierSafeName": "razzle_dazzle_rose"
+    },
+    {
+      "hexValue": "001B1C",
+      "colorName": "Swamp",
+      "identifierSafeName": "swamp"
+    },
+    {
+      "hexValue": "BD978E",
+      "colorName": "Quicksand",
+      "identifierSafeName": "quicksand"
+    },
+    {
+      "hexValue": "FFB0AC",
+      "colorName": "Cornflower Lilac",
+      "identifierSafeName": "cornflower_lilac"
+    },
+    {
+      "hexValue": "D68A59",
+      "colorName": "Raw Sienna",
+      "identifierSafeName": "raw_sienna"
+    },
+    {
+      "hexValue": "E0B0FF",
+      "colorName": "Mauve",
+      "identifierSafeName": "mauve"
+    },
+    {
+      "hexValue": "A9C6C2",
+      "colorName": "Opal",
+      "identifierSafeName": "opal"
+    },
+    {
+      "hexValue": "278A5B",
+      "colorName": "Eucalyptus",
+      "identifierSafeName": "eucalyptus"
+    },
+    {
+      "hexValue": "D2F6DE",
+      "colorName": "Blue Romance",
+      "identifierSafeName": "blue_romance"
+    },
+    {
+      "hexValue": "779E86",
+      "colorName": "Oxley",
+      "identifierSafeName": "oxley"
+    },
+    {
+      "hexValue": "EDFC84",
+      "colorName": "Honeysuckle",
+      "identifierSafeName": "honeysuckle"
+    },
+    {
+      "hexValue": "692D54",
+      "colorName": "Finn",
+      "identifierSafeName": "finn"
+    },
+    {
+      "hexValue": "BF4F51",
+      "colorName": "Bittersweet Shimmer",
+      "identifierSafeName": "bittersweet_shimmer"
+    },
+    {
+      "hexValue": "B32D29",
+      "colorName": "Tall Poppy",
+      "identifierSafeName": "tall_poppy"
+    },
+    {
+      "hexValue": "FF355E",
+      "colorName": "Radical Red",
+      "identifierSafeName": "radical_red"
+    },
+    {
+      "hexValue": "C45719",
+      "colorName": "Orange Roughy",
+      "identifierSafeName": "orange_roughy"
+    },
+    {
+      "hexValue": "8AB9F1",
+      "colorName": "Jordy Blue",
+      "identifierSafeName": "jordy_blue"
+    },
+    {
+      "hexValue": "394851",
+      "colorName": "Limed Spruce",
+      "identifierSafeName": "limed_spruce"
+    },
+    {
+      "hexValue": "755A57",
+      "colorName": "Russett",
+      "identifierSafeName": "russett"
+    },
+    {
+      "hexValue": "8BA9A5",
+      "colorName": "Cascade",
+      "identifierSafeName": "cascade"
+    },
+    {
+      "hexValue": "8E8190",
+      "colorName": "Mamba",
+      "identifierSafeName": "mamba"
+    },
+    {
+      "hexValue": "ABA0D9",
+      "colorName": "Cold Purple",
+      "identifierSafeName": "cold_purple"
+    },
+    {
+      "hexValue": "FFEC13",
+      "colorName": "Broom",
+      "identifierSafeName": "broom"
+    },
+    {
+      "hexValue": "DC4333",
+      "colorName": "Punch",
+      "identifierSafeName": "punch"
+    },
+    {
+      "hexValue": "1CD3A2",
+      "colorName": "Caribbean Green",
+      "identifierSafeName": "caribbean_green"
+    },
+    {
+      "hexValue": "56887D",
+      "colorName": "Wintergreen Dream",
+      "identifierSafeName": "wintergreen_dream"
+    },
+    {
+      "hexValue": "D591A4",
+      "colorName": "Can Can",
+      "identifierSafeName": "can_can"
+    },
+    {
+      "hexValue": "D18F1B",
+      "colorName": "Geebung",
+      "identifierSafeName": "geebung"
+    },
+    {
+      "hexValue": "B44668",
+      "colorName": "Blush",
+      "identifierSafeName": "blush"
+    },
+    {
+      "hexValue": "DCEDB4",
+      "colorName": "Caper",
+      "identifierSafeName": "caper"
+    },
+    {
+      "hexValue": "5D7747",
+      "colorName": "Dingley",
+      "identifierSafeName": "dingley"
+    },
+    {
+      "hexValue": "8A795D",
+      "colorName": "Shadow",
+      "identifierSafeName": "shadow"
+    },
+    {
+      "hexValue": "7DA98D",
+      "colorName": "Bay Leaf",
+      "identifierSafeName": "bay_leaf"
+    },
+    {
+      "hexValue": "747D63",
+      "colorName": "Limed Ash",
+      "identifierSafeName": "limed_ash"
+    },
+    {
+      "hexValue": "E8F48C",
+      "colorName": "Key Lime Pearl",
+      "identifierSafeName": "key_lime_pearl"
+    },
+    {
+      "hexValue": "C95A49",
+      "colorName": "Cedar Chest",
+      "identifierSafeName": "cedar_chest"
+    },
+    {
+      "hexValue": "F9FFF6",
+      "colorName": "Sugar Cane",
+      "identifierSafeName": "sugar_cane"
+    },
+    {
+      "hexValue": "00069C",
+      "colorName": "Blue Gray",
+      "identifierSafeName": "blue_gray"
+    },
+    {
+      "hexValue": "FED33C",
+      "colorName": "Bright Sun",
+      "identifierSafeName": "bright_sun"
+    },
+    {
+      "hexValue": "BFDBE2",
+      "colorName": "Ziggurat",
+      "identifierSafeName": "ziggurat"
+    },
+    {
+      "hexValue": "C5DBCA",
+      "colorName": "Sea Mist",
+      "identifierSafeName": "sea_mist"
+    },
+    {
+      "hexValue": "FF9000",
+      "colorName": "Pizazz",
+      "identifierSafeName": "pizazz"
+    },
+    {
+      "hexValue": "FFA474",
+      "colorName": "Atomic Tangerine",
+      "identifierSafeName": "atomic_tangerine"
+    },
+    {
+      "hexValue": "514649",
+      "colorName": "Emperor",
+      "identifierSafeName": "emperor"
+    },
+    {
+      "hexValue": "ECF245",
+      "colorName": "Starship",
+      "identifierSafeName": "starship"
+    },
+    {
+      "hexValue": "EFCDB8",
+      "colorName": "Desert Sand",
+      "identifierSafeName": "desert_sand"
+    },
+    {
+      "hexValue": "171F04",
+      "colorName": "Pine Tree",
+      "identifierSafeName": "pine_tree"
+    },
+    {
+      "hexValue": "434C59",
+      "colorName": "River Bed",
+      "identifierSafeName": "river_bed"
+    },
+    {
+      "hexValue": "AAA5A9",
+      "colorName": "Shady Lady",
+      "identifierSafeName": "shady_lady"
+    },
+    {
+      "hexValue": "6C3082",
+      "colorName": "Eminence",
+      "identifierSafeName": "eminence"
+    },
+    {
+      "hexValue": "6E5160",
+      "colorName": "Eggplant",
+      "identifierSafeName": "eggplant"
+    },
+    {
+      "hexValue": "B6D1EA",
+      "colorName": "Spindle",
+      "identifierSafeName": "spindle"
+    },
+    {
+      "hexValue": "DCD747",
+      "colorName": "Wattle",
+      "identifierSafeName": "wattle"
+    },
+    {
+      "hexValue": "F2C3B2",
+      "colorName": "Mandys Pink",
+      "identifierSafeName": "mandys_pink"
+    },
+    {
+      "hexValue": "EAF6FF",
+      "colorName": "Solitude",
+      "identifierSafeName": "solitude"
+    },
+    {
+      "hexValue": "B57281",
+      "colorName": "Turkish Rose",
+      "identifierSafeName": "turkish_rose"
+    },
+    {
+      "hexValue": "63B76C",
+      "colorName": "Fern",
+      "identifierSafeName": "fern"
+    },
+    {
+      "hexValue": "ECA927",
+      "colorName": "Fuel Yellow",
+      "identifierSafeName": "fuel_yellow"
+    },
+    {
+      "hexValue": "E9D75A",
+      "colorName": "Confetti",
+      "identifierSafeName": "confetti"
+    },
+    {
+      "hexValue": "DEE5C0",
+      "colorName": "Beryl Green",
+      "identifierSafeName": "beryl_green"
+    },
+    {
+      "hexValue": "CC5500",
+      "colorName": "Burnt Orange",
+      "identifierSafeName": "burnt_orange"
+    },
+    {
+      "hexValue": "F4C430",
+      "colorName": "Saffron",
+      "identifierSafeName": "saffron"
+    },
+    {
+      "hexValue": "6495ED",
+      "colorName": "Cornflower Blue",
+      "identifierSafeName": "cornflower_blue"
+    },
+    {
+      "hexValue": "4F86F7",
+      "colorName": "Blueberry",
+      "identifierSafeName": "blueberry"
+    },
+    {
+      "hexValue": "828F72",
+      "colorName": "Battleship Gray",
+      "identifierSafeName": "battleship_gray"
+    },
+    {
+      "hexValue": "CFA39D",
+      "colorName": "Eunry",
+      "identifierSafeName": "eunry"
+    },
+    {
+      "hexValue": "00A693",
+      "colorName": "Persian Green",
+      "identifierSafeName": "persian_green"
+    },
+    {
+      "hexValue": "FFFF66",
+      "colorName": "Laser Lemon",
+      "identifierSafeName": "laser_lemon"
+    },
+    {
+      "hexValue": "F7C8DA",
+      "colorName": "Azalea",
+      "identifierSafeName": "azalea"
+    },
+    {
+      "hexValue": "FFFDD0",
+      "colorName": "Cream",
+      "identifierSafeName": "cream"
+    },
+    {
+      "hexValue": "4A3004",
+      "colorName": "Deep Bronze",
+      "identifierSafeName": "deep_bronze"
+    },
+    {
+      "hexValue": "2A52BE",
+      "colorName": "Cerulean Blue",
+      "identifierSafeName": "cerulean_blue"
+    },
+    {
+      "hexValue": "9874D3",
+      "colorName": "Lilac Bush",
+      "identifierSafeName": "lilac_bush"
+    },
+    {
+      "hexValue": "ACE5EE",
+      "colorName": "Blizzard Blue",
+      "identifierSafeName": "blizzard_blue"
+    },
+    {
+      "hexValue": "C5E17A",
+      "colorName": "Yellow Green",
+      "identifierSafeName": "yellow_green"
+    },
+    {
+      "hexValue": "381A51",
+      "colorName": "Grape",
+      "identifierSafeName": "grape"
+    },
+    {
+      "hexValue": "7FFFD4",
+      "colorName": "Aquamarine",
+      "identifierSafeName": "aquamarine"
+    },
+    {
+      "hexValue": "B35213",
+      "colorName": "Fiery Orange",
+      "identifierSafeName": "fiery_orange"
+    },
+    {
+      "hexValue": "967059",
+      "colorName": "Leather",
+      "identifierSafeName": "leather"
+    },
+    {
+      "hexValue": "F8D568",
+      "colorName": "Orange Yellow",
+      "identifierSafeName": "orange_yellow"
+    },
+    {
+      "hexValue": "403D19",
+      "colorName": "Thatch Green",
+      "identifierSafeName": "thatch_green"
+    },
+    {
+      "hexValue": "C9A0DC",
+      "colorName": "Light Wisteria",
+      "identifierSafeName": "light_wisteria"
+    },
+    {
+      "hexValue": "831923",
+      "colorName": "Merlot",
+      "identifierSafeName": "merlot"
+    },
+    {
+      "hexValue": "EE82EE",
+      "colorName": "Lavender Magenta",
+      "identifierSafeName": "lavender_magenta"
+    },
+    {
+      "hexValue": "000080",
+      "colorName": "Navy Blue",
+      "identifierSafeName": "navy_blue"
+    },
+    {
+      "hexValue": "DE3163",
+      "colorName": "Cerise Red",
+      "identifierSafeName": "cerise_red"
+    },
+    {
+      "hexValue": "4A3C30",
+      "colorName": "Mondo",
+      "identifierSafeName": "mondo"
+    },
+    {
+      "hexValue": "45CEA2",
+      "colorName": "Shamrock",
+      "identifierSafeName": "shamrock"
+    },
+    {
+      "hexValue": "6456B7",
+      "colorName": "Blue Violet",
+      "identifierSafeName": "blue_violet"
+    },
+    {
+      "hexValue": "FE9D04",
+      "colorName": "California",
+      "identifierSafeName": "california"
+    },
+    {
+      "hexValue": "FFBF00",
+      "colorName": "Amber",
+      "identifierSafeName": "amber"
+    },
+    {
+      "hexValue": "D1D2DD",
+      "colorName": "Mischka",
+      "identifierSafeName": "mischka"
+    },
+    {
+      "hexValue": "702670",
+      "colorName": "Midnight Pearl",
+      "identifierSafeName": "midnight_pearl"
+    },
+    {
+      "hexValue": "541012",
+      "colorName": "Heath",
+      "identifierSafeName": "heath"
+    },
+    {
+      "hexValue": "4C4F56",
+      "colorName": "Abbey",
+      "identifierSafeName": "abbey"
+    },
+    {
+      "hexValue": "E4C2D5",
+      "colorName": "Melanie",
+      "identifierSafeName": "melanie"
+    },
+    {
+      "hexValue": "FFD1DC",
+      "colorName": "Pastel Pink",
+      "identifierSafeName": "pastel_pink"
+    },
+    {
+      "hexValue": "6F2DA8",
+      "colorName": "Grape",
+      "identifierSafeName": "grape"
+    },
+    {
+      "hexValue": "1A1A68",
+      "colorName": "Lucky Point",
+      "identifierSafeName": "lucky_point"
+    },
+    {
+      "hexValue": "FF33CC",
+      "colorName": "Razzle Dazzle Rose",
+      "identifierSafeName": "razzle_dazzle_rose"
+    },
+    {
+      "hexValue": "E96E00",
+      "colorName": "Clementine",
+      "identifierSafeName": "clementine"
+    },
+    {
+      "hexValue": "25272C",
+      "colorName": "Shark",
+      "identifierSafeName": "shark"
+    },
+    {
+      "hexValue": "A1E9DE",
+      "colorName": "Water Leaf",
+      "identifierSafeName": "water_leaf"
+    },
+    {
+      "hexValue": "2E3222",
+      "colorName": "Rangitoto",
+      "identifierSafeName": "rangitoto"
+    },
+    {
+      "hexValue": "436A0D",
+      "colorName": "Green Leaf",
+      "identifierSafeName": "green_leaf"
+    },
+    {
+      "hexValue": "8FD400",
+      "colorName": "Sheen Green",
+      "identifierSafeName": "sheen_green"
+    },
+    {
+      "hexValue": "000741",
+      "colorName": "Stratos",
+      "identifierSafeName": "stratos"
+    },
+    {
+      "hexValue": "214FC6",
+      "colorName": "New Car",
+      "identifierSafeName": "new_car"
+    },
+    {
+      "hexValue": "860111",
+      "colorName": "Red Devil",
+      "identifierSafeName": "red_devil"
+    },
+    {
+      "hexValue": "7C1C05",
+      "colorName": "Kenyan Copper",
+      "identifierSafeName": "kenyan_copper"
+    },
+    {
+      "hexValue": "8BA8B7",
+      "colorName": "Pewter Blue",
+      "identifierSafeName": "pewter_blue"
+    },
+    {
+      "hexValue": "2E5894",
+      "colorName": "Bdazzled Blue",
+      "identifierSafeName": "bdazzled_blue"
+    },
+    {
+      "hexValue": "2A2630",
+      "colorName": "Baltic Sea",
+      "identifierSafeName": "baltic_sea"
+    },
+    {
+      "hexValue": "FF3F34",
+      "colorName": "Red Orange",
+      "identifierSafeName": "red_orange"
+    },
+    {
+      "hexValue": "7F7589",
+      "colorName": "Mobster",
+      "identifierSafeName": "mobster"
+    },
+    {
+      "hexValue": "FEFEFE",
+      "colorName": "Coconut",
+      "identifierSafeName": "coconut"
+    },
+    {
+      "hexValue": "704F50",
+      "colorName": "Ferra",
+      "identifierSafeName": "ferra"
+    },
+    {
+      "hexValue": "C41E3A",
+      "colorName": "Cardinal",
+      "identifierSafeName": "cardinal"
+    },
+    {
+      "hexValue": "C26B03",
+      "colorName": "Indochine",
+      "identifierSafeName": "indochine"
+    },
+    {
+      "hexValue": "2C1632",
+      "colorName": "Revolver",
+      "identifierSafeName": "revolver"
+    },
+    {
+      "hexValue": "FFF1B5",
+      "colorName": "Buttermilk",
+      "identifierSafeName": "buttermilk"
+    },
+    {
+      "hexValue": "056F57",
+      "colorName": "Watercourse",
+      "identifierSafeName": "watercourse"
+    },
+    {
+      "hexValue": "0A6F75",
+      "colorName": "Atoll",
+      "identifierSafeName": "atoll"
+    },
+    {
+      "hexValue": "B05E81",
+      "colorName": "Tapestry",
+      "identifierSafeName": "tapestry"
+    },
+    {
+      "hexValue": "A57164",
+      "colorName": "Blast Off Bronze",
+      "identifierSafeName": "blast_off_bronze"
+    },
+    {
+      "hexValue": "B7A458",
+      "colorName": "Husk",
+      "identifierSafeName": "husk"
+    },
+    {
+      "hexValue": "4D0135",
+      "colorName": "Blackberry",
+      "identifierSafeName": "blackberry"
+    },
+    {
+      "hexValue": "3A2A6A",
+      "colorName": "Jacarta",
+      "identifierSafeName": "jacarta"
+    },
+    {
+      "hexValue": "161D10",
+      "colorName": "Hunter Green",
+      "identifierSafeName": "hunter_green"
+    },
+    {
+      "hexValue": "0F2D9E",
+      "colorName": "Torea Bay",
+      "identifierSafeName": "torea_bay"
+    },
+    {
+      "hexValue": "F34723",
+      "colorName": "Pomegranate",
+      "identifierSafeName": "pomegranate"
+    },
+    {
+      "hexValue": "7A013A",
+      "colorName": "Siren",
+      "identifierSafeName": "siren"
+    },
+    {
+      "hexValue": "97CD2D",
+      "colorName": "Atlantis",
+      "identifierSafeName": "atlantis"
+    },
+    {
+      "hexValue": "914E75",
+      "colorName": "Sugar Plum",
+      "identifierSafeName": "sugar_plum"
+    },
+    {
+      "hexValue": "AFBDD9",
+      "colorName": "Pigeon Post",
+      "identifierSafeName": "pigeon_post"
+    },
+    {
+      "hexValue": "E52B50",
+      "colorName": "Amaranth",
+      "identifierSafeName": "amaranth"
+    },
+    {
+      "hexValue": "991613",
+      "colorName": "Tamarillo",
+      "identifierSafeName": "tamarillo"
+    },
+    {
+      "hexValue": "7B4259",
+      "colorName": "Orchid Pearl",
+      "identifierSafeName": "orchid_pearl"
+    },
+    {
+      "hexValue": "F8F7DC",
+      "colorName": "Coconut Cream",
+      "identifierSafeName": "coconut_cream"
+    },
+    {
+      "hexValue": "014B43",
+      "colorName": "Aqua Deep",
+      "identifierSafeName": "aqua_deep"
+    },
+    {
+      "hexValue": "FBE96C",
+      "colorName": "Festival",
+      "identifierSafeName": "festival"
+    },
+    {
+      "hexValue": "8F3E33",
+      "colorName": "El Salva",
+      "identifierSafeName": "el_salva"
+    },
+    {
+      "hexValue": "859FAF",
+      "colorName": "Bali Hai",
+      "identifierSafeName": "bali_hai"
+    },
+    {
+      "hexValue": "0D1117",
+      "colorName": "Bunker",
+      "identifierSafeName": "bunker"
+    },
+    {
+      "hexValue": "F5FB3D",
+      "colorName": "Golden Fizz",
+      "identifierSafeName": "golden_fizz"
+    },
+    {
+      "hexValue": "626649",
+      "colorName": "Finch",
+      "identifierSafeName": "finch"
+    },
+    {
+      "hexValue": "B43332",
+      "colorName": "Well Read",
+      "identifierSafeName": "well_read"
+    },
+    {
+      "hexValue": "F9BF58",
+      "colorName": "Saffron Mango",
+      "identifierSafeName": "saffron_mango"
+    },
+    {
+      "hexValue": "0BDA51",
+      "colorName": "Malachite",
+      "identifierSafeName": "malachite"
+    },
+    {
+      "hexValue": "DCF0EA",
+      "colorName": "Swans Down",
+      "identifierSafeName": "swans_down"
+    },
+    {
+      "hexValue": "007FFF",
+      "colorName": "Azure Radiance",
+      "identifierSafeName": "azure_radiance"
+    },
+    {
+      "hexValue": "3C4151",
+      "colorName": "Bright Gray",
+      "identifierSafeName": "bright_gray"
+    },
+    {
+      "hexValue": "30D5C8",
+      "colorName": "Turquoise",
+      "identifierSafeName": "turquoise"
+    },
+    {
+      "hexValue": "163531",
+      "colorName": "Gable Green",
+      "identifierSafeName": "gable_green"
+    },
+    {
+      "hexValue": "C5D0E6",
+      "colorName": "Periwinkle",
+      "identifierSafeName": "periwinkle"
+    },
+    {
+      "hexValue": "DEAA88",
+      "colorName": "Tumbleweed",
+      "identifierSafeName": "tumbleweed"
+    },
+    {
+      "hexValue": "FFEFA1",
+      "colorName": "Vis Vis",
+      "identifierSafeName": "vis_vis"
+    },
+    {
+      "hexValue": "317D82",
+      "colorName": "Paradiso",
+      "identifierSafeName": "paradiso"
+    },
+    {
+      "hexValue": "092256",
+      "colorName": "Downriver",
+      "identifierSafeName": "downriver"
+    },
+    {
+      "hexValue": "1E1708",
+      "colorName": "El Paso",
+      "identifierSafeName": "el_paso"
+    },
+    {
+      "hexValue": "DEBA13",
+      "colorName": "Gold Tips",
+      "identifierSafeName": "gold_tips"
+    },
+    {
+      "hexValue": "31728D",
+      "colorName": "Calypso",
+      "identifierSafeName": "calypso"
+    },
+    {
+      "hexValue": "808000",
+      "colorName": "Olive",
+      "identifierSafeName": "olive"
+    },
+    {
+      "hexValue": "DED4A4",
+      "colorName": "Sapling",
+      "identifierSafeName": "sapling"
+    },
+    {
+      "hexValue": "F9E4BC",
+      "colorName": "Dairy Cream",
+      "identifierSafeName": "dairy_cream"
+    },
+    {
+      "hexValue": "073A50",
+      "colorName": "Tarawera",
+      "identifierSafeName": "tarawera"
+    },
+    {
+      "hexValue": "FFB555",
+      "colorName": "Texas Rose",
+      "identifierSafeName": "texas_rose"
+    },
+    {
+      "hexValue": "3C1F76",
+      "colorName": "Meteorite",
+      "identifierSafeName": "meteorite"
+    },
+    {
+      "hexValue": "D27D46",
+      "colorName": "Raw Sienna",
+      "identifierSafeName": "raw_sienna"
+    },
+    {
+      "hexValue": "110C6C",
+      "colorName": "Arapawa",
+      "identifierSafeName": "arapawa"
+    },
+    {
+      "hexValue": "433E37",
+      "colorName": "Armadillo",
+      "identifierSafeName": "armadillo"
+    },
+    {
+      "hexValue": "ED989E",
+      "colorName": "Sea Pink",
+      "identifierSafeName": "sea_pink"
+    },
+    {
+      "hexValue": "469496",
+      "colorName": "Malachite",
+      "identifierSafeName": "malachite"
+    },
+    {
+      "hexValue": "E16865",
+      "colorName": "Sunglo",
+      "identifierSafeName": "sunglo"
+    },
+    {
+      "hexValue": "FF007F",
+      "colorName": "Rose",
+      "identifierSafeName": "rose"
+    },
+    {
+      "hexValue": "A2A2D0",
+      "colorName": "Blue Bell",
+      "identifierSafeName": "blue_bell"
+    },
+    {
+      "hexValue": "863C3C",
+      "colorName": "Lotus",
+      "identifierSafeName": "lotus"
+    },
+    {
+      "hexValue": "AF8F2C",
+      "colorName": "Alpine",
+      "identifierSafeName": "alpine"
+    },
+    {
+      "hexValue": "FBB2A3",
+      "colorName": "Rose Bud",
+      "identifierSafeName": "rose_bud"
+    },
+    {
+      "hexValue": "C46210",
+      "colorName": "Alloy Orange",
+      "identifierSafeName": "alloy_orange"
+    },
+    {
+      "hexValue": "FFEFC1",
+      "colorName": "Egg White",
+      "identifierSafeName": "egg_white"
+    },
+    {
+      "hexValue": "893456",
+      "colorName": "Camelot",
+      "identifierSafeName": "camelot"
+    },
+    {
+      "hexValue": "BB3385",
+      "colorName": "Medium Red Violet",
+      "identifierSafeName": "medium_red_violet"
+    },
+    {
+      "hexValue": "5F5F6E",
+      "colorName": "Mid Gray",
+      "identifierSafeName": "mid_gray"
+    },
+    {
+      "hexValue": "646077",
+      "colorName": "Dolphin",
+      "identifierSafeName": "dolphin"
+    },
+    {
+      "hexValue": "D54600",
+      "colorName": "Grenadier",
+      "identifierSafeName": "grenadier"
+    },
+    {
+      "hexValue": "FC74FD",
+      "colorName": "Pink Flamingo",
+      "identifierSafeName": "pink_flamingo"
+    },
+    {
+      "hexValue": "25311C",
+      "colorName": "Green Kelp",
+      "identifierSafeName": "green_kelp"
+    },
+    {
+      "hexValue": "EB9373",
+      "colorName": "Apricot",
+      "identifierSafeName": "apricot"
+    },
+    {
+      "hexValue": "24500F",
+      "colorName": "Green House",
+      "identifierSafeName": "green_house"
+    },
+    {
+      "hexValue": "EEDEDA",
+      "colorName": "Bizarre",
+      "identifierSafeName": "bizarre"
+    },
+    {
+      "hexValue": "0056A7",
+      "colorName": "Endeavour",
+      "identifierSafeName": "endeavour"
+    },
+    {
+      "hexValue": "CAE00D",
+      "colorName": "Bitter Lemon",
+      "identifierSafeName": "bitter_lemon"
+    },
+    {
+      "hexValue": "1560BD",
+      "colorName": "Denim",
+      "identifierSafeName": "denim"
+    },
+    {
+      "hexValue": "7F76D3",
+      "colorName": "Moody Blue",
+      "identifierSafeName": "moody_blue"
+    },
+    {
+      "hexValue": "5DA19F",
+      "colorName": "Breaker Bay",
+      "identifierSafeName": "breaker_bay"
+    },
+    {
+      "hexValue": "8B9FEE",
+      "colorName": "Portage",
+      "identifierSafeName": "portage"
+    },
+    {
+      "hexValue": "C1F07C",
+      "colorName": "Sulu",
+      "identifierSafeName": "sulu"
+    },
+    {
+      "hexValue": "D6FFDB",
+      "colorName": "Snowy Mint",
+      "identifierSafeName": "snowy_mint"
+    },
+    {
+      "hexValue": "3B1F1F",
+      "colorName": "Jon",
+      "identifierSafeName": "jon"
+    },
+    {
+      "hexValue": "ECCDB9",
+      "colorName": "Just Right",
+      "identifierSafeName": "just_right"
+    },
+    {
+      "hexValue": "5C5D75",
+      "colorName": "Comet",
+      "identifierSafeName": "comet"
+    },
+    {
+      "hexValue": "FFEAC8",
+      "colorName": "Sandy Beach",
+      "identifierSafeName": "sandy_beach"
+    },
+    {
+      "hexValue": "EAB33B",
+      "colorName": "Tulip Tree",
+      "identifierSafeName": "tulip_tree"
+    },
+    {
+      "hexValue": "0048BA",
+      "colorName": "Absolute Zero",
+      "identifierSafeName": "absolute_zero"
+    },
+    {
+      "hexValue": "30BA8F",
+      "colorName": "Mountain Meadow",
+      "identifierSafeName": "mountain_meadow"
+    },
+    {
+      "hexValue": "C0448F",
+      "colorName": "Red Violet",
+      "identifierSafeName": "red_violet"
+    },
+    {
+      "hexValue": "082567",
+      "colorName": "Deep Sapphire",
+      "identifierSafeName": "deep_sapphire"
+    },
+    {
+      "hexValue": "507096",
+      "colorName": "Kashmir Blue",
+      "identifierSafeName": "kashmir_blue"
+    },
+    {
+      "hexValue": "803790",
+      "colorName": "Vivid Violet",
+      "identifierSafeName": "vivid_violet"
+    },
+    {
+      "hexValue": "8F4B0E",
+      "colorName": "Korma",
+      "identifierSafeName": "korma"
+    },
+    {
+      "hexValue": "002900",
+      "colorName": "Deep Fir",
+      "identifierSafeName": "deep_fir"
+    },
+    {
+      "hexValue": "AA375A",
+      "colorName": "Night Shadz",
+      "identifierSafeName": "night_shadz"
+    },
+    {
+      "hexValue": "9D81BA",
+      "colorName": "Purple Mountains Majesty",
+      "identifierSafeName": "purple_mountains_majesty"
+    },
+    {
+      "hexValue": "497183",
+      "colorName": "Bismark",
+      "identifierSafeName": "bismark"
+    },
+    {
+      "hexValue": "009DC4",
+      "colorName": "Pacific Blue",
+      "identifierSafeName": "pacific_blue"
+    },
+    {
+      "hexValue": "315BA1",
+      "colorName": "Azure",
+      "identifierSafeName": "azure"
+    },
+    {
+      "hexValue": "C7031E",
+      "colorName": "Monza",
+      "identifierSafeName": "monza"
+    },
+    {
+      "hexValue": "CC8899",
+      "colorName": "Puce",
+      "identifierSafeName": "puce"
+    },
+    {
+      "hexValue": "614051",
+      "colorName": "Eggplant",
+      "identifierSafeName": "eggplant"
+    },
+    {
+      "hexValue": "9678B6",
+      "colorName": "Purple Mountain\u0027s Majesty",
+      "identifierSafeName": "purple_mountains_majesty"
+    },
+    {
+      "hexValue": "02402C",
+      "colorName": "Sherwood Green",
+      "identifierSafeName": "sherwood_green"
+    },
+    {
+      "hexValue": "3A686C",
+      "colorName": "William",
+      "identifierSafeName": "william"
+    },
+    {
+      "hexValue": "FFE772",
+      "colorName": "Kournikova",
+      "identifierSafeName": "kournikova"
+    },
+    {
+      "hexValue": "B98D28",
+      "colorName": "Marigold",
+      "identifierSafeName": "marigold"
+    },
+    {
+      "hexValue": "8E6F70",
+      "colorName": "Opium",
+      "identifierSafeName": "opium"
+    },
+    {
+      "hexValue": "283A77",
+      "colorName": "Astronaut",
+      "identifierSafeName": "astronaut"
+    },
+    {
+      "hexValue": "97605D",
+      "colorName": "Au Chico",
+      "identifierSafeName": "au_chico"
+    },
+    {
+      "hexValue": "990066",
+      "colorName": "Fresh Eggplant",
+      "identifierSafeName": "fresh_eggplant"
+    },
+    {
+      "hexValue": "6B8E23",
+      "colorName": "Olive Drab",
+      "identifierSafeName": "olive_drab"
+    },
+    {
+      "hexValue": "120A8F",
+      "colorName": "Ultramarine",
+      "identifierSafeName": "ultramarine"
+    },
+    {
+      "hexValue": "CABB48",
+      "colorName": "Turmeric",
+      "identifierSafeName": "turmeric"
+    },
+    {
+      "hexValue": "800B47",
+      "colorName": "Rose Bud Cherry",
+      "identifierSafeName": "rose_bud_cherry"
+    },
+    {
+      "hexValue": "9C3336",
+      "colorName": "Stiletto",
+      "identifierSafeName": "stiletto"
+    },
+    {
+      "hexValue": "C3DDF9",
+      "colorName": "Tropical Blue",
+      "identifierSafeName": "tropical_blue"
+    },
+    {
+      "hexValue": "737829",
+      "colorName": "Crete",
+      "identifierSafeName": "crete"
+    },
+    {
+      "hexValue": "EEC1BE",
+      "colorName": "Beauty Bush",
+      "identifierSafeName": "beauty_bush"
+    },
+    {
+      "hexValue": "4F9D5D",
+      "colorName": "Fruit Salad",
+      "identifierSafeName": "fruit_salad"
+    },
+    {
+      "hexValue": "4D3D14",
+      "colorName": "Punga",
+      "identifierSafeName": "punga"
+    },
+    {
+      "hexValue": "EA88A8",
+      "colorName": "Carissma",
+      "identifierSafeName": "carissma"
+    },
+    {
+      "hexValue": "240C02",
+      "colorName": "Kilamanjaro",
+      "identifierSafeName": "kilamanjaro"
+    },
+    {
+      "hexValue": "0A001C",
+      "colorName": "Black Russian",
+      "identifierSafeName": "black_russian"
+    },
+    {
+      "hexValue": "00581A",
+      "colorName": "Camarone",
+      "identifierSafeName": "camarone"
+    },
+    {
+      "hexValue": "051657",
+      "colorName": "Gulf Blue",
+      "identifierSafeName": "gulf_blue"
+    },
+    {
+      "hexValue": "646E75",
+      "colorName": "Nevada",
+      "identifierSafeName": "nevada"
+    },
+    {
+      "hexValue": "9AC2B8",
+      "colorName": "Shadow Green",
+      "identifierSafeName": "shadow_green"
+    },
+    {
+      "hexValue": "C5E384",
+      "colorName": "Yellow Green",
+      "identifierSafeName": "yellow_green"
+    },
+    {
+      "hexValue": "E3F988",
+      "colorName": "Mindaro",
+      "identifierSafeName": "mindaro"
+    },
+    {
+      "hexValue": "B95140",
+      "colorName": "Crail",
+      "identifierSafeName": "crail"
+    },
+    {
+      "hexValue": "5D4C51",
+      "colorName": "Don Juan",
+      "identifierSafeName": "don_juan"
+    },
+    {
+      "hexValue": "B20931",
+      "colorName": "Shiraz",
+      "identifierSafeName": "shiraz"
+    },
+    {
+      "hexValue": "98811B",
+      "colorName": "Hacienda",
+      "identifierSafeName": "hacienda"
+    },
+    {
+      "hexValue": "F78FA7",
+      "colorName": "Pink Sherbert",
+      "identifierSafeName": "pink_sherbert"
+    },
+    {
+      "hexValue": "2E8B57",
+      "colorName": "Sea Green",
+      "identifierSafeName": "sea_green"
+    },
+    {
+      "hexValue": "4F69C6",
+      "colorName": "Indigo",
+      "identifierSafeName": "indigo"
+    },
+    {
+      "hexValue": "273A81",
+      "colorName": "Bay of Many",
+      "identifierSafeName": "bay_of_many"
+    },
+    {
+      "hexValue": "FF9980",
+      "colorName": "Vivid Tangerine",
+      "identifierSafeName": "vivid_tangerine"
+    },
+    {
+      "hexValue": "FFD12A",
+      "colorName": "Banana",
+      "identifierSafeName": "banana"
+    },
+    {
+      "hexValue": "FC80A5",
+      "colorName": "Tickle Me Pink",
+      "identifierSafeName": "tickle_me_pink"
+    },
+    {
+      "hexValue": "D2DA97",
+      "colorName": "Deco",
+      "identifierSafeName": "deco"
+    },
+    {
+      "hexValue": "5FB3AC",
+      "colorName": "Tradewind",
+      "identifierSafeName": "tradewind"
+    },
+    {
+      "hexValue": "1450AA",
+      "colorName": "Tory Blue",
+      "identifierSafeName": "tory_blue"
+    },
+    {
+      "hexValue": "6F440C",
+      "colorName": "Cafe Royale",
+      "identifierSafeName": "cafe_royale"
+    },
+    {
+      "hexValue": "261414",
+      "colorName": "Gondola",
+      "identifierSafeName": "gondola"
+    },
+    {
+      "hexValue": "1CA9C9",
+      "colorName": "Pacific Blue",
+      "identifierSafeName": "pacific_blue"
+    },
+    {
+      "hexValue": "F5C999",
+      "colorName": "Manhattan",
+      "identifierSafeName": "manhattan"
+    },
+    {
+      "hexValue": "FA7814",
+      "colorName": "Ecstasy",
+      "identifierSafeName": "ecstasy"
+    },
+    {
+      "hexValue": "011635",
+      "colorName": "Midnight",
+      "identifierSafeName": "midnight"
+    },
+    {
+      "hexValue": "003153",
+      "colorName": "Prussian Blue",
+      "identifierSafeName": "prussian_blue"
+    },
+    {
+      "hexValue": "412010",
+      "colorName": "Deep Oak",
+      "identifierSafeName": "deep_oak"
+    },
+    {
+      "hexValue": "6E1D14",
+      "colorName": "Moccaccino",
+      "identifierSafeName": "moccaccino"
+    },
+    {
+      "hexValue": "D7837F",
+      "colorName": "New York Pink",
+      "identifierSafeName": "new_york_pink"
+    },
+    {
+      "hexValue": "F091A9",
+      "colorName": "Mauvelous",
+      "identifierSafeName": "mauvelous"
+    },
+    {
+      "hexValue": "2B0202",
+      "colorName": "Sepia Black",
+      "identifierSafeName": "sepia_black"
+    },
+    {
+      "hexValue": "DE6360",
+      "colorName": "Roman",
+      "identifierSafeName": "roman"
+    },
+    {
+      "hexValue": "175579",
+      "colorName": "Chathams Blue",
+      "identifierSafeName": "chathams_blue"
+    },
+    {
+      "hexValue": "193751",
+      "colorName": "Nile Blue",
+      "identifierSafeName": "nile_blue"
+    },
+    {
+      "hexValue": "1E385B",
+      "colorName": "Cello",
+      "identifierSafeName": "cello"
+    },
+    {
+      "hexValue": "E4FFD1",
+      "colorName": "Snow Flurry",
+      "identifierSafeName": "snow_flurry"
+    },
+    {
+      "hexValue": "E5D8AF",
+      "colorName": "Hampton",
+      "identifierSafeName": "hampton"
+    },
+    {
+      "hexValue": "FD7C6E",
+      "colorName": "Bittersweet",
+      "identifierSafeName": "bittersweet"
+    },
+    {
+      "hexValue": "FFB653",
+      "colorName": "Yellow Orange",
+      "identifierSafeName": "yellow_orange"
+    },
+    {
+      "hexValue": "DA70D6",
+      "colorName": "Orchid",
+      "identifierSafeName": "orchid"
+    },
+    {
+      "hexValue": "FFE5A0",
+      "colorName": "Cream Brulee",
+      "identifierSafeName": "cream_brulee"
+    },
+    {
+      "hexValue": "652DC1",
+      "colorName": "Purple Heart",
+      "identifierSafeName": "purple_heart"
+    },
+    {
+      "hexValue": "D7D0FF",
+      "colorName": "Fog",
+      "identifierSafeName": "fog"
+    },
+    {
+      "hexValue": "FBCCE7",
+      "colorName": "Classic Rose",
+      "identifierSafeName": "classic_rose"
+    },
+    {
+      "hexValue": "5DADEC",
+      "colorName": "Blue Jeans",
+      "identifierSafeName": "blue_jeans"
+    },
+    {
+      "hexValue": "A9BEF2",
+      "colorName": "Perano",
+      "identifierSafeName": "perano"
+    },
+    {
+      "hexValue": "8C5738",
+      "colorName": "Potters Clay",
+      "identifierSafeName": "potters_clay"
+    },
+    {
+      "hexValue": "ACACAC",
+      "colorName": "Silver Chalice",
+      "identifierSafeName": "silver_chalice"
+    },
+    {
+      "hexValue": "B0E0E6",
+      "colorName": "Powder Blue",
+      "identifierSafeName": "powder_blue"
+    },
+    {
+      "hexValue": "2A380B",
+      "colorName": "Turtle Green",
+      "identifierSafeName": "turtle_green"
+    },
+    {
+      "hexValue": "F1444A",
+      "colorName": "Salmon Pearl",
+      "identifierSafeName": "salmon_pearl"
+    },
+    {
+      "hexValue": "3E0480",
+      "colorName": "Kingfisher Daisy",
+      "identifierSafeName": "kingfisher_daisy"
+    },
+    {
+      "hexValue": "FF7034",
+      "colorName": "Burning Orange",
+      "identifierSafeName": "burning_orange"
+    },
+    {
+      "hexValue": "FFD3F8",
+      "colorName": "Bubble Gum",
+      "identifierSafeName": "bubble_gum"
+    },
+    {
+      "hexValue": "454936",
+      "colorName": "Kelp",
+      "identifierSafeName": "kelp"
+    },
+    {
+      "hexValue": "E6D7B9",
+      "colorName": "Double Spanish White",
+      "identifierSafeName": "double_spanish_white"
+    },
+    {
+      "hexValue": "CCCCFF",
+      "colorName": "Periwinkle",
+      "identifierSafeName": "periwinkle"
+    },
+    {
+      "hexValue": "9771B5",
+      "colorName": "Wisteria",
+      "identifierSafeName": "wisteria"
+    },
+    {
+      "hexValue": "988D77",
+      "colorName": "Pale Oyster",
+      "identifierSafeName": "pale_oyster"
+    },
+    {
+      "hexValue": "4E420C",
+      "colorName": "Bronze Olive",
+      "identifierSafeName": "bronze_olive"
+    },
+    {
+      "hexValue": "354E8C",
+      "colorName": "Chambray",
+      "identifierSafeName": "chambray"
+    },
+    {
+      "hexValue": "302A0F",
+      "colorName": "Woodrush",
+      "identifierSafeName": "woodrush"
+    },
+    {
+      "hexValue": "32293A",
+      "colorName": "Blackcurrant",
+      "identifierSafeName": "blackcurrant"
+    },
+    {
+      "hexValue": "A4A6D3",
+      "colorName": "Wistful",
+      "identifierSafeName": "wistful"
+    },
+    {
+      "hexValue": "B0E313",
+      "colorName": "Inch Worm",
+      "identifierSafeName": "inch_worm"
+    },
+    {
+      "hexValue": "D4BF8D",
+      "colorName": "Straw",
+      "identifierSafeName": "straw"
+    },
+    {
+      "hexValue": "BD559C",
+      "colorName": "Rose Quartz",
+      "identifierSafeName": "rose_quartz"
+    },
+    {
+      "hexValue": "2A0359",
+      "colorName": "Cherry Pie",
+      "identifierSafeName": "cherry_pie"
+    },
+    {
+      "hexValue": "9FD7D3",
+      "colorName": "Sinbad",
+      "identifierSafeName": "sinbad"
+    },
+    {
+      "hexValue": "323232",
+      "colorName": "Mine Shaft",
+      "identifierSafeName": "mine_shaft"
+    },
+    {
+      "hexValue": "EED794",
+      "colorName": "Chalky",
+      "identifierSafeName": "chalky"
+    },
+    {
+      "hexValue": "0A7E8C",
+      "colorName": "Metallic Seaweed",
+      "identifierSafeName": "metallic_seaweed"
+    },
+    {
+      "hexValue": "956387",
+      "colorName": "Strikemaster",
+      "identifierSafeName": "strikemaster"
+    },
+    {
+      "hexValue": "C9FFA2",
+      "colorName": "Reef",
+      "identifierSafeName": "reef"
+    },
+    {
+      "hexValue": "BC5D58",
+      "colorName": "Chestnut",
+      "identifierSafeName": "chestnut"
+    },
+    {
+      "hexValue": "1FC2C2",
+      "colorName": "Java",
+      "identifierSafeName": "java"
+    },
+    {
+      "hexValue": "A4AF6E",
+      "colorName": "Green Smoke",
+      "identifierSafeName": "green_smoke"
+    },
+    {
+      "hexValue": "08E8DE",
+      "colorName": "Bright Turquoise",
+      "identifierSafeName": "bright_turquoise"
+    },
+    {
+      "hexValue": "228B22",
+      "colorName": "Forest Green",
+      "identifierSafeName": "forest_green"
+    },
+    {
+      "hexValue": "6093D1",
+      "colorName": "Danube",
+      "identifierSafeName": "danube"
+    },
+    {
+      "hexValue": "151F4C",
+      "colorName": "Bunting",
+      "identifierSafeName": "bunting"
+    },
+    {
+      "hexValue": "DA2C43",
+      "colorName": "Rusty Red",
+      "identifierSafeName": "rusty_red"
+    },
+    {
+      "hexValue": "4FA83D",
+      "colorName": "Apple",
+      "identifierSafeName": "apple"
+    },
+    {
+      "hexValue": "C0D3B9",
+      "colorName": "Pale Leaf",
+      "identifierSafeName": "pale_leaf"
+    },
+    {
+      "hexValue": "5DA493",
+      "colorName": "Polished Pine",
+      "identifierSafeName": "polished_pine"
+    },
+    {
+      "hexValue": "FF9E2C",
+      "colorName": "Sunshade",
+      "identifierSafeName": "sunshade"
+    },
+    {
+      "hexValue": "593737",
+      "colorName": "Congo Brown",
+      "identifierSafeName": "congo_brown"
+    },
+    {
+      "hexValue": "771F1F",
+      "colorName": "Crown of Thorns",
+      "identifierSafeName": "crown_of_thorns"
+    },
+    {
+      "hexValue": "BDB3C7",
+      "colorName": "Chatelle",
+      "identifierSafeName": "chatelle"
+    },
+    {
+      "hexValue": "D29EAA",
+      "colorName": "Careys Pink",
+      "identifierSafeName": "careys_pink"
+    },
+    {
+      "hexValue": "01796F",
+      "colorName": "Pine Green",
+      "identifierSafeName": "pine_green"
+    },
+    {
+      "hexValue": "036A6E",
+      "colorName": "Mosque",
+      "identifierSafeName": "mosque"
+    },
+    {
+      "hexValue": "53824B",
+      "colorName": "Hippie Green",
+      "identifierSafeName": "hippie_green"
+    },
+    {
+      "hexValue": "A17A74",
+      "colorName": "Burnished Brown",
+      "identifierSafeName": "burnished_brown"
+    },
+    {
+      "hexValue": "9E5B40",
+      "colorName": "Sepia Skin",
+      "identifierSafeName": "sepia_skin"
+    },
+    {
+      "hexValue": "4169E1",
+      "colorName": "Royal Blue",
+      "identifierSafeName": "royal_blue"
+    },
+    {
+      "hexValue": "420303",
+      "colorName": "Burnt Maroon",
+      "identifierSafeName": "burnt_maroon"
+    },
+    {
+      "hexValue": "C53151",
+      "colorName": "Dingy Dungeon",
+      "identifierSafeName": "dingy_dungeon"
+    },
+    {
+      "hexValue": "017987",
+      "colorName": "Blue Lagoon",
+      "identifierSafeName": "blue_lagoon"
+    },
+    {
+      "hexValue": "E28913",
+      "colorName": "Golden Bell",
+      "identifierSafeName": "golden_bell"
+    },
+    {
+      "hexValue": "383533",
+      "colorName": "Dune",
+      "identifierSafeName": "dune"
+    },
+    {
+      "hexValue": "4E0606",
+      "colorName": "Mahogany",
+      "identifierSafeName": "mahogany"
+    },
+    {
+      "hexValue": "A0E6FF",
+      "colorName": "Winter Wizard",
+      "identifierSafeName": "winter_wizard"
+    },
+    {
+      "hexValue": "C69191",
+      "colorName": "Oriental Pink",
+      "identifierSafeName": "oriental_pink"
+    },
+    {
+      "hexValue": "A86B6B",
+      "colorName": "Coral Tree",
+      "identifierSafeName": "coral_tree"
+    },
+    {
+      "hexValue": "FFFEE1",
+      "colorName": "Half and Half",
+      "identifierSafeName": "half_and_half"
+    },
+    {
+      "hexValue": "E2725B",
+      "colorName": "Terracotta",
+      "identifierSafeName": "terracotta"
+    },
+    {
+      "hexValue": "80B3AE",
+      "colorName": "Gulf Stream",
+      "identifierSafeName": "gulf_stream"
+    },
+    {
+      "hexValue": "F3EDCF",
+      "colorName": "Wheatfield",
+      "identifierSafeName": "wheatfield"
+    },
+    {
+      "hexValue": "BAB1A2",
+      "colorName": "Nomad",
+      "identifierSafeName": "nomad"
+    },
+    {
+      "hexValue": "C8A528",
+      "colorName": "Hokey Pokey",
+      "identifierSafeName": "hokey_pokey"
+    },
+    {
+      "hexValue": "E29CD2",
+      "colorName": "Light Orchid",
+      "identifierSafeName": "light_orchid"
+    },
+    {
+      "hexValue": "003399",
+      "colorName": "Smalt",
+      "identifierSafeName": "smalt"
+    },
+    {
+      "hexValue": "F1FFAD",
+      "colorName": "Tidal",
+      "identifierSafeName": "tidal"
+    },
+    {
+      "hexValue": "FB8989",
+      "colorName": "Geraldine",
+      "identifierSafeName": "geraldine"
+    },
+    {
+      "hexValue": "FF7F50",
+      "colorName": "Coral",
+      "identifierSafeName": "coral"
+    },
+    {
+      "hexValue": "98FF98",
+      "colorName": "Mint Green",
+      "identifierSafeName": "mint_green"
+    },
+    {
+      "hexValue": "B09A95",
+      "colorName": "Del Rio",
+      "identifierSafeName": "del_rio"
+    },
+    {
+      "hexValue": "DFECDA",
+      "colorName": "Willow Brook",
+      "identifierSafeName": "willow_brook"
+    },
+    {
+      "hexValue": "FFF1EE",
+      "colorName": "Forget Me Not",
+      "identifierSafeName": "forget_me_not"
+    },
+    {
+      "hexValue": "004816",
+      "colorName": "Crusoe",
+      "identifierSafeName": "crusoe"
+    },
+    {
+      "hexValue": "3FFF00",
+      "colorName": "Harlequin",
+      "identifierSafeName": "harlequin"
+    },
+    {
+      "hexValue": "7666C6",
+      "colorName": "Blue Marguerite",
+      "identifierSafeName": "blue_marguerite"
+    },
+    {
+      "hexValue": "FB607F",
+      "colorName": "Brink Pink",
+      "identifierSafeName": "brink_pink"
+    },
+    {
+      "hexValue": "FFAB81",
+      "colorName": "Hit Pink",
+      "identifierSafeName": "hit_pink"
+    },
+    {
+      "hexValue": "1E433C",
+      "colorName": "Te Papa Green",
+      "identifierSafeName": "te_papa_green"
+    },
+    {
+      "hexValue": "9999CC",
+      "colorName": "Blue Bell",
+      "identifierSafeName": "blue_bell"
+    },
+    {
+      "hexValue": "003366",
+      "colorName": "Midnight Blue",
+      "identifierSafeName": "midnight_blue"
+    },
+    {
+      "hexValue": "051040",
+      "colorName": "Deep Cove",
+      "identifierSafeName": "deep_cove"
+    },
+    {
+      "hexValue": "44012D",
+      "colorName": "Barossa",
+      "identifierSafeName": "barossa"
+    },
+    {
+      "hexValue": "D9E4F5",
+      "colorName": "Link Water",
+      "identifierSafeName": "link_water"
+    },
+    {
+      "hexValue": "FFD38C",
+      "colorName": "Grandis",
+      "identifierSafeName": "grandis"
+    },
+    {
+      "hexValue": "A8989B",
+      "colorName": "Dusty Gray",
+      "identifierSafeName": "dusty_gray"
+    },
+    {
+      "hexValue": "A9ACB6",
+      "colorName": "Aluminium",
+      "identifierSafeName": "aluminium"
+    },
+    {
+      "hexValue": "FFFF38",
+      "colorName": "Lemon",
+      "identifierSafeName": "lemon"
+    },
+    {
+      "hexValue": "0047AB",
+      "colorName": "Cobalt",
+      "identifierSafeName": "cobalt"
+    },
+    {
+      "hexValue": "B3C110",
+      "colorName": "La Rioja",
+      "identifierSafeName": "la_rioja"
+    },
+    {
+      "hexValue": "A7882C",
+      "colorName": "Luxor Gold",
+      "identifierSafeName": "luxor_gold"
+    },
+    {
+      "hexValue": "B2EC5D",
+      "colorName": "Inchworm",
+      "identifierSafeName": "inchworm"
+    },
+    {
+      "hexValue": "007EC7",
+      "colorName": "Lochmara",
+      "identifierSafeName": "lochmara"
+    },
+    {
+      "hexValue": "B56917",
+      "colorName": "Tigers Eye",
+      "identifierSafeName": "tigers_eye"
+    },
+    {
+      "hexValue": "657220",
+      "colorName": "Fern Frond",
+      "identifierSafeName": "fern_frond"
+    },
+    {
+      "hexValue": "DA6304",
+      "colorName": "Bamboo",
+      "identifierSafeName": "bamboo"
+    },
+    {
+      "hexValue": "E25465",
+      "colorName": "Mandy",
+      "identifierSafeName": "mandy"
+    },
+    {
+      "hexValue": "9C51B6",
+      "colorName": "Purple Plum",
+      "identifierSafeName": "purple_plum"
+    },
+    {
+      "hexValue": "ED0A3F",
+      "colorName": "Red Ribbon",
+      "identifierSafeName": "red_ribbon"
+    },
+    {
+      "hexValue": "E7BCB4",
+      "colorName": "Rose Fog",
+      "identifierSafeName": "rose_fog"
+    },
+    {
+      "hexValue": "384910",
+      "colorName": "Clover",
+      "identifierSafeName": "clover"
+    },
+    {
+      "hexValue": "8EABC1",
+      "colorName": "Nepal",
+      "identifierSafeName": "nepal"
+    },
+    {
+      "hexValue": "757575",
+      "colorName": "Sonic Silver",
+      "identifierSafeName": "sonic_silver"
+    },
+    {
+      "hexValue": "B8C25D",
+      "colorName": "Celery",
+      "identifierSafeName": "celery"
+    },
+    {
+      "hexValue": "F8B853",
+      "colorName": "Casablanca",
+      "identifierSafeName": "casablanca"
+    },
+    {
+      "hexValue": "CEBABA",
+      "colorName": "Cold Turkey",
+      "identifierSafeName": "cold_turkey"
+    },
+    {
+      "hexValue": "B05C52",
+      "colorName": "Giants Club",
+      "identifierSafeName": "giants_club"
+    },
+    {
+      "hexValue": "F2552A",
+      "colorName": "Flamingo",
+      "identifierSafeName": "flamingo"
+    },
+    {
+      "hexValue": "711A00",
+      "colorName": "Cedar Wood Finish",
+      "identifierSafeName": "cedar_wood_finish"
+    },
+    {
+      "hexValue": "FDE295",
+      "colorName": "Golden Glow",
+      "identifierSafeName": "golden_glow"
+    },
+    {
+      "hexValue": "02478E",
+      "colorName": "Congress Blue",
+      "identifierSafeName": "congress_blue"
+    },
+    {
+      "hexValue": "FF00CC",
+      "colorName": "Purple Pizzazz",
+      "identifierSafeName": "purple_pizzazz"
+    },
+    {
+      "hexValue": "4D282D",
+      "colorName": "Cowboy",
+      "identifierSafeName": "cowboy"
+    },
+    {
+      "hexValue": "220878",
+      "colorName": "Deep Blue",
+      "identifierSafeName": "deep_blue"
+    },
+    {
+      "hexValue": "D87C63",
+      "colorName": "Japonica",
+      "identifierSafeName": "japonica"
+    },
+    {
+      "hexValue": "A2AEAB",
+      "colorName": "Edward",
+      "identifierSafeName": "edward"
+    },
+    {
+      "hexValue": "DDE26A",
+      "colorName": "Booger Buster",
+      "identifierSafeName": "booger_buster"
+    },
+    {
+      "hexValue": "D99376",
+      "colorName": "Burning Sand",
+      "identifierSafeName": "burning_sand"
+    },
+    {
+      "hexValue": "40A860",
+      "colorName": "Chateau Green",
+      "identifierSafeName": "chateau_green"
+    },
+    {
+      "hexValue": "6F8E63",
+      "colorName": "Highland",
+      "identifierSafeName": "highland"
+    },
+    {
+      "hexValue": "886221",
+      "colorName": "Kumera",
+      "identifierSafeName": "kumera"
+    },
+    {
+      "hexValue": "D4E2FC",
+      "colorName": "Hawkes Blue",
+      "identifierSafeName": "hawkes_blue"
+    },
+    {
+      "hexValue": "714B23",
+      "colorName": "Raw Umber",
+      "identifierSafeName": "raw_umber"
+    },
+    {
+      "hexValue": "7366BD",
+      "colorName": "Blue Violet",
+      "identifierSafeName": "blue_violet"
+    },
+    {
+      "hexValue": "095859",
+      "colorName": "Deep Sea Green",
+      "identifierSafeName": "deep_sea_green"
+    },
+    {
+      "hexValue": "414C7D",
+      "colorName": "East Bay",
+      "identifierSafeName": "east_bay"
+    },
+    {
+      "hexValue": "3BB08F",
+      "colorName": "Jungle Green",
+      "identifierSafeName": "jungle_green"
+    },
+    {
+      "hexValue": "F4D81C",
+      "colorName": "Ripe Lemon",
+      "identifierSafeName": "ripe_lemon"
+    },
+    {
+      "hexValue": "997A8D",
+      "colorName": "Mountbatten Pink",
+      "identifierSafeName": "mountbatten_pink"
+    },
+    {
+      "hexValue": "FEEBF3",
+      "colorName": "Remy",
+      "identifierSafeName": "remy"
+    },
+    {
+      "hexValue": "E49B0F",
+      "colorName": "Gamboge",
+      "identifierSafeName": "gamboge"
+    },
+    {
+      "hexValue": "A899E6",
+      "colorName": "Dull Lavender",
+      "identifierSafeName": "dull_lavender"
+    },
+    {
+      "hexValue": "FFA343",
+      "colorName": "Neon Carrot",
+      "identifierSafeName": "neon_carrot"
+    },
+    {
+      "hexValue": "796878",
+      "colorName": "Old Lavender",
+      "identifierSafeName": "old_lavender"
+    },
+    {
+      "hexValue": "83D0C6",
+      "colorName": "Monte Carlo",
+      "identifierSafeName": "monte_carlo"
+    },
+    {
+      "hexValue": "000C66",
+      "colorName": "Fuzzy Wuzzy",
+      "identifierSafeName": "fuzzy_wuzzy"
+    },
+    {
+      "hexValue": "D9B99B",
+      "colorName": "Cameo",
+      "identifierSafeName": "cameo"
+    },
+    {
+      "hexValue": "B4CFD3",
+      "colorName": "Jungle Mist",
+      "identifierSafeName": "jungle_mist"
+    },
+    {
+      "hexValue": "C154C1",
+      "colorName": "Fuchsia Pink",
+      "identifierSafeName": "fuchsia_pink"
+    },
+    {
+      "hexValue": "6B5755",
+      "colorName": "Dorado",
+      "identifierSafeName": "dorado"
+    },
+    {
+      "hexValue": "87FF2A",
+      "colorName": "Spring Frost",
+      "identifierSafeName": "spring_frost"
+    },
+    {
+      "hexValue": "EAC674",
+      "colorName": "Rob Roy",
+      "identifierSafeName": "rob_roy"
+    },
+    {
+      "hexValue": "FF7518",
+      "colorName": "Pumpkin",
+      "identifierSafeName": "pumpkin"
+    },
+    {
+      "hexValue": "FC5A8D",
+      "colorName": "Strawberry",
+      "identifierSafeName": "strawberry"
+    },
+    {
+      "hexValue": "013E62",
+      "colorName": "Astronaut Blue",
+      "identifierSafeName": "astronaut_blue"
+    },
+    {
+      "hexValue": "6B2A14",
+      "colorName": "Hairy Heath",
+      "identifierSafeName": "hairy_heath"
+    },
+    {
+      "hexValue": "CCCAA8",
+      "colorName": "Thistle Green",
+      "identifierSafeName": "thistle_green"
+    },
+    {
+      "hexValue": "7B7C94",
+      "colorName": "Waterloo ",
+      "identifierSafeName": "waterloo_"
+    },
+    {
+      "hexValue": "B5B35C",
+      "colorName": "Olive Green",
+      "identifierSafeName": "olive_green"
+    },
+    {
+      "hexValue": "BD5E2E",
+      "colorName": "Tuscany",
+      "identifierSafeName": "tuscany"
+    },
+    {
+      "hexValue": "8C472F",
+      "colorName": "Mule Fawn",
+      "identifierSafeName": "mule_fawn"
+    },
+    {
+      "hexValue": "E2D8ED",
+      "colorName": "Snuff",
+      "identifierSafeName": "snuff"
+    },
+    {
+      "hexValue": "D5D195",
+      "colorName": "Winter Hazel",
+      "identifierSafeName": "winter_hazel"
+    },
+    {
+      "hexValue": "301F1E",
+      "colorName": "Cocoa Brown",
+      "identifierSafeName": "cocoa_brown"
+    },
+    {
+      "hexValue": "00FF7F",
+      "colorName": "Spring Green",
+      "identifierSafeName": "spring_green"
+    },
+    {
+      "hexValue": "A3E3ED",
+      "colorName": "Blizzard Blue",
+      "identifierSafeName": "blizzard_blue"
+    },
+    {
+      "hexValue": "BEA6C3",
+      "colorName": "London Hue",
+      "identifierSafeName": "london_hue"
+    },
+    {
+      "hexValue": "41AA78",
+      "colorName": "Ocean Green",
+      "identifierSafeName": "ocean_green"
+    },
+    {
+      "hexValue": "182D09",
+      "colorName": "Deep Forest Green",
+      "identifierSafeName": "deep_forest_green"
+    },
+    {
+      "hexValue": "C7DDE5",
+      "colorName": "Botticelli",
+      "identifierSafeName": "botticelli"
+    },
+    {
+      "hexValue": "6B3FA0",
+      "colorName": "Royal Purple",
+      "identifierSafeName": "royal_purple"
+    },
+    {
+      "hexValue": "FF4F00",
+      "colorName": "International Orange",
+      "identifierSafeName": "international_orange"
+    },
+    {
+      "hexValue": "8A3324",
+      "colorName": "Burnt Umber",
+      "identifierSafeName": "burnt_umber"
+    },
+    {
+      "hexValue": "FFBD88",
+      "colorName": "Macaroni Cheese",
+      "identifierSafeName": "macaroni_cheese"
+    },
+    {
+      "hexValue": "828685",
+      "colorName": "Gunsmoke",
+      "identifierSafeName": "gunsmoke"
+    },
+    {
+      "hexValue": "FFB97B",
+      "colorName": "Macaroni and Cheese",
+      "identifierSafeName": "macaroni_and_cheese"
+    },
+    {
+      "hexValue": "E34234",
+      "colorName": "Cinnabar",
+      "identifierSafeName": "cinnabar"
+    },
+    {
+      "hexValue": "959396",
+      "colorName": "Mountain Mist",
+      "identifierSafeName": "mountain_mist"
+    },
+    {
+      "hexValue": "FFCC5C",
+      "colorName": "Golden Tainoi",
+      "identifierSafeName": "golden_tainoi"
+    },
+    {
+      "hexValue": "0B0F08",
+      "colorName": "Marshland",
+      "identifierSafeName": "marshland"
+    },
+    {
+      "hexValue": "C6C3B5",
+      "colorName": "Ash",
+      "identifierSafeName": "ash"
+    },
+    {
+      "hexValue": "796989",
+      "colorName": "Rum",
+      "identifierSafeName": "rum"
+    },
+    {
+      "hexValue": "4C3024",
+      "colorName": "Saddle",
+      "identifierSafeName": "saddle"
+    },
+    {
+      "hexValue": "00755E",
+      "colorName": "Tropical Rain Forest",
+      "identifierSafeName": "tropical_rain_forest"
+    },
+    {
+      "hexValue": "8F509D",
+      "colorName": "Vivid Violet",
+      "identifierSafeName": "vivid_violet"
+    },
+    {
+      "hexValue": "00CCCC",
+      "colorName": "Robin\u0027s Egg Blue",
+      "identifierSafeName": "robins_egg_blue"
+    },
+    {
+      "hexValue": "96BBAB",
+      "colorName": "Summer Green",
+      "identifierSafeName": "summer_green"
+    },
+    {
+      "hexValue": "F64A8A",
+      "colorName": "French Rose",
+      "identifierSafeName": "french_rose"
+    },
+    {
+      "hexValue": "462425",
+      "colorName": "Crater Brown",
+      "identifierSafeName": "crater_brown"
+    },
+    {
+      "hexValue": "FDFF00",
+      "colorName": "Lemon Glacier",
+      "identifierSafeName": "lemon_glacier"
+    },
+    {
+      "hexValue": "00CC99",
+      "colorName": "Caribbean Green",
+      "identifierSafeName": "caribbean_green"
+    },
+    {
+      "hexValue": "E0C095",
+      "colorName": "Calico",
+      "identifierSafeName": "calico"
+    },
+    {
+      "hexValue": "011D13",
+      "colorName": "Holly",
+      "identifierSafeName": "holly"
+    },
+    {
+      "hexValue": "D06DA1",
+      "colorName": "Hopbush",
+      "identifierSafeName": "hopbush"
+    },
+    {
+      "hexValue": "950015",
+      "colorName": "Scarlett",
+      "identifierSafeName": "scarlett"
+    },
+    {
+      "hexValue": "483131",
+      "colorName": "Woody Brown",
+      "identifierSafeName": "woody_brown"
+    },
+    {
+      "hexValue": "4F7942",
+      "colorName": "Fern Green",
+      "identifierSafeName": "fern_green"
+    },
+    {
+      "hexValue": "45B1E8",
+      "colorName": "Picton Blue",
+      "identifierSafeName": "picton_blue"
+    },
+    {
+      "hexValue": "6CDAE7",
+      "colorName": "Turquoise Blue",
+      "identifierSafeName": "turquoise_blue"
+    },
+    {
+      "hexValue": "1C1E13",
+      "colorName": "Rangoon Green",
+      "identifierSafeName": "rangoon_green"
+    },
+    {
+      "hexValue": "66FF00",
+      "colorName": "Bright Green",
+      "identifierSafeName": "bright_green"
+    },
+    {
+      "hexValue": "C04737",
+      "colorName": "Mojo",
+      "identifierSafeName": "mojo"
+    },
+    {
+      "hexValue": "E1C0C8",
+      "colorName": "Pink Flare",
+      "identifierSafeName": "pink_flare"
+    },
+    {
+      "hexValue": "678975",
+      "colorName": "Viridian Green",
+      "identifierSafeName": "viridian_green"
+    },
+    {
+      "hexValue": "726D4E",
+      "colorName": "Go Ben",
+      "identifierSafeName": "go_ben"
+    },
+    {
+      "hexValue": "C96323",
+      "colorName": "Piper",
+      "identifierSafeName": "piper"
+    },
+    {
+      "hexValue": "CD607E",
+      "colorName": "Cinnamon Satin",
+      "identifierSafeName": "cinnamon_satin"
+    },
+    {
+      "hexValue": "6ADA8E",
+      "colorName": "Caribbean Green Pearl",
+      "identifierSafeName": "caribbean_green_pearl"
+    },
+    {
+      "hexValue": "D98695",
+      "colorName": "Shimmering Blush",
+      "identifierSafeName": "shimmering_blush"
+    },
+    {
+      "hexValue": "84A0A0",
+      "colorName": "Granny Smith",
+      "identifierSafeName": "granny_smith"
+    },
+    {
+      "hexValue": "B57EDC",
+      "colorName": "Lavender",
+      "identifierSafeName": "lavender"
+    },
+    {
+      "hexValue": "BEDE0D",
+      "colorName": "Fuego",
+      "identifierSafeName": "fuego"
+    },
+    {
+      "hexValue": "DB91EF",
+      "colorName": "Lilac",
+      "identifierSafeName": "lilac"
+    },
+    {
+      "hexValue": "BA450C",
+      "colorName": "Rock Spray",
+      "identifierSafeName": "rock_spray"
+    },
+    {
+      "hexValue": "AAD6E6",
+      "colorName": "Regent St Blue",
+      "identifierSafeName": "regent_st_blue"
+    },
+    {
+      "hexValue": "E88E5A",
+      "colorName": "Big Foot Feet",
+      "identifierSafeName": "big_foot_feet"
+    },
+    {
+      "hexValue": "325D52",
+      "colorName": "Stromboli",
+      "identifierSafeName": "stromboli"
+    },
+    {
+      "hexValue": "F6FFDC",
+      "colorName": "Spring Sun",
+      "identifierSafeName": "spring_sun"
+    },
+    {
+      "hexValue": "C2955D",
+      "colorName": "Twine",
+      "identifierSafeName": "twine"
+    },
+    {
+      "hexValue": "CC7722",
+      "colorName": "Ochre",
+      "identifierSafeName": "ochre"
+    },
+    {
+      "hexValue": "A8A589",
+      "colorName": "Tallow",
+      "identifierSafeName": "tallow"
+    },
+    {
+      "hexValue": "C39953",
+      "colorName": "Aztec Gold",
+      "identifierSafeName": "aztec_gold"
+    },
+    {
+      "hexValue": "780109",
+      "colorName": "Japanese Maple",
+      "identifierSafeName": "japanese_maple"
+    },
+    {
+      "hexValue": "E1BC64",
+      "colorName": "Equator",
+      "identifierSafeName": "equator"
+    },
+    {
+      "hexValue": "56B4BE",
+      "colorName": "Fountain Blue",
+      "identifierSafeName": "fountain_blue"
+    },
+    {
+      "hexValue": "3C0878",
+      "colorName": "Windsor",
+      "identifierSafeName": "windsor"
+    },
+    {
+      "hexValue": "5590D9",
+      "colorName": "Havelock Blue",
+      "identifierSafeName": "havelock_blue"
+    },
+    {
+      "hexValue": "FBF9F9",
+      "colorName": "Hint of Red",
+      "identifierSafeName": "hint_of_red"
+    },
+    {
+      "hexValue": "589AAF",
+      "colorName": "Hippie Blue",
+      "identifierSafeName": "hippie_blue"
+    },
+    {
+      "hexValue": "87756E",
+      "colorName": "Americano",
+      "identifierSafeName": "americano"
+    },
+    {
+      "hexValue": "44D7A8",
+      "colorName": "Eucalyptus",
+      "identifierSafeName": "eucalyptus"
+    },
+    {
+      "hexValue": "B8E0F9",
+      "colorName": "Sail",
+      "identifierSafeName": "sail"
+    },
+    {
+      "hexValue": "3A6A47",
+      "colorName": "Killarney",
+      "identifierSafeName": "killarney"
+    },
+    {
+      "hexValue": "055989",
+      "colorName": "Venice Blue",
+      "identifierSafeName": "venice_blue"
+    },
+    {
+      "hexValue": "FC0FC0",
+      "colorName": "Shocking Pink",
+      "identifierSafeName": "shocking_pink"
+    },
+    {
+      "hexValue": "CFB53B",
+      "colorName": "Old Gold",
+      "identifierSafeName": "old_gold"
+    },
+    {
+      "hexValue": "FFD2B7",
+      "colorName": "Romantic",
+      "identifierSafeName": "romantic"
+    },
+    {
+      "hexValue": "CEC7A7",
+      "colorName": "Chino",
+      "identifierSafeName": "chino"
+    },
+    {
+      "hexValue": "736C9F",
+      "colorName": "Kimberly",
+      "identifierSafeName": "kimberly"
+    },
+    {
+      "hexValue": "5E5D3B",
+      "colorName": "Hemlock",
+      "identifierSafeName": "hemlock"
+    },
+    {
+      "hexValue": "FBEC5D",
+      "colorName": "Candy Corn",
+      "identifierSafeName": "candy_corn"
+    },
+    {
+      "hexValue": "4D1E01",
+      "colorName": "Indian Tan",
+      "identifierSafeName": "indian_tan"
+    },
+    {
+      "hexValue": "EDC9AF",
+      "colorName": "Desert Sand",
+      "identifierSafeName": "desert_sand"
+    },
+    {
+      "hexValue": "FA5B3D",
+      "colorName": "Orange Soda",
+      "identifierSafeName": "orange_soda"
+    },
+    {
+      "hexValue": "692545",
+      "colorName": "Tawny Port",
+      "identifierSafeName": "tawny_port"
+    },
+    {
+      "hexValue": "004620",
+      "colorName": "Kaitoke Green",
+      "identifierSafeName": "kaitoke_green"
+    },
+    {
+      "hexValue": "871550",
+      "colorName": "Disco",
+      "identifierSafeName": "disco"
+    },
+    {
+      "hexValue": "4E4562",
+      "colorName": "Mulled Wine",
+      "identifierSafeName": "mulled_wine"
+    },
+    {
+      "hexValue": "353542",
+      "colorName": "Tuna",
+      "identifierSafeName": "tuna"
+    },
+    {
+      "hexValue": "B06608",
+      "colorName": "Mai Tai",
+      "identifierSafeName": "mai_tai"
+    },
+    {
+      "hexValue": "DB995E",
+      "colorName": "Di Serria",
+      "identifierSafeName": "di_serria"
+    },
+    {
+      "hexValue": "9A9577",
+      "colorName": "Gurkha",
+      "identifierSafeName": "gurkha"
+    },
+    {
+      "hexValue": "9EA587",
+      "colorName": "Sage",
+      "identifierSafeName": "sage"
+    },
+    {
+      "hexValue": "801818",
+      "colorName": "Falu Red",
+      "identifierSafeName": "falu_red"
+    },
+    {
+      "hexValue": "B69D98",
+      "colorName": "Thatch",
+      "identifierSafeName": "thatch"
+    },
+    {
+      "hexValue": "BA7F03",
+      "colorName": "Pirate Gold",
+      "identifierSafeName": "pirate_gold"
+    },
+    {
+      "hexValue": "E7BF05",
+      "colorName": "Corn",
+      "identifierSafeName": "corn"
+    },
+    {
+      "hexValue": "C6726B",
+      "colorName": "Contessa",
+      "identifierSafeName": "contessa"
+    },
+    {
+      "hexValue": "6E4B26",
+      "colorName": "Dallas",
+      "identifierSafeName": "dallas"
+    },
+    {
+      "hexValue": "F8DD5C",
+      "colorName": "Energy Yellow",
+      "identifierSafeName": "energy_yellow"
+    },
+    {
+      "hexValue": "FF91A4",
+      "colorName": "Pink Salmon",
+      "identifierSafeName": "pink_salmon"
+    },
+    {
+      "hexValue": "704A07",
+      "colorName": "Antique Bronze",
+      "identifierSafeName": "antique_bronze"
+    },
+    {
+      "hexValue": "979AAA",
+      "colorName": "Manatee",
+      "identifierSafeName": "manatee"
+    },
+    {
+      "hexValue": "D4B6AF",
+      "colorName": "Clam Shell",
+      "identifierSafeName": "clam_shell"
+    },
+    {
+      "hexValue": "8A8360",
+      "colorName": "Clay Creek",
+      "identifierSafeName": "clay_creek"
+    },
+    {
+      "hexValue": "A26645",
+      "colorName": "Cape Palliser",
+      "identifierSafeName": "cape_palliser"
+    },
+    {
+      "hexValue": "C8AABF",
+      "colorName": "Lily",
+      "identifierSafeName": "lily"
+    },
+    {
+      "hexValue": "DA8A67",
+      "colorName": "Copperfield",
+      "identifierSafeName": "copperfield"
+    },
+    {
+      "hexValue": "ECC54E",
+      "colorName": "Ronchi",
+      "identifierSafeName": "ronchi"
+    },
+    {
+      "hexValue": "F77FBE",
+      "colorName": "Persian Pink",
+      "identifierSafeName": "persian_pink"
+    },
+    {
+      "hexValue": "76BD17",
+      "colorName": "Lima",
+      "identifierSafeName": "lima"
+    },
+    {
+      "hexValue": "86560A",
+      "colorName": "Rusty Nail",
+      "identifierSafeName": "rusty_nail"
+    },
+    {
+      "hexValue": "556D56",
+      "colorName": "Finlandia",
+      "identifierSafeName": "finlandia"
+    },
+    {
+      "hexValue": "000FAC",
+      "colorName": "Carnation Pink",
+      "identifierSafeName": "carnation_pink"
+    },
+    {
+      "hexValue": "66B58F",
+      "colorName": "Silver Tree",
+      "identifierSafeName": "silver_tree"
+    },
+    {
+      "hexValue": "B5D2CE",
+      "colorName": "Jet Stream",
+      "identifierSafeName": "jet_stream"
+    },
+    {
+      "hexValue": "907874",
+      "colorName": "Hemp",
+      "identifierSafeName": "hemp"
+    },
+    {
+      "hexValue": "FF3399",
+      "colorName": "Wild Strawberry",
+      "identifierSafeName": "wild_strawberry"
+    },
+    {
+      "hexValue": "E8F2EB",
+      "colorName": "Gin",
+      "identifierSafeName": "gin"
+    },
+    {
+      "hexValue": "C54B8C",
+      "colorName": "Mulberry",
+      "identifierSafeName": "mulberry"
+    },
+    {
+      "hexValue": "E6A8D7",
+      "colorName": "Orchid",
+      "identifierSafeName": "orchid"
+    },
+    {
+      "hexValue": "D2B48C",
+      "colorName": "Tan",
+      "identifierSafeName": "tan"
+    },
+    {
+      "hexValue": "DA6A41",
+      "colorName": "Red Damask",
+      "identifierSafeName": "red_damask"
+    },
+    {
+      "hexValue": "651A14",
+      "colorName": "Cherrywood",
+      "identifierSafeName": "cherrywood"
+    },
+    {
+      "hexValue": "7BA05B",
+      "colorName": "Asparagus",
+      "identifierSafeName": "asparagus"
+    },
+    {
+      "hexValue": "FFE1DF",
+      "colorName": "Pippin",
+      "identifierSafeName": "pippin"
+    },
+    {
+      "hexValue": "FAA76C",
+      "colorName": "Tan",
+      "identifierSafeName": "tan"
+    },
+    {
+      "hexValue": "134F19",
+      "colorName": "Parsley",
+      "identifierSafeName": "parsley"
+    },
+    {
+      "hexValue": "EEDC82",
+      "colorName": "Flax",
+      "identifierSafeName": "flax"
+    },
+    {
+      "hexValue": "FDDDE6",
+      "colorName": "Piggy Pink",
+      "identifierSafeName": "piggy_pink"
+    },
+    {
+      "hexValue": "350E57",
+      "colorName": "Jagger",
+      "identifierSafeName": "jagger"
+    },
+    {
+      "hexValue": "0C7A79",
+      "colorName": "Surfie Green",
+      "identifierSafeName": "surfie_green"
+    },
+    {
+      "hexValue": "FE28A2",
+      "colorName": "Persian Rose",
+      "identifierSafeName": "persian_rose"
+    },
+    {
+      "hexValue": "FFA089",
+      "colorName": "Vivid Tangerine",
+      "identifierSafeName": "vivid_tangerine"
+    },
+    {
+      "hexValue": "F5EDEF",
+      "colorName": "Soft Peach",
+      "identifierSafeName": "soft_peach"
+    },
+    {
+      "hexValue": "991199",
+      "colorName": "Violet Eggplant",
+      "identifierSafeName": "violet_eggplant"
+    },
+    {
+      "hexValue": "4F1C70",
+      "colorName": "Honey Flower",
+      "identifierSafeName": "honey_flower"
+    },
+    {
+      "hexValue": "007BA7",
+      "colorName": "Deep Cerulean",
+      "identifierSafeName": "deep_cerulean"
+    },
+    {
+      "hexValue": "8E4585",
+      "colorName": "Plum",
+      "identifierSafeName": "plum"
+    },
+    {
+      "hexValue": "ACE1AF",
+      "colorName": "Celadon",
+      "identifierSafeName": "celadon"
+    },
+    {
+      "hexValue": "FF5050",
+      "colorName": "Rose",
+      "identifierSafeName": "rose"
+    },
+    {
+      "hexValue": "9DACB7",
+      "colorName": "Gull Gray",
+      "identifierSafeName": "gull_gray"
+    },
+    {
+      "hexValue": "BBB477",
+      "colorName": "Misty Moss",
+      "identifierSafeName": "misty_moss"
+    },
+    {
+      "hexValue": "0066FF",
+      "colorName": "Blue Ribbon",
+      "identifierSafeName": "blue_ribbon"
+    },
+    {
+      "hexValue": "81422C",
+      "colorName": "Nutmeg",
+      "identifierSafeName": "nutmeg"
+    },
+    {
+      "hexValue": "1DACD6",
+      "colorName": "Cerulean",
+      "identifierSafeName": "cerulean"
+    },
+    {
+      "hexValue": "FF1DCE",
+      "colorName": "Hot Magenta",
+      "identifierSafeName": "hot_magenta"
+    },
+    {
+      "hexValue": "BBD009",
+      "colorName": "Rio Grande",
+      "identifierSafeName": "rio_grande"
+    },
+    {
+      "hexValue": "8E4D1E",
+      "colorName": "Rope",
+      "identifierSafeName": "rope"
+    },
+    {
+      "hexValue": "DCDDCC",
+      "colorName": "Moon Mist",
+      "identifierSafeName": "moon_mist"
+    },
+    {
+      "hexValue": "D1E231",
+      "colorName": "Pear",
+      "identifierSafeName": "pear"
+    },
+    {
+      "hexValue": "AF4035",
+      "colorName": "Medium Carmine",
+      "identifierSafeName": "medium_carmine"
+    },
+    {
+      "hexValue": "C8A2C8",
+      "colorName": "Lilac",
+      "identifierSafeName": "lilac"
+    },
+    {
+      "hexValue": "622F30",
+      "colorName": "Buccaneer",
+      "identifierSafeName": "buccaneer"
+    },
+    {
+      "hexValue": "D3CBBA",
+      "colorName": "Sisal",
+      "identifierSafeName": "sisal"
+    },
+    {
+      "hexValue": "F9FF8B",
+      "colorName": "Dolly",
+      "identifierSafeName": "dolly"
+    },
+    {
+      "hexValue": "8A496B",
+      "colorName": "Twilight Lavender",
+      "identifierSafeName": "twilight_lavender"
+    },
+    {
+      "hexValue": "C1D7B0",
+      "colorName": "Sprout",
+      "identifierSafeName": "sprout"
+    },
+    {
+      "hexValue": "FB7EFD",
+      "colorName": "Shocking Pink",
+      "identifierSafeName": "shocking_pink"
+    },
+    {
+      "hexValue": "B6316C",
+      "colorName": "Hibiscus",
+      "identifierSafeName": "hibiscus"
+    },
+    {
+      "hexValue": "C08081",
+      "colorName": "Old Rose",
+      "identifierSafeName": "old_rose"
+    },
+    {
+      "hexValue": "1959A8",
+      "colorName": "Fun Blue",
+      "identifierSafeName": "fun_blue"
+    },
+    {
+      "hexValue": "868974",
+      "colorName": "Bitter",
+      "identifierSafeName": "bitter"
+    },
+    {
+      "hexValue": "9EA91F",
+      "colorName": "Citron",
+      "identifierSafeName": "citron"
+    },
+    {
+      "hexValue": "A8BD9F",
+      "colorName": "Norway",
+      "identifierSafeName": "norway"
+    },
+    {
+      "hexValue": "DB5079",
+      "colorName": "Cranberry",
+      "identifierSafeName": "cranberry"
+    },
+    {
+      "hexValue": "E79FC4",
+      "colorName": "Kobi",
+      "identifierSafeName": "kobi"
+    },
+    {
+      "hexValue": "044259",
+      "colorName": "Teal Blue",
+      "identifierSafeName": "teal_blue"
+    },
+    {
+      "hexValue": "FF69B4",
+      "colorName": "Hot Pink",
+      "identifierSafeName": "hot_pink"
+    },
+    {
+      "hexValue": "878D91",
+      "colorName": "Oslo Gray",
+      "identifierSafeName": "oslo_gray"
+    },
+    {
+      "hexValue": "297B9A",
+      "colorName": "Jelly Bean",
+      "identifierSafeName": "jelly_bean"
+    },
+    {
+      "hexValue": "EAAE69",
+      "colorName": "Porsche",
+      "identifierSafeName": "porsche"
+    },
+    {
+      "hexValue": "3FC1AA",
+      "colorName": "Puerto Rico",
+      "identifierSafeName": "puerto_rico"
+    },
+    {
+      "hexValue": "CA3435",
+      "colorName": "Flush Mahogany",
+      "identifierSafeName": "flush_mahogany"
+    },
+    {
+      "hexValue": "405169",
+      "colorName": "Fiord",
+      "identifierSafeName": "fiord"
+    },
+    {
+      "hexValue": "80CCEA",
+      "colorName": "Seagull",
+      "identifierSafeName": "seagull"
+    },
+    {
+      "hexValue": "F8FACD",
+      "colorName": "Corn Field",
+      "identifierSafeName": "corn_field"
+    },
+    {
+      "hexValue": "EEF3C3",
+      "colorName": "Tusk",
+      "identifierSafeName": "tusk"
+    },
+    {
+      "hexValue": "51808F",
+      "colorName": "Smalt Blue",
+      "identifierSafeName": "smalt_blue"
+    },
+    {
+      "hexValue": "3F3002",
+      "colorName": "Madras",
+      "identifierSafeName": "madras"
+    },
+    {
+      "hexValue": "E6BE8A",
+      "colorName": "Gold Sand",
+      "identifierSafeName": "gold_sand"
+    },
+    {
+      "hexValue": "F2F27A",
+      "colorName": "Sunny Pearl",
+      "identifierSafeName": "sunny_pearl"
+    },
+    {
+      "hexValue": "80461B",
+      "colorName": "Russet",
+      "identifierSafeName": "russet"
+    },
+    {
+      "hexValue": "002387",
+      "colorName": "Resolution Blue",
+      "identifierSafeName": "resolution_blue"
+    },
+    {
+      "hexValue": "BF5500",
+      "colorName": "Rose of Sharon",
+      "identifierSafeName": "rose_of_sharon"
+    },
+    {
+      "hexValue": "9F9F9C",
+      "colorName": "Star Dust",
+      "identifierSafeName": "star_dust"
+    },
+    {
+      "hexValue": "FF43A4",
+      "colorName": "Wild Strawberry",
+      "identifierSafeName": "wild_strawberry"
+    },
+    {
+      "hexValue": "DCB20C",
+      "colorName": "Galliano",
+      "identifierSafeName": "galliano"
+    },
+    {
+      "hexValue": "2E3F62",
+      "colorName": "Rhino",
+      "identifierSafeName": "rhino"
+    },
+    {
+      "hexValue": "DC143C",
+      "colorName": "Crimson",
+      "identifierSafeName": "crimson"
+    },
+    {
+      "hexValue": "350036",
+      "colorName": "Mardi Gras",
+      "identifierSafeName": "mardi_gras"
+    },
+    {
+      "hexValue": "B38007",
+      "colorName": "Hot Toddy",
+      "identifierSafeName": "hot_toddy"
+    },
+    {
+      "hexValue": "646463",
+      "colorName": "Storm Dust",
+      "identifierSafeName": "storm_dust"
+    },
+    {
+      "hexValue": "8581D9",
+      "colorName": "Chetwode Blue",
+      "identifierSafeName": "chetwode_blue"
+    },
+    {
+      "hexValue": "2C0E8C",
+      "colorName": "Blue Gem",
+      "identifierSafeName": "blue_gem"
+    },
+    {
+      "hexValue": "9D5616",
+      "colorName": "Hawaiian Tan",
+      "identifierSafeName": "hawaiian_tan"
+    },
+    {
+      "hexValue": "E292C0",
+      "colorName": "Shocking",
+      "identifierSafeName": "shocking"
+    },
+    {
+      "hexValue": "77DD77",
+      "colorName": "Pastel Green",
+      "identifierSafeName": "pastel_green"
+    },
+    {
+      "hexValue": "AE4560",
+      "colorName": "Hippie Pink",
+      "identifierSafeName": "hippie_pink"
+    },
+    {
+      "hexValue": "9966CC",
+      "colorName": "Amethyst",
+      "identifierSafeName": "amethyst"
+    },
+    {
+      "hexValue": "83AA5D",
+      "colorName": "Chelsea Cucumber",
+      "identifierSafeName": "chelsea_cucumber"
+    },
+    {
+      "hexValue": "FFCF48",
+      "colorName": "Sunglow",
+      "identifierSafeName": "sunglow"
+    },
+    {
+      "hexValue": "022D15",
+      "colorName": "English Holly",
+      "identifierSafeName": "english_holly"
+    },
+    {
+      "hexValue": "7563A8",
+      "colorName": "Deluge",
+      "identifierSafeName": "deluge"
+    },
+    {
+      "hexValue": "96A8A1",
+      "colorName": "Pewter",
+      "identifierSafeName": "pewter"
+    },
+    {
+      "hexValue": "5FBED7",
+      "colorName": "Aqua Pearl",
+      "identifierSafeName": "aqua_pearl"
+    },
+    {
+      "hexValue": "9A6E61",
+      "colorName": "Toast",
+      "identifierSafeName": "toast"
+    },
+    {
+      "hexValue": "FCFEDA",
+      "colorName": "Moon Glow",
+      "identifierSafeName": "moon_glow"
+    },
+    {
+      "hexValue": "0B0B0B",
+      "colorName": "Cod Gray",
+      "identifierSafeName": "cod_gray"
+    },
+    {
+      "hexValue": "50C878",
+      "colorName": "Emerald",
+      "identifierSafeName": "emerald"
+    },
+    {
+      "hexValue": "ADE6C4",
+      "colorName": "Padua",
+      "identifierSafeName": "padua"
+    },
+    {
+      "hexValue": "E4D69B",
+      "colorName": "Zombie",
+      "identifierSafeName": "zombie"
+    },
+    {
+      "hexValue": "0081AB",
+      "colorName": "Steel Blue",
+      "identifierSafeName": "steel_blue"
+    },
+    {
+      "hexValue": "604913",
+      "colorName": "Horses Neck",
+      "identifierSafeName": "horses_neck"
+    },
+    {
+      "hexValue": "714AB2",
+      "colorName": "Studio",
+      "identifierSafeName": "studio"
+    },
+    {
+      "hexValue": "1C39BB",
+      "colorName": "Persian Blue",
+      "identifierSafeName": "persian_blue"
+    },
+    {
+      "hexValue": "72010F",
+      "colorName": "Venetian Red",
+      "identifierSafeName": "venetian_red"
+    },
+    {
+      "hexValue": "3E2B23",
+      "colorName": "English Walnut",
+      "identifierSafeName": "english_walnut"
+    },
+    {
+      "hexValue": "3F307F",
+      "colorName": "Minsk",
+      "identifierSafeName": "minsk"
+    },
+    {
+      "hexValue": "1A4876",
+      "colorName": "Midnight Blue",
+      "identifierSafeName": "midnight_blue"
+    },
+    {
+      "hexValue": "6EAEA1",
+      "colorName": "Green Sheen",
+      "identifierSafeName": "green_sheen"
+    },
+    {
+      "hexValue": "FFC901",
+      "colorName": "Supernova",
+      "identifierSafeName": "supernova"
+    },
+    {
+      "hexValue": "DA614E",
+      "colorName": "Jelly Bean",
+      "identifierSafeName": "jelly_bean"
+    },
+    {
+      "hexValue": "D2691E",
+      "colorName": "Hot Cinnamon",
+      "identifierSafeName": "hot_cinnamon"
+    },
+    {
+      "hexValue": "85754E",
+      "colorName": "Gold Fusion",
+      "identifierSafeName": "gold_fusion"
+    },
+    {
+      "hexValue": "0000C8",
+      "colorName": "Dark Blue",
+      "identifierSafeName": "dark_blue"
+    },
+    {
+      "hexValue": "5F3D26",
+      "colorName": "Irish Coffee",
+      "identifierSafeName": "irish_coffee"
+    },
+    {
+      "hexValue": "7FFF00",
+      "colorName": "Chartreuse",
+      "identifierSafeName": "chartreuse"
+    },
+    {
+      "hexValue": "ECEBBD",
+      "colorName": "Fall Green",
+      "identifierSafeName": "fall_green"
+    },
+    {
+      "hexValue": "AAF0D1",
+      "colorName": "Magic Mint",
+      "identifierSafeName": "magic_mint"
+    },
+    {
+      "hexValue": "901E1E",
+      "colorName": "Old Brick",
+      "identifierSafeName": "old_brick"
+    },
+    {
+      "hexValue": "B87333",
+      "colorName": "Copper",
+      "identifierSafeName": "copper"
+    },
+    {
+      "hexValue": "FF878D",
+      "colorName": "Tulip",
+      "identifierSafeName": "tulip"
+    },
+    {
+      "hexValue": "B14A0B",
+      "colorName": "Vesuvius",
+      "identifierSafeName": "vesuvius"
+    },
+    {
+      "hexValue": "6B4E31",
+      "colorName": "Shingle Fawn",
+      "identifierSafeName": "shingle_fawn"
+    },
+    {
+      "hexValue": "AA8D6F",
+      "colorName": "Sandal",
+      "identifierSafeName": "sandal"
+    },
+    {
+      "hexValue": "3D7D52",
+      "colorName": "Goblin",
+      "identifierSafeName": "goblin"
+    },
+    {
+      "hexValue": "8D7662",
+      "colorName": "Cement",
+      "identifierSafeName": "cement"
+    },
+    {
+      "hexValue": "26056A",
+      "colorName": "Paris M",
+      "identifierSafeName": "paris_m"
+    },
+    {
+      "hexValue": "AF8751",
+      "colorName": "Driftwood",
+      "identifierSafeName": "driftwood"
+    },
+    {
+      "hexValue": "FB4D46",
+      "colorName": "Tart Orange",
+      "identifierSafeName": "tart_orange"
+    },
+    {
+      "hexValue": "ACCBB1",
+      "colorName": "Spring Rain",
+      "identifierSafeName": "spring_rain"
+    },
+    {
+      "hexValue": "AF6E4D",
+      "colorName": "Brown Sugar",
+      "identifierSafeName": "brown_sugar"
+    },
+    {
+      "hexValue": "8DA8CC",
+      "colorName": "Polo Blue",
+      "identifierSafeName": "polo_blue"
+    },
+    {
+      "hexValue": "8BE6D8",
+      "colorName": "Riptide",
+      "identifierSafeName": "riptide"
+    },
+    {
+      "hexValue": "FBE7B2",
+      "colorName": "Banana Mania",
+      "identifierSafeName": "banana_mania"
+    },
+    {
+      "hexValue": "5D1E0F",
+      "colorName": "Redwood",
+      "identifierSafeName": "redwood"
+    },
+    {
+      "hexValue": "A50B5E",
+      "colorName": "Jazzberry Jam",
+      "identifierSafeName": "jazzberry_jam"
+    },
+    {
+      "hexValue": "FBAC13",
+      "colorName": "Sun",
+      "identifierSafeName": "sun"
+    },
+    {
+      "hexValue": "EED9C4",
+      "colorName": "Almond",
+      "identifierSafeName": "almond"
+    },
+    {
+      "hexValue": "FFC3C0",
+      "colorName": "Your Pink",
+      "identifierSafeName": "your_pink"
+    },
+    {
+      "hexValue": "67A712",
+      "colorName": "Christi",
+      "identifierSafeName": "christi"
+    },
+    {
+      "hexValue": "E0B974",
+      "colorName": "Harvest Gold",
+      "identifierSafeName": "harvest_gold"
+    },
+    {
+      "hexValue": "6F9D02",
+      "colorName": "Limeade",
+      "identifierSafeName": "limeade"
+    },
+    {
+      "hexValue": "C59922",
+      "colorName": "Nugget",
+      "identifierSafeName": "nugget"
+    },
+    {
+      "hexValue": "FAD3A2",
+      "colorName": "Corvette",
+      "identifierSafeName": "corvette"
+    },
+    {
+      "hexValue": "FF00FF",
+      "colorName": "Magenta / Fuchsia",
+      "identifierSafeName": "magenta_/_fuchsia"
+    },
+    {
+      "hexValue": "363050",
+      "colorName": "Martinique",
+      "identifierSafeName": "martinique"
+    },
+    {
+      "hexValue": "7F1734",
+      "colorName": "Claret",
+      "identifierSafeName": "claret"
+    },
+    {
+      "hexValue": "F9F8E4",
+      "colorName": "Rum Swizzle",
+      "identifierSafeName": "rum_swizzle"
+    },
+    {
+      "hexValue": "FF7F00",
+      "colorName": "Flush Orange",
+      "identifierSafeName": "flush_orange"
+    },
+    {
+      "hexValue": "37290E",
+      "colorName": "Brown Tumbleweed",
+      "identifierSafeName": "brown_tumbleweed"
+    },
+    {
+      "hexValue": "A9BDBF",
+      "colorName": "Tower Gray",
+      "identifierSafeName": "tower_gray"
+    },
+    {
+      "hexValue": "4BC7CF",
+      "colorName": "Sea Serpent",
+      "identifierSafeName": "sea_serpent"
+    },
+    {
+      "hexValue": "097F4B",
+      "colorName": "Salem",
+      "identifierSafeName": "salem"
+    },
+    {
+      "hexValue": "843179",
+      "colorName": "Plum",
+      "identifierSafeName": "plum"
+    },
+    {
+      "hexValue": "6D92A1",
+      "colorName": "Gothic",
+      "identifierSafeName": "gothic"
+    },
+    {
+      "hexValue": "FFC0A8",
+      "colorName": "Wax Flower",
+      "identifierSafeName": "wax_flower"
+    },
+    {
+      "hexValue": "76FF7A",
+      "colorName": "Screamin Green",
+      "identifierSafeName": "screamin_green"
+    },
+    {
+      "hexValue": "817377",
+      "colorName": "Empress",
+      "identifierSafeName": "empress"
+    },
+    {
+      "hexValue": "520C17",
+      "colorName": "Maroon Oak",
+      "identifierSafeName": "maroon_oak"
+    },
+    {
+      "hexValue": "FCD975",
+      "colorName": "Goldenrod",
+      "identifierSafeName": "goldenrod"
+    },
+    {
+      "hexValue": "FEF8FF",
+      "colorName": "White Pointer",
+      "identifierSafeName": "white_pointer"
+    },
+    {
+      "hexValue": "2B194F",
+      "colorName": "Valhalla",
+      "identifierSafeName": "valhalla"
+    },
+    {
+      "hexValue": "5A6E9C",
+      "colorName": "Waikawa Gray",
+      "identifierSafeName": "waikawa_gray"
+    },
+    {
+      "hexValue": "DEA681",
+      "colorName": "Tumbleweed",
+      "identifierSafeName": "tumbleweed"
+    },
+    {
+      "hexValue": "024E46",
+      "colorName": "Evening Sea",
+      "identifierSafeName": "evening_sea"
+    },
+    {
+      "hexValue": "74640D",
+      "colorName": "Spicy Mustard",
+      "identifierSafeName": "spicy_mustard"
+    },
+    {
+      "hexValue": "C62D42",
+      "colorName": "Brick Red",
+      "identifierSafeName": "brick_red"
+    },
+    {
+      "hexValue": "BAB86C",
+      "colorName": "Olive Green",
+      "identifierSafeName": "olive_green"
+    },
+    {
+      "hexValue": "396413",
+      "colorName": "Dell",
+      "identifierSafeName": "dell"
+    },
+    {
+      "hexValue": "615D30",
+      "colorName": "Costa Del Sol",
+      "identifierSafeName": "costa_del_sol"
+    },
+    {
+      "hexValue": "D47494",
+      "colorName": "Charm",
+      "identifierSafeName": "charm"
+    },
+    {
+      "hexValue": "2596D1",
+      "colorName": "Curious Blue",
+      "identifierSafeName": "curious_blue"
+    },
+    {
+      "hexValue": "FFDF46",
+      "colorName": "Gargoyle Gas",
+      "identifierSafeName": "gargoyle_gas"
+    },
+    {
+      "hexValue": "FBBEDA",
+      "colorName": "Cupid",
+      "identifierSafeName": "cupid"
+    },
+    {
+      "hexValue": "DAF4F0",
+      "colorName": "Iceberg",
+      "identifierSafeName": "iceberg"
+    },
+    {
+      "hexValue": "61845F",
+      "colorName": "Glade Green",
+      "identifierSafeName": "glade_green"
+    },
+    {
+      "hexValue": "2E1905",
+      "colorName": "Jacko Bean",
+      "identifierSafeName": "jacko_bean"
+    },
+    {
+      "hexValue": "9B9E8F",
+      "colorName": "Lemon Grass",
+      "identifierSafeName": "lemon_grass"
+    },
+    {
+      "hexValue": "9B7653",
+      "colorName": "Dirt",
+      "identifierSafeName": "dirt"
+    },
+    {
+      "hexValue": "C9FFE5",
+      "colorName": "Aero Blue",
+      "identifierSafeName": "aero_blue"
+    },
+    {
+      "hexValue": "105852",
+      "colorName": "Eden",
+      "identifierSafeName": "eden"
+    },
+    {
+      "hexValue": "4A4244",
+      "colorName": "Tundora",
+      "identifierSafeName": "tundora"
+    },
+    {
+      "hexValue": "FFF700",
+      "colorName": "Yellow Sunshine",
+      "identifierSafeName": "yellow_sunshine"
+    },
+    {
+      "hexValue": "C32148",
+      "colorName": "Maroon Flush",
+      "identifierSafeName": "maroon_flush"
+    },
+    {
+      "hexValue": "ACDD4D",
+      "colorName": "Conifer",
+      "identifierSafeName": "conifer"
+    },
+    {
+      "hexValue": "816E71",
+      "colorName": "Spicy Pink",
+      "identifierSafeName": "spicy_pink"
+    },
+    {
+      "hexValue": "AB917A",
+      "colorName": "Sandrift",
+      "identifierSafeName": "sandrift"
+    },
+    {
+      "hexValue": "DAA520",
+      "colorName": "Golden Grass",
+      "identifierSafeName": "golden_grass"
+    },
+    {
+      "hexValue": "FF4681",
+      "colorName": "Sasquatch Socks",
+      "identifierSafeName": "sasquatch_socks"
+    },
+    {
+      "hexValue": "FEE5AC",
+      "colorName": "Cape Honey",
+      "identifierSafeName": "cape_honey"
+    },
+    {
+      "hexValue": "773F1A",
+      "colorName": "Walnut",
+      "identifierSafeName": "walnut"
+    },
+    {
+      "hexValue": "BA0101",
+      "colorName": "Guardsman Red",
+      "identifierSafeName": "guardsman_red"
+    },
+    {
+      "hexValue": "ECC7EE",
+      "colorName": "French Lilac",
+      "identifierSafeName": "french_lilac"
+    },
+    {
+      "hexValue": "FBEA8C",
+      "colorName": "Sweet Corn",
+      "identifierSafeName": "sweet_corn"
+    },
+    {
+      "hexValue": "1C402E",
+      "colorName": "Everglade",
+      "identifierSafeName": "everglade"
+    },
+    {
+      "hexValue": "FFF9E2",
+      "colorName": "Gin Fizz",
+      "identifierSafeName": "gin_fizz"
+    },
+    {
+      "hexValue": "5C0536",
+      "colorName": "Mulberry Wood",
+      "identifierSafeName": "mulberry_wood"
+    },
+    {
+      "hexValue": "0D0332",
+      "colorName": "Black Rock",
+      "identifierSafeName": "black_rock"
+    },
+    {
+      "hexValue": "AE98AA",
+      "colorName": "Lilac Luster",
+      "identifierSafeName": "lilac_luster"
+    },
+    {
+      "hexValue": "3AB09E",
+      "colorName": "Keppel",
+      "identifierSafeName": "keppel"
+    },
+    {
+      "hexValue": "6E7783",
+      "colorName": "Pale Sky",
+      "identifierSafeName": "pale_sky"
+    },
+    {
+      "hexValue": "FBA129",
+      "colorName": "Sea Buckthorn",
+      "identifierSafeName": "sea_buckthorn"
+    },
+    {
+      "hexValue": "F1E788",
+      "colorName": "Sahara Sand",
+      "identifierSafeName": "sahara_sand"
+    },
+    {
+      "hexValue": "8D3F3F",
+      "colorName": "Tosca",
+      "identifierSafeName": "tosca"
+    },
+    {
+      "hexValue": "3F2500",
+      "colorName": "Cola",
+      "identifierSafeName": "cola"
+    },
+    {
+      "hexValue": "3F5D53",
+      "colorName": "Mineral Green",
+      "identifierSafeName": "mineral_green"
+    },
+    {
+      "hexValue": "465945",
+      "colorName": "Gray Asparagus",
+      "identifierSafeName": "gray_asparagus"
+    },
+    {
+      "hexValue": "517C66",
+      "colorName": "Como",
+      "identifierSafeName": "como"
+    },
+    {
+      "hexValue": "FE6F5E",
+      "colorName": "Bittersweet",
+      "identifierSafeName": "bittersweet"
+    },
+    {
+      "hexValue": "10121D",
+      "colorName": "Vulcan",
+      "identifierSafeName": "vulcan"
+    },
+    {
+      "hexValue": "DA5B38",
+      "colorName": "Flame Pea",
+      "identifierSafeName": "flame_pea"
+    },
+    {
+      "hexValue": "66FF66",
+      "colorName": "Screamin\u0027 Green",
+      "identifierSafeName": "screamin_green"
+    },
+    {
+      "hexValue": "368716",
+      "colorName": "La Palma",
+      "identifierSafeName": "la_palma"
+    },
+    {
+      "hexValue": "4D5328",
+      "colorName": "Woodland",
+      "identifierSafeName": "woodland"
+    },
+    {
+      "hexValue": "BFBED8",
+      "colorName": "Blue Haze",
+      "identifierSafeName": "blue_haze"
+    },
+    {
+      "hexValue": "242E16",
+      "colorName": "Black Olive",
+      "identifierSafeName": "black_olive"
+    },
+    {
+      "hexValue": "000F46",
+      "colorName": "Magic Potion",
+      "identifierSafeName": "magic_potion"
+    },
+    {
+      "hexValue": "ADDFAD",
+      "colorName": "Moss Green",
+      "identifierSafeName": "moss_green"
+    },
+    {
+      "hexValue": "CCFF00",
+      "colorName": "Electric Lime",
+      "identifierSafeName": "electric_lime"
+    },
+    {
+      "hexValue": "E79F8C",
+      "colorName": "Tonys Pink",
+      "identifierSafeName": "tonys_pink"
+    },
+    {
+      "hexValue": "DBFFF8",
+      "colorName": "Frosted Mint",
+      "identifierSafeName": "frosted_mint"
+    },
+    {
+      "hexValue": "778BA5",
+      "colorName": "Shadow Blue",
+      "identifierSafeName": "shadow_blue"
+    },
+    {
+      "hexValue": "CD9575",
+      "colorName": "Antique Brass",
+      "identifierSafeName": "antique_brass"
+    },
+    {
+      "hexValue": "427977",
+      "colorName": "Faded Jade",
+      "identifierSafeName": "faded_jade"
+    },
+    {
+      "hexValue": "15736B",
+      "colorName": "Genoa",
+      "identifierSafeName": "genoa"
+    },
+    {
+      "hexValue": "C88A65",
+      "colorName": "Antique Brass",
+      "identifierSafeName": "antique_brass"
+    },
+    {
+      "hexValue": "A8AE9C",
+      "colorName": "Bud",
+      "identifierSafeName": "bud"
+    },
+    {
+      "hexValue": "587156",
+      "colorName": "Cactus",
+      "identifierSafeName": "cactus"
+    },
+    {
+      "hexValue": "ED7A1C",
+      "colorName": "Tango",
+      "identifierSafeName": "tango"
+    },
+    {
+      "hexValue": "B7C3D0",
+      "colorName": "Heather",
+      "identifierSafeName": "heather"
+    },
+    {
+      "hexValue": "FF4040",
+      "colorName": "Coral Red",
+      "identifierSafeName": "coral_red"
+    },
+    {
+      "hexValue": "8B6B0B",
+      "colorName": "Corn Harvest",
+      "identifierSafeName": "corn_harvest"
+    },
+    {
+      "hexValue": "6DAE81",
+      "colorName": "Forest Green",
+      "identifierSafeName": "forest_green"
+    },
+    {
+      "hexValue": "E29418",
+      "colorName": "Dixie",
+      "identifierSafeName": "dixie"
+    },
+    {
+      "hexValue": "4E7F9E",
+      "colorName": "Wedgewood",
+      "identifierSafeName": "wedgewood"
+    },
+    {
+      "hexValue": "324AB2",
+      "colorName": "Violet Blue",
+      "identifierSafeName": "violet_blue"
+    },
+    {
+      "hexValue": "CD8429",
+      "colorName": "Brandy Punch",
+      "identifierSafeName": "brandy_punch"
+    },
+    {
+      "hexValue": "BDB1A8",
+      "colorName": "Silk",
+      "identifierSafeName": "silk"
+    },
+    {
+      "hexValue": "944747",
+      "colorName": "Copper Rust",
+      "identifierSafeName": "copper_rust"
+    },
+    {
+      "hexValue": "DD4492",
+      "colorName": "Cerise",
+      "identifierSafeName": "cerise"
+    },
+    {
+      "hexValue": "F0DB7D",
+      "colorName": "Golden Sand",
+      "identifierSafeName": "golden_sand"
+    },
+    {
+      "hexValue": "FFD800",
+      "colorName": "School bus Yellow",
+      "identifierSafeName": "school_bus_yellow"
+    },
+    {
+      "hexValue": "E97451",
+      "colorName": "Burnt Sienna",
+      "identifierSafeName": "burnt_sienna"
+    },
+    {
+      "hexValue": "685E6E",
+      "colorName": "Salt Box",
+      "identifierSafeName": "salt_box"
+    },
+    {
+      "hexValue": "5946B2",
+      "colorName": "Plump Purple",
+      "identifierSafeName": "plump_purple"
+    },
+    {
+      "hexValue": "F28500",
+      "colorName": "Tangerine",
+      "identifierSafeName": "tangerine"
+    },
+    {
+      "hexValue": "734A12",
+      "colorName": "Raw Umber",
+      "identifierSafeName": "raw_umber"
+    },
+    {
+      "hexValue": "1E9AB0",
+      "colorName": "Eastern Blue",
+      "identifierSafeName": "eastern_blue"
+    },
+    {
+      "hexValue": "AF593E",
+      "colorName": "Brown Rust",
+      "identifierSafeName": "brown_rust"
+    },
+    {
+      "hexValue": "D6CEF6",
+      "colorName": "Moon Raker",
+      "identifierSafeName": "moon_raker"
+    },
+    {
+      "hexValue": "26283B",
+      "colorName": "Ebony Clay",
+      "identifierSafeName": "ebony_clay"
+    },
+    {
+      "hexValue": "5D5C58",
+      "colorName": "Chicago",
+      "identifierSafeName": "chicago"
+    },
+    {
+      "hexValue": "29AB87",
+      "colorName": "Jungle Green",
+      "identifierSafeName": "jungle_green"
+    },
+    {
+      "hexValue": "062A78",
+      "colorName": "Catalina Blue",
+      "identifierSafeName": "catalina_blue"
+    },
+    {
+      "hexValue": "FC6C85",
+      "colorName": "Wild Watermelon",
+      "identifierSafeName": "wild_watermelon"
+    },
+    {
+      "hexValue": "431560",
+      "colorName": "Scarlet Gum",
+      "identifierSafeName": "scarlet_gum"
+    },
+    {
+      "hexValue": "0095B6",
+      "colorName": "Bondi Blue",
+      "identifierSafeName": "bondi_blue"
+    },
+    {
+      "hexValue": "591D35",
+      "colorName": "Wine Berry",
+      "identifierSafeName": "wine_berry"
+    },
+    {
+      "hexValue": "507672",
+      "colorName": "Cutty Sark",
+      "identifierSafeName": "cutty_sark"
+    },
+    {
+      "hexValue": "E4CFDE",
+      "colorName": "Twilight",
+      "identifierSafeName": "twilight"
+    },
+    {
+      "hexValue": "E4D422",
+      "colorName": "Sunflower",
+      "identifierSafeName": "sunflower"
+    },
+    {
+      "hexValue": "5C0120",
+      "colorName": "Bordeaux",
+      "identifierSafeName": "bordeaux"
+    },
+    {
+      "hexValue": "639A8F",
+      "colorName": "Patina",
+      "identifierSafeName": "patina"
+    },
+    {
+      "hexValue": "7B3F00",
+      "colorName": "Cinnamon",
+      "identifierSafeName": "cinnamon"
+    },
+    {
+      "hexValue": "016D39",
+      "colorName": "Fun Green",
+      "identifierSafeName": "fun_green"
+    },
+    {
+      "hexValue": "2F5A57",
+      "colorName": "Spectra",
+      "identifierSafeName": "spectra"
+    },
+    {
+      "hexValue": "1AB385",
+      "colorName": "Mountain Meadow",
+      "identifierSafeName": "mountain_meadow"
+    },
+    {
+      "hexValue": "49371B",
+      "colorName": "Metallic Bronze",
+      "identifierSafeName": "metallic_bronze"
+    },
+    {
+      "hexValue": "EAFFFE",
+      "colorName": "Dew",
+      "identifierSafeName": "dew"
+    },
+    {
+      "hexValue": "F653A6",
+      "colorName": "Brilliant Rose",
+      "identifierSafeName": "brilliant_rose"
+    },
+    {
+      "hexValue": "888D65",
+      "colorName": "Avocado",
+      "identifierSafeName": "avocado"
+    },
+    {
+      "hexValue": "1974D2",
+      "colorName": "Navy Blue",
+      "identifierSafeName": "navy_blue"
+    },
+    {
+      "hexValue": "2A140E",
+      "colorName": "Coffee Bean",
+      "identifierSafeName": "coffee_bean"
+    },
+    {
+      "hexValue": "885342",
+      "colorName": "Spicy Mix",
+      "identifierSafeName": "spicy_mix"
+    },
+    {
+      "hexValue": "49170C",
+      "colorName": "Van Cleef",
+      "identifierSafeName": "van_cleef"
+    },
+    {
+      "hexValue": "65745D",
+      "colorName": "Willow Grove",
+      "identifierSafeName": "willow_grove"
+    },
+    {
+      "hexValue": "8FD6B4",
+      "colorName": "Vista Blue",
+      "identifierSafeName": "vista_blue"
+    },
+    {
+      "hexValue": "FC89AC",
+      "colorName": "Tickle Me Pink",
+      "identifierSafeName": "tickle_me_pink"
+    },
+    {
+      "hexValue": "FFDB58",
+      "colorName": "Mustard",
+      "identifierSafeName": "mustard"
+    },
+    {
+      "hexValue": "87AB39",
+      "colorName": "Sushi",
+      "identifierSafeName": "sushi"
+    },
+    {
+      "hexValue": "6A6051",
+      "colorName": "Soya Bean",
+      "identifierSafeName": "soya_bean"
+    },
+    {
+      "hexValue": "ACB78E",
+      "colorName": "Swamp Green",
+      "identifierSafeName": "swamp_green"
+    },
+    {
+      "hexValue": "F8F4FF",
+      "colorName": "Magnolia",
+      "identifierSafeName": "magnolia"
+    },
+    {
+      "hexValue": "A9B497",
+      "colorName": "Schist",
+      "identifierSafeName": "schist"
+    },
+    {
+      "hexValue": "C6E610",
+      "colorName": "Las Palmas",
+      "identifierSafeName": "las_palmas"
+    },
+    {
+      "hexValue": "2E0329",
+      "colorName": "Jacaranda",
+      "identifierSafeName": "jacaranda"
+    },
+    {
+      "hexValue": "675FA6",
+      "colorName": "Scampi",
+      "identifierSafeName": "scampi"
+    },
+    {
+      "hexValue": "7CB0A1",
+      "colorName": "Acapulco",
+      "identifierSafeName": "acapulco"
+    },
+    {
+      "hexValue": "71BC78",
+      "colorName": "Fern",
+      "identifierSafeName": "fern"
+    },
+    {
+      "hexValue": "AF4D43",
+      "colorName": "Apple Blossom",
+      "identifierSafeName": "apple_blossom"
+    },
+    {
+      "hexValue": "4A646C",
+      "colorName": "Deep Space Sparkle",
+      "identifierSafeName": "deep_space_sparkle"
+    },
+    {
+      "hexValue": "625119",
+      "colorName": "West Coast",
+      "identifierSafeName": "west_coast"
+    },
+    {
+      "hexValue": "5E483E",
+      "colorName": "Kabul",
+      "identifierSafeName": "kabul"
+    },
+    {
+      "hexValue": "FFF44F",
+      "colorName": "Lemon Yellow",
+      "identifierSafeName": "lemon_yellow"
+    },
+    {
+      "hexValue": "FA9D5A",
+      "colorName": "Tan Hide",
+      "identifierSafeName": "tan_hide"
+    },
+    {
+      "hexValue": "FFFC99",
+      "colorName": "Witch Haze",
+      "identifierSafeName": "witch_haze"
+    },
+    {
+      "hexValue": "2C8C84",
+      "colorName": "Lochinvar",
+      "identifierSafeName": "lochinvar"
+    },
+    {
+      "hexValue": "E30B5C",
+      "colorName": "Razzmatazz",
+      "identifierSafeName": "razzmatazz"
+    },
+    {
+      "hexValue": "1FCECB",
+      "colorName": "Robins Egg Blue",
+      "identifierSafeName": "robins_egg_blue"
+    },
+    {
+      "hexValue": "864D1E",
+      "colorName": "Bull Shot",
+      "identifierSafeName": "bull_shot"
+    },
+    {
+      "hexValue": "F5C85C",
+      "colorName": "Cream Can",
+      "identifierSafeName": "cream_can"
+    },
+    {
+      "hexValue": "6D9BC3",
+      "colorName": "Cerulean Frost",
+      "identifierSafeName": "cerulean_frost"
+    },
+    {
+      "hexValue": "33CC99",
+      "colorName": "Shamrock",
+      "identifierSafeName": "shamrock"
+    },
+    {
+      "hexValue": "C7CD90",
+      "colorName": "Pine Glade",
+      "identifierSafeName": "pine_glade"
+    },
+    {
+      "hexValue": "8B00FF",
+      "colorName": "Electric Violet",
+      "identifierSafeName": "electric_violet"
+    },
+    {
+      "hexValue": "C7C1FF",
+      "colorName": "Melrose",
+      "identifierSafeName": "melrose"
+    },
+    {
+      "hexValue": "CEC8EF",
+      "colorName": "Soap",
+      "identifierSafeName": "soap"
+    },
+    {
+      "hexValue": "436CB9",
+      "colorName": "Lapis Lazuli",
+      "identifierSafeName": "lapis_lazuli"
+    },
+    {
+      "hexValue": "F5DEB3",
+      "colorName": "Wheat",
+      "identifierSafeName": "wheat"
+    },
+    {
+      "hexValue": "F1FFC8",
+      "colorName": "Chiffon",
+      "identifierSafeName": "chiffon"
+    },
+    {
+      "hexValue": "384555",
+      "colorName": "Oxford Blue",
+      "identifierSafeName": "oxford_blue"
+    },
+    {
+      "hexValue": "FD5B78",
+      "colorName": "Wild Watermelon",
+      "identifierSafeName": "wild_watermelon"
+    },
+    {
+      "hexValue": "2E2D88",
+      "colorName": "Cosmic Cobalt",
+      "identifierSafeName": "cosmic_cobalt"
+    },
+    {
+      "hexValue": "456CAC",
+      "colorName": "San Marino",
+      "identifierSafeName": "san_marino"
+    },
+    {
+      "hexValue": "FFFDF4",
+      "colorName": "Quarter Pearl Lusta",
+      "identifierSafeName": "quarter_pearl_lusta"
+    },
+    {
+      "hexValue": "7CA1A6",
+      "colorName": "Gumbo",
+      "identifierSafeName": "gumbo"
+    },
+    {
+      "hexValue": "FFB31F",
+      "colorName": "My Sin",
+      "identifierSafeName": "my_sin"
+    },
+    {
+      "hexValue": "FFCFF1",
+      "colorName": "Shampoo",
+      "identifierSafeName": "shampoo"
+    },
+    {
+      "hexValue": "8BA690",
+      "colorName": "Envy",
+      "identifierSafeName": "envy"
+    },
+    {
+      "hexValue": "CEFF1D",
+      "colorName": "Electric Lime",
+      "identifierSafeName": "electric_lime"
+    },
+    {
+      "hexValue": "5F6672",
+      "colorName": "Shuttle Gray",
+      "identifierSafeName": "shuttle_gray"
+    },
+    {
+      "hexValue": "533455",
+      "colorName": "Voodoo",
+      "identifierSafeName": "voodoo"
+    },
+    {
+      "hexValue": "FD5E53",
+      "colorName": "Sunset Orange",
+      "identifierSafeName": "sunset_orange"
+    },
+    {
+      "hexValue": "069B81",
+      "colorName": "Gossamer",
+      "identifierSafeName": "gossamer"
+    },
+    {
+      "hexValue": "CBD3B0",
+      "colorName": "Green Mist",
+      "identifierSafeName": "green_mist"
+    },
+    {
+      "hexValue": "A3807B",
+      "colorName": "Pharlap",
+      "identifierSafeName": "pharlap"
+    },
+    {
+      "hexValue": "101405",
+      "colorName": "Green Waterloo",
+      "identifierSafeName": "green_waterloo"
+    },
+    {
+      "hexValue": "B81104",
+      "colorName": "Milano Red",
+      "identifierSafeName": "milano_red"
+    },
+    {
+      "hexValue": "2F6168",
+      "colorName": "Casal",
+      "identifierSafeName": "casal"
+    },
+    {
+      "hexValue": "FF85CF",
+      "colorName": "Princess Perfume",
+      "identifierSafeName": "princess_perfume"
+    },
+    {
+      "hexValue": "800000",
+      "colorName": "Maroon",
+      "identifierSafeName": "maroon"
+    },
+    {
+      "hexValue": "738276",
+      "colorName": "Smoke",
+      "identifierSafeName": "smoke"
+    },
+    {
+      "hexValue": "F7B668",
+      "colorName": "Rajah",
+      "identifierSafeName": "rajah"
+    },
+    {
+      "hexValue": "67032D",
+      "colorName": "Black Rose",
+      "identifierSafeName": "black_rose"
+    },
+    {
+      "hexValue": "026395",
+      "colorName": "Bahama Blue",
+      "identifierSafeName": "bahama_blue"
+    },
+    {
+      "hexValue": "7F626D",
+      "colorName": "Falcon",
+      "identifierSafeName": "falcon"
+    },
+    {
+      "hexValue": "FFFFB4",
+      "colorName": "Portafino",
+      "identifierSafeName": "portafino"
+    },
+    {
+      "hexValue": "B10000",
+      "colorName": "Bright Red",
+      "identifierSafeName": "bright_red"
+    },
+    {
+      "hexValue": "80B3C4",
+      "colorName": "Glacier",
+      "identifierSafeName": "glacier"
+    },
+    {
+      "hexValue": "17806D",
+      "colorName": "Tropical Rain Forest",
+      "identifierSafeName": "tropical_rain_forest"
+    },
+    {
+      "hexValue": "FBAED2",
+      "colorName": "Lavender Pink",
+      "identifierSafeName": "lavender_pink"
+    },
+    {
+      "hexValue": "D9DCC1",
+      "colorName": "Tana",
+      "identifierSafeName": "tana"
+    },
+    {
+      "hexValue": "AF9F1C",
+      "colorName": "Lucky",
+      "identifierSafeName": "lucky"
+    },
+    {
+      "hexValue": "469A84",
+      "colorName": "Jade",
+      "identifierSafeName": "jade"
+    },
+    {
+      "hexValue": "FFDDCD",
+      "colorName": "Tuft Bush",
+      "identifierSafeName": "tuft_bush"
+    },
+    {
+      "hexValue": "18A7B5",
+      "colorName": "Teal Blue",
+      "identifierSafeName": "teal_blue"
+    },
+    {
+      "hexValue": "F0D52D",
+      "colorName": "Golden Dream",
+      "identifierSafeName": "golden_dream"
+    },
+    {
+      "hexValue": "E3256B",
+      "colorName": "Razzmatazz",
+      "identifierSafeName": "razzmatazz"
+    },
+    {
+      "hexValue": "FD9FA2",
+      "colorName": "Sweet Pink",
+      "identifierSafeName": "sweet_pink"
+    },
+    {
+      "hexValue": "4EABD1",
+      "colorName": "Shakespeare",
+      "identifierSafeName": "shakespeare"
+    },
+    {
+      "hexValue": "795D4C",
+      "colorName": "Roman Coffee",
+      "identifierSafeName": "roman_coffee"
+    },
+    {
+      "hexValue": "7D2C14",
+      "colorName": "Pueblo",
+      "identifierSafeName": "pueblo"
+    },
+    {
+      "hexValue": "93DFB8",
+      "colorName": "Algae Green",
+      "identifierSafeName": "algae_green"
+    },
+    {
+      "hexValue": "E7CD8C",
+      "colorName": "Putty",
+      "identifierSafeName": "putty"
+    },
+    {
+      "hexValue": "65869F",
+      "colorName": "Hoki",
+      "identifierSafeName": "hoki"
+    },
+    {
+      "hexValue": "819885",
+      "colorName": "Spanish Green",
+      "identifierSafeName": "spanish_green"
+    },
+    {
+      "hexValue": "FF910F",
+      "colorName": "West Side",
+      "identifierSafeName": "west_side"
+    },
+    {
+      "hexValue": "FFB7D5",
+      "colorName": "Cotton Candy",
+      "identifierSafeName": "cotton_candy"
+    },
+    {
+      "hexValue": "A65529",
+      "colorName": "Paarl",
+      "identifierSafeName": "paarl"
+    },
+    {
+      "hexValue": "3A0020",
+      "colorName": "Toledo",
+      "identifierSafeName": "toledo"
+    },
+    {
+      "hexValue": "B5ECDF",
+      "colorName": "Cruise",
+      "identifierSafeName": "cruise"
+    },
+    {
+      "hexValue": "C2E8E5",
+      "colorName": "Jagged Ice",
+      "identifierSafeName": "jagged_ice"
+    },
+    {
+      "hexValue": "33036B",
+      "colorName": "Christalle",
+      "identifierSafeName": "christalle"
+    },
+    {
+      "hexValue": "683600",
+      "colorName": "Nutmeg Wood Finish",
+      "identifierSafeName": "nutmeg_wood_finish"
+    },
+    {
+      "hexValue": "74C365",
+      "colorName": "Mantis",
+      "identifierSafeName": "mantis"
+    },
+    {
+      "hexValue": "1D6142",
+      "colorName": "Green Pea",
+      "identifierSafeName": "green_pea"
+    },
+    {
+      "hexValue": "D4C4A8",
+      "colorName": "Akaroa",
+      "identifierSafeName": "akaroa"
+    },
+    {
+      "hexValue": "555B10",
+      "colorName": "Saratoga",
+      "identifierSafeName": "saratoga"
+    },
+    {
+      "hexValue": "7F3A02",
+      "colorName": "Peru Tan",
+      "identifierSafeName": "peru_tan"
+    },
+    {
+      "hexValue": "496679",
+      "colorName": "Blue Bayoux",
+      "identifierSafeName": "blue_bayoux"
+    },
+    {
+      "hexValue": "F7DBE6",
+      "colorName": "We Peep",
+      "identifierSafeName": "we_peep"
+    },
+    {
+      "hexValue": "495400",
+      "colorName": "Verdun Green",
+      "identifierSafeName": "verdun_green"
+    },
+    {
+      "hexValue": "EDD19C",
+      "colorName": "Maize",
+      "identifierSafeName": "maize"
+    },
+    {
+      "hexValue": "FF496C",
+      "colorName": "Radical Red",
+      "identifierSafeName": "radical_red"
+    },
+    {
+      "hexValue": "4B0082",
+      "colorName": "Pigment Indigo",
+      "identifierSafeName": "pigment_indigo"
+    },
+    {
+      "hexValue": "FEFE22",
+      "colorName": "Laser Lemon",
+      "identifierSafeName": "laser_lemon"
+    },
+    {
+      "hexValue": "FBA0E3",
+      "colorName": "Lavender Rose",
+      "identifierSafeName": "lavender_rose"
+    },
+    {
+      "hexValue": "5FA778",
+      "colorName": "Shiny Shamrock",
+      "identifierSafeName": "shiny_shamrock"
+    },
+    {
+      "hexValue": "A5CB0C",
+      "colorName": "Bahia",
+      "identifierSafeName": "bahia"
+    },
+    {
+      "hexValue": "C7C9D5",
+      "colorName": "Ghost",
+      "identifierSafeName": "ghost"
+    },
+    {
+      "hexValue": "F1E9FF",
+      "colorName": "Blue Chalk",
+      "identifierSafeName": "blue_chalk"
+    },
+    {
+      "hexValue": "991B07",
+      "colorName": "Totem Pole",
+      "identifierSafeName": "totem_pole"
+    },
+    {
+      "hexValue": "AB3472",
+      "colorName": "Royal Heath",
+      "identifierSafeName": "royal_heath"
+    },
+    {
+      "hexValue": "7A89B8",
+      "colorName": "Wild Blue Yonder",
+      "identifierSafeName": "wild_blue_yonder"
+    },
+    {
+      "hexValue": "AE6020",
+      "colorName": "Desert",
+      "identifierSafeName": "desert"
+    },
+    {
+      "hexValue": "1B659D",
+      "colorName": "Matisse",
+      "identifierSafeName": "matisse"
+    },
+    {
+      "hexValue": "9FE2BF",
+      "colorName": "Sea Green",
+      "identifierSafeName": "sea_green"
+    },
+    {
+      "hexValue": "A02712",
+      "colorName": "Tabasco",
+      "identifierSafeName": "tabasco"
+    },
+    {
+      "hexValue": "731E8F",
+      "colorName": "Seance",
+      "identifierSafeName": "seance"
+    },
+    {
+      "hexValue": "BFC1C2",
+      "colorName": "Silver Sand",
+      "identifierSafeName": "silver_sand"
+    },
+    {
+      "hexValue": "36747D",
+      "colorName": "Ming",
+      "identifierSafeName": "ming"
+    },
+    {
+      "hexValue": "749378",
+      "colorName": "Laurel",
+      "identifierSafeName": "laurel"
+    },
+    {
+      "hexValue": "D0BEF8",
+      "colorName": "Perfume",
+      "identifierSafeName": "perfume"
+    },
+    {
+      "hexValue": "583401",
+      "colorName": "Saddle Brown",
+      "identifierSafeName": "saddle_brown"
+    },
+    {
+      "hexValue": "FF007C",
+      "colorName": "Winter Sky",
+      "identifierSafeName": "winter_sky"
+    },
+    {
+      "hexValue": "CDF4FF",
+      "colorName": "Onahau",
+      "identifierSafeName": "onahau"
+    },
+    {
+      "hexValue": "5F8A8B",
+      "colorName": "Steel Teal",
+      "identifierSafeName": "steel_teal"
+    },
+    {
+      "hexValue": "FF6B53",
+      "colorName": "Persimmon",
+      "identifierSafeName": "persimmon"
+    },
+    {
+      "hexValue": "3B91B4",
+      "colorName": "Boston Blue",
+      "identifierSafeName": "boston_blue"
+    },
+    {
+      "hexValue": "D4DFE2",
+      "colorName": "Geyser",
+      "identifierSafeName": "geyser"
+    },
+    {
+      "hexValue": "FCC01E",
+      "colorName": "Lightning Yellow",
+      "identifierSafeName": "lightning_yellow"
+    },
+    {
+      "hexValue": "8F8176",
+      "colorName": "Squirrel",
+      "identifierSafeName": "squirrel"
+    },
+    {
+      "hexValue": "B1F4E7",
+      "colorName": "Ice Cold",
+      "identifierSafeName": "ice_cold"
+    },
+    {
+      "hexValue": "8C055E",
+      "colorName": "Cardinal Pink",
+      "identifierSafeName": "cardinal_pink"
+    },
+    {
+      "hexValue": "CFFAF4",
+      "colorName": "Scandal",
+      "identifierSafeName": "scandal"
+    },
+    {
+      "hexValue": "6D9292",
+      "colorName": "Juniper",
+      "identifierSafeName": "juniper"
+    },
+    {
+      "hexValue": "1B3162",
+      "colorName": "Biscay",
+      "identifierSafeName": "biscay"
+    },
+    {
+      "hexValue": "FF2400",
+      "colorName": "Scarlet",
+      "identifierSafeName": "scarlet"
+    },
+    {
+      "hexValue": "9DC209",
+      "colorName": "Pistachio",
+      "identifierSafeName": "pistachio"
+    },
+    {
+      "hexValue": "E6BEA5",
+      "colorName": "Cashmere",
+      "identifierSafeName": "cashmere"
+    },
+    {
+      "hexValue": "01A368",
+      "colorName": "Green Haze",
+      "identifierSafeName": "green_haze"
+    },
+    {
+      "hexValue": "F37A48",
+      "colorName": "Mandarin Pearl",
+      "identifierSafeName": "mandarin_pearl"
+    },
+    {
+      "hexValue": "D69188",
+      "colorName": "My Pink",
+      "identifierSafeName": "my_pink"
+    },
+    {
+      "hexValue": "9AB973",
+      "colorName": "Olivine",
+      "identifierSafeName": "olivine"
+    },
+    {
+      "hexValue": "0D2E1C",
+      "colorName": "Bush",
+      "identifierSafeName": "bush"
+    },
+    {
+      "hexValue": "3B0910",
+      "colorName": "Aubergine",
+      "identifierSafeName": "aubergine"
+    },
+    {
+      "hexValue": "549019",
+      "colorName": "Vida Loca",
+      "identifierSafeName": "vida_loca"
+    },
+    {
+      "hexValue": "FFFF31",
+      "colorName": "Daffodil",
+      "identifierSafeName": "daffodil"
+    },
+    {
+      "hexValue": "FE4EDA",
+      "colorName": "Purple Pizzazz",
+      "identifierSafeName": "purple_pizzazz"
+    },
+    {
+      "hexValue": "B1610B",
+      "colorName": "Pumpkin Skin",
+      "identifierSafeName": "pumpkin_skin"
+    },
+    {
+      "hexValue": "D59A6F",
+      "colorName": "Whiskey",
+      "identifierSafeName": "whiskey"
+    },
+    {
+      "hexValue": "E5CCC9",
+      "colorName": "Dust Storm",
+      "identifierSafeName": "dust_storm"
+    },
+    {
+      "hexValue": "492615",
+      "colorName": "Brown Derby",
+      "identifierSafeName": "brown_derby"
+    },
+    {
+      "hexValue": "FF7A00",
+      "colorName": "Heat Wave",
+      "identifierSafeName": "heat_wave"
+    },
+    {
+      "hexValue": "290C5E",
+      "colorName": "Violent Violet",
+      "identifierSafeName": "violent_violet"
+    },
+    {
+      "hexValue": "714693",
+      "colorName": "Affair",
+      "identifierSafeName": "affair"
+    },
+    {
+      "hexValue": "FEF4CC",
+      "colorName": "Pipi",
+      "identifierSafeName": "pipi"
+    },
+    {
+      "hexValue": "FF6D3A",
+      "colorName": "Smashed Pumpkin",
+      "identifierSafeName": "smashed_pumpkin"
+    },
+    {
+      "hexValue": "B7A214",
+      "colorName": "Sahara",
+      "identifierSafeName": "sahara"
+    },
+    {
+      "hexValue": "0066CC",
+      "colorName": "Science Blue",
+      "identifierSafeName": "science_blue"
+    },
+    {
+      "hexValue": "C9B29B",
+      "colorName": "Rodeo Dust",
+      "identifierSafeName": "rodeo_dust"
+    },
+    {
+      "hexValue": "299617",
+      "colorName": "Slimy Green",
+      "identifierSafeName": "slimy_green"
+    },
+    {
+      "hexValue": "A7F432",
+      "colorName": "Green Lizard",
+      "identifierSafeName": "green_lizard"
+    },
+    {
+      "hexValue": "319177",
+      "colorName": "Illuminating Emerald",
+      "identifierSafeName": "illuminating_emerald"
+    },
+    {
+      "hexValue": "FBE870",
+      "colorName": "Marigold Yellow",
+      "identifierSafeName": "marigold_yellow"
+    },
+    {
+      "hexValue": "FFBD5F",
+      "colorName": "Koromiko",
+      "identifierSafeName": "koromiko"
+    },
+    {
+      "hexValue": "9E5E6F",
+      "colorName": "Rose Dust",
+      "identifierSafeName": "rose_dust"
+    },
+    {
+      "hexValue": "480656",
+      "colorName": "Clairvoyant",
+      "identifierSafeName": "clairvoyant"
+    },
+    {
+      "hexValue": "ECEBCE",
+      "colorName": "Aths Special",
+      "identifierSafeName": "aths_special"
+    },
+    {
+      "hexValue": "E936A7",
+      "colorName": "Frostbite",
+      "identifierSafeName": "frostbite"
+    },
+    {
+      "hexValue": "C5994B",
+      "colorName": "Tussock",
+      "identifierSafeName": "tussock"
+    },
+    {
+      "hexValue": "CA3767",
+      "colorName": "Jazzberry Jam",
+      "identifierSafeName": "jazzberry_jam"
+    },
+    {
+      "hexValue": "BFB8B0",
+      "colorName": "Tide",
+      "identifierSafeName": "tide"
+    },
+    {
+      "hexValue": "E8E0D5",
+      "colorName": "Pearl Bush",
+      "identifierSafeName": "pearl_bush"
+    },
+    {
+      "hexValue": "45A27D",
+      "colorName": "Pine",
+      "identifierSafeName": "pine"
+    },
+    {
+      "hexValue": "1B127B",
+      "colorName": "Deep Koamaru",
+      "identifierSafeName": "deep_koamaru"
+    },
+    {
+      "hexValue": "C6A84B",
+      "colorName": "Roti",
+      "identifierSafeName": "roti"
+    },
+    {
+      "hexValue": "B1E2C1",
+      "colorName": "Fringy Flower",
+      "identifierSafeName": "fringy_flower"
+    },
+    {
+      "hexValue": "58427C",
+      "colorName": "Cyber Grape",
+      "identifierSafeName": "cyber_grape"
+    },
+    {
+      "hexValue": "6E0902",
+      "colorName": "Red Oxide",
+      "identifierSafeName": "red_oxide"
+    },
+    {
+      "hexValue": "240A40",
+      "colorName": "Violet",
+      "identifierSafeName": "violet"
+    },
+    {
+      "hexValue": "8D0226",
+      "colorName": "Paprika",
+      "identifierSafeName": "paprika"
+    },
+    {
+      "hexValue": "B768A2",
+      "colorName": "Pearly Purple",
+      "identifierSafeName": "pearly_purple"
+    },
+    {
+      "hexValue": "158078",
+      "colorName": "Pine Green",
+      "identifierSafeName": "pine_green"
+    },
+    {
+      "hexValue": "010D1A",
+      "colorName": "Blue Charcoal",
+      "identifierSafeName": "blue_charcoal"
+    },
+    {
+      "hexValue": "3E3A44",
+      "colorName": "Ship Gray",
+      "identifierSafeName": "ship_gray"
+    },
+    {
+      "hexValue": "A62F20",
+      "colorName": "Roof Terracotta",
+      "identifierSafeName": "roof_terracotta"
+    },
+    {
+      "hexValue": "3B7A57",
+      "colorName": "Amazon",
+      "identifierSafeName": "amazon"
+    },
+    {
+      "hexValue": "BAEEF9",
+      "colorName": "Charlotte",
+      "identifierSafeName": "charlotte"
+    },
+    {
+      "hexValue": "4F42B5",
+      "colorName": "Ocean Blue Pearl",
+      "identifierSafeName": "ocean_blue_pearl"
+    },
+    {
+      "hexValue": "FFEDBC",
+      "colorName": "Colonial White",
+      "identifierSafeName": "colonial_white"
+    },
+    {
+      "hexValue": "F1CC79",
+      "colorName": "Sunset Pearl",
+      "identifierSafeName": "sunset_pearl"
+    },
+    {
+      "hexValue": "CD4A4C",
+      "colorName": "Mahogany",
+      "identifierSafeName": "mahogany"
+    },
+    {
+      "hexValue": "2F519E",
+      "colorName": "Sapphire",
+      "identifierSafeName": "sapphire"
+    },
+    {
+      "hexValue": "FD5240",
+      "colorName": "Ogre Odor",
+      "identifierSafeName": "ogre_odor"
+    },
+    {
+      "hexValue": "748881",
+      "colorName": "Blue Smoke",
+      "identifierSafeName": "blue_smoke"
+    },
+    {
+      "hexValue": "ADBED1",
+      "colorName": "Casper",
+      "identifierSafeName": "casper"
+    },
+    {
+      "hexValue": "FF6037",
+      "colorName": "Outrageous Orange",
+      "identifierSafeName": "outrageous_orange"
+    },
+    {
+      "hexValue": "7DC8F7",
+      "colorName": "Malibu",
+      "identifierSafeName": "malibu"
+    },
+    {
+      "hexValue": "924321",
+      "colorName": "Cumin",
+      "identifierSafeName": "cumin"
+    },
+    {
+      "hexValue": "371D09",
+      "colorName": "Clinker",
+      "identifierSafeName": "clinker"
+    },
+    {
+      "hexValue": "9C2542",
+      "colorName": "Big Dip O Ruby",
+      "identifierSafeName": "big_dip_o_ruby"
+    },
+    {
+      "hexValue": "02A4D3",
+      "colorName": "Cerulean",
+      "identifierSafeName": "cerulean"
+    },
+    {
+      "hexValue": "EDF5F5",
+      "colorName": "Aqua Haze",
+      "identifierSafeName": "aqua_haze"
+    },
+    {
+      "hexValue": "7442C8",
+      "colorName": "Purple Heart",
+      "identifierSafeName": "purple_heart"
+    },
+    {
+      "hexValue": "4B5D52",
+      "colorName": "Nandor",
+      "identifierSafeName": "nandor"
+    },
+    {
+      "hexValue": "B7F0BE",
+      "colorName": "Madang",
+      "identifierSafeName": "madang"
+    },
+    {
+      "hexValue": "FF404C",
+      "colorName": "Sunburnt Cyclops",
+      "identifierSafeName": "sunburnt_cyclops"
+    },
+    {
+      "hexValue": "DFFF00",
+      "colorName": "Chartreuse Yellow",
+      "identifierSafeName": "chartreuse_yellow"
+    },
+    {
+      "hexValue": "D4CD16",
+      "colorName": "Bird Flower",
+      "identifierSafeName": "bird_flower"
+    },
+    {
+      "hexValue": "983D61",
+      "colorName": "Vin Rouge",
+      "identifierSafeName": "vin_rouge"
+    },
+    {
+      "hexValue": "F75394",
+      "colorName": "Violet Red",
+      "identifierSafeName": "violet_red"
+    },
+    {
+      "hexValue": "FCD917",
+      "colorName": "Candlelight",
+      "identifierSafeName": "candlelight"
+    },
+    {
+      "hexValue": "9ACEEB",
+      "colorName": "Cornflower",
+      "identifierSafeName": "cornflower"
+    },
+    {
+      "hexValue": "1B1035",
+      "colorName": "Haiti",
+      "identifierSafeName": "haiti"
+    },
+    {
+      "hexValue": "2B6CC4",
+      "colorName": "Denim",
+      "identifierSafeName": "denim"
+    },
+    {
+      "hexValue": "1B0245",
+      "colorName": "Tolopea",
+      "identifierSafeName": "tolopea"
+    },
+    {
+      "hexValue": "304B6A",
+      "colorName": "San Juan",
+      "identifierSafeName": "san_juan"
+    },
+    {
+      "hexValue": "E64E03",
+      "colorName": "Trinidad",
+      "identifierSafeName": "trinidad"
+    },
+    {
+      "hexValue": "FEF4DB",
+      "colorName": "Half Spanish White",
+      "identifierSafeName": "half_spanish_white"
+    },
+    {
+      "hexValue": "C8385A",
+      "colorName": "Maroon",
+      "identifierSafeName": "maroon"
+    },
+    {
+      "hexValue": "9C7C38",
+      "colorName": "Metallic Sunburst",
+      "identifierSafeName": "metallic_sunburst"
+    },
+    {
+      "hexValue": "F6A4C9",
+      "colorName": "Illusion",
+      "identifierSafeName": "illusion"
+    },
+    {
+      "hexValue": "EA7E5D",
+      "colorName": "Burnt Sienna",
+      "identifierSafeName": "burnt_sienna"
+    },
+    {
+      "hexValue": "9EB1CD",
+      "colorName": "Rock Blue",
+      "identifierSafeName": "rock_blue"
+    },
+    {
+      "hexValue": "86949F",
+      "colorName": "Regent Gray",
+      "identifierSafeName": "regent_gray"
+    },
+    {
+      "hexValue": "FC9C1D",
+      "colorName": "Tree Poppy",
+      "identifierSafeName": "tree_poppy"
+    },
+    {
+      "hexValue": "926EAE",
+      "colorName": "Violet Purple",
+      "identifierSafeName": "violet_purple"
+    },
+    {
+      "hexValue": "8D90A1",
+      "colorName": "Manatee",
+      "identifierSafeName": "manatee"
+    },
+    {
+      "hexValue": "516E3D",
+      "colorName": "Chalet Green",
+      "identifierSafeName": "chalet_green"
+    },
+    {
+      "hexValue": "BEB5B7",
+      "colorName": "Pink Swan",
+      "identifierSafeName": "pink_swan"
+    },
+    {
+      "hexValue": "716338",
+      "colorName": "Yellow Metal",
+      "identifierSafeName": "yellow_metal"
+    },
+    {
+      "hexValue": "2D383A",
+      "colorName": "Outer Space",
+      "identifierSafeName": "outer_space"
+    },
+    {
+      "hexValue": "FCB4D5",
+      "colorName": "Lavender",
+      "identifierSafeName": "lavender"
+    },
+    {
+      "hexValue": "9B4703",
+      "colorName": "Oregon",
+      "identifierSafeName": "oregon"
+    },
+    {
+      "hexValue": "A397B4",
+      "colorName": "Amethyst Smoke",
+      "identifierSafeName": "amethyst_smoke"
+    },
+    {
+      "hexValue": "DE5D83",
+      "colorName": "Blush",
+      "identifierSafeName": "blush"
+    },
+    {
+      "hexValue": "544333",
+      "colorName": "Judge Gray",
+      "identifierSafeName": "judge_gray"
+    },
+    {
+      "hexValue": "B9C46A",
+      "colorName": "Wild Willow",
+      "identifierSafeName": "wild_willow"
+    },
+    {
+      "hexValue": "D2F8B0",
+      "colorName": "Gossip",
+      "identifierSafeName": "gossip"
+    },
+    {
+      "hexValue": "ABAD48",
+      "colorName": "Peridot",
+      "identifierSafeName": "peridot"
+    },
+    {
+      "hexValue": "327DA0",
+      "colorName": "Astral",
+      "identifierSafeName": "astral"
+    },
+    {
+      "hexValue": "AD781B",
+      "colorName": "Mandalay",
+      "identifierSafeName": "mandalay"
+    },
+    {
+      "hexValue": "DED717",
+      "colorName": "Barberry",
+      "identifierSafeName": "barberry"
+    },
+    {
+      "hexValue": "AC91CE",
+      "colorName": "East Side",
+      "identifierSafeName": "east_side"
+    },
+    {
+      "hexValue": "FFCC99",
+      "colorName": "Peach Orange",
+      "identifierSafeName": "peach_orange"
+    },
+    {
+      "hexValue": "FF9BAA",
+      "colorName": "Salmon",
+      "identifierSafeName": "salmon"
+    },
+    {
+      "hexValue": "20208D",
+      "colorName": "Jacksons Purple",
+      "identifierSafeName": "jacksons_purple"
+    },
+    {
+      "hexValue": "BFC921",
+      "colorName": "Key Lime Pie",
+      "identifierSafeName": "key_lime_pie"
+    },
+    {
+      "hexValue": "B8B56A",
+      "colorName": "Gimblet",
+      "identifierSafeName": "gimblet"
+    },
+    {
+      "hexValue": "008080",
+      "colorName": "Teal",
+      "identifierSafeName": "teal"
+    },
+    {
+      "hexValue": "C9B93B",
+      "colorName": "Earls Green",
+      "identifierSafeName": "earls_green"
+    },
+    {
+      "hexValue": "933709",
+      "colorName": "Citrine",
+      "identifierSafeName": "citrine"
+    },
+    {
+      "hexValue": "FF6FFF",
+      "colorName": "Blush Pink",
+      "identifierSafeName": "blush_pink"
+    },
+    {
+      "hexValue": "B19461",
+      "colorName": "Teak",
+      "identifierSafeName": "teak"
+    },
+    {
+      "hexValue": "163222",
+      "colorName": "Celtic",
+      "identifierSafeName": "celtic"
+    },
+    {
+      "hexValue": "016162",
+      "colorName": "Blue Stone",
+      "identifierSafeName": "blue_stone"
+    },
+    {
+      "hexValue": "F95A61",
+      "colorName": "Carnation",
+      "identifierSafeName": "carnation"
+    },
+    {
+      "hexValue": "7CB7BB",
+      "colorName": "Neptune",
+      "identifierSafeName": "neptune"
+    },
+    {
+      "hexValue": "314459",
+      "colorName": "Pickled Bluewood",
+      "identifierSafeName": "pickled_bluewood"
+    },
+    {
+      "hexValue": "C7BCA2",
+      "colorName": "Coral Reef",
+      "identifierSafeName": "coral_reef"
+    },
+    {
+      "hexValue": "9A3820",
+      "colorName": "Prairie Sand",
+      "identifierSafeName": "prairie_sand"
+    },
+    {
+      "hexValue": "4682B4",
+      "colorName": "Steel Blue",
+      "identifierSafeName": "steel_blue"
+    },
+    {
+      "hexValue": "AD4379",
+      "colorName": "Mystic Maroon",
+      "identifierSafeName": "mystic_maroon"
+    }
+  ],
+  "conversionData": {
+    "mine_shaft": [
+      "tuatara"
+    ],
+    "dust_storm": [
+      "oyster_pink"
+    ],
+    "crown_of_thorns": [
+      "persian_plum",
+      "metallic_copper"
+    ],
+    "janna": [
+      "parchment",
+      "albescent_white"
+    ],
+    "clay_ash": [
+      "rainee"
+    ],
+    "swans_down": [
+      "granny_apple"
+    ],
+    "dairy_cream": [
+      "sidecar",
+      "givry",
+      "astra"
+    ],
+    "paris_m": [
+      "paua"
+    ],
+    "corvette": [
+      "new_orleans",
+      "maize",
+      "marzipan"
+    ],
+    "sangria": [
+      "red_berry"
+    ],
+    "scandal": [
+      "humming_bird"
+    ],
+    "sinbad": [
+      "aqua_island"
+    ],
+    "gold_fusion": [
+      "shadow"
+    ],
+    "fuzzy_wuzzy_brown": [
+      "chestnut_rose"
+    ],
+    "dew": [
+      "baby_blue",
+      "tranquil",
+      "bubbles",
+      "clear_day"
+    ],
+    "coconut_cream": [
+      "loafer",
+      "orinoco",
+      "beige",
+      "citrine_white"
+    ],
+    "bunker": [
+      "black_bean",
+      "racing_green"
+    ],
+    "tyrian_purple": [
+      "pompadour"
+    ],
+    "spray": [
+      "aquamarine_blue",
+      "sky_blue_2",
+      "turquoise_blue_2",
+      "aquamarine_2"
+    ],
+    "metallic_seaweed": [
+      "blue_chill"
+    ],
+    "atomic_tangerine": [
+      "salmon_2"
+    ],
+    "silver_sand": [
+      "silver",
+      "cotton_seed",
+      "pale_slate",
+      "gray_nickel"
+    ],
+    "redwood": [
+      "espresso"
+    ],
+    "festival": [
+      "portica"
+    ],
+    "almond": [
+      "almond_2"
+    ],
+    "spring_sun": [
+      "carla",
+      "mimosa"
+    ],
+    "el_paso": [
+      "crowshead",
+      "creole",
+      "karaka",
+      "graphite",
+      "cannon_black",
+      "wood_bark"
+    ],
+    "tallow": [
+      "hillary",
+      "mongoose"
+    ],
+    "gumbo": [
+      "sea_nymph"
+    ],
+    "squirrel": [
+      "granite_green",
+      "stonewall",
+      "arrowtown"
+    ],
+    "winter_wizard": [
+      "anakiwa",
+      "fresh_air"
+    ],
+    "wafer": [
+      "swirl"
+    ],
+    "hampton": [
+      "chamois"
+    ],
+    "deep_teal": [
+      "tiber"
+    ],
+    "downriver": [
+      "madison"
+    ],
+    "hint_of_yellow": [
+      "rice_flower",
+      "feta"
+    ],
+    "cherrywood": [
+      "dark_tan"
+    ],
+    "english_walnut": [
+      "bistre",
+      "black_marlin",
+      "iroko"
+    ],
+    "wasabi": [
+      "pacifika"
+    ],
+    "jumbo": [
+      "storm_gray",
+      "raven",
+      "rolling_stone",
+      "topaz"
+    ],
+    "thistle": [
+      "maverick"
+    ],
+    "heather": [
+      "french_gray",
+      "gray_suit"
+    ],
+    "milan": [
+      "jonquil"
+    ],
+    "vis_vis": [
+      "picasso"
+    ],
+    "sun": [
+      "buttercup"
+    ],
+    "wild_rice": [
+      "primrose"
+    ],
+    "observatory": [
+      "deep_sea"
+    ],
+    "submarine": [
+      "loblolly",
+      "pumice",
+      "tiara"
+    ],
+    "saddle_brown": [
+      "carnaby_tan"
+    ],
+    "comet": [
+      "smoky"
+    ],
+    "wheat": [
+      "peach_yellow"
+    ],
+    "baltic_sea": [
+      "bleached_cedar",
+      "thunder"
+    ],
+    "red_oxide": [
+      "rosewood",
+      "lonestar"
+    ],
+    "salt_box": [
+      "scorpion"
+    ],
+    "gable_green": [
+      "firefly",
+      "timber_green"
+    ],
+    "silk": [
+      "nobel",
+      "black_shadows"
+    ],
+    "deep_cove": [
+      "tangaroa"
+    ],
+    "spicy_mustard": [
+      "yukon_gold"
+    ],
+    "oyster_bay": [
+      "mabel",
+      "pattens_blue"
+    ],
+    "ming": [
+      "oracle"
+    ],
+    "willow_brook": [
+      "zanah"
+    ],
+    "swamp": [
+      "black_pearl"
+    ],
+    "blush_pink": [
+      "pink_flamingo"
+    ],
+    "americano": [
+      "makara"
+    ],
+    "cupid": [
+      "chantilly"
+    ],
+    "fall_green": [
+      "spring_green"
+    ],
+    "crater_brown": [
+      "cocoa_bean"
+    ],
+    "paprika": [
+      "pohutukawa",
+      "burgundy"
+    ],
+    "ash": [
+      "vanilla"
+    ],
+    "orchid_pearl": [
+      "cosmic"
+    ],
+    "pale_leaf": [
+      "gum_leaf",
+      "surf",
+      "pixie_green"
+    ],
+    "maroon_oak": [
+      "cab_sav"
+    ],
+    "deep_oak": [
+      "sambuca",
+      "cedar",
+      "paco"
+    ],
+    "judge_gray": [
+      "millbrook"
+    ],
+    "del_rio": [
+      "gray_olive",
+      "bronco",
+      "napa"
+    ],
+    "persian_blue": [
+      "denim_blue"
+    ],
+    "light_wisteria": [
+      "wisteria_2"
+    ],
+    "blue_haze": [
+      "lavender_gray"
+    ],
+    "thatch_green": [
+      "camouflage"
+    ],
+    "gurkha": [
+      "donkey_brown"
+    ],
+    "indian_khaki": [
+      "heathered_gray"
+    ],
+    "buttermilk": [
+      "drover"
+    ],
+    "gondola": [
+      "night_rider",
+      "eternity"
+    ],
+    "brown_tumbleweed": [
+      "mikado",
+      "onion",
+      "eclipse"
+    ],
+    "corn_field": [
+      "tahuna_sands"
+    ],
+    "schist": [
+      "locust",
+      "taupe_gray"
+    ],
+    "scarlett": [
+      "carmine"
+    ],
+    "hoki": [
+      "lynch",
+      "bermuda_gray"
+    ],
+    "armadillo": [
+      "merlin"
+    ],
+    "blush": [
+      "cadillac"
+    ],
+    "california": [
+      "orange_peel",
+      "web_orange"
+    ],
+    "frosted_mint": [
+      "foam"
+    ],
+    "sunny_pearl": [
+      "manz"
+    ],
+    "mondo": [
+      "taupe",
+      "rock"
+    ],
+    "desert_sand": [
+      "pancho"
+    ],
+    "mid_gray": [
+      "scarpa_flow"
+    ],
+    "double_spanish_white": [
+      "grain_brown",
+      "stark_white",
+      "raffia"
+    ],
+    "scampi": [
+      "amethyst"
+    ],
+    "black_olive": [
+      "mallard"
+    ],
+    "roman_coffee": [
+      "tobacco_brown"
+    ],
+    "straw": [
+      "brandy"
+    ],
+    "burning_orange": [
+      "crusta"
+    ],
+    "tusk": [
+      "mint_julep"
+    ],
+    "coconut": [
+      "romance"
+    ],
+    "moon_glow": [
+      "cumulus"
+    ],
+    "deep_bronze": [
+      "bracken"
+    ],
+    "flush_mahogany": [
+      "persian_red"
+    ],
+    "persimmon": [
+      "outrageous_orange"
+    ],
+    "wheatfield": [
+      "champagne"
+    ],
+    "flint": [
+      "siam",
+      "kokoda"
+    ],
+    "fire_bush": [
+      "carrot_orange"
+    ],
+    "peach_orange": [
+      "chardonnay"
+    ],
+    "marshland": [
+      "midnight_moss",
+      "gordons_green",
+      "black_forest"
+    ],
+    "lucky": [
+      "lemon_ginger"
+    ],
+    "cinnamon": [
+      "red_beech"
+    ],
+    "burnt_maroon": [
+      "temptress",
+      "bean_"
+    ],
+    "spicy_mix": [
+      "ironstone"
+    ],
+    "turtle_green": [
+      "waiouru"
+    ],
+    "bubble_gum": [
+      "pink_lace"
+    ],
+    "bitter": [
+      "friar_gray",
+      "bandicoot",
+      "olive_haze"
+    ],
+    "twilight": [
+      "thistle_2"
+    ],
+    "shalimar": [
+      "australian_mint"
+    ],
+    "cola": [
+      "dark_ebony",
+      "bronze",
+      "morocco_brown"
+    ],
+    "rock_blue": [
+      "wild_blue_yonder_2"
+    ],
+    "burnt_orange": [
+      "tenn",
+      "red_stage"
+    ],
+    "wild_blue_yonder": [
+      "ship_cove"
+    ],
+    "english_holly": [
+      "county_green"
+    ],
+    "international_orange": [
+      "vermilion"
+    ],
+    "golden_bell": [
+      "zest"
+    ],
+    "storm_dust": [
+      "ironside_gray",
+      "granite_gray",
+      "dove_gray"
+    ],
+    "vulcan": [
+      "mirage"
+    ],
+    "don_juan": [
+      "fuscous_gray"
+    ],
+    "windsor": [
+      "blue_diamond"
+    ],
+    "nile_blue": [
+      "elephant"
+    ],
+    "mischka": [
+      "conch",
+      "paris_white",
+      "nebula"
+    ],
+    "well_read": [
+      "sweet_brown"
+    ],
+    "deep_cerulean": [
+      "allports"
+    ],
+    "twine": [
+      "muddy_waters"
+    ],
+    "vesuvius": [
+      "rich_gold"
+    ],
+    "turkish_rose": [
+      "pink_pearl"
+    ],
+    "gin_fizz": [
+      "old_lace",
+      "bridesmaid",
+      "solitaire",
+      "off_yellow",
+      "fair_pink",
+      "sazerac",
+      "serenade",
+      "early_dawn"
+    ],
+    "dorado": [
+      "zambezi",
+      "pine_cone"
+    ],
+    "banana_mania": [
+      "double_colonial_white",
+      "banana_mania_2"
+    ],
+    "cranberry": [
+      "cabaret"
+    ],
+    "lilac_luster": [
+      "glossy_grape"
+    ],
+    "outer_space": [
+      "onyx"
+    ],
+    "mauvelous": [
+      "mauvelous_2"
+    ],
+    "we_peep": [
+      "cherub"
+    ],
+    "studio": [
+      "royal_purple"
+    ],
+    "piggy_pink": [
+      "pig_pink"
+    ],
+    "voodoo": [
+      "bossanova"
+    ],
+    "envy": [
+      "mantle"
+    ],
+    "rebel": [
+      "brown_pod"
+    ],
+    "cabbage_pont": [
+      "lunar_green"
+    ],
+    "purple_mountains_majesty": [
+      "lavender_purple"
+    ],
+    "gossamer": [
+      "niagara"
+    ],
+    "river_bed": [
+      "mako"
+    ],
+    "my_sin": [
+      "bright_yellow"
+    ],
+    "blue_smoke": [
+      "sirocco"
+    ],
+    "frost": [
+      "chrome_white"
+    ],
+    "tuft_bush": [
+      "watusi"
+    ],
+    "sea_mist": [
+      "tasman",
+      "celeste"
+    ],
+    "azure": [
+      "st_tropaz",
+      "sapphire_2"
+    ],
+    "gunsmoke": [
+      "suva_gray",
+      "monsoon",
+      "schooner",
+      "natural_gray"
+    ],
+    "tosca": [
+      "sanguine_brown"
+    ],
+    "cowboy": [
+      "livid_brown"
+    ],
+    "tangerine": [
+      "gold_drop"
+    ],
+    "remy": [
+      "pale_rose"
+    ],
+    "flax_smoke": [
+      "camouflage_green"
+    ],
+    "leather": [
+      "domino"
+    ],
+    "old_lavender": [
+      "fedora"
+    ],
+    "monte_carlo": [
+      "half_baked"
+    ],
+    "gravel": [
+      "mortar"
+    ],
+    "fringy_flower": [
+      "chinook"
+    ],
+    "soft_peach": [
+      "amour"
+    ],
+    "mango_tango": [
+      "christine",
+      "tahiti_gold"
+    ],
+    "diesel": [
+      "asphalt",
+      "nero"
+    ],
+    "sweet_corn": [
+      "khaki",
+      "green_yellow_2"
+    ],
+    "tan_hide": [
+      "sandy_brown"
+    ],
+    "falcon": [
+      "sand_dune"
+    ],
+    "prairie_sand": [
+      "cognac"
+    ],
+    "cold_turkey": [
+      "silver_rust"
+    ],
+    "punch": [
+      "valencia"
+    ],
+    "peach_schnapps": [
+      "cosmos"
+    ],
+    "hemp": [
+      "almond_frost",
+      "bazaar"
+    ],
+    "french_rose": [
+      "violet_red"
+    ],
+    "abbey": [
+      "trout"
+    ],
+    "flax": [
+      "buff"
+    ],
+    "casper": [
+      "cadet_blue_2"
+    ],
+    "half_spanish_white": [
+      "pearl_lusta",
+      "half_colonial_white",
+      "bleach_white",
+      "half_dutch_white",
+      "derby",
+      "papaya_whip",
+      "peach_cream",
+      "pink_lady",
+      "egg_sour",
+      "milk_punch",
+      "varden",
+      "scotch_mist"
+    ],
+    "black_russian": [
+      "ebony"
+    ],
+    "rangoon_green": [
+      "oil",
+      "zeus"
+    ],
+    "winter_hazel": [
+      "pavlova"
+    ],
+    "solitude": [
+      "lily_white",
+      "zumthor"
+    ],
+    "shark": [
+      "steel_gray",
+      "bastille",
+      "charade"
+    ],
+    "school_bus_yellow": [
+      "gold",
+      "sizzling_sunrise"
+    ],
+    "shiny_shamrock": [
+      "aqua_forest"
+    ],
+    "ebb": [
+      "mystic",
+      "bon_jour",
+      "mercury",
+      "gray_nurse",
+      "green_white"
+    ],
+    "sandy_beach": [
+      "negroni",
+      "lumber",
+      "tequila"
+    ],
+    "swiss_coffee": [
+      "iron",
+      "timberwolf_2",
+      "alto",
+      "westar"
+    ],
+    "amber": [
+      "selective_yellow"
+    ],
+    "gigas": [
+      "victoria"
+    ],
+    "pharlap": [
+      "beaver_2"
+    ],
+    "spanish_green": [
+      "mummys_tomb",
+      "stack"
+    ],
+    "chathams_blue": [
+      "blumine"
+    ],
+    "moody_blue": [
+      "true_v"
+    ],
+    "bahia": [
+      "citrus"
+    ],
+    "unmellow_yellow": [
+      "canary_2"
+    ],
+    "mamba": [
+      "venus"
+    ],
+    "witch_haze": [
+      "pale_canary"
+    ],
+    "cape_honey": [
+      "peach"
+    ],
+    "aluminium": [
+      "cadet_blue",
+      "spun_pearl",
+      "bombay"
+    ],
+    "rose": [
+      "red_orange"
+    ],
+    "thistle_green": [
+      "coriander",
+      "soft_amber"
+    ],
+    "eerie_black": [
+      "cinder",
+      "licorice"
+    ],
+    "holly": [
+      "palm_green",
+      "aztec"
+    ],
+    "tide": [
+      "green_spring",
+      "tea"
+    ],
+    "limed_oak": [
+      "muesli"
+    ],
+    "dallas": [
+      "pickled_bean"
+    ],
+    "blue_dianne": [
+      "plantation"
+    ],
+    "grandis": [
+      "cherokee",
+      "salomie"
+    ],
+    "cotton_candy": [
+      "cotton_candy_2"
+    ],
+    "pablo": [
+      "coffee",
+      "peat",
+      "crocodile"
+    ],
+    "bizarre": [
+      "vanilla_ice"
+    ],
+    "sepia_black": [
+      "chocolate"
+    ],
+    "oxford_blue": [
+      "gun_powder"
+    ],
+    "pippin": [
+      "cinderella",
+      "karry"
+    ],
+    "pipi": [
+      "double_pearl_lusta",
+      "oasis",
+      "beeswax",
+      "barley_white",
+      "baja_white",
+      "lemon_chiffon"
+    ],
+    "spice": [
+      "quincy"
+    ],
+    "yuma": [
+      "sorrell_brown"
+    ],
+    "lotus": [
+      "solid_pink"
+    ],
+    "edward": [
+      "hit_gray",
+      "gray_chateau"
+    ],
+    "star_dust": [
+      "delta",
+      "dawn",
+      "quick_silver"
+    ],
+    "jacaranda": [
+      "melanzane"
+    ],
+    "rangitoto": [
+      "heavy_metal",
+      "birch"
+    ],
+    "wax_flower": [
+      "melon",
+      "melon"
+    ],
+    "burning_sand": [
+      "copper_2"
+    ],
+    "rum_swizzle": [
+      "cararra",
+      "ecru_white",
+      "merino",
+      "quarter_spanish_white",
+      "white_linen",
+      "linen"
+    ],
+    "cloud": [
+      "mist_gray",
+      "kangaroo",
+      "foggy_gray",
+      "silver"
+    ],
+    "cornflower_lilac": [
+      "sundown"
+    ],
+    "magnolia": [
+      "selago",
+      "titan_white",
+      "alice_blue",
+      "zircon",
+      "white_lilac"
+    ],
+    "mustard": [
+      "dandelion_2"
+    ],
+    "prussian_blue": [
+      "green_vogue",
+      "blue_whale"
+    ],
+    "coral": [
+      "burnt_orange"
+    ],
+    "mountain_meadow": [
+      "emerald"
+    ],
+    "cedar_wood_finish": [
+      "dark_burgundy"
+    ],
+    "light_apricot": [
+      "apricot_2",
+      "caramel",
+      "navajo_white",
+      "frangipani"
+    ],
+    "coffee_bean": [
+      "tamarind"
+    ],
+    "banana": [
+      "sunglow"
+    ],
+    "mahogany": [
+      "rustic_red",
+      "bulgarian_rose"
+    ],
+    "blue_charcoal": [
+      "jaguar",
+      "woodsmoke"
+    ],
+    "broom": [
+      "lemon"
+    ],
+    "geebung": [
+      "pizza"
+    ],
+    "chenin": [
+      "tacha"
+    ],
+    "quarter_pearl_lusta": [
+      "ceramic",
+      "baby_powder",
+      "island_spice",
+      "orchid_white",
+      "rice_cake",
+      "black_white",
+      "ivory"
+    ],
+    "heat_wave": [
+      "sorbus",
+      "flamenco"
+    ],
+    "goldenrod": [
+      "dandelion"
+    ],
+    "nomad": [
+      "malta"
+    ],
+    "empress": [
+      "hurricane"
+    ],
+    "tundora": [
+      "matterhorn"
+    ],
+    "bittersweet_shimmer": [
+      "chestnut"
+    ],
+    "just_right": [
+      "bone"
+    ],
+    "putty": [
+      "gold_2"
+    ],
+    "wild_watermelon": [
+      "fiery_rose"
+    ],
+    "ship_gray": [
+      "cape_cod",
+      "masala"
+    ],
+    "eagle": [
+      "bison_hide"
+    ],
+    "oregon": [
+      "chelsea_gem"
+    ],
+    "coral_tree": [
+      "copper_penny"
+    ],
+    "ogre_odor": [
+      "sunset_orange"
+    ],
+    "old_rose": [
+      "brandy_rose"
+    ],
+    "brown_sugar": [
+      "santa_fe"
+    ],
+    "punga": [
+      "bronzetone"
+    ],
+    "oxley": [
+      "amulet"
+    ],
+    "bush": [
+      "burnham",
+      "cardin_green",
+      "bottle_green"
+    ],
+    "moon_mist": [
+      "quill_gray",
+      "timberwolf"
+    ],
+    "jon": [
+      "treehouse",
+      "cork"
+    ],
+    "evening_sea": [
+      "sherpa_blue"
+    ],
+    "costa_del_sol": [
+      "verdigris"
+    ],
+    "lemon_yellow": [
+      "gorse"
+    ],
+    "corduroy": [
+      "black_coral_pearl"
+    ],
+    "gin": [
+      "tara",
+      "apple_green",
+      "peppermint",
+      "frostee",
+      "harp",
+      "ottoman"
+    ],
+    "green_kelp": [
+      "log_cabin",
+      "leather_jacket"
+    ],
+    "rust": [
+      "tia_maria"
+    ],
+    "edgewater": [
+      "skeptic",
+      "surf_crest"
+    ],
+    "sonic_silver": [
+      "boulder",
+      "tapa",
+      "concord"
+    ],
+    "limed_spruce": [
+      "outer_space"
+    ],
+    "tigers_eye": [
+      "reno_sand"
+    ],
+    "lilac_bush": [
+      "medium_purple"
+    ],
+    "burnt_umber": [
+      "red_robin"
+    ],
+    "iceberg": [
+      "white_ice"
+    ],
+    "half_and_half": [
+      "china_ivory",
+      "orange_white",
+      "buttery_white",
+      "chilean_heath",
+      "travertine",
+      "apricot_white"
+    ],
+    "pueblo": [
+      "mocha",
+      "peanut"
+    ],
+    "rose_fog": [
+      "shilo",
+      "zinnwaldite"
+    ],
+    "spindle": [
+      "periwinkle_gray"
+    ],
+    "moonstone": [
+      "pelorous"
+    ],
+    "venice_blue": [
+      "orient"
+    ],
+    "japanese_laurel": [
+      "san_felix"
+    ],
+    "bunting": [
+      "blue_zodiac"
+    ],
+    "smoke": [
+      "xanadu"
+    ],
+    "seaweed": [
+      "palm_leaf"
+    ],
+    "green_waterloo": [
+      "acadia"
+    ],
+    "astronaut_blue": [
+      "regal_blue"
+    ],
+    "brown_bramble": [
+      "cioccolato"
+    ],
+    "forget_me_not": [
+      "vista_white",
+      "bianca",
+      "wisp_pink",
+      "provincial_pink",
+      "lavender_blush",
+      "tutu",
+      "chardon",
+      "chablis",
+      "seashell_peach",
+      "sauvignon",
+      "rose_white",
+      "bridal_heath",
+      "soapstone"
+    ],
+    "pearl_bush": [
+      "periglacial_blue",
+      "kidnapper",
+      "satin_linen",
+      "white_rock"
+    ],
+    "walnut": [
+      "sepia_2"
+    ],
+    "cloudy": [
+      "martini"
+    ],
+    "dawn_pink": [
+      "prim",
+      "pot_pourri",
+      "carousel_pink"
+    ],
+    "sunburnt_cyclops": [
+      "red_salsa"
+    ],
+    "aqua_haze": [
+      "polar",
+      "off_green",
+      "aqua_squeeze",
+      "panache",
+      "aqua_spring",
+      "narvik"
+    ],
+    "bondi_blue": [
+      "blue_green"
+    ],
+    "maroon": [
+      "brick_red"
+    ],
+    "hint_of_red": [
+      "athens_gray",
+      "catskill_white",
+      "gallery",
+      "porcelain",
+      "seashell",
+      "saltpan",
+      "concrete",
+      "black_squeeze",
+      "pampas",
+      "wild_sand",
+      "cultured_pearl",
+      "black_haze",
+      "whisper",
+      "snow_drift",
+      "spring_wood",
+      "desert_storm",
+      "fantasy",
+      "alabaster"
+    ]
+  }
+}

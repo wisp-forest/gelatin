@@ -246,28 +246,49 @@ subprojects {
 		}
 
 		runs {
-			datagen {
-				client()
-				ideConfigGenerated project.archivesBaseName == "jello"
+			if(project.archivesBaseName == "jello" || project.archivesBaseName == "gelatin") {
 
-				name "[${project.archivesBaseName}] Data Generation"
-				vmArg "-Dfabric-api.datagen"
-				vmArg "-Dfabric-api.datagen.output-dir=${project.file("src/generated/resources")}"
-				vmArg "-Dfabric-api.datagen.modid=jello"
+				client {
+					client()
+					ideConfigGenerated true
+					name = "[${project.archivesBaseName}] Client"
+					source sourceSets.main
+				}
+				server {
+					server()
+					ideConfigGenerated true
+					name = "[${project.archivesBaseName}] Server"
+					source sourceSets.main
+				}
 
-				runDir "build/datagen"
-			}
-			client {
-				client()
-				ideConfigGenerated (project.archivesBaseName == "jello" || project.archivesBaseName == "gelatin")
-				name = "[${project.archivesBaseName}] Client"
-				source sourceSets.main
-			}
-			server {
-				server()
-				ideConfigGenerated (project.archivesBaseName == "jello" || project.archivesBaseName == "gelatin")
-				name = "[${project.archivesBaseName}] Server"
-				source sourceSets.main
+				if (project.archivesBaseName == "jello") {
+					datagen {
+						client()
+						ideConfigGenerated true
+
+						name "[${project.archivesBaseName}] Data Generation"
+						vmArg "-Dfabric-api.datagen"
+						vmArg "-Dfabric-api.datagen.output-dir=${project.file("src/generated/resources")}"
+						vmArg "-Dfabric-api.datagen.modid=jello"
+
+						runDir "build/datagen"
+					}
+					client_renderDoc {
+						client()
+						ideConfigGenerated true
+						name = "[${project.archivesBaseName}] Client - (RenderDoc)"
+						source sourceSets.main
+						vmArg "-Dowo.renderdocPath=${System.getenv('renderDocPath')}"
+						//"C:\Program Files\RenderDoc\renderdoc.dll"
+					}
+					client_mixin {
+						client()
+						ideConfigGenerated true
+						name = "[${project.archivesBaseName}] Client - (Mixin Swap)"
+						source sourceSets.main
+						vmArg "-Dmixin.debug.export=true"
+					}
+				}
 			}
 		}
 	}

@@ -18,7 +18,7 @@ public class VersatileLogger {
         this.startTime = System.currentTimeMillis();
         this.prefix = prefix;
 
-        this.debugCheck = () -> false;
+        this.debugCheck = () -> true;
     }
 
     public VersatileLogger(String prefix, Supplier<Boolean> debugCheck) {
@@ -42,10 +42,14 @@ public class VersatileLogger {
     //-------------------------------------------------------------
 
     public void failMessage(String message, Object... variables) {
+        if(!debugCheck.get()) return;
+
         LOGGER.error("[" + prefix + "]: " + message, variables);
     }
 
     public void infoMessage(String message, Object... variables) {
+        if(!debugCheck.get()) return;
+
         LOGGER.info("[" + prefix + "]: " + message, variables);
     }
 
