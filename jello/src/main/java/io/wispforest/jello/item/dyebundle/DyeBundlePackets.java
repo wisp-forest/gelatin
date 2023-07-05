@@ -1,5 +1,6 @@
 package io.wispforest.jello.item.dyebundle;
 
+import com.mojang.logging.LogUtils;
 import io.netty.util.collection.IntObjectHashMap;
 import io.netty.util.collection.IntObjectMap;
 import io.wispforest.jello.mixins.BundleItemAccessor;
@@ -7,6 +8,7 @@ import io.wispforest.gelatin.dye_registry.ducks.DyeItemStorage;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.client.gui.dyebundle.DyeBundleTooltipBuilder;
 import io.wispforest.owo.network.ServerAccess;
+import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
@@ -16,8 +18,16 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.ClickType;
 import net.minecraft.util.math.MathHelper;
+import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class DyeBundlePackets {
+
+    private static final Logger LOGGER = LogUtils.getLogger();
 
     public static SlotInfoHelper lastSlotHelper = SlotInfoHelper.EMPTY;
 
@@ -102,13 +112,13 @@ public class DyeBundlePackets {
      * |-----------|--------------------------|
      * </pre>
      */
-    public record DyeBundleStackInteraction(StackFinder bundleStackfinder, int innerStackIndex, ClickType type, boolean clickSide){
+    public record DyeBundleStackInteraction(StackFinder bundleStackfinder, int innerStackIndex, ClickType type, boolean clickSide, @Nullable ItemStack clientCursorStack){
         public static void interact(DyeBundleStackInteraction message, ServerAccess access){
             var player = access.player();
             var reference = message.bundleStackfinder.getReferenceInfo(player);
             var bundleStack = reference.stack();
 
-            if(!(bundleStack.getItem() instanceof DyeBundleItem)) return;
+              if(!(bundleStack.getItem() instanceof DyeBundleItem)) return;
 
             var bundleList = bundleStack.get(DyeBundleItem.INVENTORY_NBT_KEY);
             int selectedStack = bundleStack.get(DyeBundleItem.SELECTED_STACK_NBT_KEY);
@@ -118,8 +128,25 @@ public class DyeBundlePackets {
 
             //---------------------------------------------
 
-            ItemStack cursorStack = player.currentScreenHandler.getCursorStack();
+            //This section pertains to how horrible minecraft creative mod handler is and doesn't sync the data needed
+            AtomicReference<ItemStack> cursorStackToClient = new AtomicReference<>(null);
 
+            Consumer<ItemStack> setCursorStack = !player.isCreative()
+                    ? player.currentScreenHandler::setCursorStack
+                    : cursorStackToClient::set;
+
+            Supplier<ItemStack> getCursorStack = !player.isCreative()
+                    ? player.currentScreenHandler::getCursorStack
+                    : cursorStackToClient::get;
+
+            ItemStack cursorStack = !player.isCreative()
+                    ? player.currentScreenHandler.getCursorStack()
+                    : (message.clientCursorStack);
+
+            //---------------------------------------------
+
+            LOGGER.info("Before { BundleData }: {}", bundleStack.hasNbt() ? bundleStack.getNbt() : "None");
+            LOGGER.info("Before { CursorStack }: {} {}", cursorStack.toString(), cursorStack.hasNbt() ? "[" + cursorStack.getNbt() + "]" : "");
 
             NbtCompound dyeStackNbtTag = new NbtCompound();
             ItemStack dyeStack = ItemStack.EMPTY;
@@ -153,7 +180,7 @@ public class DyeBundlePackets {
                     dyeStack.setCount(playerStackCount);
                 }
 
-                player.currentScreenHandler.setCursorStack(dyeStack);
+                setCursorStack.accept(dyeStack);
 
                 bundleStack.put(DyeBundleItem.INVENTORY_NBT_KEY, bundleList);
 
@@ -165,13 +192,15 @@ public class DyeBundlePackets {
                     int cursorStackRemainder = cursorStack.getCount() - availableStackSpace;
 
                     if(cursorStackRemainder <= 0){
-                        player.currentScreenHandler.setCursorStack(ItemStack.EMPTY);
+                        setCursorStack.accept(ItemStack.EMPTY);
 
                         dyeStack.increment(cursorStack.getCount());
                     } else {
                         cursorStack.setCount(cursorStackRemainder);
 
                         dyeStack.increment(availableStackSpace);
+
+                        if(player.isCreative()) cursorStackToClient.set(cursorStack);
                     }
 
                     dyeStackNbtTag.putInt("Count", dyeStack.getCount());
@@ -195,7 +224,7 @@ public class DyeBundlePackets {
                             interaction = SlotInteraction.ADDING;
                         }
 
-                        player.currentScreenHandler.setCursorStack(dyeStack);
+                        setCursorStack.accept(dyeStack);
 
                         bundleStack.put(DyeBundleItem.INVENTORY_NBT_KEY, bundleList);
 
@@ -213,13 +242,27 @@ public class DyeBundlePackets {
             if(shouldMarkDirty){
                 reference.inventory().markDirty();
 
-                player.currentScreenHandler.setPreviousCursorStack(ItemStack.EMPTY);
+                if(cursorStackToClient.get() == null){
+                    player.currentScreenHandler.setPreviousCursorStack(ItemStack.EMPTY);
+                }
 //                player.currentScreenHandler.enableSyncing();
 
                 player.currentScreenHandler.updateToClient();
                 //player.currentScreenHandler.sendContentUpdates();
 
-                Jello.CHANNEL.serverHandle(player).send(new DyeBundleTooltipBuilder.UpdateDyeBundleTooltip(message.bundleStackfinder, message.innerStackIndex, interaction));
+                cursorStack = getCursorStack.get();
+
+                LOGGER.info("[Finder: {}, SlotId: {}, Interaction: {}]: ", message.bundleStackfinder, message.innerStackIndex, interaction);
+                LOGGER.info("After BundleData: {}", bundleStack.hasNbt() ? bundleStack.getNbt() : "None");
+                LOGGER.info("After { CursorStack }: {} {}", cursorStack.toString(), cursorStack.hasNbt() ? "[" + cursorStack.getNbt() + "]" : "");
+
+                Jello.CHANNEL.serverHandle(player)
+                        .send(new DyeBundleTooltipBuilder.UpdateDyeBundleTooltip(
+                                message.bundleStackfinder,
+                                message.innerStackIndex,
+                                interaction,
+                                cursorStackToClient.get()
+                        ));
             }
         }
     }
@@ -242,6 +285,11 @@ public class DyeBundlePackets {
         }
     }
 
+    /**
+     * Record used to deal with the {@link CreativeInventoryScreen} lack of syncing
+     * @param fromPlayerInv - Whether to take from the player Inv instead
+     * @param index - The given index of the stack
+     */
     public record StackFinder(boolean fromPlayerInv, int index) {
 
         public InventoryAndStackReference getReferenceInfo(PlayerEntity player) {

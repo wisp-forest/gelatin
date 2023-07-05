@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 
 public class SelectableItemComponent extends ItemComponent {
 
-    public static Identifier SELECTED_SLOT_TEXTURE = Jello.id("textures/gui/selected_slot_test_1.png");
+    public static Identifier SELECTED_SLOT_TEXTURE = Jello.id("textures/gui/selected_slot_outline.png");
 
     public boolean showItemTooltipOnHover = true;
     public boolean isSelected = false;
@@ -101,7 +101,7 @@ public class SelectableItemComponent extends ItemComponent {
         // Clean up
         matrices.pop();
 
-        if (this.showOverlay) ((ItemRendererExtension) this.itemRenderer).renderGuiItemOverlay(matrices, MinecraftClient.getInstance().textRenderer, this.stack, 0, 0, 1);
+        if (this.showOverlay) ((ItemRendererExtension) this.itemRenderer).renderGuiItemOverlay(matrices, MinecraftClient.getInstance().textRenderer, this.stack, 0, 0, 4/*isSelected ? 3 : 1 */);
 
         if (notSideLit) DiffuseLighting.enableGuiDepthLighting();
 

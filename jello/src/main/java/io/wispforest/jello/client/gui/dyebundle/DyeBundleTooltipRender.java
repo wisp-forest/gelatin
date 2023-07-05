@@ -124,13 +124,13 @@ public class DyeBundleTooltipRender implements HudRenderCallback, OnItemstackToo
             ScreenMouseEvents.allowMouseClick(screen).register((screen1, mouseX, mouseY, button) -> {
                 if(hoveringOverTooltip) adapter.mouseClicked(mouseX, mouseY, button);
 
-                return !hoveringItemStack || !hoveringOverTooltip;
+                return !hoveringItemStack && !hoveringOverTooltip;
             });
 
             ScreenMouseEvents.allowMouseRelease(screen).register((screen1, mouseX, mouseY, button) -> {
                 if(hoveringOverTooltip) adapter.mouseReleased(mouseX, mouseY, button);
 
-                return !hoveringItemStack || !hoveringOverTooltip;
+                return !hoveringItemStack && !hoveringOverTooltip;
             });
 
             ScreenMouseEvents.allowMouseScroll(handledScreen).register(new DyeBundleStackScrollEvents());
@@ -142,7 +142,7 @@ public class DyeBundleTooltipRender implements HudRenderCallback, OnItemstackToo
             });
 
             HandledScreenEvents.allowSlotHover(handledScreen).register((screen1, slot, pointX, pointY) -> {
-                return hoveringOverTooltip;
+                return !hoveringOverTooltip;
             });
 
             HandledScreenEvents.allowMouseDrag(handledScreen).register((screen1, mouseX, mouseY, button, deltaX, deltaY) -> {
@@ -173,19 +173,25 @@ public class DyeBundleTooltipRender implements HudRenderCallback, OnItemstackToo
                 if (lastHoveredSlot != null) {
                     Slot focusedSlot = ((HandledScreen<?>) screen1).getScreenHandler().getSlot(lastHoveredSlot.slotIndex());
 
+                    //Banned Slot Type
+                    if(focusedSlot instanceof CreativeInventoryScreen.LockableSlot) return;
+
+                    //Get the inner slot for more correct data
+                    if(focusedSlot instanceof CreativeSlotAccessor slotAccessor) focusedSlot = slotAccessor.jello$getSlot();
+
                     ItemStack stack = focusedSlot.getStack();
 
                     boolean fromPlayerInv = screen instanceof CreativeInventoryScreen
-                            && focusedSlot.inventory instanceof PlayerInventory
-                            && focusedSlot.getIndex() < 9;
-
-                    if(focusedSlot instanceof CreativeSlotAccessor creativeSlot) focusedSlot = creativeSlot.jello$getSlot();
+                            && focusedSlot.inventory instanceof PlayerInventory;
 
                     int x = lastHoveredSlot.x();
                     int y = lastHoveredSlot.y();
 
                     if (stack.getItem() == JelloItems.DYE_BUNDLE && currentTooltip == null) {
-                        DyeBundleTooltipRender.createBundleTooltip(x, y, new DyeBundlePackets.StackFinder(fromPlayerInv, fromPlayerInv ? focusedSlot.getIndex() : focusedSlot.id), stack);
+                        //Need to use the Index for the Player Inv when within creative screen
+                        var stackFinder = new DyeBundlePackets.StackFinder(fromPlayerInv, fromPlayerInv ? focusedSlot.getIndex() : focusedSlot.id);
+
+                        DyeBundleTooltipRender.createBundleTooltip(x, y, stackFinder, stack);
                     }
 
                     renderAdapter(matrices, mouseX, mouseY);
@@ -207,6 +213,8 @@ public class DyeBundleTooltipRender implements HudRenderCallback, OnItemstackToo
         }
 
         if(stack.getItem() == JelloItems.DYE_BUNDLE && screen instanceof HandledScreen handledScreen){
+            if(!stack.has(DyeBundleItem.INVENTORY_NBT_KEY) || stack.get(DyeBundleItem.INVENTORY_NBT_KEY).isEmpty()) return true;
+
             HandledScreenAccessor accessor = (HandledScreenAccessor)handledScreen;
 
             Slot slot = accessor.jello$getSlotAt(x, y);

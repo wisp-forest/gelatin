@@ -31,14 +31,14 @@ public abstract class HandledScreenMixin<T extends ScreenHandler> extends Screen
 
     @Inject(method = "isPointOverSlot", at = @At("HEAD"), cancellable = true)
     private void gelatin$isPointOverSlot(Slot slot, double pointX, double pointY, CallbackInfoReturnable<Boolean> cir){
-        if(HandledScreenEvents.allowSlotHover(handledScreen()).invoker().allowSlotHover(handledScreen(), slot, pointX, pointY)){
+        if(!HandledScreenEvents.allowSlotHover(handledScreen()).invoker().allowSlotHover(handledScreen(), slot, pointX, pointY)){
             cir.setReturnValue(false);
         }
     }
 
     @Inject(method = "mouseDragged", at = @At("HEAD"), cancellable = true)
     private void gelatin$beforeMouseDragEvent(double mouseX, double mouseY, int button, double deltaX, double deltaY, CallbackInfoReturnable<Boolean> cir){
-        if(HandledScreenEvents.allowMouseDrag(handledScreen()).invoker().allowMouseDrag(handledScreen(), mouseX, mouseY, button, deltaX, deltaY)){
+        if(!HandledScreenEvents.allowMouseDrag(handledScreen()).invoker().allowMouseDrag(handledScreen(), mouseX, mouseY, button, deltaX, deltaY)){
             cir.setReturnValue(false);
         }
 

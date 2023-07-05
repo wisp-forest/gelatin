@@ -11,6 +11,8 @@ import io.wispforest.owo.ui.core.*;
 import io.wispforest.owo.ui.event.MouseDown;
 import io.wispforest.owo.ui.util.Drawer;
 import io.wispforest.owo.ui.util.ScissorStack;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ClickType;
@@ -25,12 +27,12 @@ public class SlotScrollContainer extends ScrollContainer<FlowLayout> {
 
     private static final Logger LOGGER = LogUtils.getLogger();
 
+    @Nullable
+    private DyeBundlePackets.StackFinder itemStackFinder;
+
     private Inventory inventory;
 
     public Component scrollToComponent = null;
-
-    @Nullable
-    public ComponentClickedEvent itemInteraction = null;
 
     public SelectableItemComponent emptyComponent = (SelectableItemComponent) new SelectableItemComponent(ItemStack.EMPTY)
             .configure((SelectableItemComponent component) -> component.mouseDown().subscribe(getMouseDownEvent(component)))
@@ -41,7 +43,7 @@ public class SlotScrollContainer extends ScrollContainer<FlowLayout> {
     private int slotWidth;
     private int slotHeight;
 
-    public SlotScrollContainer(int slotWidth, int slotHeight, Inventory inventory, DyeBundlePackets.StackFinder itemStackFinder, int selectedStack) {
+    public SlotScrollContainer(int slotWidth, int slotHeight, Inventory inventory, @Nullable DyeBundlePackets.StackFinder itemStackFinder, int selectedStack) {
         super(ScrollDirection.VERTICAL,
                 Sizing.fixed((slotWidth * 18) + 11),
                 Sizing.fixed(slotHeight * 18),
@@ -52,7 +54,9 @@ public class SlotScrollContainer extends ScrollContainer<FlowLayout> {
         this.slotWidth = slotWidth;
         this.slotHeight = slotHeight;
 
-        this.build(itemStackFinder, selectedStack);
+        this.itemStackFinder = itemStackFinder;
+
+        this.build(selectedStack);
 
         this.scrollStep(18);
         this.scrollbar((matrixStack, x1, y1, width1, height1, trackX, trackY, trackWidth, trackHeight, lastInteractTime, direction1, active) -> {
@@ -82,24 +86,8 @@ public class SlotScrollContainer extends ScrollContainer<FlowLayout> {
         }
     }
 
-    public void build(DyeBundlePackets.StackFinder itemStackFinder, int selectedStack){
+    public void build(int selectedStack){
         this.child.padding(Insets.right(10));
-
-        if(itemStackFinder != null) {
-            itemInteraction = (component, type, mouseX, mouseY) -> {
-                try {
-                    int slotId = Objects.equals(component.id(), "empty") ? 0 : Integer.parseInt(component.id());
-
-                    boolean clickSide = mouseX > component.x() + Math.floor(component.width() / 2f);
-
-                    Jello.CHANNEL.clientHandle().send(new DyeBundlePackets.DyeBundleStackInteraction(itemStackFinder, slotId, type, clickSide));
-
-                    return true;
-                } catch (Exception ignored) {}
-
-                return false;
-            };
-        }
 
         FlowLayout currentRow = (FlowLayout) Containers.horizontalFlow(Sizing.content(), Sizing.fixed(18)).id("row_1");
         Component scrollToComponent = null;
@@ -189,10 +177,15 @@ public class SlotScrollContainer extends ScrollContainer<FlowLayout> {
             }
 
             if (i + 1 == inventory.size()) this.child.child(currentRow);
-
         }
 
         if (scrollToComponent != null) this.scrollToComponent = scrollToComponent;
+    }
+
+    public SlotScrollContainer setStackFinder(DyeBundlePackets.StackFinder itemStackFinder){
+        this.itemStackFinder = itemStackFinder;
+
+        return this;
     }
 
     public void rebuildContainer(Inventory newInventory, int selectedSlot, DyeBundlePackets.SlotInteraction action){
@@ -280,10 +273,38 @@ public class SlotScrollContainer extends ScrollContainer<FlowLayout> {
         if(scrollToComponent != null){
             PositionedRectangle intersection = this.intersection(scrollToComponent);
 
-            if(intersection.height() != scrollToComponent.height()) {
-                this.scrollTo(scrollToComponent);
+            if(intersection.height() != scrollToComponent.height()) this.scrollTo(scrollToComponent);
+        }
+    }
+
+    public boolean onSlotClick(SelectableItemComponent component, ClickType type, double mouseX, double mouseY){
+        if(itemStackFinder != null) {
+            try {
+                int slotId = Objects.equals(component.id(), "empty") ? 0 : Integer.parseInt(component.id());
+
+                boolean clickSide = mouseX > component.x() + Math.floor(component.width() / 2f);
+
+                ItemStack bundleStack = itemStackFinder.getReferenceInfo(MinecraftClient.getInstance().player).stack();
+
+                LOGGER.info("----------------------------------------------------------------------------------------");
+                LOGGER.info("[Finder: {}, SlotId: {}, ClickType: {}]", itemStackFinder, slotId, type);
+                LOGGER.info("BundleData: {}", bundleStack.hasNbt() ? bundleStack.getNbt() : "None");
+
+                ClientPlayerEntity player = MinecraftClient.getInstance().player;
+
+                ItemStack clientCursorStack = player.isCreative()
+                        ? player.currentScreenHandler.getCursorStack()
+                        : ItemStack.EMPTY;
+
+                Jello.CHANNEL.clientHandle().send(new DyeBundlePackets.DyeBundleStackInteraction(itemStackFinder, slotId, type, clickSide, clientCursorStack));
+
+                return true;
+            } catch (Exception ignored) {
+                LOGGER.error(ignored.toString());
             }
         }
+
+        return false;
     }
 
     @Nullable
@@ -301,7 +322,7 @@ public class SlotScrollContainer extends ScrollContainer<FlowLayout> {
         return (mouseX, mouseY, button) -> {
             ClickType type = getType(button);
 
-            if(type != null && itemInteraction != null) return itemInteraction.onClicked(component, type, mouseX, mouseY);
+            if(type != null) return onSlotClick(component, type, mouseX, mouseY);
 
             return false;
         };

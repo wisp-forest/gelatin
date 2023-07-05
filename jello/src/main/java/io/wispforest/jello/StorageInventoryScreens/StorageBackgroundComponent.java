@@ -13,7 +13,7 @@ public class StorageBackgroundComponent extends TextureComponent {
     private boolean scrollBarIncluded, showTopText;
 
     protected StorageBackgroundComponent(int regionWidth, int regionHeight, int slotWidth, int slotHeight, boolean scrollBarIncluded, boolean showTopText) {
-        super(Jello.id("textures/gui/test_gui.png"), 0, 0, regionWidth, regionHeight, 64, 64);
+        super(Jello.id("textures/gui/storage_background.png"), 0, 0, regionWidth, regionHeight, 64, 64);
 
         this.slotWidth = slotWidth;
         this.slotHeight = slotHeight;

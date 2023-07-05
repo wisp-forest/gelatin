@@ -36,7 +36,7 @@ public abstract class PistonHandlerMixin {
 
     @Inject(method = "isBlockSticky", at = @At(value = "HEAD"), cancellable = true)
     private static void isBlockStickyExt(BlockState state, CallbackInfoReturnable<Boolean> cir) {
-        cir.setReturnValue(state.isIn(JelloTags.Blocks.STICKY_BLOCKS));
+        if(state.isIn(JelloTags.Blocks.STICKY_BLOCKS)) cir.setReturnValue(true);
     }
 
     //----------------------------------------------------------------------------//
@@ -66,7 +66,7 @@ public abstract class PistonHandlerMixin {
             returnValue = true;
         }
 
-        cir.setReturnValue(returnValue);
+        if(returnValue) cir.setReturnValue(true);
     }
 
     private static boolean crossCompareToHoney(BlockState state, BlockState adjacentState){
@@ -93,13 +93,16 @@ public abstract class PistonHandlerMixin {
 
     @Inject(method = "calculatePush", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/BlockState;", shift = At.Shift.BY, by = 2, ordinal = 0), locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
     private void firstBlockCulling(CallbackInfoReturnable<Boolean> cir, BlockState blockState) {
-        if (blockState.isIn(JelloTags.Blocks.SLIME_SLABS)) {
-            if ((motionDirection == Direction.DOWN && getPistonDirection() == Direction.UP) && blockState.get(SlabBlock.TYPE) == SlabType.TOP) {
-                cir.setReturnValue(true);
-            }
-            if ((motionDirection == Direction.UP && getPistonDirection() == Direction.DOWN) && blockState.get(SlabBlock.TYPE) == SlabType.BOTTOM) {
-                cir.setReturnValue(true);
-            }
+        if (!blockState.isIn(JelloTags.Blocks.SLIME_SLABS) /*&& !blockState.contains(SlabBlock.TYPE)*/) return;
+
+        Direction pistionDir = getPistonDirection();
+
+        if ((motionDirection == Direction.DOWN && pistionDir == Direction.UP) && blockState.get(SlabBlock.TYPE) == SlabType.TOP) {
+            cir.setReturnValue(true);
+        }
+
+        if ((motionDirection == Direction.UP && pistionDir == Direction.DOWN) && blockState.get(SlabBlock.TYPE) == SlabType.BOTTOM) {
+            cir.setReturnValue(true);
         }
     }
 
@@ -122,7 +125,7 @@ public abstract class PistonHandlerMixin {
         setToAir = false;
 
         //--------------------------\/--\/--\/------------------------------\\
-        if (blockState2.isIn(JelloTags.Blocks.SLIME_SLABS)) {
+        if (blockState2.isIn(JelloTags.Blocks.SLIME_SLABS) /*|| blockState2.contains(SlabBlock.TYPE)*/) {
             if (motionDirection == Direction.DOWN && blockState2.get(SlabBlock.TYPE) == SlabType.BOTTOM) {
                 setToAir = true;
             }
@@ -130,7 +133,7 @@ public abstract class PistonHandlerMixin {
                 setToAir = true;
             }
 
-            if (blockState.isIn(JelloTags.Blocks.SLIME_SLABS)) {
+            if (blockState.isIn(JelloTags.Blocks.SLIME_SLABS) /*|| blockState.contains(SlabBlock.TYPE)*/) {
                 if (motionDirection.getId() >= 2) {
                     if (blockState2.get(SlabBlock.TYPE) == SlabType.BOTTOM && blockState.get(SlabBlock.TYPE) == SlabType.TOP) {
                         setToAir = true;
@@ -147,8 +150,6 @@ public abstract class PistonHandlerMixin {
                 }
             }
         }
-
-
     }
 
     @ModifyVariable(method = "tryMove", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/BlockState;", shift = At.Shift.BY, by = 2, ordinal = 1), ordinal = 0)
@@ -170,7 +171,7 @@ public abstract class PistonHandlerMixin {
         BlockState blockState = this.world.getBlockState(pos);
 
         for (Direction direction : Direction.values()) {
-            if (blockState.isIn(JelloTags.Blocks.SLIME_SLABS)) {
+            if (blockState.isIn(JelloTags.Blocks.SLIME_SLABS)/* || blockState.contains(SlabBlock.TYPE)*/) {
                 slabType.set(blockState.get(SlabBlock.TYPE));
 
                 if (motionDirection.getId() >= 2) {
@@ -181,12 +182,14 @@ public abstract class PistonHandlerMixin {
                     }
                 }
             }
+
             if (direction.getAxis() != this.motionDirection.getAxis()) {
                 BlockPos blockPos = pos.offset(direction);
                 BlockState blockState2 = this.world.getBlockState(blockPos);
 
-                if (blockState2.isIn(JelloTags.Blocks.SLIME_SLABS)) {
+                if (blockState2.isIn(JelloTags.Blocks.SLIME_SLABS) /*|| blockState2.contains(SlabBlock.TYPE)*/) {
                     slabType2.set(blockState2.get(SlabBlock.TYPE));
+
                     if (direction.getId() >= 2) {
                         if (slabType.get() == SlabType.TOP && slabType2.get() == SlabType.BOTTOM) {
                             continue;
@@ -195,14 +198,10 @@ public abstract class PistonHandlerMixin {
                         }
                     }
 
-                    if (direction == Direction.DOWN && slabType2.get() == SlabType.BOTTOM) {
-                        continue;
-                    }
-
-                    if (direction == Direction.UP && slabType2.get() == SlabType.TOP) {
-                        continue;
-                    }
+                    if (direction == Direction.DOWN && slabType2.get() == SlabType.BOTTOM) continue;
+                    if (direction == Direction.UP && slabType2.get() == SlabType.TOP) continue;
                 }
+
                 if (isAdjacentBlockStuck(blockState2, blockState) && !this.tryMove(blockPos, direction)) {
                     return false;
                 }

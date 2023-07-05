@@ -7,3 +7,6 @@ accessible class net/minecraft/client/texture/ResourceTexture$TextureData
 
 accessible method net/minecraft/client/texture/ResourceTexture loadTextureData (Lnet/minecraft/resource/ResourceManager;)Lnet/minecraft/client/texture/ResourceTexture$TextureData;
 accessible method net/minecraft/client/texture/ResourceTexture upload (Lnet/minecraft/client/texture/NativeImage;ZZ)V
+
+accessible class net/minecraft/client/gui/screen/ingame/CreativeInventoryScreen$CreativeSlot
+accessible class net/minecraft/client/gui/screen/ingame/CreativeInventoryScreen$LockableSlot

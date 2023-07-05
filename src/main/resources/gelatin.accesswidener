@@ -27,7 +27,9 @@ accessible class net/minecraft/client/texture/TextureStitcher$Holder
 
 accessible method net/minecraft/item/BundleItem getBundledStacks (Lnet/minecraft/item/ItemStack;)Ljava/util/stream/Stream;
 extendable method net/minecraft/client/gui/screen/Screen renderTooltipFromComponents (Lnet/minecraft/client/util/math/MatrixStack;Ljava/util/List;II)V
+
 accessible class net/minecraft/client/gui/screen/ingame/CreativeInventoryScreen$CreativeSlot
+accessible class net/minecraft/client/gui/screen/ingame/CreativeInventoryScreen$LockableSlot
 
 accessible class net/minecraft/client/texture/ResourceTexture$TextureData
 
