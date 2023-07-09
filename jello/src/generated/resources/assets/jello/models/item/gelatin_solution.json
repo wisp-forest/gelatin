@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "jello:item/gelatin_solution/gelatin_solution_bucket",
+    "layer1": "jello:item/gelatin_solution/gelatin_solution_liquid"
+  }
+}

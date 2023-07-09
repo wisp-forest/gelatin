@@ -2,6 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "io.wispforest.jello.mixins",
+  "plugin": "io.wispforest.jello.mixins.JelloMixinPlugin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "BlockBoxAccessor",
@@ -9,7 +10,11 @@
     "BundleItemMixin",
     "ItemsMixin",
     "PistonHandlerMixin",
-    "DefaultedRegistryMixin"
+    "DefaultedRegistryMixin",
+    "data.CookingRecipeJsonBuilderMixin",
+    "data.CookingRecipeJsonBuilderMixin$CookingRecipeJsonProviderMixin",
+    "data.CookingRecipeSerializerMixin",
+    "AbstractFurnaceBlockEntityMixin"
   ],
   "client": [
     "client.HandledScreenMixin",
@@ -21,7 +26,8 @@
     "client.accessors.ItemModelGeneratorAccessor",
     "client.accessors.ModelsAccessor",
     "client.owo.FlowLayoutMixin",
-    "client.owo.NinePatchRendererAccessor"
+    "client.owo.NinePatchRendererAccessor",
+    "client.PotionUtilMixin"
   ],
   "injectors": {
     "defaultRequire": 1

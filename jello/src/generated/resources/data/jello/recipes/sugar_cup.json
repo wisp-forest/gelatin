@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 45,
+  "experience": 5.0,
+  "ingredient": {
+    "item": "jello:bowl_of_sugar"
+  },
+  "result": "jello:sugar_cup",
+  "resultamount": 3
+}

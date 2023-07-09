@@ -7,13 +7,16 @@ import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.item.JelloItems;
 import io.wispforest.jello.item.SpongeItem;
+import io.wispforest.jello.misc.JelloPotions;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
+import net.minecraft.potion.Potion;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.apache.commons.lang3.text.WordUtils;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -35,9 +38,33 @@ public class JelloLangProvider extends AbstractLanguageProvider {
 
         JelloItems.Slimeballs.SLIME_BALLS.forEach(this::addItem);
 
+        addItem(JelloItems.GELATIN);
+        addItem(JelloItems.BOWL_OF_SUGAR);
+
+        addItem(JelloItems.GELATIN_SOLUTION);
+        addItem(JelloItems.CONCENTRATED_DRAGON_BREATH);
+
+        addPotion(JelloPotions.DRAGON_HEALTH);
+
+        addPotion(JelloPotions.GOLDEN_LIQUID);
+        addPotion(JelloPotions.ENCHANTED_GOLDEN_LIQUID);
+
+        addPotion(JelloPotions.NAUTICAL_POWER);
+
+        addPotion(JelloPotions.VILLAGE_HERO);
+
+        addPotion(JelloPotions.DOLPHINS_PACT, "the Dolphins Pact");
+
         addItem(JelloItems.JelloCups.SUGAR_CUP);
 
-        JelloItems.JelloCups.JELLO_CUP.forEach(this::addItem);
+        JelloItems.JelloCups.JELLO_CUPS.forEach(item -> {
+            if(item == JelloItems.JelloCups.YELLOW_JELLO_CUP){
+                this.addTranslation("item.yellow_jello_cup", "Golden Jello Cup");
+                this.addTranslation("item.yellow_jello_cup.enchanted", "Enchanted Golden Jello Cup");
+            } else {
+                this.addItem(item);
+            }
+        });
 
         addItem(JelloItems.SPONGE);
         addItem(JelloItems.DYE_BUNDLE);
@@ -65,6 +92,7 @@ public class JelloLangProvider extends AbstractLanguageProvider {
 
         addTranslation("slime_slabs_condensed", "Slime Slabs");
         addTranslation("slime_blocks_condensed", "Slime Blocks");
+        addTranslation("slime_balls_condensed", "Slime Balls");
 
 //        addTranslation("tooltip.vanilla_slime_slabs_condensed", "Only contains Vanilla Colors");
 //        addTranslation("tooltip.vanilla_slime_blocks_condensed", "Only contains Vanilla Colors");
@@ -95,6 +123,37 @@ public class JelloLangProvider extends AbstractLanguageProvider {
     }
 
     //-----------------------------------------------//
+
+    public enum PotionType {
+        POTION("Potion of "),
+        SPLASH_POTION("Splash Potion of "),
+        LINGERING_POTION("Lingering Potion of ");
+
+        public final String typeTranslation;
+
+        PotionType(String typeTranslation){
+            this.typeTranslation = typeTranslation;
+        }
+    }
+
+    private void addPotion(Potion potion){
+        addPotion(potion, null);
+    }
+
+    private void addPotion(Potion potion, @Nullable String translation){
+        addPotion(PotionType.POTION, potion, translation);
+        addPotion(PotionType.SPLASH_POTION, potion, translation);
+        addPotion(PotionType.LINGERING_POTION, potion, translation);
+    }
+
+    private void addPotion(PotionType type, Potion potion, @Nullable String translation){
+        String name = potion.finishTranslationKey("");
+
+        addTranslation(
+                "item.minecraft." + type.toString().toLowerCase() + ".effect." + name,
+                type.typeTranslation + (translation != null ? translation : toEnglishName(name))
+        );
+    }
 
     private void addItem(Item item) {
         addItem(item, getAutomaticNameForEntry(item));

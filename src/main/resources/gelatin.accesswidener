@@ -36,5 +36,6 @@ accessible class net/minecraft/client/texture/ResourceTexture$TextureData
 accessible method net/minecraft/client/texture/ResourceTexture loadTextureData (Lnet/minecraft/resource/ResourceManager;)Lnet/minecraft/client/texture/ResourceTexture$TextureData;
 accessible method net/minecraft/client/texture/ResourceTexture upload (Lnet/minecraft/client/texture/NativeImage;ZZ)V
 
+accessible method net/minecraft/recipe/BrewingRecipeRegistry registerPotionRecipe (Lnet/minecraft/potion/Potion;Lnet/minecraft/item/Item;Lnet/minecraft/potion/Potion;)V
 
 

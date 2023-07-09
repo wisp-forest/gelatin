@@ -9,6 +9,10 @@ public class JelloRecipeSerializers implements AutoRegistryContainer<RecipeSeria
 
     public static SpecialRecipeSerializer<ArtistPaletteRecipe> ARTIST_PALETTE = new SpecialRecipeSerializer<>(ArtistPaletteRecipe::new);
 
+    public static SpecialRecipeSerializer<GelatinSolutionRecipe> GELATIN_SOLUTION = new SpecialRecipeSerializer<>(GelatinSolutionRecipe::new);
+
+    public static SpecialRecipeSerializer<JelloCupRecipe> JELLO_CUP = new SpecialRecipeSerializer<>(JelloCupRecipe::new);
+
     @Override
     public Registry<RecipeSerializer<?>> getRegistry() {
         return Registry.RECIPE_SERIALIZER;

@@ -4,21 +4,52 @@ import io.wispforest.gelatin.common.util.ItemFunctions;
 import io.wispforest.gelatin.dye_entries.item.ColoredItem;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
+import io.wispforest.jello.Jello;
 import io.wispforest.jello.item.dyebundle.DyeBundleItem;
+import io.wispforest.jello.item.jellocup.JelloCupCreationHandler;
+import io.wispforest.jello.item.jellocup.JelloCupItem;
+import io.wispforest.jello.misc.JelloPotions;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
 import io.wispforest.owo.registration.reflect.ItemRegistryContainer;
-import net.minecraft.item.FoodComponent;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.*;
+import net.minecraft.potion.Potion;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.Rarity;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.World;
 
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class JelloItems implements ItemRegistryContainer {
 
-    public static final Item SPONGE = new SpongeItem(new OwoItemSettings().group(ItemGroup.TOOLS).tab(0).maxCount(1));
-    public static final Item DYE_BUNDLE = new DyeBundleItem(new OwoItemSettings().group(ItemGroup.TOOLS).tab(0).maxCount(1));
-    public static final Item EMPTY_ARTIST_PALETTE = new Item(new OwoItemSettings().group(ItemGroup.MISC).tab(0).maxCount(1));
-    public static final Item ARTIST_PALETTE = new ArtistPaletteItem(new OwoItemSettings().group(ItemGroup.MISC).tab(0).maxCount(1));
+    public static final Item SPONGE = new SpongeItem(new Item.Settings().group(ItemGroup.TOOLS).maxCount(1));
+    public static final Item DYE_BUNDLE = new DyeBundleItem(new Item.Settings().group(ItemGroup.TOOLS).maxCount(1));
+
+    public static final Item EMPTY_ARTIST_PALETTE = new Item(new Item.Settings().group(ItemGroup.MISC).maxCount(1));
+    public static final Item ARTIST_PALETTE = new ArtistPaletteItem(new Item.Settings().group(ItemGroup.MISC).maxCount(1));
+
+    public static final Item BOWL_OF_SUGAR = new Item(new Item.Settings().group(ItemGroup.FOOD).food(JelloFoodComponents.BOWL_OF_SUGAR)) {
+        @Override
+        public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
+            ItemStack itemStack = super.finishUsing(stack, world, user);
+
+            if(user instanceof PlayerEntity player && !player.getAbilities().creativeMode) {
+                player.getInventory().insertStack(new ItemStack(Items.BOWL));
+            }
+
+            return itemStack;
+        }
+    };
+    public static final Item GELATIN = new Item(new Item.Settings().group(ItemGroup.MISC));
+
+    public static final Item GELATIN_SOLUTION = new GelatinSolutionItem(new Item.Settings().maxCount(1));
+
+    public static final Item CONCENTRATED_DRAGON_BREATH = new Item(new Item.Settings().group(ItemGroup.MISC));
 
     public static class Slimeballs implements ItemRegistryContainer {
         public static final Item WHITE_SLIME_BALL = new ColoredItem(DyeColorantRegistry.WHITE, (new Item.Settings()).group(ItemGroup.MISC));
@@ -46,35 +77,228 @@ public class JelloItems implements ItemRegistryContainer {
     }
 
     public static class JelloCups implements ItemRegistryContainer {
-        private static final OwoItemSettings JELLO_CUP_DEFAULT = new OwoItemSettings().group(ItemGroup.FOOD).tab(0).fireproof();
 
-        public static final Item SUGAR_CUP = new Item(ItemFunctions.copyFrom(JELLO_CUP_DEFAULT).food(JelloFoodComponents.SUGAR_CUP));
+        public static final Item SUGAR_CUP = new Item(ItemFunctions.copyFrom(new Item.Settings().group(ItemGroup.FOOD).fireproof()).food(JelloFoodComponents.SUGAR_CUP));
 
-        public static final Item WHITE_JELLO_CUP = createJelloCup(DyeColorantRegistry.WHITE, JelloFoodComponents.WHITE_JELLO_CUP);
-        public static final Item ORANGE_JELLO_CUP = createJelloCup(DyeColorantRegistry.ORANGE, JelloFoodComponents.ORANGE_JELLO_CUP);
-        public static final Item MAGENTA_JELLO_CUP = createJelloCup(DyeColorantRegistry.MAGENTA, JelloFoodComponents.MAGENTA_JELLO_CUP);
-        public static final Item LIGHT_BLUE_JELLO_CUP = createJelloCup(DyeColorantRegistry.LIGHT_BLUE, JelloFoodComponents.LIGHT_BLUE_JELLO_CUP);
-        public static final Item YELLOW_JELLO_CUP = createJelloCup(DyeColorantRegistry.YELLOW, JelloFoodComponents.YELLOW_JELLO_CUP);
-        public static final Item LIME_JELLO_CUP = createJelloCup(DyeColorantRegistry.LIME, JelloFoodComponents.LIME_JELLO_CUP);
-        public static final Item PINK_JELLO_CUP = createJelloCup(DyeColorantRegistry.PINK, JelloFoodComponents.PINK_JELLO_CUP);
-        public static final Item GRAY_JELLO_CUP = createJelloCup(DyeColorantRegistry.GRAY, JelloFoodComponents.GRAY_JELLO_CUP);
-        public static final Item LIGHT_GRAY_JELLO_CUP = createJelloCup(DyeColorantRegistry.LIGHT_GRAY, JelloFoodComponents.LIGHT_GRAY_JELLO_CUP);
-        public static final Item CYAN_JELLO_CUP = createJelloCup(DyeColorantRegistry.CYAN, JelloFoodComponents.CYAN_JELLO_CUP);
-        public static final Item PURPLE_JELLO_CUP = createJelloCup(DyeColorantRegistry.PURPLE, JelloFoodComponents.PURPLE_JELLO_CUP);
-        public static final Item BLUE_JELLO_CUP = createJelloCup(DyeColorantRegistry.BLUE, JelloFoodComponents.BLUE_JELLO_CUP);
-        public static final Item BROWN_JELLO_CUP = createJelloCup(DyeColorantRegistry.BROWN, JelloFoodComponents.BROWN_JELLO_CUP);
-        public static final Item GREEN_JELLO_CUP = createJelloCup(DyeColorantRegistry.GREEN, JelloFoodComponents.GREEN_JELLO_CUP);
-        public static final Item RED_JELLO_CUP = createJelloCup(DyeColorantRegistry.RED, JelloFoodComponents.RED_JELLO_CUP);
-        public static final Item BLACK_JELLO_CUP = createJelloCup(DyeColorantRegistry.BLACK, JelloFoodComponents.BLACK_JELLO_CUP);
+        public static final Item WHITE_JELLO_CUP = createJelloCup(DyeColorantRegistry.WHITE)
+                .createEffectData(handler -> {
+                    handler.primaryEffects.add(StatusEffects.SLOW_FALLING);
 
-        public static final List<Item> JELLO_CUP = List
+                    getPotions(handler);
+                });
+
+        public static final Item ORANGE_JELLO_CUP = createJelloCup(DyeColorantRegistry.ORANGE)
+                .createEffectData(handler -> {
+                    handler.primaryEffects.add(StatusEffects.FIRE_RESISTANCE);
+
+                    getPotions(handler);
+                });
+
+        public static final Item MAGENTA_JELLO_CUP = createJelloCup(DyeColorantRegistry.MAGENTA)
+                .createEffectData(handler -> {
+                    handler.primaryEffects.add(StatusEffects.HEALTH_BOOST);
+
+                    getPotions(handler);
+                });
+
+        public static final Item LIGHT_BLUE_JELLO_CUP = createJelloCup(DyeColorantRegistry.LIGHT_BLUE)
+                .createEffectData(handler -> {
+                    handler.primaryEffects.add(StatusEffects.JUMP_BOOST);
+
+                    getPotions(handler);
+                });
+
+        public static final Item YELLOW_JELLO_CUP = createJelloCup(DyeColorantRegistry.YELLOW)
+                .createEffectData(handler -> {
+                    handler.primaryEffects.addAll(List.of(StatusEffects.REGENERATION, StatusEffects.RESISTANCE, StatusEffects.FIRE_RESISTANCE, StatusEffects.ABSORPTION));
+
+                    List<Potion> potions = List.of(JelloPotions.GOLDEN_LIQUID, JelloPotions.ENCHANTED_GOLDEN_LIQUID);
+
+                    handler.validPotions.addAll(potions);
+
+                    handler.alternativeValidIngredient.put(Items.GOLDEN_APPLE, JelloPotions.GOLDEN_LIQUID);
+                    handler.alternativeValidIngredient.put(Items.ENCHANTED_GOLDEN_APPLE, JelloPotions.ENCHANTED_GOLDEN_LIQUID);
+                }).setDivisionFactor(2f);
+
+        public static final Item LIME_JELLO_CUP = createJelloCup(DyeColorantRegistry.LIME)
+                .createEffectData(handler -> {
+                    handler.primaryEffects.add(StatusEffects.LUCK);
+
+                    getPotions(handler);
+                });
+
+        public static final Item PINK_JELLO_CUP = createJelloCup(DyeColorantRegistry.PINK)
+                .createEffectData(handler -> {
+                    handler.primaryEffects.add(StatusEffects.INSTANT_HEALTH);
+
+                    getPotions(handler);
+                });
+
+        public static final Item GRAY_JELLO_CUP = createJelloCup(DyeColorantRegistry.GRAY)
+                .createEffectData(handler -> {
+                    handler.primaryEffects.add(StatusEffects.INVISIBILITY);
+
+                    getPotions(handler);
+                });
+
+        public static final Item LIGHT_GRAY_JELLO_CUP = createJelloCup(DyeColorantRegistry.LIGHT_GRAY)
+                .createEffectData(handler -> {
+                    handler.primaryEffects.add(StatusEffects.DOLPHINS_GRACE);
+
+                    getPotions(handler);
+                });
+
+        public static final Item CYAN_JELLO_CUP = createJelloCup(DyeColorantRegistry.CYAN)
+                .createEffectData(handler -> {
+                    handler.primaryEffects.add(StatusEffects.WATER_BREATHING);
+
+                    getPotions(handler);
+                });
+
+        public static final Item PURPLE_JELLO_CUP = createJelloCup(DyeColorantRegistry.PURPLE)
+                .createEffectData(handler -> {
+                    handler.primaryEffects.add(StatusEffects.NIGHT_VISION);
+
+                    getPotions(handler);
+                });
+
+        public static final Item BLUE_JELLO_CUP = createJelloCup(DyeColorantRegistry.BLUE)
+                .createEffectData(handler -> {
+                    handler.primaryEffects.add(StatusEffects.CONDUIT_POWER);
+
+                    getPotions(handler);
+                }).setDivisionFactor(2.5f);
+
+        public static final Item BROWN_JELLO_CUP = createJelloCup(DyeColorantRegistry.BROWN)
+                .createEffectData(handler -> {
+                    handler.primaryEffects.add(StatusEffects.SPEED);
+
+                    getPotions(handler);
+                });
+
+        public static final Item GREEN_JELLO_CUP = createJelloCup(DyeColorantRegistry.GREEN)
+                .createEffectData(handler -> {
+                    handler.primaryEffects.add(StatusEffects.HERO_OF_THE_VILLAGE);
+
+                    getPotions(handler);
+                });
+
+        public static final Item RED_JELLO_CUP = createJelloCup(DyeColorantRegistry.RED)
+                .createEffectData(handler -> {
+                    handler.primaryEffects.add(StatusEffects.STRENGTH);
+
+                    getPotions(handler);
+                });
+
+        public static final Item BLACK_JELLO_CUP = createJelloCup(DyeColorantRegistry.BLACK)
+                .createEffectData(handler -> {
+                    handler.primaryEffects.add(StatusEffects.RESISTANCE);
+                    handler.primaryEffects.add(StatusEffects.SLOWNESS);
+
+                    getPotions(handler);
+                }).setDivisionFactor(1.5f);
+
+        public static final List<Item> JELLO_CUPS = List
                 .of(WHITE_JELLO_CUP, ORANGE_JELLO_CUP, MAGENTA_JELLO_CUP, LIGHT_BLUE_JELLO_CUP,
                         YELLOW_JELLO_CUP, LIME_JELLO_CUP, PINK_JELLO_CUP, GRAY_JELLO_CUP,
                         LIGHT_GRAY_JELLO_CUP, CYAN_JELLO_CUP, PURPLE_JELLO_CUP, BLUE_JELLO_CUP,
                         BROWN_JELLO_CUP, GREEN_JELLO_CUP, RED_JELLO_CUP, BLACK_JELLO_CUP);
 
-        private static ColoredItem createJelloCup(DyeColorant dyeColor, FoodComponent foodComponent) {
-            return new ColoredItem(dyeColor, ItemFunctions.copyFrom(JELLO_CUP_DEFAULT).food(foodComponent), value -> value > 1);
+        public static void getPotions(JelloCupCreationHandler handler){
+            List<Potion> potions = new ArrayList<>();
+
+            Registry.POTION.getEntrySet()
+                    .forEach(entry -> {
+                        Identifier id = entry.getKey().getValue();
+
+                        List<StatusEffectInstance> effects = entry.getValue().getEffects();
+
+                        if(effects.isEmpty() || handler.primaryEffects.size() != effects.size()) return;
+
+                        int amountValid = 0;
+
+                        for (StatusEffectInstance effect : effects) {
+                            if((id.getNamespace().equals("minecraft") || id.getNamespace().equals(Jello.MODID)) && handler.primaryEffects.contains(effect.getEffectType())){
+                                amountValid++;
+                            }
+                        }
+
+                        if (amountValid != effects.size()) return;
+
+                        potions.add(entry.getValue());
+                    });
+
+            if(potions.isEmpty()) return;
+
+            handler.validPotions.addAll(
+                    potions.stream()
+                            .sorted(getPotionComparator())
+                            .toList()
+            );
+        }
+
+
+        public static Comparator<Potion> getPotionComparator(){
+            return (o1, o2) -> {
+                Map<Potion, AtomicInteger> map = new HashMap<>();
+
+                map.put(o1, new AtomicInteger(0));
+                map.put(o2, new AtomicInteger(0));
+
+                List<StatusEffectInstance> o1Effects = o1.getEffects();
+                List<StatusEffectInstance> o2Effects = o2.getEffects();
+
+                for (StatusEffectInstance o1Effect : o1Effects) {
+                    boolean foundEffectType = false;
+
+                    for (StatusEffectInstance o2Effect : o2Effects) {
+                        if(o1Effect.getEffectType() == o2Effect.getEffectType()){
+                            foundEffectType = true;
+
+                            float amplValue1 = o1Effect.getAmplifier();
+                            float amplValue2 = o2Effect.getAmplifier();
+
+                            float durValue1 = o1Effect.getDuration();
+                            float durValue2 = o2Effect.getDuration();
+
+                            float compareValue1 = Float.compare(amplValue1, amplValue2);
+
+                            boolean checkDuration = false;
+
+                            switch ((int) compareValue1) {
+                                case 1 -> map.get(o1).incrementAndGet();
+                                case -1 -> map.get(o2).incrementAndGet();
+                                case 0 -> checkDuration = true;
+                            }
+
+                            if(checkDuration) {
+                                float compareValue2 = Float.compare(durValue1, durValue2);
+
+                                switch ((int) compareValue2) {
+                                    case 1 -> map.get(o1).incrementAndGet();
+                                    case -1 -> map.get(o2).incrementAndGet();
+                                }
+                            }
+                        }
+                    }
+
+                    if(!foundEffectType){
+                        map.get(o1).incrementAndGet();
+                    }
+                }
+
+                return Integer.compare(map.get(o1).get(), map.get(o2).get());
+            };
+        }
+
+        private static JelloCupItem createJelloCup(DyeColorant dyeColor) {
+            return new JelloCupItem(
+                    dyeColor,
+                    ItemFunctions.copyFrom(new Item.Settings().rarity(Rarity.UNCOMMON).group(ItemGroup.FOOD).maxCount(16).fireproof()).food(createJelloBase().build()));
+        }
+
+        private static FoodComponent.Builder createJelloBase() {
+            return new FoodComponent.Builder().alwaysEdible().snack().hunger(2).saturationModifier(0.9F).statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 200), 1.0F);//.statusEffect(new StatusEffectInstance(JelloStatusEffectsRegistry.BOUNCE, 600), 1.0F);
         }
     }
 }

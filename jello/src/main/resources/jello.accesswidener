@@ -10,3 +10,5 @@ accessible method net/minecraft/client/texture/ResourceTexture upload (Lnet/mine
 
 accessible class net/minecraft/client/gui/screen/ingame/CreativeInventoryScreen$CreativeSlot
 accessible class net/minecraft/client/gui/screen/ingame/CreativeInventoryScreen$LockableSlot
+
+accessible method net/minecraft/recipe/BrewingRecipeRegistry registerPotionRecipe (Lnet/minecraft/potion/Potion;Lnet/minecraft/item/Item;Lnet/minecraft/potion/Potion;)V

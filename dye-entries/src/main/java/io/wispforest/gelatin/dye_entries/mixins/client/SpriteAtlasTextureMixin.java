@@ -42,51 +42,43 @@ public abstract class SpriteAtlasTextureMixin {
 
     @Inject(method = "stitch", at = @At(value = "INVOKE", target = "Ljava/lang/Math;min(II)I", ordinal = 3), locals = LocalCapture.CAPTURE_FAILHARD)
     private void jello$createGrayScaledSprites(ResourceManager resourceManager, Stream<Identifier> idStream, Profiler profiler, int mipmapLevel, CallbackInfoReturnable<SpriteAtlasTexture.Data> cir, Set<Identifier> set, int i, TextureStitcher textureStitcher, int j, int k){
-        if(this.id.equals(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE)) {
-            Set<TextureStitcher.Holder> holders = ((TextureStitcherAccessor)textureStitcher).getHolders();
+        if(!this.id.equals(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE)) return;
 
-            for(Identifier identifier : GrayScaleBlockRegistry.GRAYSCALABLE_BLOCK_SPRITES){
-                Optional<TextureStitcher.Holder> spriteData = holders.stream().filter(holder -> holder.sprite.getId().equals(identifier)).findAny();
+        Set<TextureStitcher.Holder> holders = ((TextureStitcherAccessor)textureStitcher).getHolders();
 
-                if(spriteData.isPresent()){
-                    textureStitcher.add(GrayScaledSpriteInfo.of(spriteData.get().sprite));
-                } else {
-                    textureStitcher.add(GrayScaledSpriteInfo.of(identifier, 0, 0, AnimationResourceMetadata.EMPTY));
-                    LOGGER.error("[GrayScaleSpriteInject]: Using missing texture, sprite {} not found", identifier);
-                }
+        for(Identifier identifier : GrayScaleBlockRegistry.GRAYSCALABLE_BLOCK_SPRITES){
+            Optional<TextureStitcher.Holder> spriteData = holders.stream().filter(holder -> holder.sprite.getId().equals(identifier)).findAny();
+
+            if(spriteData.isPresent()){
+                textureStitcher.add(GrayScaledSpriteInfo.of(spriteData.get().sprite));
+            } else {
+                textureStitcher.add(GrayScaledSpriteInfo.of(identifier, 0, 0, AnimationResourceMetadata.EMPTY));
+                LOGGER.error("[GrayScaleSpriteInject]: Using missing texture, sprite {} not found", identifier);
             }
-
-            System.out.println("test injection");
         }
+        //System.out.println("test injection");
     }
 
     @Inject(method = "loadSprite", at = @At("HEAD"))
     private void jello$changeIdentifierCall(ResourceManager container, Sprite.Info info, int atlasWidth, int atlasHeight, int maxLevel, int x, int y, CallbackInfoReturnable<Sprite> cir){
-        if(info instanceof GrayScaledSpriteInfo grayScaledSpriteInfo) {
-            cachedInfo.set(grayScaledSpriteInfo);
-        } else {
-            cachedInfo.set(null);
-        }
+        cachedInfo.set(info instanceof GrayScaledSpriteInfo grayInfo ? grayInfo : null);
     }
 
     @ModifyArg(method = "loadSprite", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/texture/SpriteAtlasTexture;getTexturePath(Lnet/minecraft/util/Identifier;)Lnet/minecraft/util/Identifier;"))
     private Identifier jello$changeIdentifierCall(Identifier value){
-        if(cachedInfo.get() != null){
-            return cachedInfo.get().getDefaultTextureId();
-        } else {
-            return value;
-        }
+        return cachedInfo.get() != null
+                ? cachedInfo.get().getDefaultTextureId()
+                : value;
     }
 
     @ModifyArg(method = "loadSprite", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/texture/Sprite;<init>(Lnet/minecraft/client/texture/SpriteAtlasTexture;Lnet/minecraft/client/texture/Sprite$Info;IIIIILnet/minecraft/client/texture/NativeImage;)V"))
     private NativeImage jello$GrayscaleImageCall(NativeImage value){
-        if(cachedInfo.get() != null){
-            return ColorUtil.convertImageToGrayScale(value);
-        } else {
-            return value;
-        }
+        return cachedInfo.get() != null
+                ? ColorUtil.convertImageToGrayScale(value)
+                : value;
     }
 
+    //ATLAS DUMPING METHOD!!!!
 //    @Inject(method = "upload", at = @At("TAIL"))
 //    private void saveBlockAtlas(SpriteAtlasTexture.Data data, CallbackInfo ci){
 //        if(this.getId().equals(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE)) {

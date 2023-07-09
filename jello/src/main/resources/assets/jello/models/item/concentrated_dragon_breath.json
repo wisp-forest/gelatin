@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "jello:item/concentrated_dragon_breath"
+  }
+}

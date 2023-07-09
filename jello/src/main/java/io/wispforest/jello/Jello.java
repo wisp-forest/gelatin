@@ -17,6 +17,7 @@ import io.wispforest.jello.item.JelloItems;
 import io.wispforest.jello.item.SpongeItem;
 import io.wispforest.jello.item.dyebundle.DyeBundlePackets;
 import io.wispforest.jello.misc.JelloBlockVariants;
+import io.wispforest.jello.misc.JelloPotions;
 import io.wispforest.jello.network.ColorMixerScrollPacket;
 import io.wispforest.jello.network.ColorMixerSearchPacket;
 import io.wispforest.jello.network.CustomJsonColorSync;
@@ -31,6 +32,8 @@ import net.fabricmc.fabric.api.networking.v1.ServerLoginNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.command.CommandSource;
 import net.minecraft.item.Items;
+import net.minecraft.potion.Potions;
+import net.minecraft.recipe.BrewingRecipeRegistry;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.util.Identifier;
@@ -45,7 +48,7 @@ public class Jello implements ModInitializer {
 
     public static final String MODID = "jello";
 
-    public static JelloConfig MAIN_CONFIG = null;
+    private static JelloConfig MAIN_CONFIG = null;
 
     public static Identifier id(String path){
         return new Identifier(MODID, path);
@@ -66,21 +69,23 @@ public class Jello implements ModInitializer {
 
         FieldRegistrationHandler.register(JelloBlockEntityTypes.class, MODID, false);
 
+        FieldRegistrationHandler.register(JelloPotions.class, MODID, false);
+
         FieldRegistrationHandler.register(JelloItems.class, MODID, true);
+
+        BrewingRecipeRegistry.registerPotionRecipe(Potions.REGENERATION, JelloItems.CONCENTRATED_DRAGON_BREATH, JelloPotions.DRAGON_HEALTH);
+        BrewingRecipeRegistry.registerPotionRecipe(Potions.LONG_REGENERATION, JelloItems.CONCENTRATED_DRAGON_BREATH, JelloPotions.LONG_DRAGON_HEALTH);
+        BrewingRecipeRegistry.registerPotionRecipe(Potions.STRONG_REGENERATION, JelloItems.CONCENTRATED_DRAGON_BREATH, JelloPotions.STRONG_DRAGON_HEALTH);
+
+        BrewingRecipeRegistry.registerPotionRecipe(JelloPotions.DRAGON_HEALTH, Items.REDSTONE, JelloPotions.LONG_DRAGON_HEALTH);
+        BrewingRecipeRegistry.registerPotionRecipe(JelloPotions.DRAGON_HEALTH, Items.GLOWSTONE_DUST, JelloPotions.STRONG_DRAGON_HEALTH);
 
         FieldRegistrationHandler.register(JelloRecipeSerializers.class, MODID, false);
 
-//        FieldRegistrationHandler.register(JelloGameEvents.class, MODID, false);
-
         FieldRegistrationHandler.register(JelloScreenHandlerTypes.class, MODID, false);
 
-//        FieldRegistrationHandler.processSimple(TrackedDataHandlerExtended.class, false);
-
-//        FieldRegistrationHandler.processSimple(JelloStats.class, false);
-
-//        JelloBlockVariants.initialize();
-
         JelloBlockVariants.initialize();
+
         //---------------------------------------------------------------------------------
 
 
@@ -90,9 +95,7 @@ public class Jello implements ModInitializer {
         RecipeRemainderStorage.store(Jello.id("sponge_item_from_dry_sponge"), Map.of(Items.SHEARS, Items.SHEARS.getDefaultStack()));
         RecipeRemainderStorage.store(Jello.id("artist_palette"), Map.of(Items.SHEARS, Items.SHEARS.getDefaultStack()));
 
-        if(Jello.getConfig().addCustomJsonColors()) {
-            DyeColorantLoader.loadFromJson();
-        }
+        if(Jello.getConfig().addCustomJsonColors()) DyeColorantLoader.loadFromJson();
 
         initializeNetworking();
 
@@ -173,9 +176,7 @@ public class Jello implements ModInitializer {
     }
 
     public static JelloConfig getConfig() {
-        if(MAIN_CONFIG == null){
-            MAIN_CONFIG = JelloConfig.createAndLoad();
-        }
+        if(MAIN_CONFIG == null) MAIN_CONFIG = JelloConfig.createAndLoad();
 
         return MAIN_CONFIG;
     }

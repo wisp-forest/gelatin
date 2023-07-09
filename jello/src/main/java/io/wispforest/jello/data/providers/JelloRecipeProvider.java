@@ -9,22 +9,30 @@ import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.data.JelloTags;
 import io.wispforest.jello.data.recipe.JelloRecipeSerializers;
 import io.wispforest.jello.item.JelloItems;
+import io.wispforest.jello.misc.pond.CookingRecipeJsonBuilderExtension;
+import io.wispforest.jello.misc.pond.CookingRecipeJsonProviderExtension;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.data.server.recipe.CookingRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
+import net.minecraft.recipe.BrewingRecipeRegistry;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.recipe.ShapelessRecipe;
 import net.minecraft.tag.ItemTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 import java.util.function.Consumer;
+import static io.wispforest.jello.item.JelloItems.*;
+
+
 
 public class JelloRecipeProvider extends FabricRecipeProvider {
     public JelloRecipeProvider(FabricDataGenerator dataGenerator) {
@@ -60,6 +68,34 @@ public class JelloRecipeProvider extends FabricRecipeProvider {
 
             offerSlimeBallDyeingRecipe(exporter, item, dyeItem, itemPath, dyePath);
         }
+
+        ShapelessRecipeJsonBuilder.create(BOWL_OF_SUGAR)
+                        .input(Items.SUGAR)
+                        .input(Items.BOWL)
+                        .criterion("has_bowl", conditionsFromItem(Items.BOWL))
+                        .offerTo(exporter, new Identifier("bowl_of_sugar"));
+
+        ((CookingRecipeJsonBuilderExtension) CookingRecipeJsonBuilder.createSmelting(Ingredient.ofItems(BOWL_OF_SUGAR), JelloCups.SUGAR_CUP, 5, 45))
+                .setResultAmount(3)
+                .criterion("has_bowl_of_sugar", conditionsFromItem(BOWL_OF_SUGAR))
+                .offerTo(exporter, new Identifier("sugar_cup"));
+
+        ((CookingRecipeJsonBuilderExtension) CookingRecipeJsonBuilder.createSmelting(Ingredient.ofItems(Items.BONE_MEAL), GELATIN, 5, 45))
+                .setResultAmount(2)
+                .criterion("has_bone_meal", conditionsFromItem(Items.BONE_MEAL))
+                .offerTo(exporter, new Identifier("gelatin"));
+
+        GelatinComplexRecipeJsonBuilder.create(JelloRecipeSerializers.GELATIN_SOLUTION).offerTo(exporter, Jello.id("create_gelatin_solution"));
+
+        ShapedRecipeJsonBuilder.create(CONCENTRATED_DRAGON_BREATH)
+                .input('D', Items.DRAGON_BREATH)
+                .input('T', Items.GHAST_TEAR)
+                .pattern(" D ")
+                .pattern("DTD")
+                .pattern(" D ")
+                .criterion("has_dragon_breath", conditionsFromItem(Items.DRAGON_BREATH))
+                .criterion("has_ghast_tear", conditionsFromItem(Items.GHAST_TEAR))
+                .offerTo(exporter, new Identifier("concentrated_dragon_breath"));
 
         ShapedRecipeJsonBuilder.create(Items.BUNDLE)
                 .input('~', Items.STRING)

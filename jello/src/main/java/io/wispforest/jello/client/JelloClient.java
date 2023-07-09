@@ -20,7 +20,6 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.networking.v1.ClientLoginNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
@@ -33,7 +32,6 @@ import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.BundleItem;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.server.command.CommandManager;
 import net.minecraft.util.Identifier;
 
 import java.util.Map;
@@ -75,9 +73,11 @@ public class JelloClient implements ClientModInitializer {
 
         //--------------------------------[Other Item Stuff's]------------------------------
 
+        ColorProviderRegistry.ITEM.register((ItemColorProvider) JelloItems.GELATIN_SOLUTION, JelloItems.GELATIN_SOLUTION);
+
         JelloItems.Slimeballs.SLIME_BALLS.forEach((item) -> ColorProviderRegistry.ITEM.register((ItemColorProvider) item, item));
 
-        JelloItems.JelloCups.JELLO_CUP.forEach((item) -> ColorProviderRegistry.ITEM.register((ItemColorProvider) item, item));
+        JelloItems.JelloCups.JELLO_CUPS.forEach((item) -> ColorProviderRegistry.ITEM.register((ItemColorProvider) item, item));
 
         ColorProviderRegistry.ITEM.register((ItemColorProvider) JelloItems.ARTIST_PALETTE, JelloItems.ARTIST_PALETTE);
 
