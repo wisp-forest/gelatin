@@ -127,7 +127,8 @@ public class JelloLangProvider extends AbstractLanguageProvider {
     public enum PotionType {
         POTION("Potion of "),
         SPLASH_POTION("Splash Potion of "),
-        LINGERING_POTION("Lingering Potion of ");
+        LINGERING_POTION("Lingering Potion of "),
+        TIPPED_ARROW("Arrow of ");
 
         public final String typeTranslation;
 
@@ -144,6 +145,7 @@ public class JelloLangProvider extends AbstractLanguageProvider {
         addPotion(PotionType.POTION, potion, translation);
         addPotion(PotionType.SPLASH_POTION, potion, translation);
         addPotion(PotionType.LINGERING_POTION, potion, translation);
+        addPotion(PotionType.TIPPED_ARROW, potion, translation);
     }
 
     private void addPotion(PotionType type, Potion potion, @Nullable String translation){

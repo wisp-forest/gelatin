@@ -1,28 +1,24 @@
 package io.wispforest.jello.misc;
 
 import com.google.gson.*;
-import io.wispforest.gelatin.common.util.ItemFunctions;
 import io.wispforest.gelatin.common.util.VersatileLogger;
-import io.wispforest.gelatin.dye_entries.variants.DyeableVariantRegistry;
-import io.wispforest.gelatin.dye_entries.variants.item.DyeableItemVariant;
+import io.wispforest.gelatin.dye_entries.variants.DyeableVariantManager;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
-import io.wispforest.gelatin.dye_entries.variants.DyeableVariantManager;
 import io.wispforest.jello.Jello;
+import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.impl.util.StringUtil;
+import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.block.MapColor;
 import net.minecraft.util.Identifier;
-import org.apache.commons.lang3.StringUtils;
 
-import javax.print.URIException;
-import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
-import java.nio.file.*;
-import java.nio.file.attribute.FileAttribute;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -45,55 +41,42 @@ public class DyeColorantLoader {
     public static void loadFromJson() {
         LOGGER.restartTimer();
 
-        ClassLoader loader = DyeColorantLoader.class.getClassLoader();
+        Map<Integer, Path> versions = new Int2ObjectArrayMap<>();
 
-        Map<Integer, URL> versions = new HashMap<>();
+        Stream<Path> files;
 
-        Stream<URL> files = Stream.of();//= loader.resources("data/jello/other/");
+        Optional<ModContainer> possibleContainer = FabricLoader.getInstance().getModContainer("jello");
 
-        try {
-            List<Path> result;
+        Optional<Path> folderPath;
 
-            // get path of the current running JAR
-            String jarPath = DyeColorantLoader.class.getProtectionDomain()
-                    .getCodeSource()
-                    .getLocation()
-                    .toURI()
-                    .getPath();
+        if(possibleContainer.isPresent()){
+            ModContainer container = possibleContainer.get();
 
-            // file walks JAR
-            URI jarURI = URI.create(("jar:file:" + jarPath + "data/jello/other/").replace(" ", "%20"));
+            folderPath = container.findPath("data/jello/other/");
 
-            try {
-                try (FileSystem fs = FileSystems.newFileSystem(jarURI, Collections.emptyMap())) {
-                    result = Files.walk(fs.getPath("data/jello/other/"))
+            if(folderPath.isPresent()){
+                List<Path> result;
+
+                try {
+                    result = Files.walk(folderPath.get())
                             .filter(Files::isRegularFile)
                             .collect(Collectors.toList());
-                }
-            } catch (ProviderNotFoundException e){
-                Path filePath = Path.of(jarPath.substring(1) + "data/jello/other/");
+                } catch (IOException e){
+                    LOGGER.failMessage(e.toString());
 
-                result = Files.walk(filePath)
-                        .filter(Files::isRegularFile)
-                        .collect(Collectors.toList());
+                    throw new IllegalStateException("The attempted to gather all revisions of the Jello Color Database has gone wrong!");
+                }
+
+                files = result.stream();
+            } else {
+                throw new IllegalStateException("The Required Folder path for the Jello Color Database could not be located, something has gone very wrong!");
             }
-            //result.forEach(path -> LOGGER.failMessage(path.toString()));
-
-            files = result.stream().map(Path::toUri).map(uri -> {
-                try {
-                    return uri.toURL();
-                } catch (MalformedURLException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-
-        } catch (URISyntaxException | IOException  e){
-            LOGGER.failMessage("Something has gone with the file loading for extra dye colors!");
-            e.printStackTrace();
+        } else {
+            throw new IllegalStateException("Could not locate the Jello Mod container from fabric, something has gone very wrong!");
         }
 
-        files.forEach(url -> {
-            String fileName = url.getFile();
+        files.forEach(uri -> {
+            String fileName = uri.getFileName().toString();
 
             String[] nameSplit = fileName.split("colorDatabase_rev");
 
@@ -103,7 +86,7 @@ public class DyeColorantLoader {
                 if(versions.containsKey(revisionNumber)){
                     LOGGER.failMessage("Seems that there is another colorDatabase Revision with the same number and such will be ignored!");
                 } else {
-                    versions.put(revisionNumber, url);
+                    versions.put(revisionNumber, uri);
                 }
             } catch (NumberFormatException e){
                 LOGGER.failMessage("A ColorDatabase Reversion number was not able to be parsed and such will be ignored!");
@@ -111,25 +94,23 @@ public class DyeColorantLoader {
             }
         });
 
-        List<URL> versionsOrdered = new ArrayList<>();
+        List<Path> versionsOrdered = new ArrayList<>();
 
-        for (Map.Entry<Integer, URL> entry : versions.entrySet()) {
+        for (Map.Entry<Integer, Path> entry : versions.entrySet()) {
             Integer integer = entry.getKey();
-            URL url = entry.getValue();
+            Path path = entry.getValue();
 
             if(integer >= versionsOrdered.size()){
-                versionsOrdered.add(url);
+                versionsOrdered.add(path);
             } else {
-                versionsOrdered.add(integer, url);
+                versionsOrdered.add(integer, path);
             }
         }
 
-        //versionsOrdered.remove(versionsOrdered.get(1));
-
         try {
-            if(versionsOrdered.isEmpty()) versionsOrdered.add(loader.getResource("data/jello/other/colorDatabase_rev0.json"));
+            if(versionsOrdered.isEmpty()) versionsOrdered.add(folderPath.get().resolve("data/jello/other/colorDatabase_rev0.json"));
 
-            JsonObject databaseJson = GSON.fromJson(new InputStreamReader(versionsOrdered.get(versionsOrdered.size() - 1).openStream()), JsonObject.class);
+            JsonObject databaseJson = GSON.fromJson(new InputStreamReader(Files.newInputStream(versionsOrdered.get(versionsOrdered.size() - 1))), JsonObject.class);
 
             for (JsonElement color : databaseJson.getAsJsonArray("colors")) {
                 ColorData data = GSON.fromJson(color, ColorData.class);
@@ -149,12 +130,12 @@ public class DyeColorantLoader {
 
             LOGGER.restartTimer();
 
-            ListIterator<URL> fileIterator = versionsOrdered.listIterator(versionsOrdered.size());
+            ListIterator<Path> fileIterator = versionsOrdered.listIterator(versionsOrdered.size());
 
             while (fileIterator.hasPrevious()){
-                URL file = fileIterator.previous();
+                Path file = fileIterator.previous();
 
-                databaseJson = GSON.fromJson(new InputStreamReader(file.openStream()), JsonObject.class);
+                databaseJson = GSON.fromJson(new InputStreamReader(Files.newInputStream(file)), JsonObject.class);
 
                 if(!databaseJson.has("conversionData")) continue;
 

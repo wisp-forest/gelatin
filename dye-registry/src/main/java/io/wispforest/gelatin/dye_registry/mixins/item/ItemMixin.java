@@ -5,10 +5,12 @@ import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import io.wispforest.gelatin.dye_registry.ducks.DyeItemStorage;
 import net.minecraft.item.Item;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(Item.class)
 public class ItemMixin implements DyeItemStorage {
 
+    @Unique
     private DyeColorant itemDyeColor = DyeColorantRegistry.NULL_VALUE_NEW;
 
     @Override

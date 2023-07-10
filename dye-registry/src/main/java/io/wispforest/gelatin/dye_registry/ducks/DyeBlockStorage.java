@@ -1,6 +1,7 @@
 package io.wispforest.gelatin.dye_registry.ducks;
 
 import io.wispforest.gelatin.dye_registry.DyeColorant;
+import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import io.wispforest.gelatin.dye_registry.mixins.BlockMixin;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -17,7 +18,9 @@ public interface DyeBlockStorage {
     /**
      * Method to check if a block is currently Dyed or not
      */
-    boolean isBlockDyed();
+    default boolean isBlockDyed(){
+        return getDyeColorant() != DyeColorantRegistry.NULL_VALUE_NEW;
+    }
 
     //---------------------------------------------
 

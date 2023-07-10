@@ -209,7 +209,7 @@ public class DyeBundlePackets {
 
                     shouldMarkDirty = true;
                 } else {
-                    if((cursorStack.getItem() instanceof DyeItemStorage dyeItemStorage && dyeItemStorage.isDyeItem())){
+                    if((cursorStack.getItem().isDyeItem())){
                         NbtCompound cursorStackTag = new NbtCompound();
 
                         cursorStack.writeNbt(cursorStackTag);

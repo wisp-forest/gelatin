@@ -31,11 +31,4 @@ public abstract class BlockMixin extends AbstractBlock implements DyeBlockStorag
     public void setDyeColor(DyeColorant dyeColorant) {
         this.blockDyeColor = dyeColorant;
     }
-
-    @Override
-    public boolean isBlockDyed() {
-        return getDyeColorant() != DyeColorantRegistry.NULL_VALUE_NEW;
-    }
-
-
 }

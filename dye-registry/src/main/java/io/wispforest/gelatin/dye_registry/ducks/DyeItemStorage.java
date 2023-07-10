@@ -25,6 +25,10 @@ public interface DyeItemStorage {
         return false;
     }
 
+    default boolean isItemDyed() {
+        return getDyeColorant() != DyeColorantRegistry.NULL_VALUE_NEW;
+    }
+
     //------------------------------------------
 
     /**

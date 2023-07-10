@@ -46,12 +46,11 @@
     "jello.mixins.json"
   ],
   "depends": {
-    "owo": ">=0.8.0+1.19",
-    "gelatin": "*",
-    "cloth-config": ">=6.2.57",
-    "fabricloader": ">=0.13.3",
+    "fabricloader": ">=0.14.6",
     "fabric": "*",
-    "minecraft": ">=1.18.2"
+    "minecraft": "~1.19",
+    "gelatin": "*",
+    "owo": ">=0.9.3+1.19"
   },
   "suggests": {
     "modmenu": "*",

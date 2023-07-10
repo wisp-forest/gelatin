@@ -274,7 +274,7 @@ public class DyeBundleItem extends BundleItem implements DyeBlockTool, DyeEntity
     public boolean onStackClicked(ItemStack stack, Slot slot, ClickType clickType, PlayerEntity player) {
         ItemStack slotStack = slot.getStack();
 
-        if(slotStack.isEmpty() || (slotStack.getItem() instanceof DyeItemStorage dyeItemStorage && dyeItemStorage.isDyeItem())){
+        if(slotStack.isEmpty() || (slotStack.getItem().isDyeItem())){
             return super.onStackClicked(stack, slot, clickType, player);
         }
 
@@ -283,7 +283,7 @@ public class DyeBundleItem extends BundleItem implements DyeBlockTool, DyeEntity
 
     @Override
     public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
-        if(otherStack.isEmpty() || (otherStack.getItem() instanceof DyeItemStorage dyeItemStorage && dyeItemStorage.isDyeItem())){
+        if(otherStack.isEmpty() || (otherStack.getItem().isDyeItem())){
             return super.onClicked(stack, otherStack, slot, clickType, player, cursorStackReference);
         }
 

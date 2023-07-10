@@ -4,6 +4,7 @@ import io.wispforest.gelatin.common.util.ItemFunctions;
 import io.wispforest.gelatin.dye_entries.DyeEntriesInit;
 import io.wispforest.gelatin.dye_entries.block.*;
 import io.wispforest.gelatin.dye_entries.data.GelatinLootTables;
+import io.wispforest.gelatin.dye_entries.item.ColoredBlockItem;
 import io.wispforest.gelatin.dye_entries.mixins.accessors.BlockEntityTypeAccessor;
 import io.wispforest.gelatin.dye_entries.mixins.accessors.ShulkerBoxBlockEntityAccessor;
 import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
@@ -178,10 +179,7 @@ public class VanillaBlockVariants {
                 return false;
         }).setDefaultEntry("shulker_box")
             .addTags(BlockTags.SHULKER_BOXES)
-            .configureBlockItemVariant(dyeableItemVariant -> {
-                dyeableItemVariant.itemMaker = (dyeColorant, block, settings) -> new BlockItem((Block)block, settings);
-            })
-            .setLootTable(block -> GelatinLootTables.shulkerBoxDrops((Block)block).build())
+            .setLootTable(block -> GelatinLootTables.shulkerBoxDrops(block).build())
             .register();
 
     //-----------------------------------------------------------------

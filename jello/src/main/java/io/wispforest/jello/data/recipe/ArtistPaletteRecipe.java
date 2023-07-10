@@ -38,8 +38,10 @@ public class ArtistPaletteRecipe extends SpecialCraftingRecipe {
                             return false;
                         }
 
-                        if (itemStack.getItem() instanceof DyeItemStorage dyeItemStorage && dyeItemStorage.isDyeItem() && ArtistPaletteItem.ALLOWED_COLORS.contains(dyeItemStorage.getDyeColorant())) {
-                            switch (dyeItemStorage.getDyeColorant().toString()) {
+                        var item = itemStack.getItem();
+
+                        if (item.isDyeItem() && ArtistPaletteItem.ALLOWED_COLORS.contains(item.getDyeColorant())) {
+                            switch (item.getDyeColorant().toString()) {
                                 case "minecraft:red" -> {
                                     if ((hasColorAlready & 1) == 1) {
                                         return false;

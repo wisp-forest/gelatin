@@ -153,8 +153,7 @@ public class DyeBundleTooltipRender implements HudRenderCallback, OnItemstackToo
 
             HandledScreenEvents.allowMouseTooltipWithCursorStack(handledScreen).register((screen1, cursorStack, slot, pointX, pointY) -> {
                 return slot.getStack().getItem() instanceof DyeBundleItem
-                        && cursorStack.getItem() instanceof DyeItemStorage storage
-                        && storage.isDyeItem();
+                        && cursorStack.getItem().isDyeItem();
             });
 
             ScreenEvents.afterRender(screen).register((screen1, matrices, mouseX, mouseY, tickDelta) -> {

@@ -16,12 +16,12 @@ public class ColoredBlockItem extends BlockItem implements ItemColorProvider {
     public ColoredBlockItem(Block block, Settings settings) {
         super(block, settings);
 
-        ((DyeItemStorage)this).setDyeColor(((DyeBlockStorage) block).getDyeColorant());
+        this.setDyeColor(((DyeBlockStorage) block).getDyeColorant());
     }
 
     @Override
     @Environment(EnvType.CLIENT)
     public int getColor(ItemStack stack, int tintIndex) {
-        return ((DyeItemStorage)this).getDyeColorant().getBaseColor();
+        return this.getDyeColorant().getBaseColor();
     }
 }

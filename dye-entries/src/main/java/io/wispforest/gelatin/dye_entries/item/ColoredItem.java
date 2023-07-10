@@ -21,7 +21,7 @@ public class ColoredItem extends Item implements ItemColorProvider {
 
         this.tintAbove = tintAbove;
 
-        ((DyeItemStorage)this).setDyeColor(dyeColor);
+        this.setDyeColor(dyeColor);
     }
 
     public ColoredItem(DyeColorant dyeColor, Settings settings) {
@@ -31,6 +31,6 @@ public class ColoredItem extends Item implements ItemColorProvider {
     @Override
     @Environment(EnvType.CLIENT)
     public int getColor(ItemStack stack, int tintIndex) {
-        return tintAbove.test(tintIndex) ? ((DyeItemStorage)this).getDyeColorant().getBaseColor() : -1;
+        return tintAbove.test(tintIndex) ? this.getDyeColorant().getBaseColor() : -1;
     }
 }
