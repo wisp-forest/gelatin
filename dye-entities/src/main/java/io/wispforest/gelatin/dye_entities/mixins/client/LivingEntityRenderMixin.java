@@ -91,6 +91,4 @@ public abstract class LivingEntityRenderMixin<T extends LivingEntity, M extends 
             return value;
         }
     }
-
-
 }
