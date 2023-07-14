@@ -20,29 +20,39 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientLoginNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.color.item.ItemColorProvider;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.BundleItem;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class JelloClient implements ClientModInitializer {
 
+    public static final KeyBinding DYE_BUNDLE_RESET_BIND = new KeyBinding("", GLFW.GLFW_KEY_J, "");
+
     private static final RenderLayer TRANSLUCENT = RenderLayer.getTranslucent();
 
     @Override
     public void onInitializeClient() {
+        if(FabricLoader.getInstance().isDevelopmentEnvironment()) {
+            KeyBindingHelper.registerKeyBinding(DYE_BUNDLE_RESET_BIND);
+        }
+
         DyeBundleStackScrollEvents.initClientTickEvent();
         DyeBundleTooltipRender.initEvents();
 

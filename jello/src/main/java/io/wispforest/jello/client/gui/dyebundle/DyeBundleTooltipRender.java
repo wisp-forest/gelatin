@@ -1,6 +1,7 @@
 package io.wispforest.jello.client.gui.dyebundle;
 
 import io.wispforest.gelatin.dye_registry.ducks.DyeItemStorage;
+import io.wispforest.jello.client.JelloClient;
 import io.wispforest.jello.item.dyebundle.DyeBundlePackets;
 import io.wispforest.jello.mixins.client.accessors.CreativeSlotAccessor;
 import io.wispforest.jello.item.JelloItems;
@@ -62,7 +63,7 @@ public class DyeBundleTooltipRender implements HudRenderCallback, OnItemstackToo
 
     @Override
     public void onHudRender(MatrixStack matrixStack, float tickDelta) {
-        if (adapter == null || DyeBundleTooltipBuilder.binding.wasPressed()) initializeAdapter();
+        if (adapter == null || JelloClient.DYE_BUNDLE_RESET_BIND.wasPressed()) initializeAdapter();
 
         if (hoveringOverTooltip || hoveringItemStack) return;
 
@@ -118,7 +119,7 @@ public class DyeBundleTooltipRender implements HudRenderCallback, OnItemstackToo
 
     @Override
     public void afterInit(MinecraftClient client, Screen screen, int scaledWidth, int scaledHeight) {
-        if (adapter == null || DyeBundleTooltipBuilder.binding.wasPressed()) initializeAdapter();
+        if (adapter == null || JelloClient.DYE_BUNDLE_RESET_BIND.wasPressed()) initializeAdapter();
 
         if(screen instanceof HandledScreen handledScreen) {
             ScreenMouseEvents.allowMouseClick(screen).register((screen1, mouseX, mouseY, button) -> {

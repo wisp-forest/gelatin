@@ -41,8 +41,6 @@ public class DyeBundleTooltipBuilder {
     private static final EventSource<?>.Subscription mouseEnter;
     private static final EventSource<?>.Subscription mouseLeave;
 
-    public static final KeyBinding binding = new KeyBinding("", GLFW.GLFW_KEY_J, "");
-
     static {
         mouseEnter = rootComponent.mouseEnter().subscribe(() -> {
             DyeBundleTooltipRender.hoveringOverTooltip = true;
@@ -51,8 +49,6 @@ public class DyeBundleTooltipBuilder {
         mouseLeave = rootComponent.mouseLeave().subscribe(() -> {
             DyeBundleTooltipRender.hoveringOverTooltip = false;
         });
-
-        KeyBindingHelper.registerKeyBinding(binding);
     }
 
     public ItemStack bundleStack;
