@@ -27,7 +27,7 @@ public class JelloCCEntrypoint implements CondensedCreativeInitializer {
         CondensedEntryRegistry.fromItems(Jello.id("slime_balls"), Items.SLIME_BALL, slimeballs)
                 .setEntrySorting(allStacks -> {
                     GelatinCCEntrypoint.sortItemStacks(allStacks, Items.SLIME_BALL,
-                            stack -> ((DyeBlockStorage)((BlockItem)stack.getItem()).getBlock()).getDyeColorant());
+                            stack -> stack.getItem().getDyeColorant());
                 })
                 .setTitleSupplier(() -> Text.translatable("slime_balls_condensed"))
                 .addToItemGroup(ItemGroups.INGREDIENTS);
