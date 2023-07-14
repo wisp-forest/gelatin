@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
 
 import java.util.Map;
 
@@ -37,6 +38,29 @@ public interface LangInterface {
 
     default void addEffect(StatusEffect key, String name) {
         addTranslation(key.getTranslationKey(), name);
+    }
+
+    public enum PotionType {
+        POTION("Potion of "),
+        SPLASH_POTION("Splash Potion of "),
+        LINGERING_POTION("Lingering Potion of "),
+        TIPPED_ARROW("Arrow of ");
+
+        public final String typeTranslation;
+
+        PotionType(String typeTranslation){
+            this.typeTranslation = typeTranslation;
+        }
+    }
+
+    default void addPotion(Potion potion, String translation){
+        for (ExtLangInterface.PotionType type : ExtLangInterface.PotionType.values()) {
+            addPotion(type.toString().toLowerCase(), potion, type.typeTranslation + translation);
+        }
+    }
+
+    default void addPotion(String potionType, Potion potion, String translation){
+        addTranslation(potion.finishTranslationKey("item.minecraft." + potionType + ".effect."), translation);
     }
 
     default void addEntityType(EntityType<?> key, String name) {

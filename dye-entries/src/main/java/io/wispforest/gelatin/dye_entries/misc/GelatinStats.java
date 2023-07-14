@@ -2,9 +2,10 @@ package io.wispforest.gelatin.dye_entries.misc;
 
 import io.wispforest.gelatin.common.misc.GelatinConstants;
 import io.wispforest.owo.registration.reflect.SimpleFieldProcessingSubject;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.stat.StatFormatter;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.lang.reflect.Field;
 
@@ -19,7 +20,7 @@ public class GelatinStats implements SimpleFieldProcessingSubject<Identifier> {
 
     @Override
     public void processField(Identifier value, String identifier, Field field) {
-        Registry.register(Registry.CUSTOM_STAT, identifier, value);
+        Registry.register(Registries.CUSTOM_STAT, identifier, value);
         net.minecraft.stat.Stats.CUSTOM.getOrCreateStat(value, StatFormatter.DEFAULT);
     }
 

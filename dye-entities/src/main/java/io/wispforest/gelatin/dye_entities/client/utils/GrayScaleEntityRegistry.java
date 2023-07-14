@@ -4,8 +4,8 @@ import io.wispforest.gelatin.common.misc.GelatinConstants;
 import io.wispforest.gelatin.dye_entities.ducks.GrayScaleEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -45,7 +45,7 @@ public class GrayScaleEntityRegistry {
      * Checks if a given Entity is Blacklisted for GrayScaleAbility
      */
     public static boolean isBlacklisted(Entity entity) {
-        return GRAYSCALABLE_MODID_BLACKLIST.contains(Registry.ENTITY_TYPE.getId(entity.getType()).getNamespace());
+        return GRAYSCALABLE_MODID_BLACKLIST.contains(Registries.ENTITY_TYPE.getId(entity.getType()).getNamespace());
     }
 
     public Identifier getOrFindTexture(Entity entity, Identifier defaultIdentifier) {

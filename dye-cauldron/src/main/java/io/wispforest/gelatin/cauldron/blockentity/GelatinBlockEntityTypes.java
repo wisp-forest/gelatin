@@ -4,7 +4,8 @@ import io.wispforest.owo.registration.reflect.AutoRegistryContainer;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 
 public class GelatinBlockEntityTypes implements AutoRegistryContainer<BlockEntityType<?>> {
 
@@ -12,7 +13,7 @@ public class GelatinBlockEntityTypes implements AutoRegistryContainer<BlockEntit
 
     @Override
     public Registry<BlockEntityType<?>> getRegistry() {
-        return Registry.BLOCK_ENTITY_TYPE;
+        return Registries.BLOCK_ENTITY_TYPE;
     }
 
     @Override

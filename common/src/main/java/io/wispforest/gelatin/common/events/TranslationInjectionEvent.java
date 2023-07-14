@@ -1,15 +1,11 @@
 package io.wispforest.gelatin.common.events;
 
+import io.wispforest.gelatin.common.data.ExtLangInterface;
 import io.wispforest.gelatin.common.misc.GelatinConstants;
-import io.wispforest.gelatin.common.data.LangInterface;
-import io.wispforest.gelatin.common.data.providers.ImplLangProvider;
 import io.wispforest.gelatin.common.util.VersatileLogger;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.block.Block;
 import net.minecraft.client.resource.language.LanguageDefinition;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.Item;
 
 import java.util.List;
 import java.util.Map;
@@ -32,7 +28,7 @@ public class TranslationInjectionEvent {
         void generateLanguageTranslations(TranslationMapHelper helper);
     }
 
-    public static class TranslationMapHelper implements LangInterface {
+    public static class TranslationMapHelper implements ExtLangInterface {
         private final Map<String, String> translationData;
         private final List<LanguageDefinition> loadingDefinitions;
 
@@ -42,25 +38,13 @@ public class TranslationInjectionEvent {
         }
 
         public List<LanguageDefinition> getLangDefinitions(){
-            return List.copyOf(loadingDefinitions);
-        }
-
-        public void addItem(Item item) {
-            addItem(item, ImplLangProvider.getAutomaticNameForEntry(item));
-        }
-
-        public void addBlock(Block block) {
-            addBlock(block, ImplLangProvider.getAutomaticNameForEntry(block));
-        }
-
-        public void addEntityType(EntityType<?> entity) {
-            addEntityType(entity, ImplLangProvider.getAutomaticNameForEntry(entity));
+            return this.loadingDefinitions;
         }
 
         @Override
         public boolean addTranslation(String key, String value){
             if(!getDataMap().containsKey(key)){
-                LangInterface.super.addTranslation(key, value);
+                ExtLangInterface.super.addTranslation(key, value);
 
                 return true;
             }

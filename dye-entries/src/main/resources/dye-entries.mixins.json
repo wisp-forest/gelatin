@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "AbstractBlockStateMixin",
+    "AnimationAccessor",
     "BeaconBlockEntityMixin",
     "DyeItemMixin",
     "ItemStackMixin",
@@ -19,7 +20,7 @@
   "client": [
     "client.ShulkerBoxBlockEntityRendererMixin",
     "client.SpriteAtlasTextureMixin",
-    "client.SpriteInfoAccessor",
+    "client.SpriteContentsAccessor",
     "client.TextureStitcherAccessor",
     "client.dye.BedBlockEntityRendererMixin",
     "client.dye.ModelLoaderMixin",

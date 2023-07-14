@@ -36,7 +36,6 @@ public class ColorMixerScreenHandler extends ScreenHandler {
             .sorted(GelatinDyeItem.dyeStackHslComparator(0)).toList();
     }
 
-
     public final SimpleInventory dyeInventory;
     public final SimpleInventory artistInventory;
 
@@ -80,8 +79,9 @@ public class ColorMixerScreenHandler extends ScreenHandler {
     }
 
     @Override
-    public void close(PlayerEntity player) {
-        super.close(player);
+    public void onClosed(PlayerEntity player) {
+        super.onClosed(player);
+
         this.context.run((world, pos) -> {
             this.dropInventory(player, this.artistInventory);
         });
@@ -142,7 +142,7 @@ public class ColorMixerScreenHandler extends ScreenHandler {
     }
 
     @Override
-    public ItemStack transferSlot(PlayerEntity player, int invSlot) {
+    public ItemStack quickMove(PlayerEntity player, int invSlot) {
         return ScreenUtils.handleSlotTransfer(this, invSlot, 1);
     }
 

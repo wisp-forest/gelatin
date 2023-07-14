@@ -37,7 +37,7 @@
     },
     "loom:injected_interfaces": {
       "net/minecraft/class_1792": ["io/wispforest/gelatin/dye_registry/ducks/DyeItemStorage"],
-      "net.minecraft.class_2248": ["io/wispforest/gelatin/dye_registry/ducks/DyeBlockStorage"]
+      "net/minecraft/class_2248": ["io/wispforest/gelatin/dye_registry/ducks/DyeBlockStorage"]
     }
   }
 }

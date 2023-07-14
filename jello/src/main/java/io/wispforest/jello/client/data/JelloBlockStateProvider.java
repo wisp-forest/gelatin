@@ -5,6 +5,7 @@ import io.wispforest.jello.mixins.client.accessors.ModelsAccessor;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.item.JelloItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.Block;
 import net.minecraft.data.client.*;
@@ -23,8 +24,8 @@ public class JelloBlockStateProvider extends FabricModelProvider {
     private static final TextureKey LAYER2 = TextureKey.of("layer2");
     private static final TextureKey LAYER3 = TextureKey.of("layer3");
 
-    public JelloBlockStateProvider(FabricDataGenerator dataGenerator) {
-        super(dataGenerator);
+    public JelloBlockStateProvider(FabricDataOutput dataOutput) {
+        super(dataOutput);
     }
 
     @Override
@@ -136,10 +137,6 @@ public class JelloBlockStateProvider extends FabricModelProvider {
 
     public static class PathOnlyIdentifier extends Identifier {
 
-        protected PathOnlyIdentifier(String[] id) {
-            super(id);
-        }
-
         public PathOnlyIdentifier(String id) {
             super(id);
         }
@@ -150,7 +147,7 @@ public class JelloBlockStateProvider extends FabricModelProvider {
 
         @Override
         public String toString() {
-            return "#" + this.path;
+            return "#" + this.getPath();
         }
     }
 }

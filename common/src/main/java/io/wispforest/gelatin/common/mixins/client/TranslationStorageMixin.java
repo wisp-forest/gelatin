@@ -1,7 +1,9 @@
 package io.wispforest.gelatin.common.mixins.client;
 
 import io.wispforest.gelatin.common.events.TranslationInjectionEvent;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.LanguageDefinition;
+import net.minecraft.client.resource.language.LanguageManager;
 import net.minecraft.client.resource.language.TranslationStorage;
 import net.minecraft.resource.ResourceManager;
 import org.objectweb.asm.Opcodes;
@@ -17,8 +19,10 @@ import java.util.Map;
 @Mixin(TranslationStorage.class)
 public class TranslationStorageMixin {
 
-    @Inject(method = "load(Lnet/minecraft/resource/Resource Manager;Ljava/util/List;)Lnet/minecraft/client/resource/language/TranslationStorage;", at = @At(value = "JUMP", opcode = Opcodes.GOTO, ordinal = 2), locals = LocalCapture.CAPTURE_FAILHARD)
-    private static void dynamicLangStuff(ResourceManager resourceManager, List<LanguageDefinition> definitions, CallbackInfoReturnable<TranslationStorage> cir, Map<String, String> map) {
+    @Inject(method = "load(Lnet/minecraft/resource/ResourceManager;Ljava/util/List;Z)Lnet/minecraft/client/resource/language/TranslationStorage;", at = @At(value = "RETURN"), locals = LocalCapture.CAPTURE_FAILHARD)
+    private static void dynamicLangStuff(ResourceManager resourceManager, List<String> definitionCodes, boolean rightToLeft, CallbackInfoReturnable<TranslationStorage> cir, Map<String, String> map) {
+        List<LanguageDefinition> definitions = List.copyOf(MinecraftClient.getInstance().getLanguageManager().getAllLanguages().values());
+
         TranslationInjectionEvent.AFTER_LANGUAGE_LOAD.invoker().generateLanguageTranslations(new TranslationInjectionEvent.TranslationMapHelper(map, definitions));
     }
 

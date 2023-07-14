@@ -1,5 +1,6 @@
 package io.wispforest.jello.compat;
 
+import blue.endless.jankson.Jankson;
 import io.wispforest.owo.config.ConfigWrapper;
 import io.wispforest.owo.config.Option;
 import io.wispforest.owo.util.Observable;
@@ -10,16 +11,28 @@ import java.util.function.Consumer;
 
 public class JelloConfig extends ConfigWrapper<io.wispforest.jello.compat.JelloConfigModel> {
 
-    private final Option<java.lang.Boolean> addCustomJsonColors = this.optionForKey(new Option.Key("addCustomJsonColors"));
-    private final Option<java.lang.Boolean> allowVanillaColorsInPaintMixer = this.optionForKey(new Option.Key("allowVanillaColorsInPaintMixer"));
-    private final Option<io.wispforest.jello.compat.JelloConfigModel.HudPosition> bundlePosition = this.optionForKey(new Option.Key("bundlePosition"));
+    public final Keys keys = new Keys();
+
+    private final Option<java.lang.Boolean> addCustomJsonColors = this.optionForKey(this.keys.addCustomJsonColors);
+    private final Option<java.lang.Boolean> allowVanillaColorsInPaintMixer = this.optionForKey(this.keys.allowVanillaColorsInPaintMixer);
+    private final Option<io.wispforest.jello.compat.JelloConfigModel.HudPosition> bundlePosition = this.optionForKey(this.keys.bundlePosition);
 
     private JelloConfig() {
         super(io.wispforest.jello.compat.JelloConfigModel.class);
     }
 
+    private JelloConfig(Consumer<Jankson.Builder> janksonBuilder) {
+        super(io.wispforest.jello.compat.JelloConfigModel.class, janksonBuilder);
+    }
+
     public static JelloConfig createAndLoad() {
         var wrapper = new JelloConfig();
+        wrapper.load();
+        return wrapper;
+    }
+
+    public static JelloConfig createAndLoad(Consumer<Jankson.Builder> janksonBuilder) {
+        var wrapper = new JelloConfig(janksonBuilder);
         wrapper.load();
         return wrapper;
     }
@@ -49,7 +62,10 @@ public class JelloConfig extends ConfigWrapper<io.wispforest.jello.compat.JelloC
     }
 
 
-
-
+    public static class Keys {
+        public final Option.Key addCustomJsonColors = new Option.Key("addCustomJsonColors");
+        public final Option.Key allowVanillaColorsInPaintMixer = new Option.Key("allowVanillaColorsInPaintMixer");
+        public final Option.Key bundlePosition = new Option.Key("bundlePosition");
+    }
 }
 

@@ -9,7 +9,6 @@ import io.wispforest.jello.item.dyebundle.DyeBundlePackets;
 import io.wispforest.owo.network.ClientAccess;
 import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
-import io.wispforest.owo.ui.container.VerticalFlowLayout;
 import io.wispforest.owo.ui.core.Positioning;
 import io.wispforest.owo.ui.core.Sizing;
 import io.wispforest.owo.util.EventSource;
@@ -88,14 +87,14 @@ public class DyeBundleTooltipBuilder {
 
         FlowLayout parentContainer;
 
-        if(rootComponent.childById(VerticalFlowLayout.class, "parent_container") == null){
+        if(rootComponent.childById(FlowLayout.class, "parent_container") == null){
             parentContainer = (FlowLayout) Containers.verticalFlow(Sizing.content(), Sizing.content())
                     .id("parent_container")
                     .positioning(Positioning.absolute(7,7));
 
             rootComponent.child(parentContainer);
         } else {
-            parentContainer = rootComponent.childById(VerticalFlowLayout.class, "parent_container");
+            parentContainer = rootComponent.childById(FlowLayout.class, "parent_container");
         }
 
         if(rootComponent.childById(SlotScrollContainer.class, "slot_scroll_container" + inventory.size()) == null){
@@ -113,7 +112,7 @@ public class DyeBundleTooltipBuilder {
 
         rootComponent.positioning(Positioning.absolute(x, y));
 
-        if(DyeBundleTooltipRender.adapter.rootComponent.childById(VerticalFlowLayout.class, "better_bundle_tooltip") == null) {
+        if(DyeBundleTooltipRender.adapter.rootComponent.childById(FlowLayout.class, "better_bundle_tooltip") == null) {
             DyeBundleTooltipRender.adapter.rootComponent.child(rootComponent);
         }
     }

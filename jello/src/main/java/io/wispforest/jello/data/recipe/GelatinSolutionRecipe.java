@@ -8,6 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
+import net.minecraft.recipe.book.CraftingRecipeCategory;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
@@ -17,8 +19,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GelatinSolutionRecipe extends SpecialCraftingRecipe {
 
-    public GelatinSolutionRecipe(Identifier identifier) {
-        super(identifier);
+    public GelatinSolutionRecipe(Identifier identifier, CraftingRecipeCategory category) {
+        super(identifier, category);
     }
 
     public boolean matches(CraftingInventory inventory, World world) {
@@ -68,7 +70,8 @@ public class GelatinSolutionRecipe extends SpecialCraftingRecipe {
         return foundCraftingStack;
     }
 
-    public ItemStack craft(CraftingInventory inventory) {
+    @Override
+    public ItemStack craft(CraftingInventory inventory, DynamicRegistryManager registryManager) {
         JelloCupCreationHandler foundData = null;
         ItemStack ingredientStack = ItemStack.EMPTY;
 

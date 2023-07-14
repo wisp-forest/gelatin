@@ -9,7 +9,7 @@ import io.wispforest.jello.item.dyebundle.DyeBundleItem;
 import io.wispforest.jello.item.jellocup.JelloCupCreationHandler;
 import io.wispforest.jello.item.jellocup.JelloCupItem;
 import io.wispforest.jello.misc.JelloPotions;
-import io.wispforest.owo.itemgroup.OwoItemSettings;
+import io.wispforest.jello.misc.itemgroup.JelloItemSettings;
 import io.wispforest.owo.registration.reflect.ItemRegistryContainer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -17,9 +17,9 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.potion.Potion;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 import java.util.*;
@@ -27,13 +27,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class JelloItems implements ItemRegistryContainer {
 
-    public static final Item SPONGE = new SpongeItem(new Item.Settings().group(ItemGroup.TOOLS).maxCount(1));
-    public static final Item DYE_BUNDLE = new DyeBundleItem(new Item.Settings().group(ItemGroup.TOOLS).maxCount(1));
+    public static final Item SPONGE = new SpongeItem(new JelloItemSettings().group(ItemGroups.TOOLS).maxCount(1));
+    public static final Item DYE_BUNDLE = new DyeBundleItem(new JelloItemSettings().group(ItemGroups.TOOLS).maxCount(1));
 
-    public static final Item EMPTY_ARTIST_PALETTE = new Item(new Item.Settings().group(ItemGroup.MISC).maxCount(1));
-    public static final Item ARTIST_PALETTE = new ArtistPaletteItem(new Item.Settings().group(ItemGroup.MISC).maxCount(1));
+    public static final Item EMPTY_ARTIST_PALETTE = new Item(new JelloItemSettings().group(ItemGroups.INGREDIENTS).maxCount(1));
+    public static final Item ARTIST_PALETTE = new ArtistPaletteItem(new JelloItemSettings().group(ItemGroups.INGREDIENTS).maxCount(1));
 
-    public static final Item BOWL_OF_SUGAR = new Item(new Item.Settings().group(ItemGroup.FOOD).food(JelloFoodComponents.BOWL_OF_SUGAR)) {
+    public static final Item BOWL_OF_SUGAR = new Item(new JelloItemSettings().group(ItemGroups.FOOD_AND_DRINK).food(JelloFoodComponents.BOWL_OF_SUGAR)) {
         @Override
         public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
             ItemStack itemStack = super.finishUsing(stack, world, user);
@@ -45,29 +45,29 @@ public class JelloItems implements ItemRegistryContainer {
             return itemStack;
         }
     };
-    public static final Item GELATIN = new Item(new Item.Settings().group(ItemGroup.MISC));
+    public static final Item GELATIN = new Item(new JelloItemSettings().group(ItemGroups.INGREDIENTS));
 
-    public static final Item GELATIN_SOLUTION = new GelatinSolutionItem(new Item.Settings().maxCount(1));
+    public static final Item GELATIN_SOLUTION = new GelatinSolutionItem(new JelloItemSettings().maxCount(1));
 
-    public static final Item CONCENTRATED_DRAGON_BREATH = new Item(new Item.Settings().group(ItemGroup.MISC));
+    public static final Item CONCENTRATED_DRAGON_BREATH = new Item(new JelloItemSettings().group(ItemGroups.INGREDIENTS));
 
     public static class Slimeballs implements ItemRegistryContainer {
-        public static final Item WHITE_SLIME_BALL = new ColoredItem(DyeColorantRegistry.WHITE, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item ORANGE_SLIME_BALL = new ColoredItem(DyeColorantRegistry.ORANGE, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item MAGENTA_SLIME_BALL = new ColoredItem(DyeColorantRegistry.MAGENTA, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item LIGHT_BLUE_SLIME_BALL = new ColoredItem(DyeColorantRegistry.LIGHT_BLUE, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item YELLOW_SLIME_BALL = new ColoredItem(DyeColorantRegistry.YELLOW, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item LIME_SLIME_BALL = new ColoredItem(DyeColorantRegistry.LIME, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item PINK_SLIME_BALL = new ColoredItem(DyeColorantRegistry.PINK, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item GRAY_SLIME_BALL = new ColoredItem(DyeColorantRegistry.GRAY, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item LIGHT_GRAY_SLIME_BALL = new ColoredItem(DyeColorantRegistry.LIGHT_GRAY, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item CYAN_SLIME_BALL = new ColoredItem(DyeColorantRegistry.CYAN, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item PURPLE_SLIME_BALL = new ColoredItem(DyeColorantRegistry.PURPLE, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item BLUE_SLIME_BALL = new ColoredItem(DyeColorantRegistry.BLUE, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item BROWN_SLIME_BALL = new ColoredItem(DyeColorantRegistry.BROWN, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item GREEN_SLIME_BALL = new ColoredItem(DyeColorantRegistry.GREEN, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item RED_SLIME_BALL = new ColoredItem(DyeColorantRegistry.RED, (new Item.Settings()).group(ItemGroup.MISC));
-        public static final Item BLACK_SLIME_BALL = new ColoredItem(DyeColorantRegistry.BLACK, (new Item.Settings()).group(ItemGroup.MISC));
+        public static final Item WHITE_SLIME_BALL = new ColoredItem(DyeColorantRegistry.WHITE, (new JelloItemSettings()).group(ItemGroups.INGREDIENTS));
+        public static final Item ORANGE_SLIME_BALL = new ColoredItem(DyeColorantRegistry.ORANGE, (new JelloItemSettings()).group(ItemGroups.INGREDIENTS));
+        public static final Item MAGENTA_SLIME_BALL = new ColoredItem(DyeColorantRegistry.MAGENTA, (new JelloItemSettings()).group(ItemGroups.INGREDIENTS));
+        public static final Item LIGHT_BLUE_SLIME_BALL = new ColoredItem(DyeColorantRegistry.LIGHT_BLUE, (new JelloItemSettings()).group(ItemGroups.INGREDIENTS));
+        public static final Item YELLOW_SLIME_BALL = new ColoredItem(DyeColorantRegistry.YELLOW, (new JelloItemSettings()).group(ItemGroups.INGREDIENTS));
+        public static final Item LIME_SLIME_BALL = new ColoredItem(DyeColorantRegistry.LIME, (new JelloItemSettings()).group(ItemGroups.INGREDIENTS));
+        public static final Item PINK_SLIME_BALL = new ColoredItem(DyeColorantRegistry.PINK, (new JelloItemSettings()).group(ItemGroups.INGREDIENTS));
+        public static final Item GRAY_SLIME_BALL = new ColoredItem(DyeColorantRegistry.GRAY, (new JelloItemSettings()).group(ItemGroups.INGREDIENTS));
+        public static final Item LIGHT_GRAY_SLIME_BALL = new ColoredItem(DyeColorantRegistry.LIGHT_GRAY, (new JelloItemSettings()).group(ItemGroups.INGREDIENTS));
+        public static final Item CYAN_SLIME_BALL = new ColoredItem(DyeColorantRegistry.CYAN, (new JelloItemSettings()).group(ItemGroups.INGREDIENTS));
+        public static final Item PURPLE_SLIME_BALL = new ColoredItem(DyeColorantRegistry.PURPLE, (new JelloItemSettings()).group(ItemGroups.INGREDIENTS));
+        public static final Item BLUE_SLIME_BALL = new ColoredItem(DyeColorantRegistry.BLUE, (new JelloItemSettings()).group(ItemGroups.INGREDIENTS));
+        public static final Item BROWN_SLIME_BALL = new ColoredItem(DyeColorantRegistry.BROWN, (new JelloItemSettings()).group(ItemGroups.INGREDIENTS));
+        public static final Item GREEN_SLIME_BALL = new ColoredItem(DyeColorantRegistry.GREEN, (new JelloItemSettings()).group(ItemGroups.INGREDIENTS));
+        public static final Item RED_SLIME_BALL = new ColoredItem(DyeColorantRegistry.RED, (new JelloItemSettings()).group(ItemGroups.INGREDIENTS));
+        public static final Item BLACK_SLIME_BALL = new ColoredItem(DyeColorantRegistry.BLACK, (new JelloItemSettings()).group(ItemGroups.INGREDIENTS));
 
         public static final List<Item> SLIME_BALLS = List
                 .of(WHITE_SLIME_BALL, ORANGE_SLIME_BALL, MAGENTA_SLIME_BALL, LIGHT_BLUE_SLIME_BALL,
@@ -78,7 +78,7 @@ public class JelloItems implements ItemRegistryContainer {
 
     public static class JelloCups implements ItemRegistryContainer {
 
-        public static final Item SUGAR_CUP = new Item(ItemFunctions.copyFrom(new Item.Settings().group(ItemGroup.FOOD).fireproof()).food(JelloFoodComponents.SUGAR_CUP));
+        public static final Item SUGAR_CUP = new Item(ItemFunctions.copyFrom(new JelloItemSettings().group(ItemGroups.FOOD_AND_DRINK).fireproof()).food(JelloFoodComponents.SUGAR_CUP));
 
         public static final Item WHITE_JELLO_CUP = createJelloCup(DyeColorantRegistry.WHITE)
                 .createEffectData(handler -> {
@@ -207,7 +207,7 @@ public class JelloItems implements ItemRegistryContainer {
         public static void getPotions(JelloCupCreationHandler handler){
             List<Potion> potions = new ArrayList<>();
 
-            Registry.POTION.getEntrySet()
+            Registries.POTION.getEntrySet()
                     .forEach(entry -> {
                         Identifier id = entry.getKey().getValue();
 
@@ -294,7 +294,7 @@ public class JelloItems implements ItemRegistryContainer {
         private static JelloCupItem createJelloCup(DyeColorant dyeColor) {
             return new JelloCupItem(
                     dyeColor,
-                    ItemFunctions.copyFrom(new Item.Settings().rarity(Rarity.UNCOMMON).group(ItemGroup.FOOD).maxCount(16).fireproof()).food(createJelloBase().build()));
+                    ItemFunctions.copyFrom(new JelloItemSettings().group(ItemGroups.FOOD_AND_DRINK).rarity(Rarity.UNCOMMON).maxCount(16).fireproof()).food(createJelloBase().build()));
         }
 
         private static FoodComponent.Builder createJelloBase() {

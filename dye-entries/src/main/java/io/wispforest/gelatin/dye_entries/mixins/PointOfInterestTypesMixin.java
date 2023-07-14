@@ -4,8 +4,8 @@ import io.wispforest.gelatin.dye_entries.block.ColoredBedBlock;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.enums.BedPart;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.world.poi.PointOfInterestType;
 import net.minecraft.world.poi.PointOfInterestTypes;
 import org.spongepowered.asm.mixin.Mixin;
@@ -33,7 +33,9 @@ public class PointOfInterestTypesMixin {
     @Inject(method = "getTypeForState", at = @At(value = "RETURN"), cancellable = true)
     private static void gelatin$checkForCustomBedStates(BlockState state, CallbackInfoReturnable<Optional<RegistryEntry<PointOfInterestType>>> cir){
         if(state.getBlock() instanceof ColoredBedBlock && state.get(BedBlock.PART) == BedPart.HEAD){
-            cir.setReturnValue(Registry.POINT_OF_INTEREST_TYPE.getEntry(PointOfInterestTypes.HOME));
+            cir.setReturnValue(
+                    Optional.ofNullable(Registries.POINT_OF_INTEREST_TYPE.getEntry(PointOfInterestTypes.HOME).orElse(null))
+            );
         }
     }
 

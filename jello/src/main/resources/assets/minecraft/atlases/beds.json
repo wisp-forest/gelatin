@@ -1,0 +1,12 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:single",
+      "resource": "gelatin:texture/block/bed/blanket_only"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "gelatin:texture/block/bed/pillow_only"
+    }
+  ]
+}

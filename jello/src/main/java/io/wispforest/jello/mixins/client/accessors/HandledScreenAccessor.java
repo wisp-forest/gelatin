@@ -8,16 +8,9 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(HandledScreen.class)
 public interface HandledScreenAccessor {
+    @Accessor("focusedSlot") Slot jello$getFocusedSlot();
+    @Invoker("getSlotAt") Slot jello$getSlotAt(double x, double y);
 
-    @Accessor("focusedSlot")
-    Slot jello$getFocusedSlot();
-
-    @Invoker("getSlotAt")
-    Slot jello$getSlotAt(double x, double y);
-
-    @Accessor("x")
-    int jello$getX();
-
-    @Accessor("y")
-    int jello$getY();
+    @Accessor("x") int jello$getX();
+    @Accessor("y") int jello$getY();
 }

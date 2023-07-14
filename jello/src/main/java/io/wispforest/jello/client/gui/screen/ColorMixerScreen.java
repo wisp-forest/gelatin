@@ -200,7 +200,8 @@ public class ColorMixerScreen extends HandledScreen<ColorMixerScreenHandler> {
         playerInventoryTitleY = 69420;
         titleX = 69420;
 
-        this.client.keyboard.setRepeatEvents(true);
+        //this.client.keyboard.setRepeatEvents(true);
+
         this.searchBox = new TextFieldWidget(this.textRenderer, this.x + 44, this.y + 8, 106, 10, Text.translatable("itemGroup.search"));
         this.searchBox.setMaxLength(50);
         this.searchBox.setDrawsBackground(false);
@@ -212,7 +213,7 @@ public class ColorMixerScreen extends HandledScreen<ColorMixerScreenHandler> {
         if((Jello.getConfig().allowVanillaColorsInPaintMixer() && Jello.getConfig().addCustomJsonColors()) || DyeColorantRegistry.DYE_COLOR.size() == 16) {
             this.searchBox.setFocusUnlocked(false);
 
-            this.searchBox.setTextFieldFocused(true);
+            //this.searchBox.setTextFieldFocused(true);
 
             this.searchBox.setText("");
 

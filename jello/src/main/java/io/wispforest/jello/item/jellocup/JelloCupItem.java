@@ -4,6 +4,7 @@ import io.wispforest.gelatin.dye_entries.item.ColoredItem;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.jello.item.JelloItems;
 import io.wispforest.jello.misc.JelloPotions;
+import io.wispforest.owo.itemgroup.gui.ItemGroupTab;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class JelloCupItem extends ColoredItem {
+public class JelloCupItem extends ColoredItem implements ItemGroupTab.ContentSupplier {
 
     /*
      * StatusEffects.SLOW_FALLING        -> WHITE_JELLO_CUP      |
@@ -127,12 +128,10 @@ public class JelloCupItem extends ColoredItem {
     }
 
     @Override
-    public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
-        if (!this.isIn(group)) return;
-
+    public void addItems(ItemGroup.DisplayContext context, ItemGroup.Entries entries) {
         JelloCupCreationHandler handler = JelloCupCreationHandler.ALL_CUP_DATA.get(this);
 
-        stacks.addAll(handler.getAllIterations());
+        entries.addAll(handler.getAllIterations());
     }
 
     public static ItemStack reduceEffectDuration(JelloCupItem item, ItemStack potionStack) {

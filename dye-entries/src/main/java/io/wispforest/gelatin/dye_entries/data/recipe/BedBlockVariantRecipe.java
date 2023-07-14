@@ -10,8 +10,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
-import net.minecraft.tag.ItemTags;
-import net.minecraft.tag.TagKey;
+import net.minecraft.recipe.book.CraftingRecipeCategory;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
@@ -21,8 +23,8 @@ public class BedBlockVariantRecipe extends SpecialCraftingRecipe {
 
     private static final TagKey<Item> WOOL_BLOCK_TAG = VanillaBlockVariants.WOOL.blockItemVariant.getPrimaryTag();
 
-    public BedBlockVariantRecipe(Identifier id) {
-        super(id);
+    public BedBlockVariantRecipe(Identifier id, CraftingRecipeCategory category) {
+        super(id, category);
     }
 
     @Override
@@ -94,7 +96,7 @@ public class BedBlockVariantRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public ItemStack craft(CraftingInventory inventory) {
+    public ItemStack craft(CraftingInventory inventory, DynamicRegistryManager manager) {
         return new ItemStack(VanillaBlockVariants.BED.getColoredBlockItem(dyeColorant),1);
     }
 

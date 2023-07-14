@@ -10,6 +10,8 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
+import net.minecraft.recipe.book.CraftingRecipeCategory;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
@@ -19,8 +21,8 @@ public class DyeBlockVariantRecipe extends SpecialCraftingRecipe {
     private DyeableBlockVariant variant = null;
     private DyeColorant dyeColorant;
 
-    public DyeBlockVariantRecipe(Identifier id) {
-        super(id);
+    public DyeBlockVariantRecipe(Identifier id, CraftingRecipeCategory category) {
+        super(id, category);
     }
 
     @Override
@@ -80,7 +82,7 @@ public class DyeBlockVariantRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public ItemStack craft(CraftingInventory inventory) {
+    public ItemStack craft(CraftingInventory inventory, DynamicRegistryManager manager) {
         return new ItemStack(this.variant.getColoredBlockItem(this.dyeColorant), this.stackReturnCount);
     }
 

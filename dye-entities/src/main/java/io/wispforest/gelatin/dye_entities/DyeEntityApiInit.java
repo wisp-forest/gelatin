@@ -9,8 +9,8 @@ import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class DyeEntityApiInit implements ModInitializer {
 
@@ -27,7 +27,7 @@ public class DyeEntityApiInit implements ModInitializer {
 
         for (var colorant : DyeColorantRegistry.DYE_COLOR) {
             final var id = colorant.getId();
-            DispenserBlock.registerBehavior(Registry.ITEM.get(new Identifier(id.getNamespace(), id.getPath() + "_dye")), behavior);
+            DispenserBlock.registerBehavior(Registries.ITEM.get(new Identifier(id.getNamespace(), id.getPath() + "_dye")), behavior);
         }
 
         DispenserBlock.registerBehavior(Items.WATER_BUCKET, new WashEntityBehavior());

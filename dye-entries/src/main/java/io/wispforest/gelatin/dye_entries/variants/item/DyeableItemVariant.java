@@ -13,9 +13,10 @@ import io.wispforest.owo.util.TagInjector;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,14 +41,14 @@ public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant, Item>
      * @param itemMaker A generalized way of creating your Item Variant
      */
     public DyeableItemVariant(Identifier variantIdentifier, Item.Settings itemSettings, @Nullable ItemMaker itemMaker) {
-        super(variantIdentifier, Registry.ITEM);
+        super(variantIdentifier, Registries.ITEM);
 
         this.itemMaker = itemMaker;
         this.defaultItemSettings = itemSettings;
 
         this.defaultEntryIdentifier = new Identifier(variantIdentifier.getNamespace(), "white_" + variantIdentifier.getPath());
 
-        allTags.add(TagKey.of(Registry.ITEM_KEY, GelatinConstants.id(variantIdentifier.getPath())));
+        allTags.add(TagKey.of(RegistryKeys.ITEM, GelatinConstants.id(variantIdentifier.getPath())));
     }
 
     public static DyeableItemVariant readOnly(Identifier variantIdentifier){
@@ -112,8 +113,8 @@ public class DyeableItemVariant extends DyeableVariant<DyeableItemVariant, Item>
     public void addToTags(Item item, boolean readOnly) {
         if(item == Blocks.AIR.asItem()) return;
 
-        TagInjector.inject(Registry.ITEM, GelatinTags.Items.ALL_COLORED_VARIANTS.id(), item);
-        TagInjector.inject(Registry.ITEM, getPrimaryTag().id(), item);
+        TagInjector.inject(Registries.ITEM, GelatinTags.Items.ALL_COLORED_VARIANTS.id(), item);
+        TagInjector.inject(Registries.ITEM, getPrimaryTag().id(), item);
 
         super.addToTags(item, readOnly);
     }

@@ -5,14 +5,14 @@ import io.wispforest.gelatin.common.misc.GelatinConstants;
 import io.wispforest.gelatin.common.util.ColorUtil;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.block.MapColor;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.SimpleDefaultedRegistry;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.DefaultedRegistry;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.util.registry.RegistryKey;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class DyeColorantRegistry {
 
     public static final RegistryKey<Registry<DyeColorant>> DYE_COLOR_KEY = RegistryKey.ofRegistry(GelatinConstants.id("dye_color"));
-    public static final DefaultedRegistry<DyeColorant> DYE_COLOR = FabricRegistryBuilder.from(new DefaultedRegistry<>(GelatinConstants.id("_null").toString(), DYE_COLOR_KEY, Lifecycle.stable(), DyeColorant::getRegistryEntry)).buildAndRegister();
+    public static final SimpleDefaultedRegistry<DyeColorant> DYE_COLOR = FabricRegistryBuilder.from(new SimpleDefaultedRegistry<>(GelatinConstants.id("_null").toString(), DYE_COLOR_KEY, Lifecycle.stable(), true)).buildAndRegister();
 
     public static final DyeColorant NULL_VALUE_NEW = registerDyeColor(GelatinConstants.id("_null"), MapColor.CLEAR, 0);
 

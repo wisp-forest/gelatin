@@ -8,6 +8,8 @@ import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
+import net.minecraft.recipe.book.CraftingRecipeCategory;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
@@ -15,8 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArtistPaletteRecipe extends SpecialCraftingRecipe {
-    public ArtistPaletteRecipe(Identifier id) {
-        super(id);
+    public ArtistPaletteRecipe(Identifier id, CraftingRecipeCategory category) {
+        super(id, category);
     }
 
     @Override
@@ -87,7 +89,7 @@ public class ArtistPaletteRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public ItemStack craft(CraftingInventory craftingInventory) {
+    public ItemStack craft(CraftingInventory craftingInventory, DynamicRegistryManager registryManager) {
         ItemStack itemStack = craftingInventory.getStack(1 + craftingInventory.getWidth());
         if (!itemStack.isOf(JelloItems.EMPTY_ARTIST_PALETTE)) {
             return ItemStack.EMPTY;

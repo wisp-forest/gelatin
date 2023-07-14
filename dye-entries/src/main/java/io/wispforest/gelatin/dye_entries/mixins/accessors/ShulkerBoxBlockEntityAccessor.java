@@ -7,6 +7,5 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(ShulkerBoxBlockEntity.class)
 public interface ShulkerBoxBlockEntityAccessor {
-    @Invoker("writeNbt")
-    void gelatin$callWriteNbt(NbtCompound nbt);
+    @Invoker("writeNbt") void gelatin$callWriteNbt(NbtCompound nbt);
 }

@@ -15,16 +15,19 @@ public class JelloDataEntrypoint implements DataGeneratorEntrypoint {
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
         //fabricDataGenerator.addProvider(new JelloTagsProvider.BlockTagProvider(fabricDataGenerator));
-        fabricDataGenerator.addProvider(new JelloTagsProvider.ItemTagProvider(fabricDataGenerator));
 
-        fabricDataGenerator.addProvider(new JelloRecipeProvider(fabricDataGenerator));
+        var pack = fabricDataGenerator.createPack();
 
-        fabricDataGenerator.addProvider(new JelloLangProvider(fabricDataGenerator));
+        pack.addProvider(JelloTagsProvider.ItemTagProvider::new);
 
-        fabricDataGenerator.addProvider(new JelloBlockLootTable(fabricDataGenerator));
+        pack.addProvider(JelloRecipeProvider::new);
+
+        pack.addProvider(JelloLangProvider::new);
+
+        pack.addProvider(JelloBlockLootTable::new);
 
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
-            fabricDataGenerator.addProvider(new JelloBlockStateProvider(fabricDataGenerator));
+            pack.addProvider(JelloBlockStateProvider::new);
         }
     }
 }

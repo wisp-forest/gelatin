@@ -16,9 +16,8 @@ public class JelloBlocks implements BlockRegistryContainer {
 
     @Override
     public BlockItem createBlockItem(Block block, String identifier) {
-        return new BlockItem(block, new Item.Settings().group(ItemGroup.REDSTONE));
+        return new BlockItem(block, new Item.Settings()/*.group(ItemGroup.REDSTONE)*/);
     }
-
 
 }
 

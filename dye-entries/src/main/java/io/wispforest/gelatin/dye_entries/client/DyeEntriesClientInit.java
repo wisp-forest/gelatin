@@ -1,8 +1,8 @@
 package io.wispforest.gelatin.dye_entries.client;
 
-import io.wispforest.gelatin.common.data.providers.ImplLangProvider;
 import io.wispforest.gelatin.common.events.TranslationInjectionEvent;
 import io.wispforest.gelatin.common.misc.GelatinConstants;
+import io.wispforest.gelatin.common.util.LangUtils;
 import io.wispforest.gelatin.dye_entries.DyeEntriesInit;
 import io.wispforest.gelatin.dye_entries.block.ColoredGlassBlock;
 import io.wispforest.gelatin.dye_entries.block.ColoredGlassPaneBlock;
@@ -17,7 +17,6 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
-import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
@@ -30,11 +29,10 @@ import net.minecraft.client.color.block.BlockColorProvider;
 import net.minecraft.client.color.item.ItemColorProvider;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.TexturedRenderLayers;
 import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
 
 import java.util.Map;
 import java.util.Objects;
@@ -58,11 +56,6 @@ public class DyeEntriesClientInit implements ClientModInitializer {
 
         registerColorProvidersForBlockVariants();
 
-        ClientSpriteRegistryCallback.event(TexturedRenderLayers.BEDS_ATLAS_TEXTURE).register((atlasTexture, registry) -> {
-            registry.register(BED_BLANKET_ONLY);
-            registry.register(BED_PILLOW_ONLY);
-        });
-
         TranslationInjectionEvent.AFTER_LANGUAGE_LOAD.register(helper -> {
             for (DyeableVariantManager.DyeColorantVariantData dyedVariant : DyeableVariantManager.getVariantMap().values()) {
                 for (Block block : dyedVariant.dyedBlocks().values()) {
@@ -75,11 +68,11 @@ public class DyeEntriesClientInit implements ClientModInitializer {
             }
 
             DyeableVariantRegistry.getAllBlockVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.alwaysReadOnly() && dyeableBlockVariant.createBlockItem()).forEach(dyeableBlockVariant -> {
-                helper.addTranslation(dyeableBlockVariant.variantIdentifier.getPath() + "_condensed", ImplLangProvider.titleFormatString(dyeableBlockVariant.variantIdentifier.getPath().split("_"), true));
+                helper.addTranslation(dyeableBlockVariant.variantIdentifier.getPath() + "_condensed", LangUtils.titleFormatString(dyeableBlockVariant.variantIdentifier.getPath().split("_"), true));
             });
 
             DyeableVariantRegistry.getAllItemVariants().stream().filter(dyeableItemVariant -> !dyeableItemVariant.alwaysReadOnly()).forEach(dyeableItemVariant -> {
-                helper.addTranslation(dyeableItemVariant.variantIdentifier.getPath() + "_condensed", ImplLangProvider.titleFormatString(dyeableItemVariant.variantIdentifier.getPath().split("_"), true));
+                helper.addTranslation(dyeableItemVariant.variantIdentifier.getPath() + "_condensed", LangUtils.titleFormatString(dyeableItemVariant.variantIdentifier.getPath().split("_"), true));
             });
         });
 
@@ -94,7 +87,7 @@ public class DyeEntriesClientInit implements ClientModInitializer {
                 Block block = blockVariantEntry.getValue();
 
                 // Remove blocks that are being handled by Minecraft i.e Vanilla blocks
-                if(!Objects.equals(Registry.BLOCK.getId(block).getNamespace(), "minecraft")) {
+                if(!Objects.equals(Registries.BLOCK.getId(block).getNamespace(), "minecraft")) {
 
                     //Read only block Variants are handled by the mod inwhich add them and remove any blocks that don't have Color providers
                     if (!blockVariantEntry.getKey().alwaysReadOnly() && block instanceof BlockColorProvider) {

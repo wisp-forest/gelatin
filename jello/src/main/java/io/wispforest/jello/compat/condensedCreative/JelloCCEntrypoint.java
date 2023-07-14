@@ -10,10 +10,7 @@ import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.item.JelloItems;
 import io.wispforest.jello.misc.JelloBlockVariants;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.text.Text;
 
 import java.util.ArrayList;
@@ -32,27 +29,27 @@ public class JelloCCEntrypoint implements CondensedCreativeInitializer {
                     GelatinCCEntrypoint.sortItemStacks(allStacks, Items.SLIME_BALL,
                             stack -> ((DyeBlockStorage)((BlockItem)stack.getItem()).getBlock()).getDyeColorant());
                 })
-                .setTitleString(Text.translatable("slime_balls_condensed"))
-                .addItemGroup(ItemGroup.MISC);
+                .setTitleSupplier(() -> Text.translatable("slime_balls_condensed"))
+                .addToItemGroup(ItemGroups.INGREDIENTS);
 
 
-        CondensedEntryRegistry.fromBlockTag(Jello.id("slime_slabs"), JelloBlocks.SLIME_SLAB, JelloBlockVariants.SLIME_SLAB.getPrimaryTag())
+        CondensedEntryRegistry.fromTag(Jello.id("slime_slabs"), JelloBlocks.SLIME_SLAB, JelloBlockVariants.SLIME_SLAB.getPrimaryTag())
                 .setEntrySorting(allStacks -> {
                     GelatinCCEntrypoint.sortItemStacks(allStacks, JelloBlocks.SLIME_SLAB.asItem(),
                             stack -> ((DyeItemStorage) stack.getItem()).getDyeColorant());
                 })
-                .setTitleString(Text.translatable("slime_slabs_condensed"))
-                .addItemGroup(ItemGroup.REDSTONE);
+                .setTitleSupplier(() -> Text.translatable("slime_slabs_condensed"))
+                .addToItemGroup(ItemGroups.REDSTONE);
 
         //--------------------
 
-        CondensedEntryRegistry.fromBlockTag(Jello.id("slime_blocks"), Blocks.SLIME_BLOCK, JelloBlockVariants.SLIME_BLOCK.getPrimaryTag())
+        CondensedEntryRegistry.fromTag(Jello.id("slime_blocks"), Blocks.SLIME_BLOCK, JelloBlockVariants.SLIME_BLOCK.getPrimaryTag())
                 .setEntrySorting(allStacks -> {
                     GelatinCCEntrypoint.sortItemStacks(allStacks, Blocks.SLIME_BLOCK.asItem(),
                             stack -> ((DyeBlockStorage)((BlockItem)stack.getItem()).getBlock()).getDyeColorant());
                 })
-                .setTitleString(Text.translatable("slime_blocks_condensed"))
-                .addItemGroup(ItemGroup.REDSTONE);
+                .setTitleSupplier(() -> Text.translatable("slime_blocks_condensed"))
+                .addToItemGroup(ItemGroups.REDSTONE);
 
     }
 }

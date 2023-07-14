@@ -4,9 +4,9 @@ import io.wispforest.gelatin.common.misc.GelatinConstants;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import net.minecraft.item.Item;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class GelatinTags {
 
@@ -33,7 +33,7 @@ public class GelatinTags {
         }
 
         private static TagKey<Item> register(Identifier id) {
-            return TagKey.of(Registry.ITEM_KEY, id);
+            return TagKey.of(RegistryKeys.ITEM, id);
         }
     }
 

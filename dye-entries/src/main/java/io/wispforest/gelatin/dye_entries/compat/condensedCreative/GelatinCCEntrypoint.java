@@ -25,19 +25,19 @@ public class GelatinCCEntrypoint implements CondensedCreativeInitializer {
     @Override
     public void onInitializeCondensedEntries(boolean refreshed) {
         DyeableVariantRegistry.getAllBlockVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.alwaysReadOnly() && dyeableBlockVariant.createBlockItem()).forEach(dyeableBlockVariant -> {
-            CondensedEntryRegistry.fromBlockTag(dyeableBlockVariant.variantIdentifier, dyeableBlockVariant.getDefaultEntry(), dyeableBlockVariant.getPrimaryTag())
-                .setTitleString(Text.translatable(dyeableBlockVariant.variantIdentifier.getPath() + "_condensed"))
+            CondensedEntryRegistry.fromTag(dyeableBlockVariant.variantIdentifier, dyeableBlockVariant.getDefaultEntry(), dyeableBlockVariant.getPrimaryTag())
+                .setTitleSupplier(() -> Text.translatable(dyeableBlockVariant.variantIdentifier.getPath() + "_condensed"))
                 .setEntrySorting(allStacks -> sortItemStacks(allStacks, dyeableBlockVariant.getDefaultBlockItem(),
                     stack -> ((DyeBlockStorage)((BlockItem)stack.getItem()).getBlock()).getDyeColorant()))
-                .addItemGroup(DyeEntriesInit.MAIN_ITEM_GROUP, 1);
+                .addToItemGroup(DyeEntriesInit.MAIN_ITEM_GROUP, 1);
 
         });
 
         DyeableVariantRegistry.getAllItemVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.alwaysReadOnly()).forEach(dyeableItemVariant -> {
-            CondensedEntryRegistry.fromItemTag(dyeableItemVariant.variantIdentifier, dyeableItemVariant.getDefaultEntry(), dyeableItemVariant.getPrimaryTag())
-                    .setTitleString(Text.translatable(dyeableItemVariant.variantIdentifier.getPath() + "_condensed"))
+            CondensedEntryRegistry.fromTag(dyeableItemVariant.variantIdentifier, dyeableItemVariant.getDefaultEntry(), dyeableItemVariant.getPrimaryTag())
+                    .setTitleSupplier(() -> Text.translatable(dyeableItemVariant.variantIdentifier.getPath() + "_condensed"))
                     .setEntrySorting(allStacks -> sortItemStacks(allStacks, dyeableItemVariant.getDefaultEntry(), stack -> ((DyeItemStorage)stack.getItem()).getDyeColorant()))
-                    .addItemGroup(DyeEntriesInit.MAIN_ITEM_GROUP, 0);
+                    .addToItemGroup(DyeEntriesInit.MAIN_ITEM_GROUP, 0);
 
         });
     }

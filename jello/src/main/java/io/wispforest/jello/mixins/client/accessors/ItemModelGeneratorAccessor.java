@@ -11,7 +11,5 @@ import java.util.function.Supplier;
 
 @Mixin(ItemModelGenerator.class)
 public interface ItemModelGeneratorAccessor {
-
     @Accessor("writer") BiConsumer<Identifier, Supplier<JsonElement>> jello$getWriter();
-
 }

@@ -2,8 +2,8 @@ package io.wispforest.gelatin.dye_entries.utils;
 
 import io.wispforest.gelatin.common.misc.GelatinConstants;
 import net.minecraft.block.Block;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.HashSet;
@@ -17,7 +17,7 @@ public class GrayScaleBlockRegistry  {
     public static GrayScaleBlockRegistry INSTANCE = new GrayScaleBlockRegistry();
 
     public static void register(Block block){
-        register(Registry.BLOCK.getId(block));
+        register(Registries.BLOCK.getId(block));
     }
 
     public static void register(Identifier id){

@@ -14,7 +14,7 @@ import java.util.Set;
 @Mixin(PointOfInterestType.class)
 public abstract class PointOfInterestTypeMixin {
 
-    @ModifyVariable(method = "<init>", at = @At(value = "INVOKE", target = "Ljava/util/Set;copyOf(Ljava/util/Collection;)Ljava/util/Set;", shift = At.Shift.BY, by = 2))
+    @ModifyVariable(method = "<init>", at = @At(value = "INVOKE", target = "Ljava/util/Set;copyOf(Ljava/util/Collection;)Ljava/util/Set;", shift = At.Shift.BY, by = 2), argsOnly = true)
     private Set<BlockState> gelatin$changeSetToMutable(Set<BlockState> value){
         Optional<BlockState> optionalBlockState = value.stream().findFirst();
 

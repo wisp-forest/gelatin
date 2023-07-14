@@ -1,7 +1,8 @@
 package io.wispforest.gelatin.dye_entities.misc;
 
 import io.wispforest.owo.registration.reflect.AutoRegistryContainer;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.world.event.GameEvent;
 
 public class GelatinGameEvents implements AutoRegistryContainer<GameEvent> {
@@ -10,7 +11,7 @@ public class GelatinGameEvents implements AutoRegistryContainer<GameEvent> {
 
     @Override
     public Registry<GameEvent> getRegistry() {
-        return Registry.GAME_EVENT;
+        return Registries.GAME_EVENT;
     }
 
     @Override

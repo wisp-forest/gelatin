@@ -11,10 +11,11 @@ import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
@@ -187,7 +188,7 @@ public abstract class DyeableVariant<T extends DyeableVariant<T, V>, V extends I
 
     @ApiStatus.Internal
     public void addToTags(V convertible, boolean readOnly) {
-        Registry<V> registry = ((Registry<Registry<V>>) Registry.REGISTRIES).get((RegistryKey<Registry<V>>) getPrimaryTag().registry()); //this.registry
+        Registry<V> registry = ((Registry<Registry<V>>) Registries.REGISTRIES).get((RegistryKey<Registry<V>>) getPrimaryTag().registry()); //this.registry
 
         TagInjector.inject(registry, getPrimaryTag().id(), convertible);
 

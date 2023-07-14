@@ -10,10 +10,6 @@ import java.util.Set;
 
 @Mixin(BlockEntityType.class)
 public interface BlockEntityTypeAccessor {
-    @Accessor("blocks")
-    Set<Block> gelatin$getBlocks();
-
-    @Accessor("blocks")
-    @Mutable
-    void gelatin$setBlocks(Set<Block> blocks);
+    @Accessor("blocks") Set<Block> gelatin$getBlocks();
+    @Accessor("blocks") @Mutable void gelatin$setBlocks(Set<Block> blocks);
 }

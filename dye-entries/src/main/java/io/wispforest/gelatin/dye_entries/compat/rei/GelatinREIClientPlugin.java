@@ -26,9 +26,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.ShapedRecipe;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.text.Text;
-import net.minecraft.util.registry.Registry;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -39,7 +39,7 @@ public class GelatinREIClientPlugin implements REIClientPlugin {
     @Override
     public void registerCollapsibleEntries(CollapsibleEntryRegistry registry) {
         DyeableVariantRegistry.getAllBlockVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.alwaysReadOnly() && dyeableBlockVariant.createBlockItem()).forEach(dyeableBlockVariant -> {
-            List<ItemStack> items = Registry.ITEM.stream().filter(item -> item.getRegistryEntry().isIn(dyeableBlockVariant.blockItemVariant.getPrimaryTag())).map(Item::getDefaultStack).collect(Collectors.toList());
+            List<ItemStack> items = Registries.ITEM.stream().filter(item -> item.getRegistryEntry().isIn(dyeableBlockVariant.blockItemVariant.getPrimaryTag())).map(Item::getDefaultStack).collect(Collectors.toList());
 
             Predicate<ItemStack> getNonVanillaBlocks = stack -> {
                 DyeColorant dyeColorant = ((DyeBlockStorage) ((BlockItem) stack.getItem()).getBlock()).getDyeColorant();
@@ -80,7 +80,7 @@ public class GelatinREIClientPlugin implements REIClientPlugin {
         });
 
         DyeableVariantRegistry.getAllItemVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.alwaysReadOnly()).forEach(dyeableItemVariant -> {
-            List<ItemStack> items = Registry.ITEM.stream().filter(item -> item.getRegistryEntry().isIn(dyeableItemVariant.getPrimaryTag())).map(Item::getDefaultStack).collect(Collectors.toList());
+            List<ItemStack> items = Registries.ITEM.stream().filter(item -> item.getRegistryEntry().isIn(dyeableItemVariant.getPrimaryTag())).map(Item::getDefaultStack).collect(Collectors.toList());
 
             Predicate<ItemStack> getNonVanillaBlocks = stack -> {
                 DyeColorant dyeColorant = ((DyeItemStorage) stack.getItem()).getDyeColorant();

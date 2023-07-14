@@ -9,6 +9,7 @@ import io.wispforest.jello.client.gui.components.button.VariantButtonSurface;
 import io.wispforest.jello.misc.ColorDebugHelper;
 import io.wispforest.jello.misc.DyeColorantLoader;
 import io.wispforest.jello.misc.pond.owo.ButtonAddonDuck;
+import io.wispforest.jello.mixins.FlowLayoutAccessor;
 import io.wispforest.owo.ui.base.BaseOwoScreen;
 import io.wispforest.owo.ui.component.ButtonComponent;
 import io.wispforest.owo.ui.component.Components;
@@ -16,7 +17,6 @@ import io.wispforest.owo.ui.component.LabelComponent;
 import io.wispforest.owo.ui.component.TextBoxComponent;
 import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
-import io.wispforest.owo.ui.container.HorizontalFlowLayout;
 import io.wispforest.owo.ui.container.ScrollContainer;
 import io.wispforest.owo.ui.core.*;
 import io.wispforest.owo.ui.util.CommandOpenedScreen;
@@ -459,7 +459,7 @@ public class ColorDebugScreen extends BaseOwoScreen<FlowLayout> implements Comma
                                             FlowLayout layout = component.parent().parent().childById(FlowLayout.class, "list_view_layout");//
 
                                             for (Component child : layout.children()) {
-                                                if(!(child instanceof HorizontalFlowLayout childLayout)) continue;
+                                                if(!(child instanceof FlowLayout childLayout && ((FlowLayoutAccessor)childLayout).jello$getAlgorithm() == FlowLayout.Algorithm.HORIZONTAL)) continue;
 
                                                 FlowLayout targetLayout = (FlowLayout) childLayout.children().get(1);
 
@@ -494,7 +494,7 @@ public class ColorDebugScreen extends BaseOwoScreen<FlowLayout> implements Comma
                                         MinecraftClient.getInstance().getToastManager().add(
                                                 SystemToast.create(
                                                         MinecraftClient.getInstance(),
-                                                        SystemToast.Type.CHAT_PREVIEW_WARNING,
+                                                        SystemToast.Type.PERIODIC_NOTIFICATION,
                                                         Text.of("INVALID FUCKING COLORS BITCH"),
                                                         Text.of("There are invalid chosen colors!!!")
                                                 )

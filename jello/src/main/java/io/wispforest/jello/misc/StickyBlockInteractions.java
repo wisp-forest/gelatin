@@ -3,10 +3,10 @@ package io.wispforest.jello.misc;
 import com.mojang.logging.LogUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.state.property.Property;
-import net.minecraft.tag.TagKey;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
@@ -33,7 +33,7 @@ public class StickyBlockInteractions {
 
     public static void registerBlock(Block block, Consumer<InteractionStorage> consumer){
         if(BLOCK_LINKED_INTERACTIONS.containsKey(block)) {
-            LOGGER.warn("[StickyBlockInteractions]: A block already has the given interaction storage, meaning such wont be created again. [Block ID: {}]", Registry.BLOCK.getId(block));
+            LOGGER.warn("[StickyBlockInteractions]: A block already has the given interaction storage, meaning such wont be created again. [Block ID: {}]", Registries.BLOCK.getId(block));
         }
 
         var storage = BLOCK_LINKED_INTERACTIONS.computeIfAbsent(block, entry1 -> new InteractionStorage());

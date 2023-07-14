@@ -2,8 +2,8 @@ package io.wispforest.gelatin.dye_entities.client.utils;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -32,7 +32,7 @@ public class ColorizeBlackListRegistry {
     }
 
     public static boolean isBlackListed(Entity entity) {
-        return MODID_BLACKLIST.contains(Registry.ENTITY_TYPE.getId(entity.getType()).getNamespace()) || COLORABLE_ENTITIES_BLACKLIST.containsValue(entity.getType());
+        return MODID_BLACKLIST.contains(Registries.ENTITY_TYPE.getId(entity.getType()).getNamespace()) || COLORABLE_ENTITIES_BLACKLIST.containsValue(entity.getType());
     }
 
     public static boolean isTextureBlacklisted(Identifier entityTexture) {

@@ -1,7 +1,7 @@
 accessWidener	v2	named
 
 accessible method net/minecraft/item/BundleItem getBundledStacks (Lnet/minecraft/item/ItemStack;)Ljava/util/stream/Stream;
-extendable method net/minecraft/client/gui/screen/Screen renderTooltipFromComponents (Lnet/minecraft/client/util/math/MatrixStack;Ljava/util/List;II)V
+#extendable method net/minecraft/client/gui/screen/Screen renderTooltipFromComponents (Lnet/minecraft/client/util/math/MatrixStack;Ljava/util/List;II)V
 
 accessible class net/minecraft/client/texture/ResourceTexture$TextureData
 
@@ -12,3 +12,5 @@ accessible class net/minecraft/client/gui/screen/ingame/CreativeInventoryScreen$
 accessible class net/minecraft/client/gui/screen/ingame/CreativeInventoryScreen$LockableSlot
 
 accessible method net/minecraft/recipe/BrewingRecipeRegistry registerPotionRecipe (Lnet/minecraft/potion/Potion;Lnet/minecraft/item/Item;Lnet/minecraft/potion/Potion;)V
+
+accessible class net/minecraft/data/server/recipe/CookingRecipeJsonBuilder$CookingRecipeJsonProvider

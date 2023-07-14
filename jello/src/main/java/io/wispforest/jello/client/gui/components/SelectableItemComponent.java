@@ -2,13 +2,10 @@ package io.wispforest.jello.client.gui.components;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.wispforest.jello.Jello;
-import io.wispforest.jello.misc.pond.ItemRendererExtension;
 import io.wispforest.owo.ui.component.ItemComponent;
 import io.wispforest.owo.ui.core.Color;
-import io.wispforest.owo.ui.event.MouseDown;
 import io.wispforest.owo.ui.util.Drawer;
 import io.wispforest.owo.ui.util.ScissorStack;
-import io.wispforest.owo.util.EventSource;
 import io.wispforest.owo.util.EventStream;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -17,13 +14,12 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -95,13 +91,19 @@ public class SelectableItemComponent extends ItemComponent {
         // Vanilla scaling and y inversion
         matrices.scale(16, -16, 16);
 
-        this.itemRenderer.renderItem(this.stack, ModelTransformation.Mode.GUI, LightmapTextureManager.MAX_LIGHT_COORDINATE, OverlayTexture.DEFAULT_UV, matrices, entityBuffers, 0);
+        this.itemRenderer.renderItem(this.stack, ModelTransformationMode.GUI, LightmapTextureManager.MAX_LIGHT_COORDINATE, OverlayTexture.DEFAULT_UV, matrices, entityBuffers, null, 0);
         this.entityBuffers.draw();
 
         // Clean up
         matrices.pop();
 
-        if (this.showOverlay) ((ItemRendererExtension) this.itemRenderer).renderGuiItemOverlay(matrices, MinecraftClient.getInstance().textRenderer, this.stack, 0, 0, 4/*isSelected ? 3 : 1 */);
+        matrices.push();
+
+        matrices.translate(0,0, 4/*isSelected ? 3 : 1 */);
+
+        if (this.showOverlay) this.itemRenderer.renderGuiItemOverlay(matrices, MinecraftClient.getInstance().textRenderer, this.stack, 0, 0);
+
+        matrices.pop();
 
         if (notSideLit) DiffuseLighting.enableGuiDepthLighting();
 
@@ -163,7 +165,7 @@ public class SelectableItemComponent extends ItemComponent {
     }
 
     public static List<TooltipComponent> getTooltipComponentsFromItemStack(ItemStack stack){
-        List<TooltipComponent> list = stack.getTooltip(MinecraftClient.getInstance().player, MinecraftClient.getInstance().options.advancedItemTooltips ? TooltipContext.Default.ADVANCED : TooltipContext.Default.NORMAL)
+        List<TooltipComponent> list = stack.getTooltip(MinecraftClient.getInstance().player, MinecraftClient.getInstance().options.advancedItemTooltips ? TooltipContext.Default.ADVANCED : TooltipContext.Default.BASIC)
                 .stream()
                 .map(Text::asOrderedText)
                 .map(TooltipComponent::of)

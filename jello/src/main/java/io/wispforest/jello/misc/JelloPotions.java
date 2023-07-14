@@ -4,7 +4,8 @@ import io.wispforest.owo.registration.reflect.AutoRegistryContainer;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.potion.Potion;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 
 public class JelloPotions implements AutoRegistryContainer<Potion> {
 
@@ -36,7 +37,7 @@ public class JelloPotions implements AutoRegistryContainer<Potion> {
 
     @Override
     public Registry<Potion> getRegistry() {
-        return Registry.POTION;
+        return Registries.POTION;
     }
 
     @Override

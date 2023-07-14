@@ -2,25 +2,18 @@ package io.wispforest.jello.item.jellocup;
 
 import io.wispforest.jello.item.JelloItems;
 import io.wispforest.owo.nbt.NbtKey;
-import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionUtil;
 import net.minecraft.potion.Potions;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 public class JelloCupCreationHandler {
 
@@ -49,7 +42,7 @@ public class JelloCupCreationHandler {
     @Nullable
     public static JelloCupCreationHandler getData(ItemStack stack){
         return stack.has(JELLO_CUP_TYPE)
-                ? ALL_CUP_DATA.get(Registry.ITEM.get(stack.get(JELLO_CUP_TYPE)))
+                ? ALL_CUP_DATA.get(Registries.ITEM.get(stack.get(JELLO_CUP_TYPE)))
                 : null;
     }
 
@@ -100,7 +93,7 @@ public class JelloCupCreationHandler {
             PotionUtil.setCustomPotionEffects(solutionStack, potion.getEffects());
         }
 
-        solutionStack.put(JELLO_CUP_TYPE, Registry.ITEM.getId(this.getLinkedItem()));
+        solutionStack.put(JELLO_CUP_TYPE, Registries.ITEM.getId(this.getLinkedItem()));
 
         return solutionStack;
     }

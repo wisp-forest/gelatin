@@ -38,10 +38,10 @@ public class ArtistPaletteItem extends Item implements ItemColorProvider {
         super(settings);
     }
 
-    @Override
-    public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
-        if (this.isIn(group)) stacks.add(getDefaultStack());
-    }
+//    @Override
+//    public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
+//        if (this.isIn(group)) stacks.add(getDefaultStack());
+//    }
 
     @Override
     public boolean isItemBarVisible(ItemStack stack) {

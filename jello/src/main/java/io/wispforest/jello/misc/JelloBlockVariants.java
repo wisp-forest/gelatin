@@ -18,7 +18,7 @@ import net.minecraft.util.Identifier;
 public class JelloBlockVariants {
 
     private static final Item.Settings itemSettings = new OwoItemSettings()
-            .group(ItemGroup.REDSTONE)
+            /*.group(ItemGroup.REDSTONE)*/
             .tab(2)
             .maxCount(64);
 

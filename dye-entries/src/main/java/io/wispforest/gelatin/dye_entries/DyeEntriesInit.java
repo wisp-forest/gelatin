@@ -14,9 +14,9 @@ import io.wispforest.owo.itemgroup.OwoItemGroup;
 import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.block.Block;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
 
 import java.util.List;
 import java.util.Map;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 public class DyeEntriesInit implements ModInitializer {
 
-    public static final OwoItemGroup MAIN_ITEM_GROUP = new GelatinItemGroup(GelatinConstants.id("gelatin_group"));
+    public static final OwoItemGroup MAIN_ITEM_GROUP = GelatinItemGroup.create(GelatinConstants.id("gelatin_group"));
 
     @Override
     public void onInitialize() {
@@ -50,7 +50,7 @@ public class DyeEntriesInit implements ModInitializer {
     public static void setDyeColorantForMinecraftBlocks(){
         List<String> allVanillaBlockVariants = VanillaBlockVariants.ALL_VANILLA_VARIANTS.stream().map(dyeableBlockVariant -> dyeableBlockVariant.variantIdentifier.getPath()).collect(Collectors.toList());
 
-        Set<Map.Entry<RegistryKey<Block>, Block>> coloredBlocks = Registry.BLOCK.getEntrySet().stream().filter(entry -> {
+        Set<Map.Entry<RegistryKey<Block>, Block>> coloredBlocks = Registries.BLOCK.getEntrySet().stream().filter(entry -> {
             Identifier entryId = entry.getKey().getValue();
 
             if(Objects.equals(entryId.getNamespace(), "minecraft")){

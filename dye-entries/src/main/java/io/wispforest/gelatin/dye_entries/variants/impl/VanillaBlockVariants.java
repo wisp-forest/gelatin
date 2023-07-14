@@ -4,7 +4,6 @@ import io.wispforest.gelatin.common.util.ItemFunctions;
 import io.wispforest.gelatin.dye_entries.DyeEntriesInit;
 import io.wispforest.gelatin.dye_entries.block.*;
 import io.wispforest.gelatin.dye_entries.data.GelatinLootTables;
-import io.wispforest.gelatin.dye_entries.item.ColoredBlockItem;
 import io.wispforest.gelatin.dye_entries.mixins.accessors.BlockEntityTypeAccessor;
 import io.wispforest.gelatin.dye_entries.mixins.accessors.ShulkerBoxBlockEntityAccessor;
 import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
@@ -14,16 +13,15 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.block.enums.BedPart;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.tag.BlockTags;
-import net.minecraft.tag.ItemTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.poi.PointOfInterestTypes;
 
 import java.util.HashSet;
@@ -105,7 +103,7 @@ public class VanillaBlockVariants {
         Block block = new ColoredBedBlock(dyeColorant,
                 AbstractBlock.Settings.of(Material.WOOL, state -> state.get(BedBlock.PART) == BedPart.FOOT ? MapColor.CLEAR : MapColor.WHITE_GRAY).sounds(BlockSoundGroup.WOOD).strength(0.2F).nonOpaque());
 
-        Registry.POINT_OF_INTEREST_TYPE.getOrThrow(PointOfInterestTypes.HOME).blockStates().addAll(block.getStateManager().getStates().stream()
+        Registries.POINT_OF_INTEREST_TYPE.getOrThrow(PointOfInterestTypes.HOME).blockStates().addAll(block.getStateManager().getStates().stream()
             .filter(blockState -> blockState.get(BedBlock.PART) == BedPart.HEAD).toList());
 
         return addToBlockEntitieset(block, BlockEntityType.BED);

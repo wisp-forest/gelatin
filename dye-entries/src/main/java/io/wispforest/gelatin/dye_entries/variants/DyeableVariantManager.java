@@ -1,7 +1,6 @@
 package io.wispforest.gelatin.dye_entries.variants;
 
 import io.wispforest.gelatin.common.util.ItemFunctions;
-import io.wispforest.gelatin.common.mixins.SettingsAccessor;
 import io.wispforest.gelatin.dye_entries.variants.impl.VanillaItemVariants;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
@@ -12,9 +11,10 @@ import io.wispforest.owo.itemgroup.OwoItemSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -184,7 +184,7 @@ public class DyeableVariantManager {
                 if (itemGroupSettings != null) {
                     Item.Settings infoSettings = ItemFunctions.copyFrom(info.getRight());
 
-                    infoSettings.group(((SettingsAccessor) itemGroupSettings).jello$getGroup());
+                    //infoSettings.group(((SettingsAccessor) itemGroupSettings).jello$getGroup());
 
                     if(infoSettings instanceof OwoItemSettings owoItemSettings && itemGroupSettings instanceof OwoItemSettings owoItemSettings1){
                         owoItemSettings.tab(owoItemSettings1.tab());
@@ -217,10 +217,10 @@ public class DyeableVariantManager {
 
             addToModelRedirectSystem(identifier);
 
-            Block block = Registry.register(Registry.BLOCK, identifier, registryInfo.getLeft());
+            Block block = Registry.register(Registries.BLOCK, identifier, registryInfo.getLeft());
 
             if (dyeableBlockVariant.createBlockItem()) {
-                Registry.register(Registry.ITEM, identifier, dyeableBlockVariant.makeBlockItem(dyeColorant, block, registryInfo.getRight()));
+                Registry.register(Registries.ITEM, identifier, dyeableBlockVariant.makeBlockItem(dyeColorant, block, registryInfo.getRight()));
             }
 
             return block;
@@ -263,7 +263,7 @@ public class DyeableVariantManager {
                 Item.Settings itemSettings = parentItemVariant.defaultItemSettings;
 
                 if(itemGroupSettings != null){
-                    itemSettings.group(((SettingsAccessor)itemGroupSettings).jello$getGroup());
+                    //itemSettings.group(((SettingsAccessor)itemGroupSettings).jello$getGroup());
 
                     if(itemSettings instanceof OwoItemSettings owoItemSettings && itemGroupSettings instanceof OwoItemSettings owoItemSettings1){
                         owoItemSettings.tab(owoItemSettings1.tab());
@@ -298,7 +298,7 @@ public class DyeableVariantManager {
 
             addToModelRedirectSystem(identifier);
 
-            return Registry.register(Registry.ITEM, identifier, item);
+            return Registry.register(Registries.ITEM, identifier, item);
         }
 
         private void addToModelRedirectSystem(Identifier identifier){

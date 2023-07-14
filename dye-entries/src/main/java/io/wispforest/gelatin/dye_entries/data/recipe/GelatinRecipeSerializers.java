@@ -3,7 +3,9 @@ package io.wispforest.gelatin.dye_entries.data.recipe;
 import io.wispforest.owo.registration.reflect.AutoRegistryContainer;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialRecipeSerializer;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+
 
 public class GelatinRecipeSerializers implements AutoRegistryContainer<RecipeSerializer<?>> {
 
@@ -12,7 +14,7 @@ public class GelatinRecipeSerializers implements AutoRegistryContainer<RecipeSer
 
     @Override
     public Registry<RecipeSerializer<?>> getRegistry() {
-        return Registry.RECIPE_SERIALIZER;
+        return Registries.RECIPE_SERIALIZER;
     }
 
     @Override

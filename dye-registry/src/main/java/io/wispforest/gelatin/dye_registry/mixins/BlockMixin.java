@@ -5,9 +5,7 @@ import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import io.wispforest.gelatin.dye_registry.ducks.DyeBlockStorage;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
-import net.minecraft.util.registry.RegistryEntry;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(Block.class)
 public abstract class BlockMixin extends AbstractBlock implements DyeBlockStorage {
@@ -15,10 +13,6 @@ public abstract class BlockMixin extends AbstractBlock implements DyeBlockStorag
     public BlockMixin(Settings settings) {
         super(settings);
     }
-
-    @Shadow
-    @Deprecated
-    public abstract RegistryEntry.Reference<Block> getRegistryEntry();
 
     private DyeColorant blockDyeColor = DyeColorantRegistry.NULL_VALUE_NEW;
 

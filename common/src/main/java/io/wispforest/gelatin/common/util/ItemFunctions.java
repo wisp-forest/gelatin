@@ -8,9 +8,9 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class ItemFunctions {
 
@@ -35,17 +35,17 @@ public class ItemFunctions {
 
         SettingsAccessor settingsAccessor = (SettingsAccessor) settings;
 
-        if (settingsAccessor.jello$isFireproof()) settingsNew.fireproof();
+        if (settingsAccessor.gelatin$isFireproof()) settingsNew.fireproof();
 
-        settingsNew.group(settingsAccessor.jello$getGroup())
-                .food(settingsAccessor.jello$getFoodComponent())
-                .recipeRemainder(settingsAccessor.jello$getRecipeRemainder())
-                .rarity(settingsAccessor.jello$getRarity());
+        settingsNew
+                .food(settingsAccessor.gelatin$getFoodComponent())
+                .recipeRemainder(settingsAccessor.gelatin$getRecipeRemainder())
+                .rarity(settingsAccessor.gelatin$getRarity());
 
-        if(settingsAccessor.jello$getMaxDamage() > 0){
-            settingsNew.maxDamageIfAbsent(settingsAccessor.jello$getMaxDamage());
+        if(settingsAccessor.gelatin$getMaxDamage() > 0){
+            settingsNew.maxDamageIfAbsent(settingsAccessor.gelatin$getMaxDamage());
         } else {
-            settingsNew.maxCount(settingsAccessor.jello$getMaxCount());
+            settingsNew.maxCount(settingsAccessor.gelatin$getMaxCount());
         }
 
         return settingsNew;
@@ -53,9 +53,9 @@ public class ItemFunctions {
 
     public static Identifier getIdFromConvertible(ItemConvertible itemConvertible){
         if(itemConvertible.asItem() != Blocks.AIR.asItem()){
-            return Registry.ITEM.getId(itemConvertible.asItem());
+            return Registries.ITEM.getId(itemConvertible.asItem());
         }
 
-        return Registry.BLOCK.getId((Block) itemConvertible);
+        return Registries.BLOCK.getId((Block) itemConvertible);
     }
 }

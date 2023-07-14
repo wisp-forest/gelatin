@@ -19,10 +19,12 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.loot.LootTable;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
+
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
@@ -51,7 +53,7 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant, Blo
      * @param blockMaker A generalized way of creating your Block Variant (Look at {@link VanillaBlockVariants})
      */
     public DyeableBlockVariant(Identifier variantIdentifier, Item.Settings itemSettings, @Nullable BlockMaker blockMaker) {
-        super(variantIdentifier, Registry.BLOCK);
+        super(variantIdentifier, Registries.BLOCK);
 
         this.blockItemVariant = new DyeableItemVariant(variantIdentifier, itemSettings, ItemMaker.BLOCK_DEFAULT);
         this.blockItemVariant.itemColorChangeMethod = BlockColorManipulators.AlterItemColor.DEFAULT_BLOCK;
@@ -60,7 +62,7 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant, Blo
 
         this.defaultEntryIdentifier = new Identifier(variantIdentifier.getNamespace(), "white_" + variantIdentifier.getPath());
 
-        allTags.add(TagKey.of(Registry.BLOCK_KEY, GelatinConstants.id(variantIdentifier.getPath())));
+        allTags.add(TagKey.of(RegistryKeys.BLOCK, GelatinConstants.id(variantIdentifier.getPath())));
     }
 
     public static DyeableBlockVariant readOnly(Identifier variantIdentifier){
@@ -196,7 +198,7 @@ public class DyeableBlockVariant extends DyeableVariant<DyeableBlockVariant, Blo
         for(DyeColorant dyeColorant : dyeColorants){
             Block block = this.getColoredEntry(dyeColorant);
 
-            Identifier blockId = Registry.BLOCK.getId(block);
+            Identifier blockId = Registries.BLOCK.getId(block);
 
             if(Objects.equals(blockId.getNamespace(), "minecraft") || (Objects.equals(this.defaultEntryIdentifier.getPath(), blockId.getPath()) && this.customDefaultBlock()))
                 continue;

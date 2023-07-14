@@ -20,7 +20,7 @@ public abstract class TextureManagerMixin implements TextureManagerDuck {
 
     @Override
     public boolean hasGrayScaledTextureBeenMade(Identifier id){
-        return (AbstractTexture)this.textures.get(id) != null;
+        return this.textures.get(id) != null;
     }
 
     @Override

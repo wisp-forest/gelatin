@@ -130,7 +130,7 @@ public class Jello implements ModInitializer {
             ColorDebugHelper.INSTANCE.clearLastWorkspace(context.getSource().getWorld());
         } else {
             ColorDebugHelper.INSTANCE.runBuilderProgram(
-                    new BlockPos(Math.round(position.x), Math.round(position.y), Math.round(position.z)),
+                    new BlockPos((int) Math.round(position.x), (int) Math.round(position.y), (int) Math.round(position.z)),
                     context.getSource().getWorld(),
                     cubeSize,
                     1
