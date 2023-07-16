@@ -25,7 +25,7 @@ public class JelloItemGroupModifier implements ItemGroupEvents.ModifyEntriesAll 
             if(entry.getLeft() instanceof ItemGroupTab.ContentSupplier supplier){
                 supplier.addItems(entries.getContext(), entries);
             } else {
-                entries.add(entry.getLeft(), entry.getRight() );
+                entries.add(entry.getLeft().getDefaultStack(), entry.getRight());
             }
         });
     }

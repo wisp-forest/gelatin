@@ -18,6 +18,7 @@ import io.wispforest.jello.item.SpongeItem;
 import io.wispforest.jello.item.dyebundle.DyeBundlePackets;
 import io.wispforest.jello.misc.JelloBlockVariants;
 import io.wispforest.jello.misc.JelloPotions;
+import io.wispforest.jello.misc.itemgroup.JelloItemGroupModifier;
 import io.wispforest.jello.network.ColorMixerScrollPacket;
 import io.wispforest.jello.network.ColorMixerSearchPacket;
 import io.wispforest.jello.network.CustomJsonColorSync;
@@ -26,6 +27,7 @@ import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
 import io.wispforest.owo.util.RecipeRemainderStorage;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerLoginConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerLoginNetworking;
@@ -61,6 +63,7 @@ public class Jello implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        ItemGroupEvents.MODIFY_ENTRIES_ALL.register(JelloItemGroupModifier.INSTANCE);
 
         CauldronEvent.BEFORE_CAULDRON_BEHAVIOR.register(SpongeItem::cleanSponge);
 
