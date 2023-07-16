@@ -6,7 +6,7 @@ import io.wispforest.owo.itemgroup.OwoItemSettings;
 public class OwoCompat {
 
     public static void init(){
-        DyeEntriesItemGroups.createSeparateGroups = true;
+        DyeEntriesItemGroups.createSeparateGroups = false;
         DyeEntriesItemGroups.itemGroupInit = GelatinItemGroup.MAIN_ITEM_GROUP::initialize;
         DyeEntriesItemGroups.getItemGroup = i -> GelatinItemGroup.MAIN_ITEM_GROUP;
         DyeEntriesItemGroups.getItemSettings = i -> {
