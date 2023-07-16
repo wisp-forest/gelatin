@@ -14,9 +14,7 @@ public class EntityColorManipulators {
      * @return True if the Entity's color was changed
      */
     public static boolean dyeEntityEvent(DyeableEntity dyeableEntity, DyeColorant dyeColor) {
-        if ((dyeableEntity.isRainbowTime()) || dyeColor == dyeableEntity.getDyeColor()) {//|| dyeItem.getColor().getId() == DyeColor.WHITE.getId()) {
-            return false;
-        }
+        if ((dyeableEntity.isRainbowTime()) || dyeColor == dyeableEntity.getDyeColor()) return false;
 
         dyeableEntity.setDyeColor(dyeColor);
 
@@ -46,18 +44,12 @@ public class EntityColorManipulators {
      * @return True if the Entity's was Cleaned
      */
     public static boolean washEntityEvent(DyeableEntity dyeableEntity) {
-        boolean washedEntity = false;
+        boolean bl1 = dyeableEntity.isDyed();
+        boolean bl2 = dyeableEntity.isRainbowTime();
 
-        if (dyeableEntity.isDyed()) {
-            dyeableEntity.setDyeColor(DyeColorantRegistry.NULL_VALUE_NEW);
-            washedEntity = true;
-        }
+        if(bl1) dyeableEntity.setDyeColor(DyeColorantRegistry.NULL_VALUE_NEW);
+        if(bl2) dyeableEntity.setRainbowTime(false);
 
-        if (dyeableEntity.isRainbowTime()) {
-            dyeableEntity.setRainbowTime(false);
-            washedEntity = true;
-        }
-
-        return washedEntity;
+        return bl1 || bl2;
     }
 }

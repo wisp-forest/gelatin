@@ -1,14 +1,14 @@
 package io.wispforest.gelatin.dye_entries.misc;
 
 import io.wispforest.gelatin.common.misc.GelatinConstants;
-import io.wispforest.owo.registration.reflect.SimpleFieldProcessingSubject;
 import net.minecraft.stat.StatFormatter;
+import net.minecraft.stat.Stats;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-import java.lang.reflect.Field;
+import java.util.List;
 
-public class GelatinStats implements SimpleFieldProcessingSubject<Identifier> {
+public class GelatinStats {
 
     public static final Identifier CLEAN_BLOCK = GelatinConstants.id("clean_block");
 
@@ -17,14 +17,12 @@ public class GelatinStats implements SimpleFieldProcessingSubject<Identifier> {
     //public static final Identifier DYE_BANNER = Gelatin.id("dye_banner");
     public static final Identifier DYE_SHULKER_BOX = GelatinConstants.id("dye_shulker_box");
 
-    @Override
-    public void processField(Identifier value, String identifier, Field field) {
-        Registry.register(Registry.CUSTOM_STAT, identifier, value);
-        net.minecraft.stat.Stats.CUSTOM.getOrCreateStat(value, StatFormatter.DEFAULT);
-    }
+    public static void init(){
+        List<Identifier> ids = List.of(CLEAN_BLOCK, DYE_BLOCK, DYE_ARMOR, DYE_SHULKER_BOX);
 
-    @Override
-    public Class<Identifier> getTargetFieldType() {
-        return Identifier.class;
+        for (Identifier id : ids) {
+            Registry.register(Registry.CUSTOM_STAT, id, id);
+            Stats.CUSTOM.getOrCreateStat(id, StatFormatter.DEFAULT);
+        }
     }
 }

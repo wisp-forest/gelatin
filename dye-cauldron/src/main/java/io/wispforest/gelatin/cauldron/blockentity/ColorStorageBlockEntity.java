@@ -1,8 +1,8 @@
 package io.wispforest.gelatin.cauldron.blockentity;
 
+import io.wispforest.gelatin.common.util.WorldFunctions;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
-import io.wispforest.owo.ops.WorldOps;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -75,7 +75,7 @@ public class ColorStorageBlockEntity extends BlockEntity {
     @Override
     public void markDirty() {
         super.markDirty();
-        WorldOps.updateIfOnServer(world, this.getPos());
+        WorldFunctions.updateIfOnServer(world, this.getPos());
     }
 
     public static boolean isWaterColored(ColorStorageBlockEntity blockEntity) {

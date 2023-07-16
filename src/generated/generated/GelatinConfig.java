@@ -1,4 +1,4 @@
-package io.wispforest.gelatin.common.compat;
+package io.wispforest.gelatin;
 
 import io.wispforest.owo.config.ConfigWrapper;
 import io.wispforest.owo.config.Option;
@@ -8,18 +8,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class GelatinConfig extends ConfigWrapper<io.wispforest.gelatin.common.compat.GelatinConfigModel> {
+public class GelatinConfig extends ConfigWrapper<io.wispforest.gelatin.GelatinConfigModel> {
 
     private final Option<java.lang.Boolean> enableDyeingEntities = this.optionForKey(new Option.Key("enableDyeingEntities"));
     private final Option<java.lang.Boolean> enableDyeingPlayers = this.optionForKey(new Option.Key("enableDyeingPlayers"));
     private final Option<java.lang.Boolean> enableDyeingBlocks = this.optionForKey(new Option.Key("enableDyeingBlocks"));
     private final Option<java.lang.Boolean> enableTransparencyFixCauldrons = this.optionForKey(new Option.Key("enableTransparencyFixCauldrons"));
     private final Option<java.lang.Boolean> enableGrayScalingOfEntities = this.optionForKey(new Option.Key("enableGrayScalingOfEntities"));
-    private final Option<java.lang.Boolean> enableGrayScaleRainbowEntities = this.optionForKey(new Option.Key("enableGrayScaleRainbowEntities"));
+    private final Option<java.lang.Boolean> enableGrayScalingOfRainbowEntities = this.optionForKey(new Option.Key("enableGrayScalingOfRainbowEntities"));
     private final Option<java.util.List<java.lang.String>> gelatinBlackListModid = this.optionForKey(new Option.Key("gelatinBlackListModid"));
 
     private GelatinConfig() {
-        super(io.wispforest.gelatin.common.compat.GelatinConfigModel.class);
+        super(io.wispforest.gelatin.GelatinConfigModel.class);
     }
 
     public static GelatinConfig createAndLoad() {
@@ -72,12 +72,12 @@ public class GelatinConfig extends ConfigWrapper<io.wispforest.gelatin.common.co
         enableGrayScalingOfEntities.set(value);
     }
 
-    public boolean enableGrayScaleRainbowEntities() {
-        return enableGrayScaleRainbowEntities.value();
+    public boolean enableGrayScalingOfRainbowEntities() {
+        return enableGrayScalingOfRainbowEntities.value();
     }
 
-    public void enableGrayScaleRainbowEntities(boolean value) {
-        enableGrayScaleRainbowEntities.set(value);
+    public void enableGrayScalingOfRainbowEntities(boolean value) {
+        enableGrayScalingOfRainbowEntities.set(value);
     }
 
     public java.util.List<java.lang.String> gelatinBlackListModid() {

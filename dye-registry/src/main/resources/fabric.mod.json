@@ -27,8 +27,7 @@
     "fabricloader": ">=0.14.6",
     "fabric": "*",
     "minecraft": "~1.19",
-    "java": ">=17",
-    "owo": ">=0.9.3+1.19"
+    "java": ">=17"
   },
   "custom": {
     "modmenu": {
@@ -37,7 +36,7 @@
     },
     "loom:injected_interfaces": {
       "net/minecraft/class_1792": ["io/wispforest/gelatin/dye_registry/ducks/DyeItemStorage"],
-      "net.minecraft.class_2248": ["io/wispforest/gelatin/dye_registry/ducks/DyeBlockStorage"]
+      "net/minecraft/class_2248": ["io/wispforest/gelatin/dye_registry/ducks/DyeBlockStorage"]
     }
   }
 }

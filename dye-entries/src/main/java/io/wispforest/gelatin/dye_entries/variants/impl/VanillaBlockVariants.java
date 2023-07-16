@@ -1,20 +1,17 @@
 package io.wispforest.gelatin.dye_entries.variants.impl;
 
 import io.wispforest.gelatin.common.util.ItemFunctions;
-import io.wispforest.gelatin.dye_entries.DyeEntriesInit;
 import io.wispforest.gelatin.dye_entries.block.*;
 import io.wispforest.gelatin.dye_entries.data.GelatinLootTables;
-import io.wispforest.gelatin.dye_entries.item.ColoredBlockItem;
+import io.wispforest.gelatin.dye_entries.misc.DyeEntriesItemGroups;
 import io.wispforest.gelatin.dye_entries.mixins.accessors.BlockEntityTypeAccessor;
 import io.wispforest.gelatin.dye_entries.mixins.accessors.ShulkerBoxBlockEntityAccessor;
 import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
-import io.wispforest.owo.itemgroup.OwoItemSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.block.enums.BedPart;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -36,9 +33,7 @@ import java.util.stream.Collectors;
  */
 public class VanillaBlockVariants {
 
-    private static final Item.Settings itemSettings = new OwoItemSettings()
-            .group(DyeEntriesInit.MAIN_ITEM_GROUP)
-            .tab(1);
+    private static final Item.Settings itemSettings = DyeEntriesItemGroups.getItemSettings.apply(1);
 
     //-----------------------------------------------------------------
 

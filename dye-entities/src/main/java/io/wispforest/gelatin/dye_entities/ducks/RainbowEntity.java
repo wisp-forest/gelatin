@@ -38,7 +38,7 @@ public interface RainbowEntity extends GrayScaleEntity {
 
     @Override
     default boolean isGrayScaled(Entity entity) {
-        return CommonInit.getConfig().enableGrayScaleRainbowEntities() && (isRainbowTime() && !GrayScaleEntityRegistry.isBlacklisted(entity));
+        return CommonInit.getConfig().isGrayScalingOfRainbowEntityEnabled() && (isRainbowTime() && !GrayScaleEntityRegistry.isBlacklisted(entity));
     }
 
 }

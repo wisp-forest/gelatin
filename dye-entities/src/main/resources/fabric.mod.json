@@ -38,9 +38,6 @@
     "minecraft": "~1.19",
     "java": ">=17"
   },
-  "suggests": {
-    "another-mod": "*"
-  },
   "custom": {
     "modmenu": {
       "badges": [ "library" ],

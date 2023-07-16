@@ -19,19 +19,14 @@ public class ColoredBedBlock extends BedBlock implements BlockColorProvider {
     public ColoredBedBlock(DyeColorant dyeColorant, Settings settings) {
         super(DyeColorantRegistry.Constants.NULL_VALUE_OLD, settings);
 
-        ((DyeBlockStorage) this).setDyeColor(dyeColorant);
+        this.setDyeColor(dyeColorant);
     }
 
     @Override
     @Environment(EnvType.CLIENT)
     public int getColor(BlockState state, @Nullable BlockRenderView world, @Nullable BlockPos pos, int tintIndex) {
         //Small patch to fix particles being tinted
-        if(tintIndex == 0)
-            return -1;
-
-        DyeColorant dyeColorant = ((DyeBlockStorage) this).getDyeColorant();
-
-        return dyeColorant.getBaseColor();
+        return (tintIndex == 0) ? -1 :  this.getDyeColorant().getBaseColor();
     }
 
 }

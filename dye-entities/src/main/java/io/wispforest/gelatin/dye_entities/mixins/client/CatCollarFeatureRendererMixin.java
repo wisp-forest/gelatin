@@ -31,22 +31,22 @@ public abstract class CatCollarFeatureRendererMixin extends FeatureRenderer<CatE
 
     @Inject(method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/entity/passive/CatEntity;FFFFFF)V", at = @At("HEAD"), cancellable = true)
     private void gelatin$customCollarColor(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CatEntity catEntity, float f, float g, float h, float j, float k, float l, CallbackInfo ci){
-        if (catEntity.isTamed() && !catEntity.isInvisible()) {
-            CustomCollarColorStorage collarColorStorage = ((CustomCollarColorStorage) catEntity);
+        if (!catEntity.isTamed() || catEntity.isInvisible()) return;
 
-            float[] fs;
+        CustomCollarColorStorage collarColorStorage = ((CustomCollarColorStorage) catEntity);
 
-            if(collarColorStorage.isRainbowCollared()){
-                fs = ColorUtil.rainbowColorizer(catEntity, g);
-            } else if (collarColorStorage.getCustomCollarColor() != DyeColorantRegistry.NULL_VALUE_NEW){
-                fs = ((CustomCollarColorStorage) catEntity).getCustomCollarColor().getColorComponents();
-            } else {
-                return;
-            }
+        float[] fs;
 
-            render(this.getContextModel(), this.model, SKIN, matrixStack, vertexConsumerProvider, i, catEntity, f, g, j, k, l, h, fs[0], fs[1], fs[2]);
-
-            ci.cancel();
+        if(collarColorStorage.isRainbowCollared()){
+            fs = ColorUtil.rainbowColorizer(catEntity, g);
+        } else if (collarColorStorage.getCustomCollarColor() != DyeColorantRegistry.NULL_VALUE_NEW){
+            fs = ((CustomCollarColorStorage) catEntity).getCustomCollarColor().getColorComponents();
+        } else {
+            return;
         }
+
+        render(this.getContextModel(), this.model, SKIN, matrixStack, vertexConsumerProvider, i, catEntity, f, g, j, k, l, h, fs[0], fs[1], fs[2]);
+
+        ci.cancel();
     }
 }

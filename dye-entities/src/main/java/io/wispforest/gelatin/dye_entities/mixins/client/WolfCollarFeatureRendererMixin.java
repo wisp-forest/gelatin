@@ -29,22 +29,22 @@ public abstract class WolfCollarFeatureRendererMixin extends FeatureRenderer<Wol
 
     @Inject(method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/entity/passive/WolfEntity;FFFFFF)V", at = @At("HEAD"), cancellable = true)
     private void gelatin$customCollarColor(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, WolfEntity wolfEntity, float f, float g, float h, float j, float k, float l, CallbackInfo ci){
-        if (wolfEntity.isTamed() && !wolfEntity.isInvisible()) {
-            CustomCollarColorStorage collarColorStorage = ((CustomCollarColorStorage) wolfEntity);
+        if (!wolfEntity.isTamed() || wolfEntity.isInvisible()) return;
 
-            float[] fs;
+        CustomCollarColorStorage collarColorStorage = ((CustomCollarColorStorage) wolfEntity);
 
-            if(collarColorStorage.isRainbowCollared()){
-                fs = ColorUtil.rainbowColorizer(wolfEntity, g);
-            } else if (collarColorStorage.getCustomCollarColor() != DyeColorantRegistry.NULL_VALUE_NEW){
-                fs = ((CustomCollarColorStorage) wolfEntity).getCustomCollarColor().getColorComponents();
-            } else {
-                return;
-            }
+        float[] fs;
 
-            renderModel(this.getContextModel(), SKIN, matrixStack, vertexConsumerProvider, i, wolfEntity, fs[0], fs[1], fs[2]);
-
-            ci.cancel();
+        if(collarColorStorage.isRainbowCollared()){
+            fs = ColorUtil.rainbowColorizer(wolfEntity, g);
+        } else if (collarColorStorage.getCustomCollarColor() != DyeColorantRegistry.NULL_VALUE_NEW){
+            fs = ((CustomCollarColorStorage) wolfEntity).getCustomCollarColor().getColorComponents();
+        } else {
+            return;
         }
+
+        renderModel(this.getContextModel(), SKIN, matrixStack, vertexConsumerProvider, i, wolfEntity, fs[0], fs[1], fs[2]);
+
+        ci.cancel();
     }
 }

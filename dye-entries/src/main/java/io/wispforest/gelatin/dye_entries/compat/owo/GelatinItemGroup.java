@@ -1,31 +1,75 @@
-package io.wispforest.gelatin.dye_entries.misc;
+package io.wispforest.gelatin.dye_entries.compat.owo;
 
-import io.wispforest.gelatin.common.util.ColorUtil;
-import io.wispforest.gelatin.dye_entries.variants.DyeableVariantRegistry;
-import io.wispforest.gelatin.dye_registry.DyeColorant;
+import io.wispforest.gelatin.common.misc.GelatinConstants;
+import io.wispforest.gelatin.dye_entries.misc.DyeEntriesItemGroups;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import io.wispforest.gelatin.dye_registry.ducks.DyeBlockStorage;
 import io.wispforest.gelatin.dye_registry.ducks.DyeItemStorage;
-import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
 import io.wispforest.owo.itemgroup.Icon;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
-import io.wispforest.owo.itemgroup.gui.ItemGroupTab;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.registry.Registry;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class GelatinItemGroup extends OwoItemGroup {
 
+    public static final OwoItemGroup MAIN_ITEM_GROUP = new GelatinItemGroup(GelatinConstants.id("gelatin_group"));
+
+    public GelatinItemGroup(Identifier id) {
+        super(id);
+    }
+
+    @Override
+    public ItemStack getIcon() {
+        return Items.ORANGE_DYE.getDefaultStack();
+    }
+
+    @Override
+    protected void setup() {
+        //this.addTab(Icon.of(JelloItems.DYE_BUNDLE.getDefaultStack()), "jello_tools", null, ItemGroupTab.DEFAULT_TEXTURE);
+
+        if(DyeColorantRegistry.DYE_COLOR.size() > 17) {
+            Pair<Item, Item> iconPair = DyeEntriesItemGroups.getIconItems();
+
+            this.addTab(Icon.of(iconPair.getLeft()), "dyed_item_variants", null, true);
+            this.addTab(Icon.of(iconPair.getRight()), "dyed_block_variants", null, false);
+        }
+    }
+
+    @Override
+    public void appendStacks(DefaultedList<ItemStack> stacks) {
+        super.appendStacks(stacks);
+
+        Predicate<ItemStack> isDyedEntry;
+
+        if(this.getSelectedTabIndex() == 0){
+            isDyedEntry = stack -> stack.getItem() instanceof DyeItemStorage;
+        } else {
+            isDyedEntry = stack -> stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof DyeBlockStorage;
+        }
+
+        List<ItemStack> dyedBlocks = stacks.stream().filter(isDyedEntry).collect(Collectors.toList());
+
+        stacks.removeIf(isDyedEntry);
+
+        DyeEntriesItemGroups.sortEntries(dyedBlocks, this.getSelectedTabIndex());
+
+    }
+
+    @Override
+    public ItemStack createIcon() {
+        return null;
+    }
+
+    /*
     public GelatinItemGroup(Identifier id) {
         super(id);
     }
@@ -115,6 +159,6 @@ public class GelatinItemGroup extends OwoItemGroup {
     public static Comparator<ItemStack> dyeStackHslComparator(int component) {
         return Comparator.comparingDouble(stack -> ColorUtil.rgbToHsl(((DyeItemStorage) stack.getItem()).getDyeColorant().getBaseColor())[component]);
     }
+     */
 
 }
-

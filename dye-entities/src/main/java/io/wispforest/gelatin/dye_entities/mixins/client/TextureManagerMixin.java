@@ -25,7 +25,8 @@ public abstract class TextureManagerMixin implements TextureManagerDuck {
 
     @Override
     public void createGrayScaledTexture(Identifier grayScaledId, Identifier defaultId) {
-        AbstractTexture abstractTexture = (AbstractTexture)this.textures.get(grayScaledId);
+        AbstractTexture abstractTexture = this.textures.get(grayScaledId);
+
         if (abstractTexture == null) {
             abstractTexture = new GrayScaledTexture(grayScaledId, defaultId);
             this.registerTexture(grayScaledId, abstractTexture);

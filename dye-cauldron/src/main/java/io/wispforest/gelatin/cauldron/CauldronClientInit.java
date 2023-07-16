@@ -23,11 +23,11 @@ public class CauldronClientInit implements ClientModInitializer {
             ResourceManagerHelper.registerBuiltinResourcePack(GelatinConstants.id("cauldron_cull_fix"), container, ResourcePackActivationType.DEFAULT_ENABLED);
         });
 
-        CommonInit.getConfig().subscribeToEnableTransparencyFixCauldrons(CauldronClientInit::toggleRenderLayer);
+        CommonInit.getConfig().addCauldronFixSubscriber(CauldronClientInit::toggleRenderLayer);
 
         ColorProviderRegistry.BLOCK.register((BlockColorProvider) Blocks.WATER_CAULDRON, Blocks.WATER_CAULDRON);
 
-        toggleRenderLayer(CommonInit.getConfig().enableTransparencyFixCauldrons());
+        toggleRenderLayer(CommonInit.getConfig().isCauldronFixEnabled());
     }
 
     private static void toggleRenderLayer(boolean enableTransparencyFixCauldrons){

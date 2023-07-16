@@ -26,10 +26,9 @@ import java.util.Map;
 
 @Mixin(LeveledCauldronBlock.class)
 @EnvironmentInterface(value = EnvType.CLIENT, itf = BlockColorProvider.class)
-public class LeveledCauldronBlockMixin extends AbstractCauldronBlock implements BlockEntityProvider, BlockColorProvider {
+public abstract class LeveledCauldronBlockMixin extends AbstractCauldronBlock implements BlockEntityProvider, BlockColorProvider {
 
-    @Shadow
-    public boolean isFull(BlockState state) {return false;}
+    @Shadow public boolean isFull(BlockState state) { return false; }
 
     public LeveledCauldronBlockMixin(Settings settings, Map<Item, CauldronBehavior> behaviorMap) {
         super(settings, behaviorMap);
@@ -39,7 +38,7 @@ public class LeveledCauldronBlockMixin extends AbstractCauldronBlock implements 
     public boolean onSyncedBlockEvent(BlockState state, World world, BlockPos pos, int type, int data) {
         super.onSyncedBlockEvent(state, world, pos, type, data);
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        return blockEntity == null ? false : blockEntity.onSyncedBlockEvent(type, data);
+        return blockEntity != null && blockEntity.onSyncedBlockEvent(type, data);
     }
 
     @Nullable
@@ -51,24 +50,21 @@ public class LeveledCauldronBlockMixin extends AbstractCauldronBlock implements 
     @Override
     @Environment(EnvType.CLIENT)
     public int getColor(BlockState state, @Nullable BlockRenderView world, @Nullable BlockPos pos, int tintIndex) {
-        if (world != null && pos != null) {
-            int worldColor = BiomeColors.getWaterColor(world, pos);
+        if(world == null || pos == null) return -1;
 
-            if (world.getBlockEntity(pos) instanceof ColorStorageBlockEntity colorBlockEntity && colorBlockEntity.getDyeColorant() != DyeColorantRegistry.NULL_VALUE_NEW) {
-                DyeColorant dyeColor = colorBlockEntity.getDyeColorant();
+        int worldColor = BiomeColors.getWaterColor(world, pos);
 
-                float[] colorComp = {1F, 1F, 1F};
+        if (world.getBlockEntity(pos) instanceof ColorStorageBlockEntity colorBlockEntity && colorBlockEntity.getDyeColorant() != DyeColorantRegistry.NULL_VALUE_NEW) {
+            float[] colorComp = {1F, 1F, 1F};
 
-                if (dyeColor != null) {
-                    colorComp = dyeColor.getColorComponents();
-                }
+            DyeColorant dyeColor = colorBlockEntity.getDyeColorant();
 
-                return (int) (colorComp[0] * 255) << 16 | (int) (colorComp[1] * 255) << 8 | (int) (colorComp[2] * 255);
-            }
+            if (dyeColor != null) colorComp = dyeColor.getColorComponents();
 
-            return worldColor;
-        } else {
-            return -1;
+            return (int) (colorComp[0] * 255) << 16 | (int) (colorComp[1] * 255) << 8 | (int) (colorComp[2] * 255);
         }
+
+        return worldColor;
+
     }
 }

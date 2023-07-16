@@ -35,38 +35,31 @@ public class FeatureRendererMixin<T extends Entity, M extends EntityModel<T>> {
 
     @Inject(method = "renderModel", at = @At(value = "HEAD"), cancellable = true)
     private static <T extends LivingEntity> void renderWithColor(EntityModel<T> model, Identifier texture, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, T livingEntity, float red, float green, float blue, CallbackInfo ci) {
-        if(isBlackListedFeature(livingEntity)) return;
+        if(isBlackListedFeature(livingEntity) || ColorizeBlackListRegistry.isBlackListed(livingEntity) || livingEntity instanceof WolfEntity) return;
 
-        if (!ColorizeBlackListRegistry.isBlackListed(livingEntity)) {
-            if (!(livingEntity instanceof WolfEntity)) {
-                boolean hasCustomColor = false;
-                float[] colorComp = new float[]{1.0F, 1.0F, 1.0F};
+        float[] colorComp;
 
-                if (livingEntity instanceof DyeableEntity dyeableEntity && dyeableEntity.isDyed() && !(livingEntity instanceof SheepEntity)) {
-                    colorComp = dyeableEntity.getDyeColor().getColorComponents();
-                    hasCustomColor = true;
-                } else if (livingEntity instanceof ConstantColorEntity constantColorEntity && constantColorEntity.isColored()) {
-                    colorComp = new Color(constantColorEntity.getConstantColor()).getRGBColorComponents(null);
-                    hasCustomColor = true;
-                } else if (livingEntity instanceof RainbowEntity rainbowEntity && rainbowEntity.isRainbowTime()) {
-                    colorComp = ColorUtil.rainbowColorizer(livingEntity);
-                    hasCustomColor = true;
-                }
-
-                if (hasCustomColor) {
-                    VertexConsumer vertexConsumer;
-
-                    if (livingEntity instanceof GrayScaleEntity grayScaleEntity && grayScaleEntity.isGrayScaled(livingEntity)) {
-                        vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(GrayScaleEntityRegistry.INSTANCE.getOrFindTexture(livingEntity, texture)));
-                    } else {
-                        vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(texture));
-                    }
-
-                    model.render(matrices, vertexConsumer, light, LivingEntityRenderer.getOverlay(livingEntity, 0.0F), colorComp[0], colorComp[1], colorComp[2], 1.0F);
-                    ci.cancel();
-                }
-            }
+        if (livingEntity instanceof DyeableEntity dyeableEntity && dyeableEntity.isDyed() && !(livingEntity instanceof SheepEntity)) {
+            colorComp = dyeableEntity.getDyeColor().getColorComponents();
+        } else if (livingEntity instanceof ConstantColorEntity constantColorEntity && constantColorEntity.isColored()) {
+            colorComp = new Color(constantColorEntity.getConstantColor()).getRGBColorComponents(null);
+        } else if (livingEntity instanceof RainbowEntity rainbowEntity && rainbowEntity.isRainbowTime()) {
+            colorComp = ColorUtil.rainbowColorizer(livingEntity);
+        } else {
+            return;
         }
+
+        Identifier vertexTexture = texture;
+
+        if (((GrayScaleEntity) livingEntity).isGrayScaled(livingEntity)) {
+            vertexTexture = GrayScaleEntityRegistry.INSTANCE.getOrFindTexture(livingEntity, texture);
+        }
+
+        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(vertexTexture));
+
+        model.render(matrices, vertexConsumer, light, LivingEntityRenderer.getOverlay(livingEntity, 0.0F), colorComp[0], colorComp[1], colorComp[2], 1.0F);
+
+        ci.cancel();
     }
 
     @Inject(method = "getTexture", at = @At(value = "RETURN"), cancellable = true)
@@ -78,7 +71,8 @@ public class FeatureRendererMixin<T extends Entity, M extends EntityModel<T>> {
         }
     }
 
-    @Unique private static <T extends Entity> boolean isBlackListedFeature(T entity){
+    @Unique
+    private static <T extends Entity> boolean isBlackListedFeature(T entity){
         return entity instanceof CatEntity;
     }
 

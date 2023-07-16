@@ -19,14 +19,12 @@ public class ColoredConcretePowderBlock extends ConcretePowderBlock implements B
     public ColoredConcretePowderBlock(Block hardened, Settings settings, DyeColorant dyeColorant) {
         super(hardened, settings);
 
-        ((DyeBlockStorage) this).setDyeColor(dyeColorant);
+        this.setDyeColor(dyeColorant);
     }
 
     @Override
     @Environment(EnvType.CLIENT)
     public int getColor(BlockState state, @Nullable BlockRenderView world, @Nullable BlockPos pos, int tintIndex) {
-        DyeColorant dyeColorant = ((DyeBlockStorage) this).getDyeColorant();
-
-        return dyeColorant.getBaseColor();
+        return this.getDyeColorant().getBaseColor();
     }
 }

@@ -33,12 +33,12 @@ public class DyeItemMixin extends Item implements DyeItemStorage {
 
     @Inject(method = "<init>", at = @At(value = "TAIL"))
     private void fillNewDyeMap(DyeColor color, Settings settings, CallbackInfo ci) {
-        if (color != DyeColorantRegistry.Constants.NULL_VALUE_OLD) {
-            this.setDyeColor(DyeColorant.byOldDyeColor(((DyeItem) (Object) this).getColor()));
+        if (color == DyeColorantRegistry.Constants.NULL_VALUE_OLD) return;
 
-            if (this.getDyeColorant() == null) {
-                this.setDyeColor(DyeColorant.byName(color.getName(), DyeColorantRegistry.NULL_VALUE_NEW));
-            }
-        }
+        DyeColorant dyeColorant = DyeColorant.byOldDyeColor(((DyeItem) (Object) this).getColor());
+
+        if(dyeColorant == null) dyeColorant = DyeColorant.byName(color.getName(), DyeColorantRegistry.NULL_VALUE_NEW);
+
+        this.setDyeColor(dyeColorant);
     }
 }

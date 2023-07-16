@@ -11,23 +11,23 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface SettingsAccessor {
 
     @Accessor("maxCount")
-    int jello$getMaxCount();
+    int gelatin$getMaxCount();
 
     @Accessor("maxDamage")
-    int jello$getMaxDamage();
+    int gelatin$getMaxDamage();
 
     @Accessor("recipeRemainder")
-    Item jello$getRecipeRemainder();
+    Item gelatin$getRecipeRemainder();
 
     @Accessor("group")
-    ItemGroup jello$getGroup();
+    ItemGroup gelatin$getGroup();
 
     @Accessor("rarity")
-    Rarity jello$getRarity();
+    Rarity gelatin$getRarity();
 
     @Accessor("foodComponent")
-    FoodComponent jello$getFoodComponent();
+    FoodComponent gelatin$getFoodComponent();
 
     @Accessor("fireproof")
-    boolean jello$isFireproof();
+    boolean gelatin$isFireproof();
 }

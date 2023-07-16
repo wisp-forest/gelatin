@@ -25,7 +25,7 @@ public abstract class ItemStackMixin {
     @Inject(method = "useOnEntity", at = @At(value = "HEAD"), locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
     private void jello$useDyeItemOnEntity(PlayerEntity user, LivingEntity entity, Hand hand, CallbackInfoReturnable<ActionResult> cir){
         if(this.getItem() instanceof DyeEntityTool dyeTool){
-            if(!CommonInit.getConfig().enableDyeingEntities() || (entity instanceof PlayerEntity && !CommonInit.getConfig().enableDyeingPlayers())){
+            if(!CommonInit.getConfig().isEntityDyeingEnabled() || (entity instanceof PlayerEntity && !CommonInit.getConfig().isPlayerDyeingEnabled())){
                 return;
             }
 

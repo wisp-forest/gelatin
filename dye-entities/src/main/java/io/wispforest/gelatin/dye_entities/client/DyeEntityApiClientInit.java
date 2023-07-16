@@ -9,12 +9,12 @@ public class DyeEntityApiClientInit implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        CommonInit.getConfig().subscribeToGelatinBlackListModid(blacklistedModids -> {
+        CommonInit.getConfig().addGelatinBlacklistSubscriber(blacklistedModids -> {
             GrayScaleEntityRegistry.GRAYSCALABLE_MODID_BLACKLIST.addAll(blacklistedModids);
             ColorizeBlackListRegistry.MODID_BLACKLIST.addAll(blacklistedModids);
         });
 
-        GrayScaleEntityRegistry.GRAYSCALABLE_MODID_BLACKLIST.addAll(CommonInit.getConfig().gelatinBlackListModid());
-        ColorizeBlackListRegistry.MODID_BLACKLIST.addAll(CommonInit.getConfig().gelatinBlackListModid());
+        GrayScaleEntityRegistry.GRAYSCALABLE_MODID_BLACKLIST.addAll(CommonInit.getConfig().getGelatinBlacklist());
+        ColorizeBlackListRegistry.MODID_BLACKLIST.addAll(CommonInit.getConfig().getGelatinBlacklist());
     }
 }

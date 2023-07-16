@@ -32,7 +32,7 @@ public class DyeColorEnumMixin {
         var dyeColor = new net.minecraft.util.DyeColor[field_7953.length + 1];
         System.arraycopy(field_7953, 0, dyeColor, 0, field_7953.length);
 
-        dyeColor[dyeColor.length - 1] = DyeColorEnumMixin.dyeColorRegistry$invokeNew("_null", net.minecraft.util.DyeColor.values().length, 0, "_null", 0, MapColor.CLEAR, 0, 0);
+        dyeColor[dyeColor.length - 1] = dyeColorRegistry$invokeNew("_null", net.minecraft.util.DyeColor.values().length, 0, "_null", 0, MapColor.CLEAR, 0, 0);
         DyeColorantRegistry.Constants.NULL_VALUE_OLD = dyeColor[dyeColor.length - 1];
 
         field_7953 = dyeColor;
@@ -40,7 +40,7 @@ public class DyeColorEnumMixin {
 
     //-------------------------------------------------------------------------
 
-    @Inject(method = "<init>", at = @At(value = "TAIL"))
+    @Inject(method = "<init>(Ljava/lang/String;IILjava/lang/String;ILnet/minecraft/block/MapColor;II)V", at = @At(value = "TAIL"))
     private void importCreatedEnumDyeColor(String internalName, int ordinal, int id, String name, int color, MapColor mapColor, int fireworkColor, int signColor, CallbackInfo ci) {
         if (!(Objects.equals(name, "_null") || DyeColorantRegistry.Constants.VANILLA_DYES.stream().anyMatch(dyeColor -> Objects.equals(name, dyeColor.getName())))) {
             DyeColorant convertedDyeColor = DyeColorantRegistry.registerDyeColor(new Identifier(DyeColorantRegistry.Constants.ENUM_NAMESPACE, name), mapColor, color, fireworkColor, signColor);

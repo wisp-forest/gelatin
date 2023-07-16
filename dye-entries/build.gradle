@@ -4,9 +4,7 @@ moduleDependencies(project, [
 ])
 
 dependencies {
-
     include("maven.modrinth:better-beds:${project.better_beds}")
-
 }
 
 processResources {
