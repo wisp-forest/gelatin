@@ -40,7 +40,7 @@ public abstract class LivingEntityRenderMixin<T extends LivingEntity, M extends 
     private void gatherRenderColor(T livingEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
         float[] colorComp = new float[]{1.0F, 1.0F, 1.0F};
 
-        if (!ColorizeBlackListRegistry.isBlackListed(livingEntity) && CommonInit.getConfig().enableDyeingEntities()) {
+        if (!ColorizeBlackListRegistry.isBlackListed(livingEntity) && CommonInit.getConfig().isEntityDyeingEnabled()) {
             if (livingEntity instanceof DyeableEntity dyeableEntity && dyeableEntity.isDyed()) {
                 colorComp = dyeableEntity.getDyeColor().getColorComponents();
             } else if (livingEntity instanceof ConstantColorEntity constantColorEntity && constantColorEntity.isColored()) {
@@ -64,7 +64,7 @@ public abstract class LivingEntityRenderMixin<T extends LivingEntity, M extends 
     @SuppressWarnings("unchecked")
     @Inject(method = "getRenderLayer", at = @At(value = "HEAD"))
     private void checkForGrayScaleTexture(T entity, boolean showBody, boolean translucent, boolean showOutline, CallbackInfoReturnable<@Nullable RenderLayer> cir) {
-        if (!FabricLoaderImpl.INSTANCE.isDevelopmentEnvironment() && CommonInit.getConfig().enableGrayScalingOfEntities()) {
+        if (!FabricLoaderImpl.INSTANCE.isDevelopmentEnvironment() && CommonInit.getConfig().isGrayScalingOfEntityEnabled()) {
             jello$grayScaleCache = null;
         }
 

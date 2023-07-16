@@ -72,7 +72,7 @@ public class GelatinREIClientPlugin implements REIClientPlugin {
 
             Block defaultBlock = dyeableBlockVariant.getDefaultEntry();
 
-            if(defaultBlock instanceof DyeBlockStorage dyeBlockStorage && dyeBlockStorage.getDyeColorant() != DyeColorantRegistry.WHITE){
+            if(defaultBlock.getDyeColorant() != DyeColorantRegistry.WHITE){
                 items.add(0, defaultBlock.asItem().getDefaultStack());
             }
 

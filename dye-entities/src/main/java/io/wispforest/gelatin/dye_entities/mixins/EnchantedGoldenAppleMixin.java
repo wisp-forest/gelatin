@@ -8,6 +8,7 @@ import io.wispforest.gelatin.dye_entities.ducks.DyeEntityTool;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.EnchantedGoldenAppleItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -19,34 +20,30 @@ public class EnchantedGoldenAppleMixin implements DyeEntityTool {
 
     @Override
     public ActionResult attemptToDyeEntity(World world, PlayerEntity player, LivingEntity entity, ItemStack stack, Hand hand) {
-        if (player.shouldCancelInteraction() && entity instanceof DyeableEntity dyeableEntity) {
-            if(EntityColorManipulators.rainbowEntityEvent(dyeableEntity)){
-                if(!player.getWorld().isClient) {
-                    afterInteraction(player, hand, DyeColorantRegistry.NULL_VALUE_NEW);
-                }
+        boolean bl = player.shouldCancelInteraction()
+                && entity instanceof DyeableEntity dyeableEntity
+                && EntityColorManipulators.rainbowEntityEvent(dyeableEntity);
 
-                return ActionResult.SUCCESS;
-            }
-        }
+        if (!bl) return ActionResult.PASS;
 
-        return ActionResult.PASS;
+        if(!player.getWorld().isClient) afterInteraction(player, hand, DyeColorantRegistry.NULL_VALUE_NEW);
+
+        return ActionResult.SUCCESS;
     }
 
     @Override
     public ActionResult attemptToDyeEntityCollar(World world, PlayerEntity player, Hand hand, CustomCollarColorStorage collarAbleEntity) {
-        ItemStack stack = player.getStackInHand(hand);
+        Item item = player.getStackInHand(hand).getItem();
 
-        if(stack.getItem() instanceof EnchantedGoldenAppleItem enchantedGoldenAppleItem && !collarAbleEntity.isRainbowCollared()){
-            if(!world.isClient) {
-                collarAbleEntity.setRainbowCollar(true);
-                collarAbleEntity.setCustomCollarColor(DyeColorantRegistry.NULL_VALUE_NEW);
-            }
+        if(!(item instanceof EnchantedGoldenAppleItem) || collarAbleEntity.isRainbowCollared()) return ActionResult.PASS;
 
-            ((DyeEntityTool)enchantedGoldenAppleItem).afterInteraction(player, hand, DyeColorantRegistry.NULL_VALUE_NEW);
-
-            return ActionResult.SUCCESS;
+        if(!world.isClient) {
+            collarAbleEntity.setRainbowCollar(true);
+            collarAbleEntity.setCustomCollarColor(DyeColorantRegistry.NULL_VALUE_NEW);
         }
 
-        return ActionResult.PASS;
+        ((DyeEntityTool)item).afterInteraction(player, hand, DyeColorantRegistry.NULL_VALUE_NEW);
+
+        return ActionResult.SUCCESS;
     }
 }

@@ -3,7 +3,5 @@ processResources {
 }
 
 dependencies {
-    include("io.wispforest:owo-sentinel:${project.owo_version}")
-
     include("org.atteo:evo-inflector:1.3")
 }

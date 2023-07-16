@@ -16,7 +16,7 @@ public class ColoredBlockItem extends BlockItem implements ItemColorProvider {
     public ColoredBlockItem(Block block, Settings settings) {
         super(block, settings);
 
-        this.setDyeColor(((DyeBlockStorage) block).getDyeColorant());
+        this.setDyeColor(block.getDyeColorant());
     }
 
     @Override

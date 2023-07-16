@@ -5,7 +5,8 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "SettingsAccessor",
-    "LootManagerMixin"
+    "LootManagerMixin",
+    "TagGroupLoaderMixin"
   ],
   "client": [
     "client.MouseMixin",

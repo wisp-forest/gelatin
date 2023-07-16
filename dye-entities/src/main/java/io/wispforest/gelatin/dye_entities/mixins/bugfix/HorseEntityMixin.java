@@ -19,7 +19,7 @@ public class HorseEntityMixin {
     private void fixInablityToDyeLlamaAndDonkey(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         Item item = player.getStackInHand(hand).getItem();
 
-        if ((item instanceof DyeEntityTool) && CommonInit.getConfig().enableDyeingEntities()) {
+        if ((item instanceof DyeEntityTool) && CommonInit.getConfig().isEntityDyeingEnabled()) {
             cir.setReturnValue(ActionResult.PASS);
         }
     }

@@ -3,10 +3,10 @@ package io.wispforest.gelatin.dye_entries.client;
 import io.wispforest.gelatin.common.events.TranslationInjectionEvent;
 import io.wispforest.gelatin.common.misc.GelatinConstants;
 import io.wispforest.gelatin.common.util.LangUtils;
-import io.wispforest.gelatin.dye_entries.DyeEntriesInit;
 import io.wispforest.gelatin.dye_entries.block.ColoredGlassBlock;
 import io.wispforest.gelatin.dye_entries.block.ColoredGlassPaneBlock;
 import io.wispforest.gelatin.dye_entries.item.GelatinDyeItem;
+import io.wispforest.gelatin.dye_entries.misc.DyeEntriesItemGroups;
 import io.wispforest.gelatin.dye_entries.utils.GrayScaleBlockRegistry;
 import io.wispforest.gelatin.dye_entries.variants.DyeableVariantManager;
 import io.wispforest.gelatin.dye_entries.variants.DyeableVariantRegistry;
@@ -46,7 +46,7 @@ public class DyeEntriesClientInit implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        DyeEntriesInit.MAIN_ITEM_GROUP.initialize();
+        DyeEntriesItemGroups.itemGroupInit.run();
 
         if (FabricLoader.getInstance().isModLoaded("continuity")) {
             FabricLoader.getInstance().getModContainer("dye_block_and_item").ifPresent(container -> {

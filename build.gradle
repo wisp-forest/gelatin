@@ -38,7 +38,13 @@ def moduleDependencies(project, List<String> depNames) {
 	}
 }
 
-File globalAccessWidener = file("src/main/resources/gelatin.accesswidener")
+moduleDependencies(project, [
+		"common",
+		"dye-registry",
+		"dye-entries",
+		"dye-entities",
+		"dye-cauldron"
+])
 
 allprojects {
 	apply plugin: "fabric-loom"
@@ -80,24 +86,29 @@ allprojects {
 		mappings("net.fabricmc:yarn:${project.yarn_mappings}:v2")
 		modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
 
-		implementation 'com.google.code.findbugs:jsr305:3.0.2'
-		//implementation("javax.annotation:javax.annotation-api:1.3.2")
+		modCompileOnly('com.google.code.findbugs:jsr305:3.0.2')
 		modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
 
 		//-----------------
 
 		implementation("org.atteo:evo-inflector:1.3")
 
-		annotationProcessor modImplementation ("io.wispforest:owo-lib:${project.owo_version}", {
-			exclude group: "net.fabricmc.fabric-api"
-		})
+		if(project.archivesBaseName == "jello" || project.archivesBaseName == "gelatin"){
+			annotationProcessor modImplementation ("io.wispforest:owo-lib:${project.owo_version}", {
+				exclude group: "net.fabricmc.fabric-api"
+			})
+		} else {
+			modCompileOnly /*modLocalRuntime*/ ("io.wispforest:owo-lib:${project.owo_version}", {
+				exclude group: "net.fabricmc.fabric-api"
+			})
+		}
 
-		modImplementation("me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei}"){
+		modCompileOnly modLocalRuntime("me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei}"){
 			exclude group: "net.fabricmc.fabric-api"
 			exclude group: "com.terraformersmc"
 		}
 
-		modImplementation("me.shedaniel:RoughlyEnoughItems-fabric:${project.rei}"){
+		modCompileOnly modLocalRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${project.rei}"){
 			exclude group: "net.fabricmc.fabric-api"
 			exclude group: "com.terraformersmc"
 		}
@@ -106,25 +117,21 @@ allprojects {
 
 		modImplementation("io.wispforest:condensed_creative-fabric:${project.cc}", {
 			exclude group: "net.fabricmc.fabric-api"
+			exclude group: "io.wispforest"
 		})
 
-		modCompileOnly("com.terraformersmc:modmenu:${project.modmenu}")
-		modLocalRuntime("com.terraformersmc:modmenu:${project.modmenu}")
+		modCompileOnly modLocalRuntime("com.terraformersmc:modmenu:${project.modmenu}")
 
 		//-----------------
-
 		// Local Mods
 
 		modLocalRuntime("maven.modrinth:ferrite-core:${project.ferrite_core}-fabric")
 
-//    modImplementation("maven.modrinth:lithium:${project.lithium}")
 //    modLocalRuntime("maven.modrinth:lithium:${project.lithium}")
 
-		modCompileOnly("maven.modrinth:sodium:${project.sodium}")
-		modLocalRuntime("maven.modrinth:sodium:${project.sodium}")
+		modCompileOnly modLocalRuntime ("maven.modrinth:sodium:${project.sodium}")
 
-		modImplementation('org.joml:joml:1.10.2')
-		modLocalRuntime('org.joml:joml:1.10.2')
+		modImplementation modLocalRuntime('org.joml:joml:1.10.2')
 
 		modLocalRuntime("maven.modrinth:starlight:${project.starlight}")
 
@@ -141,6 +148,86 @@ allprojects {
 		accessWidenerPath = file("src/main/resources/${project.name}.accesswidener") // globalAccessWidener
 
 		runtimeOnlyLog4j = true
+
+		sourceSets {
+			main {
+				resources {
+					srcDir(project.file("src/generated/resources"))
+					exclude(project.file("src/generated/resources/.cache").toString())
+				}
+			}
+		}
+
+		runs {
+			if(project.archivesBaseName == "jello" || project.archivesBaseName == "gelatin") {
+
+				client {
+					client()
+					ideConfigGenerated true
+					name = "[${project.archivesBaseName}] Client"
+					source sourceSets.main
+				}
+				server {
+					server()
+					ideConfigGenerated true
+					name = "[${project.archivesBaseName}] Server"
+					source sourceSets.main
+				}
+
+				if (project.archivesBaseName == "jello") {
+					datagen {
+						client()
+						ideConfigGenerated true
+
+						name "[${project.archivesBaseName}] Data Generation"
+						vmArg "-Dfabric-api.datagen"
+						vmArg "-Dfabric-api.datagen.output-dir=${project.file("src/generated/resources")}"
+						vmArg "-Dfabric-api.datagen.modid=jello"
+
+						runDir "build/datagen"
+					}
+					client_renderDoc {
+						client()
+						ideConfigGenerated true
+						name = "[${project.archivesBaseName}] Client - (RenderDoc)"
+						source sourceSets.main
+						vmArg "-Dowo.renderdocPath=${System.getenv('renderDocPath')}"
+						//"C:\Program Files\RenderDoc\renderdoc.dll"
+					}
+					client_mixin {
+						client()
+						ideConfigGenerated true
+						name = "[${project.archivesBaseName}] Client - (Mixin Swap)"
+						source sourceSets.main
+						vmArg "-Dmixin.debug.export=true"
+
+						try {
+							afterEvaluate {
+								def mixinDep = this.configurations.compileClasspath
+										.allDependencies
+										.findAll { it.name == "sponge-mixin" }
+										.first()
+
+								if (mixin != null) {
+									def mixinPath = this.configurations.compileClasspath.files(mixinDep).first().path;
+
+									println(mixinPath)
+
+									vmArg("-javaagent:\"${mixinPath}\"")
+
+									println("[Info]: Mixin Hotswap Run should be working")
+								} else {
+									println("[Warning]: Unable to locate file path for Mixin Jar, HotSwap Run will not work!!!")
+								}
+							}
+						} catch (Exception e) {
+							println("[Error]: MixinHotswap Run had a issue!")
+							e.printStackTrace()
+						}
+					}
+				}
+			}
+		}
 	}
 
 	tasks.withType(ProcessResources).configureEach { proccess ->
@@ -235,89 +322,6 @@ void setupRepositories(RepositoryHandler repositories) {
 }
 
 subprojects {
-
-	loom {
-		sourceSets {
-			main {
-				resources {
-					srcDir(project.file("src/generated/resources"))
-					exclude(project.file("src/generated/resources/.cache").toString())
-				}
-			}
-		}
-
-		runs {
-			if(project.archivesBaseName == "jello" || project.archivesBaseName == "gelatin") {
-
-				client {
-					client()
-					ideConfigGenerated true
-					name = "[${project.archivesBaseName}] Client"
-					source sourceSets.main
-				}
-				server {
-					server()
-					ideConfigGenerated true
-					name = "[${project.archivesBaseName}] Server"
-					source sourceSets.main
-				}
-
-				if (project.archivesBaseName == "jello") {
-					datagen {
-						client()
-						ideConfigGenerated true
-
-						name "[${project.archivesBaseName}] Data Generation"
-						vmArg "-Dfabric-api.datagen"
-						vmArg "-Dfabric-api.datagen.output-dir=${project.file("src/generated/resources")}"
-						vmArg "-Dfabric-api.datagen.modid=jello"
-
-						runDir "build/datagen"
-					}
-					client_renderDoc {
-						client()
-						ideConfigGenerated true
-						name = "[${project.archivesBaseName}] Client - (RenderDoc)"
-						source sourceSets.main
-						vmArg "-Dowo.renderdocPath=${System.getenv('renderDocPath')}"
-						//"C:\Program Files\RenderDoc\renderdoc.dll"
-					}
-					client_mixin {
-						client()
-						ideConfigGenerated true
-						name = "[${project.archivesBaseName}] Client - (Mixin Swap)"
-						source sourceSets.main
-						vmArg "-Dmixin.debug.export=true"
-
-						try {
-							afterEvaluate {
-								def mixinDep = this.configurations.compileClasspath
-										.allDependencies
-										.findAll { it.name == "sponge-mixin" }
-										.first()
-
-								if (mixin != null) {
-									def mixinPath = this.configurations.compileClasspath.files(mixinDep).first().path;
-
-									println(mixinPath)
-
-									vmArg("-javaagent:\"${mixinPath}\"")
-
-									println("[Info]: Mixin Hotswap Run should be working")
-								} else {
-									println("[Warning]: Unable to locate file path for Mixin Jar, HotSwap Run will not work!!!")
-								}
-							}
-						} catch (Exception e) {
-							println("[Error]: MixinHotswap Run had a issue!")
-							e.printStackTrace()
-						}
-					}
-				}
-			}
-		}
-	}
-
 	publishing {
 		if (project.archivesBaseName == "jello") return
 

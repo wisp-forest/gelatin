@@ -13,7 +13,9 @@ public interface DyeBlockStorage {
     /**
      * Get the {@link DyeColorant} of a DyeBlockStorage
      */
-    DyeColorant getDyeColorant();
+    default DyeColorant getDyeColorant() {
+        return DyeColorantRegistry.NULL_VALUE_NEW;
+    }
 
     /**
      * Method to check if a block is currently Dyed or not

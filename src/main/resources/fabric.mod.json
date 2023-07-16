@@ -16,16 +16,20 @@
 
   "license": "MIT",
   "icon": "assets/gelatin/icon.png",
-
   "environment": "*",
+  "entrypoints": {
+    "main": [
+      "io.wispforest.gelatin.Gelatin"
+    ],
+    "preLaunch": [
+      "io.wispforest.gelatin.Gelatin"
+    ]
+  },
 
   "depends": {
     "fabricloader": ">=0.14.6",
     "fabric": "*",
     "minecraft": "~1.19",
     "java": ">=17"
-  },
-  "suggests": {
-    "another-mod": "*"
   }
 }

@@ -1,12 +1,12 @@
 package io.wispforest.gelatin.dye_entries.variants;
 
 import io.wispforest.gelatin.common.util.ItemFunctions;
+import io.wispforest.gelatin.common.util.TagInjector;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
 import io.wispforest.gelatin.dye_entries.variants.item.DyeableItemVariant;
 import io.wispforest.gelatin.dye_registry.data.GelatinTags;
-import io.wispforest.owo.util.TagInjector;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;

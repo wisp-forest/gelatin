@@ -7,7 +7,6 @@ import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import io.wispforest.gelatin.dye_entries.utils.DyeVariantBuilder;
 import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
 import io.wispforest.gelatin.dye_entries.variants.item.DyeableItemVariant;
-import io.wispforest.owo.itemgroup.OwoItemSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
@@ -184,12 +183,6 @@ public class DyeableVariantManager {
                 if (itemGroupSettings != null) {
                     Item.Settings infoSettings = ItemFunctions.copyFrom(info.getRight());
 
-                    //infoSettings.group(((SettingsAccessor) itemGroupSettings).jello$getGroup());
-
-                    if(infoSettings instanceof OwoItemSettings owoItemSettings && itemGroupSettings instanceof OwoItemSettings owoItemSettings1){
-                        owoItemSettings.tab(owoItemSettings1.tab());
-                    }
-
                     info.setRight(infoSettings);
                 }
             }
@@ -265,9 +258,8 @@ public class DyeableVariantManager {
                 if(itemGroupSettings != null){
                     //itemSettings.group(((SettingsAccessor)itemGroupSettings).jello$getGroup());
 
-                    if(itemSettings instanceof OwoItemSettings owoItemSettings && itemGroupSettings instanceof OwoItemSettings owoItemSettings1){
-                        owoItemSettings.tab(owoItemSettings1.tab());
-                    }
+                    //Copy owo Tab data
+                    ItemFunctions.copyMethods.get(0).accept(itemSettings, itemGroupSettings);
                 }
 
                 item = parentItemVariant.makeItem(dyeColorant, possibleParentItem, itemSettings);

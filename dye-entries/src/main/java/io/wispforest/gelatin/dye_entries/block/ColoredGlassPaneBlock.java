@@ -18,14 +18,12 @@ public class ColoredGlassPaneBlock extends StainedGlassPaneBlock implements Bloc
     public ColoredGlassPaneBlock(DyeColorant dyeColorant, Settings settings) {
         super(DyeColorantRegistry.Constants.NULL_VALUE_OLD, settings);
 
-        ((DyeBlockStorage) this).setDyeColor(dyeColorant);
+        this.setDyeColor(dyeColorant);
     }
 
     @Override
     @Environment(EnvType.CLIENT)
     public int getColor(BlockState state, @Nullable BlockRenderView world, @Nullable BlockPos pos, int tintIndex) {
-        DyeColorant dyeColorant = ((DyeBlockStorage) this).getDyeColorant();
-
-        return dyeColorant.getBaseColor();
+        return this.getDyeColorant().getBaseColor();
     }
 }
