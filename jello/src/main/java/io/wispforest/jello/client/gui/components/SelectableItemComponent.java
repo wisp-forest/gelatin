@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import io.wispforest.jello.Jello;
 import io.wispforest.owo.ui.component.ItemComponent;
 import io.wispforest.owo.ui.core.Color;
-import io.wispforest.owo.ui.util.Drawer;
+import io.wispforest.owo.ui.core.OwoUIDrawContext;
 import io.wispforest.owo.ui.util.ScissorStack;
 import io.wispforest.owo.util.EventStream;
 import net.minecraft.client.MinecraftClient;
@@ -70,11 +70,11 @@ public class SelectableItemComponent extends ItemComponent {
 //    }
 
     @Override
-    public void draw(MatrixStack matrices, int mouseX, int mouseY, float partialTicks, float delta) {
-        matrices.push();
+    public void draw(OwoUIDrawContext context, int mouseX, int mouseY, float partialTicks, float delta) {
+        context.push();
 
         // Translate to the root of the component
-        matrices.translate(x, y, 0);
+        context.translate(x, y, 0);
 
         //--------------------
 
@@ -82,28 +82,32 @@ public class SelectableItemComponent extends ItemComponent {
 
         if (notSideLit) DiffuseLighting.disableGuiDepthLighting();
 
-        matrices.push();
+        context.push();
 
         // Scale according to component size and translate to the center
-        matrices.scale(this.width / 16f, this.height / 16f, 1);
-        matrices.translate(8.0, 8.0, 0.0);
+        context.scale(this.width / 16f, this.height / 16f, 1);
+        context.translate(8.0, 8.0, 0.0);
 
         // Vanilla scaling and y inversion
-        matrices.scale(16, -16, 16);
+        if (notSideLit) {
+            context.scale(16, -16, 16);
+        } else {
+            context.multiplyPositionMatrix(ITEM_SCALING);
+        }
 
-        this.itemRenderer.renderItem(this.stack, ModelTransformationMode.GUI, LightmapTextureManager.MAX_LIGHT_COORDINATE, OverlayTexture.DEFAULT_UV, matrices, entityBuffers, null, 0);
+        this.itemRenderer.renderItem(this.stack, ModelTransformationMode.GUI, LightmapTextureManager.MAX_LIGHT_COORDINATE, OverlayTexture.DEFAULT_UV, context.getMatrices(), entityBuffers, null, 0);
         this.entityBuffers.draw();
 
         // Clean up
-        matrices.pop();
+        context.pop();
 
-        matrices.push();
+        context.push();
 
-        matrices.translate(0,0, 4/*isSelected ? 3 : 1 */);
+        context.translate(0,0, -180/*isSelected ? 3 : 1 */);
 
-        if (this.showOverlay) this.itemRenderer.renderGuiItemOverlay(matrices, MinecraftClient.getInstance().textRenderer, this.stack, 0, 0);
+        if (this.showOverlay) context.drawItemInSlot(MinecraftClient.getInstance().textRenderer, this.stack, 0, 0);
 
-        matrices.pop();
+        context.pop();
 
         if (notSideLit) DiffuseLighting.enableGuiDepthLighting();
 
@@ -111,27 +115,25 @@ public class SelectableItemComponent extends ItemComponent {
 
         RenderSystem.enableDepthTest();
 
-        matrices.translate(0,0,1);
+        context.translate(0,0,1);
 
         if(isHovering) {
             int color = new Color(1.0f, 1.0f, 1.0f, 0.50f).argb();
 
-            Drawer.drawGradientRect(matrices, 0, 0, this.width(), this.height(), color, color, color, color);
+            context.drawGradientRect(0, 0, this.width(), this.height(), color, color, color, color);
 
 //            hoverSideEvent.sink().render(this, matrices, mouseX, mouseY, partialTicks, delta);
         }
 
         if(isSelected){
-            matrices.translate(-3,-3,1);
-
-            RenderSystem.setShaderTexture(0, SELECTED_SLOT_TEXTURE);
+            context.translate(-3,-3,1);
 
             ScissorStack.drawUnclipped(() -> {
-                Drawer.drawTexture(matrices, 0, 0, 22, 22, 0, 0, 22, 22, 32, 32);
+                context.drawTexture(SELECTED_SLOT_TEXTURE,0, 0, 22, 22, 0, 0, 22, 22, 32, 32);
             });
         }
 
-        matrices.pop();
+        context.pop();
 
         //--------------------
 

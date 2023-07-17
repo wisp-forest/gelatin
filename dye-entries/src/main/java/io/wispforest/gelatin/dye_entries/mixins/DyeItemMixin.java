@@ -31,13 +31,13 @@ public abstract class DyeItemMixin extends Item implements ImplDyeItemBlockTool,
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
         if (entity instanceof SheepEntity sheepEntity) {
             if (sheepEntity.isAlive() && !sheepEntity.isSheared() && ((SheepDyeColorStorage) sheepEntity).getWoolDyeColor() != this.getDyeColorant()) {
-                sheepEntity.world.playSoundFromEntity(user, sheepEntity, SoundEvents.ITEM_DYE_USE, SoundCategory.PLAYERS, 1.0F, 1.0F);
-                if (!user.world.isClient) {
+                sheepEntity.getWorld().playSoundFromEntity(user, sheepEntity, SoundEvents.ITEM_DYE_USE, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                if (!user.getWorld().isClient) {
                     ((SheepDyeColorStorage) sheepEntity).setWoolDyeColor(this.getDyeColorant());
                     stack.decrement(1);
                 }
 
-                return ActionResult.success(user.world.isClient);
+                return ActionResult.success(user.getWorld().isClient);
             }
         }
 

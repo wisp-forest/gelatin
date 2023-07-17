@@ -17,13 +17,13 @@ public class SlimeSlabColored extends SlimeSlab implements BlockColorProvider {
     public SlimeSlabColored(DyeColorant dyeColor, Settings settings) {
         super(settings.mapColor(dyeColor.getMapColor()));
 
-        ((DyeBlockStorage) this).setDyeColor(dyeColor);
+        this.setDyeColor(dyeColor);
     }
 
     @Override
     @Environment(EnvType.CLIENT)
     public int getColor(BlockState state, @Nullable BlockRenderView world, @Nullable BlockPos pos, int tintIndex) {
-        return ((DyeBlockStorage) this).getDyeColorant().getBaseColor();
+        return this.getDyeColorant().getBaseColor();
     }
 
 

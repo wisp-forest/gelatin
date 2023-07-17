@@ -5,6 +5,7 @@ import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.data.GelatinTags;
 import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -28,7 +29,7 @@ public class BedBlockVariantRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public boolean matches(CraftingInventory inventory, World world) {
+    public boolean matches(RecipeInputInventory inventory, World world) {
         boolean woolTop = false;
         boolean woolMiddle = false;
 
@@ -96,7 +97,7 @@ public class BedBlockVariantRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public ItemStack craft(CraftingInventory inventory, DynamicRegistryManager manager) {
+    public ItemStack craft(RecipeInputInventory inventory, DynamicRegistryManager manager) {
         return new ItemStack(VanillaBlockVariants.BED.getColoredBlockItem(dyeColorant),1);
     }
 

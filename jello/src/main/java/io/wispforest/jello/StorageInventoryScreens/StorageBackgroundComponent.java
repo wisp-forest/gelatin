@@ -1,10 +1,8 @@
 package io.wispforest.jello.StorageInventoryScreens;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import io.wispforest.jello.Jello;
 import io.wispforest.owo.ui.component.TextureComponent;
-import io.wispforest.owo.ui.util.Drawer;
-import net.minecraft.client.util.math.MatrixStack;
+import io.wispforest.owo.ui.core.OwoUIDrawContext;
 
 public class StorageBackgroundComponent extends TextureComponent {
 
@@ -30,50 +28,48 @@ public class StorageBackgroundComponent extends TextureComponent {
     }
 
     @Override
-    public void draw(MatrixStack matrices, int mouseX, int mouseY, float partialTicks, float delta) {
-        RenderSystem.setShaderTexture(0, this.texture);
-
-        drawOutline(matrices, mouseX, mouseY, partialTicks, delta);
-        drawSlots(matrices, mouseX, mouseY, partialTicks, delta);
+    public void draw(OwoUIDrawContext context, int mouseX, int mouseY, float partialTicks, float delta) {
+        drawOutline(context, mouseX, mouseY, partialTicks, delta);
+        drawSlots(context, mouseX, mouseY, partialTicks, delta);
 
         if(scrollBarIncluded) {
             int scrollBarX = x + (regionWidth - 18);
             int scrollBarY = y + (showTopText ? 17 : 7);
 
-            Drawer.drawTexture(matrices, scrollBarX, scrollBarY, 25, 17, 11, 6, this.textureWidth, this.textureHeight);
+            context.drawTexture(this.texture, scrollBarX, scrollBarY, 25, 17, 11, 6, this.textureWidth, this.textureHeight);
 
-            Drawer.drawTexture(matrices, scrollBarX, scrollBarY + 6, 11, ((slotHeight * 18) - 12), 25, 23, 11, 6, this.textureWidth, this.textureHeight);
+            context.drawTexture(this.texture, scrollBarX, scrollBarY + 6, 11, ((slotHeight * 18) - 12), 25, 23, 11, 6, this.textureWidth, this.textureHeight);
 
-            Drawer.drawTexture(matrices, scrollBarX, scrollBarY + (slotHeight * 18) - 6, 25, 29, 11, 6, this.textureWidth, this.textureHeight);
+            context.drawTexture(this.texture, scrollBarX, scrollBarY + (slotHeight * 18) - 6, 25, 29, 11, 6, this.textureWidth, this.textureHeight);
         }
     }
 
-    public void drawOutline(MatrixStack matrices, int mouseX, int mouseY, float partialTicks, float delta){
+    public void drawOutline(OwoUIDrawContext context, int mouseX, int mouseY, float partialTicks, float delta){
         int x = this.x;
         int y = this.y;
 
         //Top
         int topHeight = (showTopText ? 17 : 7);
 
-        Drawer.drawTexture(matrices, x, y, 7, topHeight, 0, 0, 7, topHeight, this.textureWidth, this.textureHeight);
-        Drawer.drawTexture(matrices, x + 7, y, (this.regionWidth - 14), topHeight, 7, 0, 18, topHeight, this.textureWidth, this.textureHeight);
-        Drawer.drawTexture(matrices, x + regionWidth - 7, y, 7, topHeight, 36, 0, 7, topHeight, this.textureWidth, this.textureHeight);
+        context.drawTexture(this.texture, x, y, 7, topHeight, 0, 0, 7, topHeight, this.textureWidth, this.textureHeight);
+        context.drawTexture(this.texture, x + 7, y, (this.regionWidth - 14), topHeight, 7, 0, 18, topHeight, this.textureWidth, this.textureHeight);
+        context.drawTexture(this.texture, x + regionWidth - 7, y, 7, topHeight, 36, 0, 7, topHeight, this.textureWidth, this.textureHeight);
 
         //Bottom
         int bottomY = y + regionHeight - 7;
 
-        Drawer.drawTexture(matrices, x, bottomY, 7, 17, 0, 35, 7, 17, this.textureWidth, this.textureHeight);
-        Drawer.drawTexture(matrices, x + 7, bottomY, (this.regionWidth - 14), 17, 7, 35, 18,17, this.textureWidth, this.textureHeight);
-        Drawer.drawTexture(matrices, x + regionWidth - 7, bottomY, 7, 17, 36, 35, 7, 17, this.textureWidth, this.textureHeight);
+        context.drawTexture(this.texture, x, bottomY, 7, 17, 0, 35, 7, 17, this.textureWidth, this.textureHeight);
+        context.drawTexture(this.texture, x + 7, bottomY, (this.regionWidth - 14), 17, 7, 35, 18,17, this.textureWidth, this.textureHeight);
+        context.drawTexture(this.texture, x + regionWidth - 7, bottomY, 7, 17, 36, 35, 7, 17, this.textureWidth, this.textureHeight);
 
         //Left
-        Drawer.drawTexture(matrices, x, y + topHeight,  7, (this.regionHeight - (topHeight + 7)), 0, 17, 7, 18, this.textureWidth, this.textureHeight);
+        context.drawTexture(this.texture, x, y + topHeight,  7, (this.regionHeight - (topHeight + 7)), 0, 17, 7, 18, this.textureWidth, this.textureHeight);
 
         //Right
-        Drawer.drawTexture(matrices, x + regionWidth - 7, y + topHeight, 7, (this.regionHeight - (topHeight + 7)), 36, 7, 7, 18, this.textureWidth, this.textureHeight);
+        context.drawTexture(this.texture, x + regionWidth - 7, y + topHeight, 7, (this.regionHeight - (topHeight + 7)), 36, 7, 7, 18, this.textureWidth, this.textureHeight);
     }
 
-    public void drawSlots(MatrixStack matrices, int mouseX, int mouseY, float partialTicks, float delta){
+    public void drawSlots(OwoUIDrawContext context, int mouseX, int mouseY, float partialTicks, float delta){
         int textureX;
         int textureY = this.y + (showTopText ?  17 : 7);
 
@@ -81,7 +77,7 @@ public class StorageBackgroundComponent extends TextureComponent {
             textureX = this.x + 7;
 
             for(int slotX = 0; slotX < slotWidth; slotX++){
-                Drawer.drawTexture(matrices, textureX, textureY, 7, 17, 18, 18, this.textureWidth, this.textureHeight);
+                context.drawTexture(this.texture, textureX, textureY, 7, 17, 18, 18, this.textureWidth, this.textureHeight);
 
                 textureX = textureX + 18;
             }

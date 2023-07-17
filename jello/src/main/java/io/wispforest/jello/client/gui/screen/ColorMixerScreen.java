@@ -8,6 +8,7 @@ import io.wispforest.jello.item.JelloItems;
 import io.wispforest.jello.mixins.client.accessors.HandledScreenAccessor;
 import io.wispforest.jello.network.ColorMixerSearchPacket;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -113,10 +114,10 @@ public class ColorMixerScreen extends HandledScreen<ColorMixerScreenHandler> {
     }
 
     @Override
-    protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+    protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
         RenderSystem.setShaderTexture(0, TEXTURE);
 
-        drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
+        context.drawTexture(TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight);
 
         ItemStack stack = this.getScreenHandler().slots.get(0).getStack();
 
@@ -126,7 +127,7 @@ public class ColorMixerScreen extends HandledScreen<ColorMixerScreenHandler> {
             progress = Math.min(MathHelper.ceil((ArtistPaletteItem.MAX_USES - stack.getOrCreateNbt().getInt("TimesUsed")) * .2421875), 62);
         }
 
-        drawTexture(matrices, x + 19, y + 72 - progress, 176, 62 - progress, 6, 62);
+        context.drawTexture(TEXTURE, x + 19, y + 72 - progress, 176, 62 - progress, 6, 62);
 
         RenderSystem.setShaderTexture(0, SCROLL);
 
@@ -134,15 +135,15 @@ public class ColorMixerScreen extends HandledScreen<ColorMixerScreenHandler> {
         int j = this.y + 24;
         int k = 73;
 
-        this.drawTexture(matrices, i, j + (int) ((float) (k) * this.scrollPosition), 232, 0, 12, 15);
-        this.searchBox.render(matrices, mouseX, mouseY, delta);
+        context.drawTexture(TEXTURE, i, j + (int) ((float) (k) * this.scrollPosition), 232, 0, 12, 15);
+        this.searchBox.render(context, mouseX, mouseY, delta);
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        renderBackground(matrices);
-        super.render(matrices, mouseX, mouseY, delta);
-        drawMouseoverTooltip(matrices, mouseX, mouseY);
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        renderBackground(context);
+        super.render(context, mouseX, mouseY, delta);
+        drawMouseoverTooltip(context, mouseX, mouseY);
     }
 
     @Override

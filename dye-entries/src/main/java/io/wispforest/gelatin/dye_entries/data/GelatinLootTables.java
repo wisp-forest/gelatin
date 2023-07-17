@@ -123,7 +123,7 @@ public class GelatinLootTables {
                     .withOperation("Lock", "BlockEntityTag.Lock")
                     .withOperation("LootTable", "BlockEntityTag.LootTable")
                     .withOperation("LootTableSeed", "BlockEntityTag.LootTableSeed"))
-                .apply(SetContentsLootFunction.builder(BlockEntityType.SHULKER_BOX).withEntry(DynamicEntry.builder(ShulkerBoxBlock.CONTENTS)))))
+                .apply(SetContentsLootFunction.builder(BlockEntityType.SHULKER_BOX).withEntry(DynamicEntry.builder(ShulkerBoxBlock.CONTENTS_DYNAMIC_DROP_ID)))))
         );
     }
 

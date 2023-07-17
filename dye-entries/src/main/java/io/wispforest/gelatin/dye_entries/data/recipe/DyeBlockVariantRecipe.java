@@ -6,6 +6,7 @@ import io.wispforest.gelatin.dye_registry.ducks.DyeItemStorage;
 import io.wispforest.gelatin.dye_entries.variants.impl.VanillaItemVariants;
 import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
 import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeSerializer;
@@ -26,7 +27,7 @@ public class DyeBlockVariantRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public boolean matches(CraftingInventory inventory, World world) {
+    public boolean matches(RecipeInputInventory inventory, World world) {
         boolean alreadyHasDye = false;
         boolean hasBlockVariant = false;
 
@@ -82,7 +83,7 @@ public class DyeBlockVariantRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public ItemStack craft(CraftingInventory inventory, DynamicRegistryManager manager) {
+    public ItemStack craft(RecipeInputInventory inventory, DynamicRegistryManager manager) {
         return new ItemStack(this.variant.getColoredBlockItem(this.dyeColorant), this.stackReturnCount);
     }
 

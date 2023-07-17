@@ -45,7 +45,7 @@ public class ColorEntityBehavior extends FallibleItemDispenserBehavior {
 
                 dyeableEntity.setDyeColor(dyeEntityTool.getDyeColorant());
 
-                livingEntity.world.playSoundFromEntity((PlayerEntity) null, livingEntity, SoundEvents.ITEM_DYE_USE, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+                livingEntity.getWorld().playSoundFromEntity((PlayerEntity) null, livingEntity, SoundEvents.ITEM_DYE_USE, SoundCategory.NEUTRAL, 1.0F, 1.0F);
                 world.emitGameEvent((Entity) null, GelatinGameEvents.DYE_ENTITY, pos);
 
                 return true;

@@ -5,6 +5,7 @@ import io.wispforest.gelatin.dye_registry.ducks.DyeItemStorage;
 import io.wispforest.jello.item.ArtistPaletteItem;
 import io.wispforest.jello.item.JelloItems;
 import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
@@ -22,7 +23,7 @@ public class ArtistPaletteRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public boolean matches(CraftingInventory craftingInventory, World world) {
+    public boolean matches(RecipeInputInventory craftingInventory, World world) {
         if (craftingInventory.getWidth() == 3 && craftingInventory.getHeight() == 3) {
 
             byte hasColorAlready = 0;
@@ -89,7 +90,7 @@ public class ArtistPaletteRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public ItemStack craft(CraftingInventory craftingInventory, DynamicRegistryManager registryManager) {
+    public ItemStack craft(RecipeInputInventory craftingInventory, DynamicRegistryManager registryManager) {
         ItemStack itemStack = craftingInventory.getStack(1 + craftingInventory.getWidth());
         if (!itemStack.isOf(JelloItems.EMPTY_ARTIST_PALETTE)) {
             return ItemStack.EMPTY;

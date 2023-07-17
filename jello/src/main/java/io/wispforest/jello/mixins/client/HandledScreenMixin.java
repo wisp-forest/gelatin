@@ -2,6 +2,9 @@ package io.wispforest.jello.mixins.client;
 
 import io.wispforest.jello.api.HandledScreenEvents;
 import io.wispforest.jello.api.HandledScreenExtension;
+import io.wispforest.jello.api.OnItemstackTooltipRenderEvent;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.math.MatrixStack;
@@ -18,11 +21,16 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.List;
+
 @Mixin(HandledScreen.class)
 public abstract class HandledScreenMixin<T extends ScreenHandler> extends Screen implements HandledScreenExtension {
 
     @Shadow @Final protected T handler;
     @Shadow @Nullable protected Slot focusedSlot;
+
+    @Shadow protected abstract List<Text> getTooltipFromItem(ItemStack stack);
+
     private boolean gelatin$drewMouseoverTooltip = false;
 
     protected HandledScreenMixin(Text title) {
@@ -50,25 +58,32 @@ public abstract class HandledScreenMixin<T extends ScreenHandler> extends Screen
         HandledScreenEvents.afterMouseDrag(handledScreen()).invoker().afterMouseDrag(handledScreen(), mouseX, mouseY, button, deltaX, deltaY);
     }
 
-    @Inject(method = "drawMouseoverTooltip", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;renderTooltip(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/item/ItemStack;II)V"))
-    private void gelatin$hasDrawnMouseoverTooltip(MatrixStack matrices, int x, int y, CallbackInfo ci){
+    @Inject(method = "drawMouseoverTooltip", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTooltip(Lnet/minecraft/client/font/TextRenderer;Ljava/util/List;Ljava/util/Optional;II)V"))
+    private void gelatin$hasDrawnMouseoverTooltip(DrawContext context, int x, int y, CallbackInfo ci){
         this.gelatin$drewMouseoverTooltip = true;
     }
 
     @Inject(method = "drawMouseoverTooltip", at = @At("TAIL"))
-    private void gelatin$allowMouseTooltipWithCursorStack(MatrixStack matrices, int x, int y, CallbackInfo ci){
+    private void gelatin$allowMouseTooltipWithCursorStack(DrawContext context, int x, int y, CallbackInfo ci){
         if (!gelatin$drewMouseoverTooltip){
             ItemStack cursorStack = this.handler.getCursorStack();
 
             if(!cursorStack.isEmpty() && this.focusedSlot != null && this.focusedSlot.hasStack()) {
                 if(HandledScreenEvents.allowMouseTooltipWithCursorStack(handledScreen()).invoker()
                         .allowMouseTooltipWithCursorStack(handledScreen(), this.handler.getCursorStack(), focusedSlot, x, y)){
-                    this.renderTooltip(matrices, this.focusedSlot.getStack(), x, y);
+                    context.drawTooltip(MinecraftClient.getInstance().textRenderer,  this.getTooltipFromItem(this.focusedSlot.getStack()), x, y);
                 }
             }
         }
 
         this.gelatin$drewMouseoverTooltip = false;
+    }
+
+    @Inject(method = "drawMouseoverTooltip", at = @At("HEAD"), cancellable = true)
+    private void jello$OnItemstackTooltipRenderEvent(DrawContext context, int x, int y, CallbackInfo ci){
+        if(this.focusedSlot == null || !this.focusedSlot.hasStack()) return;
+
+        if(!OnItemstackTooltipRenderEvent.PRE_TOOLTIP_RENDER.invoker().onRender((Screen) (Object) this, context, this.focusedSlot.getStack(), x, y)) ci.cancel();
     }
 
     private HandledScreen<?> handledScreen(){

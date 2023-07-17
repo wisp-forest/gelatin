@@ -1,14 +1,14 @@
 package io.wispforest.jello.client.gui;
 
 import io.wispforest.jello.mixins.client.owo.NinePatchRendererAccessor;
+import io.wispforest.owo.ui.core.OwoUIDrawContext;
 import io.wispforest.owo.ui.core.ParentComponent;
 import io.wispforest.owo.ui.core.Size;
 import io.wispforest.owo.ui.core.Surface;
-import io.wispforest.owo.ui.util.NinePatchRenderer;
-import net.minecraft.client.util.math.MatrixStack;
+import io.wispforest.owo.ui.util.NinePatchTexture;
 import net.minecraft.util.Identifier;
 
-public class VariantsNinePatchRender extends NinePatchRenderer implements Surface {
+public class VariantsNinePatchRender extends NinePatchTexture implements Surface {
 
     public int offsetUIndex = 0;
     public int offsetVIndex = 0;
@@ -40,8 +40,8 @@ public class VariantsNinePatchRender extends NinePatchRenderer implements Surfac
     }
 
     @Override
-    public void draw(MatrixStack matrices, ParentComponent component) {
-        this.draw(matrices, component.x(), component.y(), component.width(), component.height());
+    public void draw(OwoUIDrawContext context, ParentComponent component) {
+        this.draw(context, component.x(), component.y(), component.width(), component.height());
     }
 
     public NinePatchRendererAccessor access(){

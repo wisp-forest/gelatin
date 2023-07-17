@@ -3,6 +3,7 @@ package io.wispforest.jello.data.recipe;
 import io.wispforest.jello.item.JelloItems;
 import io.wispforest.jello.item.jellocup.JelloCupCreationHandler;
 import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -23,7 +24,8 @@ public class GelatinSolutionRecipe extends SpecialCraftingRecipe {
         super(identifier, category);
     }
 
-    public boolean matches(CraftingInventory inventory, World world) {
+    @Override
+    public boolean matches(RecipeInputInventory inventory, World world) {
         Map<Item, AtomicBoolean> DEFAULT_VALUES = new HashMap<>();
 
         DEFAULT_VALUES.put(Items.SUGAR, new AtomicBoolean(false));
@@ -71,7 +73,7 @@ public class GelatinSolutionRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public ItemStack craft(CraftingInventory inventory, DynamicRegistryManager registryManager) {
+    public ItemStack craft(RecipeInputInventory inventory, DynamicRegistryManager registryManager) {
         JelloCupCreationHandler foundData = null;
         ItemStack ingredientStack = ItemStack.EMPTY;
 

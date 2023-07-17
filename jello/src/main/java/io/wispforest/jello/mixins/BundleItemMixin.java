@@ -83,7 +83,7 @@ public class BundleItemMixin {
 
     }
 
-    @Inject(method = "addToBundle", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;copy()Lnet/minecraft/item/ItemStack;"), locals = LocalCapture.CAPTURE_FAILHARD)
+    @Inject(method = "addToBundle", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;copyWithCount(I)Lnet/minecraft/item/ItemStack;"), locals = LocalCapture.CAPTURE_FAILHARD)
     private static void jello$defaultSelectedStack(ItemStack bundle, ItemStack stack, CallbackInfoReturnable<Integer> cir, NbtCompound nbtCompound, int i, int j, int k, NbtList nbtList){
         if(bundle.getItem() instanceof DyeBundleItem && nbtList.isEmpty()){
             nbtCompound.put(DyeBundleItem.SELECTED_STACK_NBT_KEY, 0);

@@ -29,7 +29,7 @@ public abstract class WaterBucketMixin extends Item implements DyeEntityTool {
     public ActionResult attemptToDyeEntity(World world, PlayerEntity player, LivingEntity entity, ItemStack stack, Hand hand) {
         if(!EntityColorManipulators.washEntityEvent((DyeableEntity) entity)) return ActionResult.PASS;
 
-        if (!player.world.isClient) {
+        if (!player.getWorld().isClient) {
             player.setStackInHand(hand, ItemUsage.exchangeStack(stack, player, Items.BUCKET.getDefaultStack()));
         }
 

@@ -20,11 +20,11 @@ import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.container.ScrollContainer;
 import io.wispforest.owo.ui.core.*;
 import io.wispforest.owo.ui.util.CommandOpenedScreen;
-import io.wispforest.owo.ui.util.Drawer;
 import io.wispforest.owo.util.EventSource;
 import io.wispforest.owo.util.EventStream;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.toast.SystemToast;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
@@ -47,8 +47,8 @@ public class ColorDebugScreen extends BaseOwoScreen<FlowLayout> implements Comma
 
     public static final ColorDebugHelper.ColorDataStorage NONE = new ColorDebugHelper.ColorDataStorage(DyeColorantRegistry.NULL_VALUE_NEW, new Color(0.0f,0.0f,0.0f), Blocks.BEDROCK);
 
-    public static Surface basicOutline = (matrices, component) -> {
-        Drawer.drawRectOutline(matrices, component.x(), component.y(), component.width(), component.height(), Color.BLACK.argb());
+    public static Surface basicOutline = (context, component) -> {
+        context.drawRectOutline(component.x(), component.y(), component.width(), component.height(), Color.BLACK.argb());
     };
 
     public ColorDebugHelper helper = new ColorDebugHelper();
@@ -117,17 +117,17 @@ public class ColorDebugScreen extends BaseOwoScreen<FlowLayout> implements Comma
                                         Containers.verticalFlow(Sizing.content(), Sizing.content())
                                                 .child(
                                                         Containers.horizontalFlow(Sizing.content(), Sizing.content())
-                                                                .child(Components.button(Text.of("Full"), buttonComponent -> {
+                                                                .child((Component) Components.button(Text.of("Full"), buttonComponent -> {
                                                                     this.mode = 0;
 
                                                                     buildFullList();
                                                                 }))
-                                                                .child(Components.button(Text.of("Filtered"), buttonComponent -> {
+                                                                .child((Component) Components.button(Text.of("Filtered"), buttonComponent -> {
                                                                     this.mode = 1;
 
                                                                     buildFilteredList();
                                                                 }))
-                                                                .child(Components.button(Text.of("Groupings"), buttonComponent -> {
+                                                                .child((Component) Components.button(Text.of("Groupings"), buttonComponent -> {
                                                                     this.mode = 2;
 
                                                                     buildGroupingList();
@@ -141,9 +141,11 @@ public class ColorDebugScreen extends BaseOwoScreen<FlowLayout> implements Comma
                                                                                 .child(Components.label(Text.of("Cube Side Length")))
                                                                                 .child(
                                                                                         Components.textBox(Sizing.fixed(42))
-                                                                                                .configure((TextBoxComponent component) -> {
-                                                                                                    component.setTextPredicate(minimumIntegerBuilder.apply(1));
-                                                                                                    component.onChanged().subscribe(
+                                                                                                .configure((Component component) -> {
+                                                                                                    TextBoxComponent textBoxComponent = (TextBoxComponent) component;
+
+                                                                                                    textBoxComponent.setTextPredicate(minimumIntegerBuilder.apply(1));
+                                                                                                    textBoxComponent.onChanged().subscribe(
                                                                                                             new DelayedChanged(value -> {
                                                                                                                 int number = 2;
 
@@ -168,9 +170,11 @@ public class ColorDebugScreen extends BaseOwoScreen<FlowLayout> implements Comma
                                                                                 .child(Components.label(Text.of("Max Grouping Size")))
                                                                                 .child(
                                                                                         Components.textBox(Sizing.fixed(42))
-                                                                                                .configure((TextBoxComponent component) -> {
-                                                                                                    component.setTextPredicate(minimumIntegerBuilder.apply(1));
-                                                                                                    component.onChanged().subscribe(
+                                                                                                .configure((Component component) -> {
+                                                                                                    TextBoxComponent textBoxComponent = (TextBoxComponent) component;
+
+                                                                                                    textBoxComponent.setTextPredicate(minimumIntegerBuilder.apply(1));
+                                                                                                    textBoxComponent.onChanged().subscribe(
                                                                                                             new DelayedChanged(value -> {
                                                                                                                 int number = 1;
 
@@ -278,10 +282,10 @@ public class ColorDebugScreen extends BaseOwoScreen<FlowLayout> implements Comma
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         this.updateEvent.sink().update(delta, mouseX, mouseY);
 
-        super.render(matrices, mouseX, mouseY, delta);
+        super.render(context, mouseX, mouseY, delta);
     }
 
     protected EventSource<UpdateEvent> updateEvent(){

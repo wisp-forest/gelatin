@@ -69,7 +69,7 @@ public abstract class WolfEntityMixin extends TameableEntity implements CustomCo
                 return;
             }
 
-            ActionResult result = dyeEntityTool.attemptToDyeEntityCollar(this.world, player, hand, this);
+            ActionResult result = dyeEntityTool.attemptToDyeEntityCollar(this.getWorld(), player, hand, this);
 
             if(result != ActionResult.PASS){
                 cir.setReturnValue(result);
@@ -84,7 +84,7 @@ public abstract class WolfEntityMixin extends TameableEntity implements CustomCo
     }
 
     @Inject(method = "interactMob", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/DyeItem;getColor()Lnet/minecraft/util/DyeColor;", shift = At.Shift.BY, by = 2), locals = LocalCapture.CAPTURE_FAILHARD)
-    private void gelatin$resetDyeColorant1(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir, ItemStack itemStack, Item item, DyeColor dyeColor){
+    private void gelatin$resetDyeColorant1(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir, ItemStack itemStack, Item item, DyeItem dyeItem, DyeColor dyeColor){
         if (dyeColor == this.getCollarColor() && (this.getCustomCollarColor() != DyeColorantRegistry.NULL_VALUE_NEW || this.isRainbowCollared())) {
             this.setDefaultValues();
 

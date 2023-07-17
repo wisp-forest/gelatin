@@ -9,8 +9,6 @@ import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.container.ScrollContainer;
 import io.wispforest.owo.ui.core.*;
 import io.wispforest.owo.ui.event.MouseDown;
-import io.wispforest.owo.ui.util.Drawer;
-import io.wispforest.owo.ui.util.ScissorStack;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.inventory.Inventory;

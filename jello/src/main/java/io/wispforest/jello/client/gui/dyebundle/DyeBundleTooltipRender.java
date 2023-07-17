@@ -12,11 +12,13 @@ import io.wispforest.jello.mixins.client.accessors.HandledScreenAccessor;
 import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.core.OwoUIAdapter;
+import io.wispforest.owo.ui.core.OwoUIDrawContext;
 import io.wispforest.owo.ui.event.WindowResizeCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenMouseEvents;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -62,7 +64,7 @@ public class DyeBundleTooltipRender implements HudRenderCallback, OnItemstackToo
     }
 
     @Override
-    public void onHudRender(MatrixStack matrixStack, float tickDelta) {
+    public void onHudRender(DrawContext context, float tickDelta) {
         if (adapter == null || JelloClient.DYE_BUNDLE_RESET_BIND.wasPressed()) initializeAdapter();
 
         if (hoveringOverTooltip || hoveringItemStack) return;
@@ -111,7 +113,7 @@ public class DyeBundleTooltipRender implements HudRenderCallback, OnItemstackToo
                 createBundleTooltip(slotX, slotY, new DyeBundlePackets.StackFinder(true, slotIndex), stack);
             }
 
-            renderAdapter(matrixStack, -1, -1);
+            renderAdapter(context, -1, -1);
         }
     }
 
@@ -207,7 +209,7 @@ public class DyeBundleTooltipRender implements HudRenderCallback, OnItemstackToo
     }
 
     @Override
-    public boolean onRender(Screen screen, MatrixStack matrices, ItemStack stack, int x, int y) {
+    public boolean onRender(Screen screen, DrawContext context, ItemStack stack, int x, int y) {
         if (currentTooltip != null && !ItemStack.areEqual(currentTooltip.bundleStack, stack)) {
             resetAndDispose();
         }
@@ -245,8 +247,8 @@ public class DyeBundleTooltipRender implements HudRenderCallback, OnItemstackToo
         hoveringItemStack = false;
     }
 
-    public static void renderAdapter(MatrixStack matrixStack, int mouseX, int mouseY){
-        adapter.render(matrixStack, mouseX, mouseY, MinecraftClient.getInstance().getTickDelta());
+    public static void renderAdapter(DrawContext context, int mouseX, int mouseY){
+        adapter.render(context, mouseX, mouseY, MinecraftClient.getInstance().getTickDelta());
 
         adapter.globalInspector = false;
         adapter.enableInspector = false;

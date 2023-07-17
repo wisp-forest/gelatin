@@ -6,11 +6,14 @@ import io.wispforest.jello.api.HandledScreenExtension;
 import io.wispforest.jello.api.OnItemstackTooltipRenderEvent;
 import net.fabricmc.fabric.api.event.Event;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -36,11 +39,6 @@ public class ScreenMixin implements HandledScreenExtension {
             this.JELLO$BEFORE_MOUSE_DRAG = HandledScreenEventFactory.createBeforeMouseDragEvent();
             this.JELLO$AFTER_MOUSE_DRAG = HandledScreenEventFactory.createAfterMouseDragEvent();
         }
-    }
-
-    @Inject(method = "renderTooltip(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/item/ItemStack;II)V", at = @At("HEAD"), cancellable = true)
-    private void jello$OnItemstackTooltipRenderEvent(MatrixStack matrices, ItemStack stack, int x, int y, CallbackInfo ci){
-        if(!OnItemstackTooltipRenderEvent.PRE_TOOLTIP_RENDER.invoker().onRender((Screen) (Object) this, matrices, stack, x, y)) ci.cancel();
     }
 
     @Override

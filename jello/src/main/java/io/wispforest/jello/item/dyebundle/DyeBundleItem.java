@@ -120,13 +120,13 @@ public class DyeBundleItem extends BundleItem implements DyeBlockTool, DyeEntity
 
         if (!dyeColorant.nullColorCheck() && entity instanceof SheepEntity sheepEntity) {
             if (sheepEntity.isAlive() && !sheepEntity.isSheared() && ((SheepDyeColorStorage) sheepEntity).getWoolDyeColor() != dyeColorant) {
-                sheepEntity.world.playSoundFromEntity(user, sheepEntity, SoundEvents.ITEM_DYE_USE, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                sheepEntity.getWorld().playSoundFromEntity(user, sheepEntity, SoundEvents.ITEM_DYE_USE, SoundCategory.PLAYERS, 1.0F, 1.0F);
 
-                if (!user.world.isClient()) ((SheepDyeColorStorage) sheepEntity).setWoolDyeColor(dyeColorant);
+                if (!user.getWorld().isClient()) ((SheepDyeColorStorage) sheepEntity).setWoolDyeColor(dyeColorant);
 
                 this.afterInteraction(user, hand, dyeColorant);
 
-                return ActionResult.success(user.world.isClient);
+                return ActionResult.success(user.getWorld().isClient);
             }
         }
 

@@ -3,13 +3,13 @@ package io.wispforest.jello.client.gui.components.button;
 import io.wispforest.jello.misc.pond.owo.FocusCheckable;
 import io.wispforest.owo.ui.base.BaseParentComponent;
 import io.wispforest.owo.ui.core.Component;
+import io.wispforest.owo.ui.core.OwoUIDrawContext;
 import io.wispforest.owo.ui.core.ParentComponent;
 import io.wispforest.owo.ui.core.Surface;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.sound.SoundEvents;
 import org.lwjgl.glfw.GLFW;
 
@@ -82,7 +82,7 @@ public class ButtonAddon<T extends BaseParentComponent> {
         return ((squareShape) ? 1 : 0) + (((darkMode) ? 1 : 0) << 1);
     }
 
-    public void beforeDraw(MatrixStack matrices, int mouseX, int mouseY, float partialTicks, float delta) {
+    public void beforeDraw(OwoUIDrawContext context, int mouseX, int mouseY, float partialTicks, float delta) {
     }
 
     public boolean onKeyPress(int keyCode, int scanCode, int modifiers) {
@@ -116,8 +116,8 @@ public class ButtonAddon<T extends BaseParentComponent> {
 
     private record ImplButtonSurface(ButtonAddon<?> addon, ButtonSurface renderer) implements Surface {
         @Override
-        public void draw(MatrixStack matrices, ParentComponent component) {
-            renderer.draw(addon, matrices, component);
+        public void draw(OwoUIDrawContext context, ParentComponent component) {
+            renderer.draw(addon, context, component);
         }
     }
 

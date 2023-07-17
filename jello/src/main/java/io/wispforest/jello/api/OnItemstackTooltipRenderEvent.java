@@ -2,9 +2,12 @@ package io.wispforest.jello.api;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
+
+import javax.annotation.Nullable;
 
 public class OnItemstackTooltipRenderEvent {
 
@@ -24,6 +27,6 @@ public class OnItemstackTooltipRenderEvent {
 
 
     public interface PreTooltipRender {
-        boolean onRender(Screen screen, MatrixStack matrices, ItemStack stack, int x, int y);
+        boolean onRender(Screen screen, DrawContext context, ItemStack stack, int x, int y);
     }
 }

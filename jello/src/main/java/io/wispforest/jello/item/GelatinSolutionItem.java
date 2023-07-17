@@ -69,7 +69,7 @@ public class GelatinSolutionItem extends Item implements ItemColorProvider {
                 }
 
                 if (statusEffectInstance.getDuration() > 20) {
-                    innerText = Text.translatable("potion.withDuration", innerText, StatusEffectUtil.durationToString(statusEffectInstance, durationMultiplier));
+                    innerText = Text.translatable("potion.withDuration", innerText, StatusEffectUtil.getDurationText(statusEffectInstance, durationMultiplier));
                 }
 
                 innerText.formatted(statusEffect.getCategory().getFormatting());

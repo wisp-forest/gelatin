@@ -8,10 +8,12 @@ import io.wispforest.gelatin.dye_entries.mixins.accessors.BlockEntityTypeAccesso
 import io.wispforest.gelatin.dye_entries.mixins.accessors.ShulkerBoxBlockEntityAccessor;
 import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.block.enums.BedPart;
+import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -20,8 +22,11 @@ import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.poi.PointOfInterestTypes;
+import org.apache.commons.lang3.function.TriFunction;
 
 import java.util.HashSet;
 import java.util.List;
@@ -38,13 +43,13 @@ public class VanillaBlockVariants {
     //-----------------------------------------------------------------
 
     public static final DyeableBlockVariant CONCRETE_POWDER = new DyeableBlockVariant(new Identifier("concrete_powder"), itemSettings, (dyeColorant, parentBlock) -> {
-        return new ColoredConcretePowderBlock(parentBlock, AbstractBlock.Settings.of(Material.AGGREGATE, MapColor.CLEAR).strength(0.5F).sounds(BlockSoundGroup.SAND), dyeColorant);
+        return new ColoredConcretePowderBlock(parentBlock, FabricBlockSettings.copyOf(Blocks.WHITE_CONCRETE_POWDER).mapColor(MapColor.CLEAR), dyeColorant);
     }).addTags(BlockTags.PICKAXE_MINEABLE, BlockTags.NEEDS_STONE_TOOL)
             .setParentId(new Identifier("concrete"))
             .register();
 
     public static final DyeableBlockVariant CONCRETE = new DyeableBlockVariant(new Identifier("concrete"), itemSettings, (dyeColorant, parentBlock) -> {
-        return new ColoredBlock(AbstractBlock.Settings.of(Material.STONE, MapColor.CLEAR).requiresTool().strength(1.8F), dyeColorant);
+        return new ColoredBlock(FabricBlockSettings.copyOf(Blocks.WHITE_CONCRETE).mapColor(MapColor.CLEAR), dyeColorant);
     }).addTags(BlockTags.PICKAXE_MINEABLE, BlockTags.NEEDS_STONE_TOOL)
             .linkChildEntry(() -> CONCRETE_POWDER)
             .register();
@@ -52,7 +57,7 @@ public class VanillaBlockVariants {
     //-----------------------------------------------------------------
 
     public static final DyeableBlockVariant TERRACOTTA = new DyeableBlockVariant(new Identifier("terracotta"), itemSettings, (dyeColorant, parentBlock) -> {
-        return new ColoredBlock(AbstractBlock.Settings.of(Material.STONE, MapColor.CLEAR).requiresTool().strength(1.25F, 4.2F), dyeColorant);
+        return new ColoredBlock(FabricBlockSettings.copyOf(Blocks.WHITE_TERRACOTTA).mapColor(MapColor.CLEAR), dyeColorant);
     }).setDefaultEntry("terracotta")
         .addTags(BlockTags.TERRACOTTA, BlockTags.PICKAXE_MINEABLE, BlockTags.NEEDS_STONE_TOOL)
         .configureBlockItemVariant(dyeableItemVariant -> dyeableItemVariant.addTags((ItemTags.TERRACOTTA)))
@@ -61,7 +66,7 @@ public class VanillaBlockVariants {
     //-----------------------------------------------------------------
 
     public static final DyeableBlockVariant WOOL = new DyeableBlockVariant(new Identifier("wool"), itemSettings, (dyeColorant, parentBlock) -> {
-        return new ColoredBlock(AbstractBlock.Settings.of(Material.WOOL, MapColor.CLEAR).strength(0.8F).sounds(BlockSoundGroup.WOOL), dyeColorant);
+        return new ColoredBlock(FabricBlockSettings.copyOf(Blocks.WHITE_WOOL).mapColor(MapColor.CLEAR), dyeColorant);
     }).addTags(BlockTags.WOOL)
         .configureBlockItemVariant(dyeableItemVariant -> dyeableItemVariant.addTags(ItemTags.WOOL))
         .register();
@@ -69,7 +74,7 @@ public class VanillaBlockVariants {
     //-----------------------------------------------------------------
 
     public static final DyeableBlockVariant CARPET = new DyeableBlockVariant(new Identifier("carpet"), itemSettings, (dyeColorant, parentBlock) -> {
-        return new ColoredCarpetBlock(AbstractBlock.Settings.of(Material.CARPET, MapColor.CLEAR).strength(0.1F).sounds(BlockSoundGroup.WOOL), dyeColorant);
+        return new ColoredCarpetBlock(FabricBlockSettings.copyOf(Blocks.WHITE_CARPET).mapColor(MapColor.CLEAR), dyeColorant);
     }).addTags(BlockTags.WOOL_CARPETS)
         .configureBlockItemVariant(dyeableItemVariant -> dyeableItemVariant.addTags(ItemTags.WOOL_CARPETS))
         .register();
@@ -86,7 +91,7 @@ public class VanillaBlockVariants {
         .register();
 
     public static final DyeableBlockVariant CANDLE = new DyeableBlockVariant(new Identifier("candle"), itemSettings, (dyeColorant, parentBlock) -> {
-        return new ColoredCandleBlock(dyeColorant, AbstractBlock.Settings.of(Material.DECORATION, MapColor.CLEAR).nonOpaque().strength(0.1F).sounds(BlockSoundGroup.CANDLE).luminance(CandleBlock.STATE_TO_LUMINANCE));
+        return new ColoredCandleBlock(dyeColorant, FabricBlockSettings.copyOf(Blocks.WHITE_CANDLE).mapColor(MapColor.CLEAR));
     }).setDefaultEntry("candle")
         .linkChildEntry(() -> CANDLE_CAKE)
         .addTags(BlockTags.CANDLES)
@@ -97,8 +102,7 @@ public class VanillaBlockVariants {
     //-----------------------------------------------------------------
 
     public static final DyeableBlockVariant BED = new DyeableBlockVariant(new Identifier("bed"), ItemFunctions.copyFrom(itemSettings).maxCount(1), (dyeColorant, parentBlock) -> {
-        Block block = new ColoredBedBlock(dyeColorant,
-                AbstractBlock.Settings.of(Material.WOOL, state -> state.get(BedBlock.PART) == BedPart.FOOT ? MapColor.CLEAR : MapColor.WHITE_GRAY).sounds(BlockSoundGroup.WOOD).strength(0.2F).nonOpaque());
+        Block block = new ColoredBedBlock(dyeColorant, FabricBlockSettings.copyOf(Blocks.WHITE_BED).mapColor(state -> state.get(BedBlock.PART) == BedPart.FOOT ? MapColor.CLEAR : MapColor.WHITE_GRAY));
 
         Registries.POINT_OF_INTEREST_TYPE.getOrThrow(PointOfInterestTypes.HOME).blockStates().addAll(block.getStateManager().getStates().stream()
             .filter(blockState -> blockState.get(BedBlock.PART) == BedPart.HEAD).toList());
@@ -132,7 +136,7 @@ public class VanillaBlockVariants {
     //-----------------------------------------------------------------
 
     public static final DyeableBlockVariant GLASS = new DyeableBlockVariant(new Identifier("stained_glass"), itemSettings, (dyeColorant, parentBlock) -> {
-        return new ColoredGlassBlock(dyeColorant, AbstractBlock.Settings.of(Material.GLASS).strength(0.3F).sounds(BlockSoundGroup.GLASS).nonOpaque());
+        return new ColoredGlassBlock(dyeColorant, FabricBlockSettings.copyOf(Blocks.WHITE_STAINED_GLASS).mapColor(MapColor.CLEAR));
     }).setDefaultEntry("glass")
         .addTags(BlockTags.IMPERMEABLE)
         .setLootTable(block -> GelatinLootTables.dropsWithSilkTouch(block).build())
@@ -141,7 +145,7 @@ public class VanillaBlockVariants {
     //-----------------------------------------------------------------
 
     public static final DyeableBlockVariant GLASS_PANE = new DyeableBlockVariant(new Identifier("stained_glass_pane"), itemSettings, (dyeColorant, parentBlock) -> {
-        return new ColoredGlassPaneBlock(dyeColorant, AbstractBlock.Settings.of(Material.GLASS).strength(0.3F).sounds(BlockSoundGroup.GLASS).nonOpaque());
+        return new ColoredGlassPaneBlock(dyeColorant, FabricBlockSettings.copyOf(Blocks.WHITE_STAINED_GLASS_PANE).mapColor(MapColor.CLEAR));
     }).setDefaultEntry("glass_pane")
         .setLootTable(block -> GelatinLootTables.dropsWithSilkTouch(block).build())
         .register();
@@ -150,9 +154,7 @@ public class VanillaBlockVariants {
 
     public static final DyeableBlockVariant SHULKER_BOX = new DyeableBlockVariant(new Identifier("shulker_box"), ItemFunctions.copyFrom(itemSettings).maxCount(1),
         (dyeColorant, parentBlock) -> {
-            AbstractBlock.ContextPredicate contextPredicate = (state, world, pos) -> !(world.getBlockEntity(pos) instanceof ShulkerBoxBlockEntity shulkerBoxBlockEntity) || shulkerBoxBlockEntity.suffocates();
-
-            Block block = new ColoredShulkerBoxBlock(dyeColorant, AbstractBlock.Settings.of(Material.SHULKER_BOX, MapColor.CLEAR).strength(2.0F).dynamicBounds().nonOpaque().suffocates(contextPredicate).blockVision(contextPredicate));
+            Block block = new ColoredShulkerBoxBlock(dyeColorant, FabricBlockSettings.copyOf(Blocks.WHITE_SHULKER_BOX).mapColor(MapColor.CLEAR));
 
             return addToBlockEntitieset(block, BlockEntityType.SHULKER_BOX);
         }).setBlockStateChangeMethod(

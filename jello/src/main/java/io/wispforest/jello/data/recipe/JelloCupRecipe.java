@@ -4,6 +4,7 @@ import io.wispforest.jello.item.GelatinSolutionItem;
 import io.wispforest.jello.item.JelloItems;
 import io.wispforest.jello.item.jellocup.JelloCupCreationHandler;
 import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
@@ -19,7 +20,7 @@ public class JelloCupRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public boolean matches(CraftingInventory inventory, World world) {
+    public boolean matches(RecipeInputInventory inventory, World world) {
         boolean hasGelatinSolution = false;
         int sugarCupAmount = 0;
 
@@ -51,7 +52,7 @@ public class JelloCupRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public ItemStack craft(CraftingInventory inventory, DynamicRegistryManager registryManager) {
+    public ItemStack craft(RecipeInputInventory inventory, DynamicRegistryManager registryManager) {
         ItemStack gelatinSolution = ItemStack.EMPTY;
         JelloCupCreationHandler data = null;
 

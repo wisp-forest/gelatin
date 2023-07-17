@@ -15,6 +15,7 @@ import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -52,7 +53,7 @@ public class DyeEntriesItemGroups {
 
     public static void init() {
         if(createSeparateGroups){
-            DYE_ITEMS = FabricItemGroup.builder(GelatinConstants.id("dye_items"))
+            DYE_ITEMS = FabricItemGroup.builder()
                     .entries((displayContext, entries) -> {
                         ItemGroup group = getItemGroup.apply(0);
 
@@ -62,7 +63,9 @@ public class DyeEntriesItemGroups {
                     .displayName(Text.translatable("itemGroup.gelatin.gelatin_group.tab.dyed_item_variants"))
                     .build();
 
-            DYE_BLOCKS = FabricItemGroup.builder(GelatinConstants.id("dye_blocks"))
+            Registry.register(Registries.ITEM_GROUP, GelatinConstants.id("dye_items"), DYE_ITEMS);
+
+            DYE_BLOCKS = FabricItemGroup.builder()
                     .entries((displayContext, entries) -> {
                         ItemGroup group = getItemGroup.apply(1);
 
@@ -71,6 +74,8 @@ public class DyeEntriesItemGroups {
                     .icon(() -> getIconItems().getRight().getDefaultStack())
                     .displayName(Text.translatable("itemGroup.gelatin.gelatin_group.tab.dyed_block_variants"))
                     .build();
+
+            Registry.register(Registries.ITEM_GROUP, GelatinConstants.id("dye_blocks"), DYE_BLOCKS);
         }
     }
 

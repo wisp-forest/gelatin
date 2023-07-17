@@ -69,7 +69,7 @@ public abstract class CatEntityMixin extends TameableEntity implements CustomCol
                 return;
             }
 
-            ActionResult result = dyeEntityTool.attemptToDyeEntityCollar(this.world, player, hand, this);
+            ActionResult result = dyeEntityTool.attemptToDyeEntityCollar(this.getWorld(), player, hand, this);
 
             if(result != ActionResult.PASS){
                 cir.setReturnValue(result);
