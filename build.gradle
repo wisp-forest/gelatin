@@ -121,7 +121,7 @@ allprojects {
 
 		modLocalRuntime("maven.modrinth:better-beds:${project.better_beds}")
 
-		modImplementation("io.wispforest:condensed_creative-fabric:${project.cc}", {
+		modCompileOnly modLocalRuntime("io.wispforest:condensed_creative-fabric:${project.cc}", {
 			exclude group: "net.fabricmc.fabric-api"
 			exclude group: "io.wispforest"
 		})
