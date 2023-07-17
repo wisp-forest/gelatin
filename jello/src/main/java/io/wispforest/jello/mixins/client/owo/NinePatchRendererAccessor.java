@@ -1,11 +1,11 @@
 package io.wispforest.jello.mixins.client.owo;
 
-import io.wispforest.owo.ui.util.NinePatchRenderer;
+import io.wispforest.owo.ui.util.NinePatchTexture;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(value = NinePatchRenderer.class, remap = false)
+@Mixin(value = NinePatchTexture.class, remap = false)
 public interface NinePatchRendererAccessor {
 
     @Accessor("u") int getU();
