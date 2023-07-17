@@ -35,5 +35,10 @@
 
   "recommends": {
     "owo": "*"
+  },
+  "custom": {
+    "gelatin": {
+      "icon-redirect": "gelatin-common:assets/gelatin/icon.png"
+    }
   }
 }

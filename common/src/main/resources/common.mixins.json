@@ -9,6 +9,7 @@
     "TagGroupLoaderMixin"
   ],
   "client": [
+    "client.modmenu.FabricModMixin",
     "client.MouseMixin",
     "client.TranslationStorageMixin"
   ],

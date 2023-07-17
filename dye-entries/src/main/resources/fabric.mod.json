@@ -47,6 +47,9 @@
     "modmenu": {
       "badges": [ "library" ],
       "parent": "gelatin"
+    },
+    "gelatin": {
+      "icon-redirect": "gelatin-common:assets/gelatin/icon.png"
     }
   }
 }
