@@ -23,11 +23,9 @@ public class JelloItemGroupModifier implements ItemGroupEvents.ModifyEntriesAll 
 
     @Override
     public void modifyEntries(ItemGroup group, FabricItemGroupEntries entries) {
-        if(!ALL_MODIFIERS.containsKey(group)) return;
-
         Optional<RegistryKey<ItemGroup>> possibleKey = Registries.ITEM_GROUP.getKey(group);
 
-        if(possibleKey.isEmpty()) return;
+        if(possibleKey.isEmpty() || !ALL_MODIFIERS.containsKey(possibleKey.get())) return;
 
         ALL_MODIFIERS.get(possibleKey.get()).forEach(entry -> {
             if(entry.getLeft() instanceof ItemGroupTab.ContentSupplier supplier){
