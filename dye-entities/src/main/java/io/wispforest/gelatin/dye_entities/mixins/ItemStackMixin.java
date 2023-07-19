@@ -1,8 +1,8 @@
 package io.wispforest.gelatin.dye_entities.mixins;
 
 import io.wispforest.gelatin.common.CommonInit;
-import io.wispforest.gelatin.dye_entities.ducks.ConstantColorEntity;
 import io.wispforest.gelatin.dye_entities.client.utils.ColorizeBlackListRegistry;
+import io.wispforest.gelatin.dye_entities.ducks.Colorable;
 import io.wispforest.gelatin.dye_entities.ducks.DyeEntityTool;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -30,15 +30,11 @@ public abstract class ItemStackMixin {
             }
 
             if (!ColorizeBlackListRegistry.isBlackListed(entity)) {
-                if (entity instanceof ConstantColorEntity constantColorEntity && constantColorEntity.isColored()) {
-                    return;
-                }
+                if (!(entity instanceof Colorable)) return;
 
                 ActionResult result = dyeTool.attemptToDyeEntity(user.getWorld(), user, entity, (ItemStack)(Object)this, hand);
 
-                if (result != ActionResult.PASS) {
-                    cir.setReturnValue(result);
-                }
+                if (result != ActionResult.PASS) cir.setReturnValue(result);
             }
         }
     }

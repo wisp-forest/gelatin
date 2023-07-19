@@ -2,7 +2,7 @@ package io.wispforest.gelatin.dye_entries.mixins;
 
 import io.wispforest.gelatin.dye_entries.ducks.ImplDyeItemBlockTool;
 import io.wispforest.gelatin.dye_entries.ducks.SheepDyeColorStorage;
-import io.wispforest.gelatin.dye_registry.ducks.DyeItemStorage;
+import io.wispforest.gelatin.dye_registry.ducks.DyeStorage;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
 @Mixin(DyeItem.class)
-public abstract class DyeItemMixin extends Item implements ImplDyeItemBlockTool, DyeItemStorage {
+public abstract class DyeItemMixin extends Item implements ImplDyeItemBlockTool, DyeStorage {
 
     public DyeItemMixin(Settings settings) {
         super(settings);
@@ -42,10 +42,5 @@ public abstract class DyeItemMixin extends Item implements ImplDyeItemBlockTool,
         }
 
         return super.useOnEntity(stack, user, entity, hand);
-    }
-
-    @Override
-    public boolean isDyeItem() {
-        return true;
     }
 }

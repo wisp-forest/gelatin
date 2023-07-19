@@ -1,10 +1,10 @@
 package io.wispforest.gelatin.dye_entities.mixins;
 
-import io.wispforest.gelatin.dye_entities.ducks.CustomCollarColorStorage;
-import io.wispforest.gelatin.dye_entities.ducks.DyeableEntity;
-import io.wispforest.gelatin.dye_entities.misc.EntityColorManipulators;
-import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
+import io.wispforest.gelatin.dye_entities.ducks.Colorable;
+import io.wispforest.gelatin.dye_entities.ducks.CollarColorable;
 import io.wispforest.gelatin.dye_entities.ducks.DyeEntityTool;
+import io.wispforest.gelatin.dye_entities.misc.EntityColorImplementations;
+import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.EnchantedGoldenAppleItem;
@@ -21,8 +21,8 @@ public class EnchantedGoldenAppleMixin implements DyeEntityTool {
     @Override
     public ActionResult attemptToDyeEntity(World world, PlayerEntity player, LivingEntity entity, ItemStack stack, Hand hand) {
         boolean bl = player.shouldCancelInteraction()
-                && entity instanceof DyeableEntity dyeableEntity
-                && EntityColorManipulators.rainbowEntityEvent(dyeableEntity);
+                && entity instanceof Colorable colorable
+                && EntityColorImplementations.rainbowEntityEvent(colorable);
 
         if (!bl) return ActionResult.PASS;
 
@@ -32,7 +32,7 @@ public class EnchantedGoldenAppleMixin implements DyeEntityTool {
     }
 
     @Override
-    public ActionResult attemptToDyeEntityCollar(World world, PlayerEntity player, Hand hand, CustomCollarColorStorage collarAbleEntity) {
+    public ActionResult attemptToDyeEntityCollar(World world, PlayerEntity player, Hand hand, CollarColorable collarAbleEntity) {
         Item item = player.getStackInHand(hand).getItem();
 
         if(!(item instanceof EnchantedGoldenAppleItem) || collarAbleEntity.isRainbowCollared()) return ActionResult.PASS;

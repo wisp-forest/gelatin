@@ -21,7 +21,7 @@ public interface DyeEntityTool extends DyeBaseTool {
         return ActionResult.PASS;
     }
 
-    default ActionResult attemptToDyeEntityCollar(World world, PlayerEntity player, Hand hand, CustomCollarColorStorage collarAbleEntity){
+    default ActionResult attemptToDyeEntityCollar(World world, PlayerEntity player, Hand hand, CollarColorable collarAbleEntity){
         return ActionResult.PASS;
     }
 

@@ -3,7 +3,7 @@ package io.wispforest.gelatin.dye_entries.item;
 import io.wispforest.gelatin.common.util.ColorUtil;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
-import io.wispforest.gelatin.dye_registry.ducks.DyeItemStorage;
+import io.wispforest.gelatin.dye_registry.ducks.DyeStorage;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvironmentInterface;
@@ -22,7 +22,7 @@ import java.util.Comparator;
 import java.util.Random;
 
 @EnvironmentInterface(value = EnvType.CLIENT, itf = ItemColorProvider.class)
-public class GelatinDyeItem extends DyeItem implements DyeItemStorage, ItemColorProvider {
+public class GelatinDyeItem extends DyeItem implements DyeStorage, ItemColorProvider {
 
     public static final String TEXTURE_VARIANT_KEY = "Texture_variant";
     public static final int NUMBER_OF_TEXTURE_VAR = 9;
@@ -50,7 +50,7 @@ public class GelatinDyeItem extends DyeItem implements DyeItemStorage, ItemColor
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (FabricLoaderImpl.INSTANCE.isDevelopmentEnvironment()) {
-            float[] HSL = ColorUtil.rgbToHsl(((GelatinDyeItem) user.getMainHandStack().getItem()).getDyeColorant().getBaseColor());
+            float[] HSL = ColorUtil.rgbToHsl(user.getMainHandStack().getItem().getDyeColorant().getBaseColor());
 
             user.sendMessage(Text.of(String.format("HSL: { %f, %f, %f}", HSL[0], HSL[1], HSL[2])), true);
         }
@@ -72,11 +72,6 @@ public class GelatinDyeItem extends DyeItem implements DyeItemStorage, ItemColor
     }
 
     public static Comparator<ItemStack> dyeStackHslComparator(int component) {
-        return Comparator.comparingDouble(stack -> ColorUtil.rgbToHsl(((DyeItemStorage) stack.getItem()).getDyeColorant().getBaseColor())[component]);
-    }
-
-    @Override
-    public boolean isDyeItem() {
-        return true;
+        return Comparator.comparingDouble(stack -> ColorUtil.rgbToHsl(stack.getItem().getDyeColorant().getBaseColor())[component]);
     }
 }

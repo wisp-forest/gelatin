@@ -2,7 +2,6 @@ package io.wispforest.jello.data.providers;
 
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import io.wispforest.gelatin.dye_registry.data.GelatinTags;
-import io.wispforest.gelatin.dye_registry.ducks.DyeBlockStorage;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.data.GelatinComplexRecipeJsonBuilder;
@@ -55,8 +54,8 @@ public class JelloRecipeProvider extends FabricRecipeProvider {
 
             offerReversibleCompactingRecipes(exporter, RecipeCategory.MISC, item,  RecipeCategory.REDSTONE, block);
 
-            Item dyeItem = Registries.ITEM.get(new Identifier(((DyeBlockStorage) block).getDyeColorant().getName() + "_dye"));
-            String dyePath = ((DyeBlockStorage) block).getDyeColorant().getName() + "_dye";
+            Item dyeItem = Registries.ITEM.get(new Identifier(block.getDyeColorant().getName() + "_dye"));
+            String dyePath = block.getDyeColorant().getName() + "_dye";
 
             offerSlimeBallDyeingRecipe(exporter, item, dyeItem, itemPath, dyePath);
         }

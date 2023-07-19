@@ -1,6 +1,7 @@
 package io.wispforest.gelatin.dye_entries.client;
 
 import io.wispforest.gelatin.common.util.ColorUtil;
+import io.wispforest.gelatin.common.util.GrayScaleUtils;
 import io.wispforest.gelatin.dye_entries.mixins.AnimationAccessor;
 import io.wispforest.gelatin.dye_entries.mixins.client.SpriteContentsAccessor;
 import io.wispforest.gelatin.dye_entries.utils.GrayScaleBlockRegistry;
@@ -13,7 +14,7 @@ public class GrayScaledSpriteInfo extends SpriteContents {
     private final Identifier defaultTextureId;
 
     public GrayScaledSpriteInfo(Identifier grayscaleId, Identifier defaultTextureId, int width, int height, NativeImage image, SpriteContents.Animation animation) {
-        super(grayscaleId, new SpriteDimensions(width, height), ColorUtil.convertImageToGrayScale(image), AnimationResourceMetadata.EMPTY);
+        super(grayscaleId, new SpriteDimensions(width, height), GrayScaleUtils.convertImageToGrayScale(image), AnimationResourceMetadata.EMPTY);
 
         var accessor = ((AnimationAccessor) animation);
 

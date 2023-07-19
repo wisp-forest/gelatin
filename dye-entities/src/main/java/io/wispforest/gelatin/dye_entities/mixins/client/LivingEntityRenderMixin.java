@@ -40,15 +40,19 @@ public abstract class LivingEntityRenderMixin<T extends LivingEntity, M extends 
     private void gatherRenderColor(T livingEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
         float[] colorComp = new float[]{1.0F, 1.0F, 1.0F};
 
-        if (!ColorizeBlackListRegistry.isBlackListed(livingEntity) && CommonInit.getConfig().isEntityDyeingEnabled()) {
-            if (livingEntity instanceof DyeableEntity dyeableEntity && dyeableEntity.isDyed()) {
-                colorComp = dyeableEntity.getDyeColor().getColorComponents();
-            } else if (livingEntity instanceof ConstantColorEntity constantColorEntity && constantColorEntity.isColored()) {
-                colorComp = new Color(constantColorEntity.getConstantColor()).getRGBColorComponents(null);
-            } else if (livingEntity instanceof RainbowEntity rainbowEntity && rainbowEntity.isRainbowTime()) {
-                colorComp = ColorUtil.rainbowColorizer(livingEntity, g);
-            }
+        if(!ColorizeBlackListRegistry.isBlackListed(livingEntity) && livingEntity instanceof Colored colored && (colored.isRainbow() || colored.isColored())){
+            colorComp = ColorUtil.getColorComponents(colored.getColor(MinecraftClient.getInstance().getTickDelta()));
         }
+
+//        if (!ColorizeBlackListRegistry.isBlackListed(livingEntity) && CommonInit.getConfig().isEntityDyeingEnabled()) {
+//            if (livingEntity instanceof DyeableEntity dyeableEntity && dyeableEntity.isDyed()) {
+//                colorComp = dyeableEntity.getDyeColor().getColorComponents();
+//            } else if (livingEntity instanceof ConstantColorEntity constantColorEntity && constantColorEntity.isColored()) {
+//                colorComp = new Color(constantColorEntity.getConstantColor()).getRGBColorComponents(null);
+//            } else if (livingEntity instanceof RainbowEntity rainbowEntity && rainbowEntity.isRainbowTime()) {
+//                colorComp = ColorUtil.rainbowColorizerComp(livingEntity, g);
+//            }
+//        }
 
         this.jello$color = new Color(colorComp[0], colorComp[1], colorComp[2]);
     }
@@ -68,8 +72,8 @@ public abstract class LivingEntityRenderMixin<T extends LivingEntity, M extends 
             jello$grayScaleCache = null;
         }
 
-        if (!(entity instanceof PlayerEntity) && (entity instanceof GrayScaleEntity grayScaleEntity && grayScaleEntity.isGrayScaled(entity))) {
-            jello$grayScaleCache = GrayScaleEntityRegistry.INSTANCE.getOrFindTexture(entity, ((LivingEntityRenderer<T, M>) (Object) this).getTexture(entity));
+        if (!(entity instanceof PlayerEntity) && (entity instanceof Colored colored && colored.isGrayScaled(entity, Colored.RenderType.ENTITY_RENDER))) {
+            jello$grayScaleCache = GrayScaleEntityRegistry.INSTANCE.getOrFindTexture(entity, ((LivingEntityRenderer<T, M>) (Object) this).getTexture(entity), Colored.RenderType.ENTITY_RENDER);
         } else {
             jello$grayScaleCache = null;
         }

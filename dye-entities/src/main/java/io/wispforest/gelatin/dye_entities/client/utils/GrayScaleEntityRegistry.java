@@ -1,7 +1,7 @@
 package io.wispforest.gelatin.dye_entities.client.utils;
 
 import io.wispforest.gelatin.common.misc.GelatinConstants;
-import io.wispforest.gelatin.dye_entities.ducks.GrayScaleEntity;
+import io.wispforest.gelatin.dye_entities.ducks.Colored;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.registry.Registries;
@@ -48,8 +48,8 @@ public class GrayScaleEntityRegistry {
         return GRAYSCALABLE_MODID_BLACKLIST.contains(Registries.ENTITY_TYPE.getId(entity.getType()).getNamespace());
     }
 
-    public Identifier getOrFindTexture(Entity entity, Identifier defaultIdentifier) {
-        if (entity instanceof GrayScaleEntity grayScaleEntity && grayScaleEntity.isGrayScaled(entity)) {
+    public Identifier getOrFindTexture(Entity entity, Identifier defaultIdentifier, Colored.RenderType renderType) {
+        if (entity instanceof Colored colored && colored.isGrayScaled(entity, renderType)) {
             return INSTANCE.createGrayScaleID(defaultIdentifier);
         } else {
             return defaultIdentifier;

@@ -1,7 +1,5 @@
 package io.wispforest.gelatin.dye_entries.item;
 
-import io.wispforest.gelatin.dye_registry.ducks.DyeBlockStorage;
-import io.wispforest.gelatin.dye_registry.ducks.DyeItemStorage;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvironmentInterface;

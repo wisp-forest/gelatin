@@ -1,12 +1,16 @@
 package io.wispforest.gelatin.dye_entities.mixins;
 
-import io.wispforest.gelatin.dye_entities.ducks.DyeableEntity;
-import io.wispforest.gelatin.dye_entities.ducks.RainbowEntity;
+import io.wispforest.gelatin.common.util.ColorUtil;
+import io.wispforest.gelatin.dye_entities.client.utils.GrayScaleEntityRegistry;
+import io.wispforest.gelatin.dye_entities.ducks.Colorable;
+import io.wispforest.gelatin.dye_entities.ducks.Colored;
 import io.wispforest.gelatin.dye_entities.misc.DataConstants;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,38 +22,57 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Objects;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin implements DyeableEntity, RainbowEntity {
+public abstract class LivingEntityMixin implements Colorable {
 
-    @Unique private static final TrackedData<Identifier> DYE_COLOR = DataConstants.DYE_COLOR;
     @Unique private static final TrackedData<Byte> RAINBOW_MODE = DataConstants.RAINBOW_MODE;
-    @Unique private static final TrackedData<Integer> CONSTANT_COLOR = DataConstants.CONSTANT_COLOR;
+    @Unique private static final TrackedData<Integer> COLOR_VALUE = DataConstants.COLOR_VALUE;
 
     @Inject(method = "initDataTracker", at = @At(value = "TAIL"))
     private void initDyeColorTracker(CallbackInfo ci) {
-        ((LivingEntity) (Object) this).getDataTracker().startTracking(DYE_COLOR, DyeColorantRegistry.NULL_VALUE_NEW.getId());
         ((LivingEntity) (Object) this).getDataTracker().startTracking(RAINBOW_MODE, (byte) 0);
-        ((LivingEntity) (Object) this).getDataTracker().startTracking(CONSTANT_COLOR, DataConstants.DEFAULT_NULL_COLOR_VALUE);
+        ((LivingEntity) (Object) this).getDataTracker().startTracking(COLOR_VALUE, -1);
     }
 
     @Inject(method = "writeCustomDataToNbt", at = @At(value = "TAIL"))
     public void writeDyeColorNBT(NbtCompound nbt, CallbackInfo ci) {
-        nbt.putString(DataConstants.getDyeColorNbtKey(), ((LivingEntity) (Object) this).getDataTracker().get(DYE_COLOR).toString());
         nbt.putByte(DataConstants.getRainbowNbtKey(), ((LivingEntity) (Object) this).getDataTracker().get(RAINBOW_MODE));
-        nbt.putString(DataConstants.getConstantColorNbtKey(), ((LivingEntity) (Object) this).getDataTracker().get(CONSTANT_COLOR).toString());
+        nbt.putInt(DataConstants.getColoredNbtkey(), ((LivingEntity) (Object) this).getDataTracker().get(COLOR_VALUE));
     }
 
     @Inject(method = "readCustomDataFromNbt", at = @At(value = "TAIL"))
     public void readDyeColorNBT(NbtCompound nbt, CallbackInfo ci) {
-        String possibleIdentifier = nbt.getString(DataConstants.getDyeColorNbtKey());
+        int colorValue = nbt.contains(DataConstants.getColoredNbtkey())
+                ? nbt.getInt(DataConstants.getColoredNbtkey())
+                : -1;
 
-        if(Objects.equals(possibleIdentifier, "jello:_null")){
-            setDyeColor(DyeColorantRegistry.NULL_VALUE_NEW);
-        } else {
-            ((LivingEntity) (Object) this).getDataTracker().set(DYE_COLOR, !Objects.equals(possibleIdentifier, "") ? Identifier.tryParse(possibleIdentifier) : DyeColorantRegistry.NULL_VALUE_NEW.getId());
+        //----
+
+        if(nbt.contains(DataConstants.getDyeColorNbtKey())) {
+            String possibleIdentifier = nbt.getString(DataConstants.getDyeColorNbtKey());
+
+            DyeColorant dyeColorant = Objects.equals(possibleIdentifier, "jello:_null") || Objects.equals(possibleIdentifier, "")
+                    ? DyeColorantRegistry.NULL_VALUE_NEW
+                    : DyeColorantRegistry.DYE_COLOR.get(Identifier.tryParse(possibleIdentifier));
+
+            nbt.remove(DataConstants.getDyeColorNbtKey());
+
+            int oldColorValue = dyeColorant.getBaseColor();
+
+            if(oldColorValue == -1) colorValue = oldColorValue;
         }
 
+        if(nbt.contains(DataConstants.getConstantColorNbtKey())){
+            int oldColorValue = getOrDefaultNbtColor(DataConstants.getConstantColorNbtKey(), nbt, -1);
+
+            nbt.remove(DataConstants.getConstantColorNbtKey());
+
+            if(oldColorValue != 0) colorValue = oldColorValue;
+        }
+
+        //----
+
         ((LivingEntity) (Object) this).getDataTracker().set(RAINBOW_MODE, nbt.getByte(DataConstants.getRainbowNbtKey()));
-        ((LivingEntity) (Object) this).getDataTracker().set(CONSTANT_COLOR, getOrDefaultNbtColor(DataConstants.getConstantColorNbtKey(), nbt, DataConstants.DEFAULT_NULL_COLOR_VALUE));
+        ((LivingEntity) (Object) this).getDataTracker().set(COLOR_VALUE, colorValue);
     }
 
     @Unique
@@ -61,63 +84,70 @@ public abstract class LivingEntityMixin implements DyeableEntity, RainbowEntity 
     private Integer getOrDefaultNbtColor(String key, NbtCompound nbt, int defaultValue) {
         if (nbt.contains(key)) {
             String string = nbt.getString(key);
-            Integer colorValue = null;
-
             int radix = 10;
 
             if (string.startsWith("#")) {
-                radix = 16;
                 string = string.replace('#', ' ').trim();
+                radix = 16;
             }
 
             try {
-                colorValue = Integer.parseInt(string, radix);
+                return Integer.parseInt(string, radix);
             } catch (NumberFormatException ignore) {}
-
-            if (colorValue != null) return colorValue;
         }
 
         return defaultValue;
     }
 
-    //---------------------------------------------------------------------------------------------------//
+    //------------
+
     @Override
-    public Identifier getDyeColorID() {
-        return ((LivingEntity) (Object) this).getDataTracker().get(DYE_COLOR);
+    public boolean setColor(int color) {
+        int currentColor = this.getColor(0);
+
+        if(currentColor == color) return false;
+
+        ((LivingEntity) (Object) this).getDataTracker().set(COLOR_VALUE, color);
+
+        return true;
     }
 
     @Override
-    public void setDyeColor(DyeColorant dyeColor) {
-        ((LivingEntity) (Object) this).getDataTracker().set(DYE_COLOR, dyeColor.getId());
+    public boolean isColored() {
+        return !isRainbow() && getColor(0) != -1;
     }
 
     @Override
-    public boolean dyeColorOverride() {
-        return false;
-    }
+    public boolean setRainbow(boolean rainbow) {
+        boolean isRainbow = this.isRainbow();
 
-    //---------------------------------------------------------------------------------------------------//
-    @Override
-    public void setRainbowTime(boolean value) {
-        ((LivingEntity) (Object) this).getDataTracker().set(RAINBOW_MODE, value ? (byte) 1 : 0);
-    }
+        if(isRainbow == rainbow) return false;
 
-    @Override
-    public boolean isRainbowTime() {
-        return rainbowOverride() || ((LivingEntity) (Object) this).getDataTracker().get(RAINBOW_MODE) == 1;
+        ((LivingEntity) (Object) this).getDataTracker().set(RAINBOW_MODE, rainbow ? (byte) 1 : 0);
+
+        return true;
     }
 
     @Override
-    public boolean rainbowOverride() {
-        return false;
+    public boolean isRainbow() {
+        return ((LivingEntity) (Object) this).getDataTracker().get(RAINBOW_MODE) == 1;
     }
-
-    //---------------------------------------------------------------------------------------------------//
 
     @Override
-    public int getConstantColor() {
-        return ((LivingEntity) (Object) this).getDataTracker().get(CONSTANT_COLOR);
+    public int getColor(float delta) {
+        if(isRainbow()){
+            return ColorUtil.rainbowColorizer(((LivingEntity) (Object) this), delta);
+        }
+
+        return ((LivingEntity) (Object) this).getDataTracker().get(COLOR_VALUE);
+
+        //return -1;
     }
 
-    //---------------------------------------------------------------------------------------------------//
+    @Override
+    public boolean isGrayScaled(Entity entity, RenderType renderType) {
+        if(renderType == RenderType.FEATURE_RENDER && (LivingEntity) (Object) this instanceof SheepEntity) return false;
+
+        return !isRainbow() && isColored() && !GrayScaleEntityRegistry.isBlacklisted(entity);
+    }
 }

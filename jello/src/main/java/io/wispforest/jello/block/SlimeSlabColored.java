@@ -1,7 +1,6 @@
 package io.wispforest.jello.block;
 
 import io.wispforest.gelatin.dye_registry.DyeColorant;
-import io.wispforest.gelatin.dye_registry.ducks.DyeBlockStorage;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvironmentInterface;
@@ -17,13 +16,13 @@ public class SlimeSlabColored extends SlimeSlab implements BlockColorProvider {
     public SlimeSlabColored(DyeColorant dyeColor, Settings settings) {
         super(settings.mapColor(dyeColor.getMapColor()));
 
-        ((DyeBlockStorage) this).setDyeColor(dyeColor);
+        this.setDyeColor(dyeColor);
     }
 
     @Override
     @Environment(EnvType.CLIENT)
     public int getColor(BlockState state, @Nullable BlockRenderView world, @Nullable BlockPos pos, int tintIndex) {
-        return ((DyeBlockStorage) this).getDyeColorant().getBaseColor();
+        return this.getDyeColorant().getBaseColor();
     }
 
 

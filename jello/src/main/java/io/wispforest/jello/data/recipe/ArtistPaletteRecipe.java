@@ -1,10 +1,10 @@
 package io.wispforest.jello.data.recipe;
 
 import io.wispforest.gelatin.dye_registry.DyeColorant;
-import io.wispforest.gelatin.dye_registry.ducks.DyeItemStorage;
 import io.wispforest.jello.item.ArtistPaletteItem;
 import io.wispforest.jello.item.JelloItems;
 import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
@@ -42,7 +42,7 @@ public class ArtistPaletteRecipe extends SpecialCraftingRecipe {
 
                         var item = itemStack.getItem();
 
-                        if (item.isDyeItem() && ArtistPaletteItem.ALLOWED_COLORS.contains(item.getDyeColorant())) {
+                        if (item instanceof DyeItem && ArtistPaletteItem.ALLOWED_COLORS.contains(item.getDyeColorant())) {
                             switch (item.getDyeColorant().toString()) {
                                 case "minecraft:red" -> {
                                     if ((hasColorAlready & 1) == 1) {
@@ -96,13 +96,13 @@ public class ArtistPaletteRecipe extends SpecialCraftingRecipe {
         } else {
             List<DyeColorant> dyeColors = new ArrayList<>();
 
-            dyeColors.add(((DyeItemStorage) craftingInventory.getStack(3).getItem()).getDyeColorant());
+            dyeColors.add(craftingInventory.getStack(3).getItem().getDyeColorant());
 
             for (int i = 0; i < 3; i++) {
-                dyeColors.add(((DyeItemStorage) craftingInventory.getStack(i).getItem()).getDyeColorant());
+                dyeColors.add(craftingInventory.getStack(i).getItem().getDyeColorant());
             }
 
-            dyeColors.add(((DyeItemStorage) craftingInventory.getStack(5).getItem()).getDyeColorant());
+            dyeColors.add(craftingInventory.getStack(5).getItem().getDyeColorant());
 
             ItemStack itemStack2 = new ItemStack(JelloItems.ARTIST_PALETTE, 1);
 

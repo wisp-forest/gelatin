@@ -2,7 +2,6 @@ package io.wispforest.gelatin.dye_entries.mixins;
 
 import io.wispforest.gelatin.dye_entries.block.ColoredShulkerBoxBlock;
 import io.wispforest.gelatin.dye_entries.variants.impl.VanillaBlockVariants;
-import io.wispforest.gelatin.dye_registry.ducks.DyeBlockStorage;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.ShulkerBoxBlock;
@@ -30,7 +29,7 @@ public abstract class ShulkerBoxBlockMixin extends BlockWithEntity {
     public void jello$onBreakInjection(World world, BlockPos pos, BlockState state, PlayerEntity player, CallbackInfo ci, BlockEntity blockEntity, ShulkerBoxBlockEntity shulkerBoxBlockEntity) {
         if((ShulkerBoxBlock)(Object)this instanceof ColoredShulkerBoxBlock) {
             if (!world.isClient && player.isCreative() && !shulkerBoxBlockEntity.isEmpty()) {
-                ItemStack itemStack = new ItemStack(VanillaBlockVariants.SHULKER_BOX.getColoredEntry(((DyeBlockStorage) this).getDyeColorant()));
+                ItemStack itemStack = new ItemStack(VanillaBlockVariants.SHULKER_BOX.getColoredEntry(this.getDyeColorant()));
                 blockEntity.setStackNbt(itemStack);
                 if (shulkerBoxBlockEntity.hasCustomName()) {
                     itemStack.setCustomName(shulkerBoxBlockEntity.getCustomName());

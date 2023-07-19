@@ -1,7 +1,7 @@
 package io.wispforest.gelatin.dye_entries.mixins.client;
 
 import com.mojang.logging.LogUtils;
-import io.wispforest.gelatin.common.util.ColorUtil;
+import io.wispforest.gelatin.common.util.GrayScaleUtils;
 import io.wispforest.gelatin.dye_entries.client.GrayScaledSpriteInfo;
 import io.wispforest.gelatin.dye_entries.utils.GrayScaleBlockRegistry;
 import net.minecraft.client.resource.metadata.AnimationResourceMetadata;
@@ -52,7 +52,7 @@ public abstract class SpriteAtlasTextureMixin {
 //    @ModifyArg(method = "loadSprite", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/texture/Sprite;<init>(Lnet/minecraft/client/texture/SpriteAtlasTexture;Lnet/minecraft/client/texture/Sprite$Info;IIIIILnet/minecraft/client/texture/NativeImage;)V"))
 //    private NativeImage jello$GrayscaleImageCall(NativeImage value){
 //        return cachedInfo.get() != null
-//                ? ColorUtil.convertImageToGrayScale(value)
+//                ? GrayScaleUtils.convertImageToGrayScale(value)
 //                : value;
 //    }
 

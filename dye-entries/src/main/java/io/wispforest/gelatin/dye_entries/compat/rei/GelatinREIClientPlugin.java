@@ -7,8 +7,6 @@ import io.wispforest.gelatin.dye_entries.variants.impl.VanillaItemVariants;
 import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
-import io.wispforest.gelatin.dye_registry.ducks.DyeBlockStorage;
-import io.wispforest.gelatin.dye_registry.ducks.DyeItemStorage;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
 import me.shedaniel.rei.api.client.registry.display.DynamicDisplayGenerator;
@@ -42,7 +40,7 @@ public class GelatinREIClientPlugin implements REIClientPlugin {
             List<ItemStack> items = Registries.ITEM.stream().filter(item -> item.getRegistryEntry().isIn(dyeableBlockVariant.blockItemVariant.getPrimaryTag())).map(Item::getDefaultStack).collect(Collectors.toList());
 
             Predicate<ItemStack> getNonVanillaBlocks = stack -> {
-                DyeColorant dyeColorant = ((DyeBlockStorage) ((BlockItem) stack.getItem()).getBlock()).getDyeColorant();
+                DyeColorant dyeColorant = ((BlockItem) stack.getItem()).getBlock().getDyeColorant();
 
                 return !DyeColorantRegistry.Constants.VANILLA_DYES.contains(dyeColorant);
             };
@@ -51,19 +49,19 @@ public class GelatinREIClientPlugin implements REIClientPlugin {
             items.removeIf(getNonVanillaBlocks);
 
             nonVanillaStacks.sort(Comparator.comparingDouble(stack -> {
-                float[] hsl = ColorUtil.rgbToHsl(((DyeBlockStorage) ((BlockItem) stack.getItem()).getBlock()).getDyeColorant().getBaseColor());
+                float[] hsl = ColorUtil.rgbToHsl(((BlockItem) stack.getItem()).getBlock().getDyeColorant().getBaseColor());
 
                 return hsl[2];
             }));
 
             nonVanillaStacks.sort(Comparator.comparingDouble(stack -> {
-                float[] hsl = ColorUtil.rgbToHsl(((DyeBlockStorage) ((BlockItem) stack.getItem()).getBlock()).getDyeColorant().getBaseColor());
+                float[] hsl = ColorUtil.rgbToHsl(((BlockItem) stack.getItem()).getBlock().getDyeColorant().getBaseColor());
 
                 return hsl[1];
             }));
 
             nonVanillaStacks.sort(Comparator.comparingDouble(stack -> {
-                float[] hsl = ColorUtil.rgbToHsl(((DyeBlockStorage) ((BlockItem) stack.getItem()).getBlock()).getDyeColorant().getBaseColor());
+                float[] hsl = ColorUtil.rgbToHsl(((BlockItem) stack.getItem()).getBlock().getDyeColorant().getBaseColor());
 
                 return hsl[0];
             }));
@@ -83,7 +81,7 @@ public class GelatinREIClientPlugin implements REIClientPlugin {
             List<ItemStack> items = Registries.ITEM.stream().filter(item -> item.getRegistryEntry().isIn(dyeableItemVariant.getPrimaryTag())).map(Item::getDefaultStack).collect(Collectors.toList());
 
             Predicate<ItemStack> getNonVanillaBlocks = stack -> {
-                DyeColorant dyeColorant = ((DyeItemStorage) stack.getItem()).getDyeColorant();
+                DyeColorant dyeColorant = stack.getItem().getDyeColorant();
 
                 return !DyeColorantRegistry.Constants.VANILLA_DYES.contains(dyeColorant);
             };
@@ -92,19 +90,19 @@ public class GelatinREIClientPlugin implements REIClientPlugin {
             items.removeIf(getNonVanillaBlocks);
 
             nonVanillaStacks.sort(Comparator.comparingDouble(stack -> {
-                float[] hsl = ColorUtil.rgbToHsl(((DyeItemStorage) stack.getItem()).getDyeColorant().getBaseColor());
+                float[] hsl = ColorUtil.rgbToHsl(stack.getItem().getDyeColorant().getBaseColor());
 
                 return hsl[2];
             }));
 
             nonVanillaStacks.sort(Comparator.comparingDouble(stack -> {
-                float[] hsl = ColorUtil.rgbToHsl(((DyeItemStorage) stack.getItem()).getDyeColorant().getBaseColor());
+                float[] hsl = ColorUtil.rgbToHsl(stack.getItem().getDyeColorant().getBaseColor());
 
                 return hsl[1];
             }));
 
             nonVanillaStacks.sort(Comparator.comparingDouble(stack -> {
-                float[] hsl = ColorUtil.rgbToHsl(((DyeItemStorage) stack.getItem()).getDyeColorant().getBaseColor());
+                float[] hsl = ColorUtil.rgbToHsl(stack.getItem().getDyeColorant().getBaseColor());
 
                 return hsl[0];
             }));
@@ -113,7 +111,7 @@ public class GelatinREIClientPlugin implements REIClientPlugin {
 
             Item defaultItem = dyeableItemVariant.getDefaultEntry();
 
-            if(defaultItem instanceof DyeBlockStorage dyeBlockStorage && dyeBlockStorage.getDyeColorant() != DyeColorantRegistry.WHITE){
+            if(defaultItem instanceof BlockItem blockItem && blockItem.getBlock().getDyeColorant() != DyeColorantRegistry.WHITE){
                 items.add(0, defaultItem.getDefaultStack());
             }
 
