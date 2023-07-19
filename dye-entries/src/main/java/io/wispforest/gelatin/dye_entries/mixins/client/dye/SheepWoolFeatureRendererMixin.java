@@ -43,7 +43,7 @@ public abstract class SheepWoolFeatureRendererMixin extends FeatureRenderer<Shee
         float t;
         float u;
         if (sheepEntity.hasCustomName() && "jeb_".equals(sheepEntity.getName().getString())) {
-            float[] colorComp = ColorUtil.rainbowColorizer(sheepEntity, g);
+            float[] colorComp = ColorUtil.rainbowColorizerComp(sheepEntity, g);
             s = colorComp[0];
             t = colorComp[1];
             u = colorComp[2];

@@ -1,7 +1,6 @@
 package io.wispforest.jello.mixins;
 
 import io.wispforest.gelatin.dye_registry.DyeColorant;
-import io.wispforest.gelatin.dye_registry.ducks.DyeBlockStorage;
 import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.data.JelloTags;
 import net.minecraft.block.*;
@@ -52,8 +51,8 @@ public abstract class PistonHandlerMixin {
         boolean returnValue = false;
 
         if(bl1 && bl2){
-            DyeColorant dyeColorant1 = ((DyeBlockStorage)block1).getDyeColorant();
-            DyeColorant dyeColorant2 = ((DyeBlockStorage)block2).getDyeColorant();
+            DyeColorant dyeColorant1 = block1.getDyeColorant();
+            DyeColorant dyeColorant2 = block2.getDyeColorant();
 
             if(block1 == block2){
                 returnValue = true;

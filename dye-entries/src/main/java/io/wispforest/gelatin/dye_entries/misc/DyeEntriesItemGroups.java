@@ -1,7 +1,6 @@
 package io.wispforest.gelatin.dye_entries.misc;
 
 import io.wispforest.gelatin.common.misc.GelatinConstants;
-import io.wispforest.gelatin.dye_entries.DyeEntriesInit;
 import io.wispforest.gelatin.dye_entries.compat.owo.OwoCompat;
 import io.wispforest.gelatin.dye_entries.utils.DyeSortUtil;
 import io.wispforest.gelatin.dye_entries.variants.DyeableVariantRegistry;
@@ -9,8 +8,6 @@ import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
 import io.wispforest.gelatin.dye_entries.variants.item.DyeableItemVariant;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
-import io.wispforest.gelatin.dye_registry.ducks.DyeBlockStorage;
-import io.wispforest.gelatin.dye_registry.ducks.DyeItemStorage;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.*;
@@ -127,10 +124,10 @@ public class DyeEntriesItemGroups {
         Predicate<ItemStack> isDyedVariant;
 
         if (tabIndex == 0) {
-            isDyedVariant = stack -> stack.getItem() instanceof DyeItemStorage;
+            isDyedVariant = stack -> stack.getItem().isDyed();
             colorantFunc = stack -> stack.getItem().getDyeColorant();
         } else if (tabIndex == 1) {
-            isDyedVariant = stack -> stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof DyeBlockStorage;
+            isDyedVariant = stack -> stack.getItem() instanceof BlockItem blockItem && blockItem.isDyed();
             colorantFunc = stack -> ((BlockItem) stack.getItem()).getBlock().getDyeColorant();
         } else {
             return;

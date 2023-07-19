@@ -1,7 +1,7 @@
 package io.wispforest.gelatin.dye_entities.mixins;
 
 import io.wispforest.gelatin.common.util.TrackedDataHandlerExtended;
-import io.wispforest.gelatin.dye_entities.ducks.CustomCollarColorStorage;
+import io.wispforest.gelatin.dye_entities.ducks.CollarColorable;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import io.wispforest.gelatin.dye_entities.ducks.DyeEntityTool;
@@ -31,9 +31,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(CatEntity.class)
-public abstract class CatEntityMixin extends TameableEntity implements CustomCollarColorStorage {
+public abstract class CatEntityMixin extends TameableEntity implements CollarColorable {
 
     @Shadow public abstract DyeColor getCollarColor();
+
+    @Shadow public abstract void setCollarColor(DyeColor color);
 
     private static final TrackedData<Identifier> GELATIN_COLLAR_COLOR = DataTracker.registerData(CatEntity.class, TrackedDataHandlerExtended.IDENTIFIER);
     private static final TrackedData<Boolean> GELATIN_RAINBOW_COLLAR = DataTracker.registerData(CatEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
@@ -50,12 +52,12 @@ public abstract class CatEntityMixin extends TameableEntity implements CustomCol
 
     @Inject(method = "readCustomDataFromNbt", at = @At(value = "TAIL"))
     private void gelatin$readCustomCollarData(NbtCompound nbt, CallbackInfo ci){
-        this.readNbtData(nbt);
+        CollarColorable.readNbtData(this, nbt);
     }
 
     @Inject(method = "writeCustomDataToNbt", at = @At(value = "TAIL"))
     private void gelatin$writeCustomCollarData(NbtCompound nbt, CallbackInfo ci){
-        this.writeNbtData(nbt);
+        CollarColorable.writeNbtData(this, nbt);
     }
 
     @Inject(method = "interactMob", at = @At(value = "JUMP",  opcode = Opcodes.IFEQ, ordinal = 6), cancellable = true)
@@ -86,7 +88,7 @@ public abstract class CatEntityMixin extends TameableEntity implements CustomCol
     @Inject(method = "interactMob", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/DyeItem;getColor()Lnet/minecraft/util/DyeColor;", shift = At.Shift.BY, by = 2), locals = LocalCapture.CAPTURE_FAILHARD)
     private void gelatin$resetDyeColorant1(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir, ItemStack itemStack, Item item, DyeColor dyeColor){
         if (dyeColor == this.getCollarColor() && (this.getCustomCollarColor() != DyeColorantRegistry.NULL_VALUE_NEW || this.isRainbowCollared())) {
-            this.setDefaultValues();
+            CollarColorable.setDefaultValues(this);
 
             if(item instanceof DyeEntityTool dyeEntityTool){
                 dyeEntityTool.afterInteraction(player, hand, DyeColorantRegistry.NULL_VALUE_NEW);
@@ -96,14 +98,18 @@ public abstract class CatEntityMixin extends TameableEntity implements CustomCol
 
     @Inject(method = "interactMob", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/passive/CatEntity;setCollarColor(Lnet/minecraft/util/DyeColor;)V"))
     private void gelatin$resetDyeColorant2(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir){
-        this.setDefaultValues();
+        CollarColorable.setDefaultValues(this);
     }
 
     //---------------------------------------------
 
     @Override
-    public void setCustomCollarColor(DyeColorant dyeColorant) {
+    public boolean setCustomCollarColor(DyeColorant dyeColorant) {
+        if(this.isRainbowCollared() || getCustomCollarColor() == dyeColorant) return false;
+
         this.dataTracker.set(GELATIN_COLLAR_COLOR, dyeColorant.getId());
+
+        return true;
     }
 
     @Override
@@ -117,7 +123,11 @@ public abstract class CatEntityMixin extends TameableEntity implements CustomCol
     }
 
     @Override
-    public void setRainbowCollar(boolean rainbowCollarMode) {
+    public boolean setRainbowCollar(boolean rainbowCollarMode) {
+        if(this.isRainbowCollared() || getCustomCollarColor() != DyeColorantRegistry.NULL_VALUE_NEW) return false;
+
         this.dataTracker.set(GELATIN_RAINBOW_COLLAR, rainbowCollarMode);
+
+        return true;
     }
 }

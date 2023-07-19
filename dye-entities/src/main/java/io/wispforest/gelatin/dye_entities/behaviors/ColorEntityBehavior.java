@@ -1,6 +1,6 @@
 package io.wispforest.gelatin.dye_entities.behaviors;
 
-import io.wispforest.gelatin.dye_entities.ducks.DyeableEntity;
+import io.wispforest.gelatin.dye_entities.ducks.Colorable;
 import io.wispforest.gelatin.dye_entities.ducks.ImplDyeEntityTool;
 import io.wispforest.gelatin.dye_entities.misc.GelatinGameEvents;
 import net.minecraft.block.DispenserBlock;
@@ -41,10 +41,9 @@ public class ColorEntityBehavior extends FallibleItemDispenserBehavior {
 
     private static boolean tryColorEntity(ServerWorld world, BlockPos pos, ImplDyeEntityTool dyeEntityTool) {
         for (LivingEntity livingEntity : world.getEntitiesByClass(LivingEntity.class, new Box(pos), EntityPredicates.EXCEPT_SPECTATOR)) {
-            if (livingEntity instanceof DyeableEntity dyeableEntity && dyeableEntity.getDyeColor() != dyeEntityTool.getDyeColorant()) {
+            int colorValue = dyeEntityTool.getDyeColorant().getBaseColor();
 
-                dyeableEntity.setDyeColor(dyeEntityTool.getDyeColorant());
-
+            if (livingEntity instanceof Colorable colorable && !colorable.isRainbow() && colorable.getColor(0) != colorValue && colorable.setColor(colorValue)) {
                 livingEntity.getWorld().playSoundFromEntity((PlayerEntity) null, livingEntity, SoundEvents.ITEM_DYE_USE, SoundCategory.NEUTRAL, 1.0F, 1.0F);
                 world.emitGameEvent((Entity) null, GelatinGameEvents.DYE_ENTITY, pos);
 

@@ -1,7 +1,6 @@
 package io.wispforest.gelatin.dye_entries.block;
 
 import io.wispforest.gelatin.dye_registry.DyeColorant;
-import io.wispforest.gelatin.dye_registry.ducks.DyeBlockStorage;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvironmentInterface;
@@ -18,7 +17,7 @@ public class ColoredCandleCakeBlock extends CandleCakeBlock implements BlockColo
     public ColoredCandleCakeBlock(DyeColorant dyeColorant, Block candle, Settings settings) {
         super(candle, settings);
 
-        ((DyeBlockStorage) this).setDyeColor(dyeColorant);
+        this.setDyeColor(dyeColorant);
     }
 
     @Override

@@ -2,7 +2,7 @@ package io.wispforest.gelatin.dye_registry.mixins.item;
 
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
-import io.wispforest.gelatin.dye_registry.ducks.DyeItemStorage;
+import io.wispforest.gelatin.dye_registry.ducks.DyeStorage;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.DyeColor;
@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Mixin(DyeItem.class)
-public class DyeItemMixin extends Item implements DyeItemStorage {
+public class DyeItemMixin extends Item implements DyeStorage {
 
     @Mutable @Shadow @Final private static Map<DyeColor, DyeItem> DYES;
 

@@ -1,15 +1,15 @@
 package io.wispforest.jello.item.dyebundle;
 
 import com.mojang.logging.LogUtils;
+import io.wispforest.gelatin.dye_entities.ducks.Colorable;
 import io.wispforest.gelatin.dye_entities.ducks.DyeEntityTool;
-import io.wispforest.gelatin.dye_entities.ducks.DyeableEntity;
-import io.wispforest.gelatin.dye_entities.misc.EntityColorManipulators;
+import io.wispforest.gelatin.dye_entities.misc.EntityColorImplementations;
 import io.wispforest.gelatin.dye_entries.BlockColorManipulators;
 import io.wispforest.gelatin.dye_entries.ducks.DyeBlockTool;
 import io.wispforest.gelatin.dye_entries.ducks.SheepDyeColorStorage;
+import io.wispforest.gelatin.dye_entries.variants.impl.VanillaItemVariants;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
-import io.wispforest.gelatin.dye_registry.ducks.DyeItemStorage;
 import io.wispforest.owo.nbt.NbtKey;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -62,8 +62,8 @@ public class DyeBundleItem extends BundleItem implements DyeBlockTool, DyeEntity
     public ActionResult attemptToDyeEntity(World world, PlayerEntity user, LivingEntity entity, ItemStack stack, Hand hand) {
         DyeColorant dyeColorant = getDyeColorantFromBundle(user, stack);
 
-        if (!dyeColorant.nullColorCheck() && user.shouldCancelInteraction() && entity instanceof DyeableEntity dyeableEntity) {
-            if(EntityColorManipulators.dyeEntityEvent(dyeableEntity, dyeColorant)) {
+        if (!dyeColorant.nullColorCheck() && user.shouldCancelInteraction() && entity instanceof Colorable colorable) {
+            if(EntityColorImplementations.dyeEntityEvent(colorable, dyeColorant)) {
                 DyeBundleItem.dyeBundleInteraction(user.getStackInHand(hand), dyeColorant);
             }
 
@@ -143,7 +143,7 @@ public class DyeBundleItem extends BundleItem implements DyeBlockTool, DyeEntity
     public DyeColorant getDyeColorantFromBundle(PlayerEntity player, ItemStack bundleStack){
         final var firstStack = getSelectedStack(bundleStack);
 
-        if (!firstStack.isEmpty()) return ((DyeItemStorage) firstStack.getItem()).getDyeColorant();
+        if (!firstStack.isEmpty()) return firstStack.getItem().getDyeColorant();
 
         return DyeColorantRegistry.NULL_VALUE_NEW;
     }
@@ -274,7 +274,7 @@ public class DyeBundleItem extends BundleItem implements DyeBlockTool, DyeEntity
     public boolean onStackClicked(ItemStack stack, Slot slot, ClickType clickType, PlayerEntity player) {
         ItemStack slotStack = slot.getStack();
 
-        if(slotStack.isEmpty() || (slotStack.getItem().isDyeItem())){
+        if(slotStack.isEmpty() || (slotStack.getItem().isDyed() && slotStack.isIn(VanillaItemVariants.DYE.getPrimaryTag()))){
             return super.onStackClicked(stack, slot, clickType, player);
         }
 
@@ -283,7 +283,7 @@ public class DyeBundleItem extends BundleItem implements DyeBlockTool, DyeEntity
 
     @Override
     public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
-        if(otherStack.isEmpty() || (otherStack.getItem().isDyeItem())){
+        if(otherStack.isEmpty() || (otherStack.getItem().isDyed() && otherStack.isIn(VanillaItemVariants.DYE.getPrimaryTag()))){
             return super.onClicked(stack, otherStack, slot, clickType, player, cursorStackReference);
         }
 

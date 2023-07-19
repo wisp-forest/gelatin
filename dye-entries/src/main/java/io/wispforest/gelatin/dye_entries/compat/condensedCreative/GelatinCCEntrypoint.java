@@ -2,14 +2,11 @@ package io.wispforest.gelatin.dye_entries.compat.condensedCreative;
 
 import io.wispforest.condensed_creative.registry.CondensedCreativeInitializer;
 import io.wispforest.condensed_creative.registry.CondensedEntryRegistry;
-import io.wispforest.gelatin.dye_entries.DyeEntriesInit;
 import io.wispforest.gelatin.dye_entries.misc.DyeEntriesItemGroups;
 import io.wispforest.gelatin.dye_entries.utils.DyeSortUtil;
 import io.wispforest.gelatin.dye_entries.variants.DyeableVariantRegistry;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
-import io.wispforest.gelatin.dye_registry.ducks.DyeBlockStorage;
-import io.wispforest.gelatin.dye_registry.ducks.DyeItemStorage;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -33,7 +30,7 @@ public class GelatinCCEntrypoint implements CondensedCreativeInitializer {
         DyeableVariantRegistry.getAllItemVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.alwaysReadOnly()).forEach(dyeableItemVariant -> {
             CondensedEntryRegistry.fromTag(dyeableItemVariant.variantIdentifier, dyeableItemVariant.getDefaultEntry(), dyeableItemVariant.getPrimaryTag())
                     .setTitleSupplier(() -> Text.translatable(dyeableItemVariant.variantIdentifier.getPath() + "_condensed"))
-                    .setEntrySorting(allStacks -> sortItemStacks(allStacks, dyeableItemVariant.getDefaultEntry(), stack -> ((DyeItemStorage)stack.getItem()).getDyeColorant()))
+                    .setEntrySorting(allStacks -> sortItemStacks(allStacks, dyeableItemVariant.getDefaultEntry(), stack -> stack.getItem().getDyeColorant()))
                     .addToItemGroup(group1, owoEnabled ? 0 : -1);
         });
 
@@ -41,7 +38,7 @@ public class GelatinCCEntrypoint implements CondensedCreativeInitializer {
             CondensedEntryRegistry.fromTag(dyeableBlockVariant.variantIdentifier, dyeableBlockVariant.getDefaultEntry(), dyeableBlockVariant.getPrimaryTag())
                 .setTitleSupplier(() -> Text.translatable(dyeableBlockVariant.variantIdentifier.getPath() + "_condensed"))
                 .setEntrySorting(allStacks -> sortItemStacks(allStacks, dyeableBlockVariant.getDefaultBlockItem(),
-                    stack -> ((DyeBlockStorage)((BlockItem)stack.getItem()).getBlock()).getDyeColorant()))
+                    stack -> ((BlockItem)stack.getItem()).getBlock().getDyeColorant()))
                 .addToItemGroup(group2, owoEnabled ? 1 : -1);
         });
     }

@@ -2,13 +2,16 @@ package io.wispforest.gelatin.dye_entities.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.wispforest.gelatin.common.util.ColorUtil;
+import io.wispforest.gelatin.common.util.GrayScaleUtils;
 import net.minecraft.client.resource.metadata.TextureResourceMetadata;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.ResourceTexture;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
+import org.lwjgl.system.MemoryUtil;
 
 import java.io.IOException;
+import java.nio.IntBuffer;
 
 public class GrayScaledTexture extends ResourceTexture {
 
@@ -19,6 +22,8 @@ public class GrayScaledTexture extends ResourceTexture {
 
         this.parentImageLocation = parentImageLocation;
     }
+
+
 
     @Override
     public void load(ResourceManager manager) throws IOException {
@@ -35,7 +40,7 @@ public class GrayScaledTexture extends ResourceTexture {
             bl2 = false;
         }
 
-        NativeImage nativeImage = ColorUtil.convertImageToGrayScale(textureData.getImage());
+        NativeImage nativeImage = GrayScaleUtils.convertImageToGrayScale(textureData.getImage());
 
         if (!RenderSystem.isOnRenderThreadOrInit()) {
             RenderSystem.recordRenderCall(() -> this.upload(nativeImage, bl, bl2));
