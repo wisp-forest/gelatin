@@ -43,6 +43,9 @@
     "minecraft": "~1.19",
     "java": ">=17"
   },
+  "recommends": {
+    "ferritecore": "*"
+  },
   "custom": {
     "modmenu": {
       "badges": [ "library" ],
