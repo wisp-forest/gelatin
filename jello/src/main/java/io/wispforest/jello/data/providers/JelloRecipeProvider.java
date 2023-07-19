@@ -1,16 +1,14 @@
 package io.wispforest.jello.data.providers;
 
-import io.wispforest.jello.data.GelatinComplexRecipeJsonBuilder;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import io.wispforest.gelatin.dye_registry.data.GelatinTags;
-import io.wispforest.gelatin.dye_registry.ducks.DyeBlockStorage;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.block.JelloBlocks;
+import io.wispforest.jello.data.GelatinComplexRecipeJsonBuilder;
 import io.wispforest.jello.data.JelloTags;
 import io.wispforest.jello.data.recipe.JelloRecipeSerializers;
 import io.wispforest.jello.item.JelloItems;
 import io.wispforest.jello.misc.pond.CookingRecipeJsonBuilderExtension;
-import io.wispforest.jello.misc.pond.CookingRecipeJsonProviderExtension;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.block.Block;
@@ -22,14 +20,13 @@ import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
-import net.minecraft.recipe.BrewingRecipeRegistry;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.ShapelessRecipe;
 import net.minecraft.tag.ItemTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 import java.util.function.Consumer;
+
 import static io.wispforest.jello.item.JelloItems.*;
 
 
@@ -57,8 +54,8 @@ public class JelloRecipeProvider extends FabricRecipeProvider {
 
             offerReversibleCompactingRecipes(exporter, item, block);
 
-            Item dyeItem = Registry.ITEM.get(new Identifier(((DyeBlockStorage) block).getDyeColorant().getName() + "_dye"));
-            String dyePath = ((DyeBlockStorage) block).getDyeColorant().getName() + "_dye";
+            Item dyeItem = Registry.ITEM.get(new Identifier(block.getDyeColorant().getName() + "_dye"));
+            String dyePath = block.getDyeColorant().getName() + "_dye";
 
 //            offerSlimeBlockDyeingRecipe(exporter, block, dyeItem, blockPath, ((DyeBlockStorage) block).getDyeColor().getName() + "_dye");
 //            offerSlimeBlockDyeingFullRecipe(exporter, block, dyeItem, blockPath, ((DyeBlockStorage) block).getDyeColor().getName() + "_dye");

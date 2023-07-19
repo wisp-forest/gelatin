@@ -2,30 +2,18 @@ package io.wispforest.gelatin.dye_registry.ducks;
 
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
-import net.minecraft.item.DyeItem;
 import org.jetbrains.annotations.ApiStatus;
 
-/**
- * Interface used to store Color Data within A Colorable Item.
- * <p>A example of this use is within {@link DyeBlockTool} for Minecrafts {@link DyeItem}</p>
- */
-public interface DyeItemStorage {
+public interface DyeStorage {
 
     /**
-     * This will return the {@link DyeColorant} of the Item
+     * This will return the {@link DyeColorant} of the given Object
      */
     default DyeColorant getDyeColorant(){
         return DyeColorantRegistry.NULL_VALUE_NEW;
-    };
-
-    /**
-     * Main method call to tell Jello that this item is or isn't a DyeItem.
-     */
-    default boolean isDyeItem(){
-        return false;
     }
 
-    default boolean isItemDyed() {
+    default boolean isDyed() {
         return getDyeColorant() != DyeColorantRegistry.NULL_VALUE_NEW;
     }
 
@@ -36,5 +24,4 @@ public interface DyeItemStorage {
      */
     @ApiStatus.NonExtendable
     default void setDyeColor(DyeColorant dyeColorant){};
-
 }

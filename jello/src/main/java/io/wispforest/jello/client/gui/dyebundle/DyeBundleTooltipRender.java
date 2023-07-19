@@ -1,6 +1,6 @@
 package io.wispforest.jello.client.gui.dyebundle;
 
-import io.wispforest.gelatin.dye_registry.ducks.DyeItemStorage;
+import io.wispforest.gelatin.dye_entries.variants.impl.VanillaItemVariants;
 import io.wispforest.jello.client.JelloClient;
 import io.wispforest.jello.item.dyebundle.DyeBundlePackets;
 import io.wispforest.jello.mixins.client.accessors.CreativeSlotAccessor;
@@ -154,7 +154,8 @@ public class DyeBundleTooltipRender implements HudRenderCallback, OnItemstackToo
 
             HandledScreenEvents.allowMouseTooltipWithCursorStack(handledScreen).register((screen1, cursorStack, slot, pointX, pointY) -> {
                 return slot.getStack().getItem() instanceof DyeBundleItem
-                        && cursorStack.getItem().isDyeItem();
+                        && cursorStack.getItem().isDyed()
+                        && cursorStack.isIn(VanillaItemVariants.DYE.getPrimaryTag());
             });
 
             ScreenEvents.afterRender(screen).register((screen1, matrices, mouseX, mouseY, tickDelta) -> {

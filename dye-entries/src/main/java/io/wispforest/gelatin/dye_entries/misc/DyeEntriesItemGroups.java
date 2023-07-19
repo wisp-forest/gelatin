@@ -8,9 +8,6 @@ import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
 import io.wispforest.gelatin.dye_entries.variants.item.DyeableItemVariant;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
-import io.wispforest.gelatin.dye_registry.ducks.DyeBlockStorage;
-import io.wispforest.gelatin.dye_registry.ducks.DyeItemStorage;
-import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.impl.item.group.ItemGroupExtensions;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.*;
@@ -19,7 +16,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.registry.Registry;
-import org.apache.commons.lang3.function.TriFunction;
 
 import java.util.*;
 import java.util.function.Function;
@@ -152,10 +148,10 @@ public class DyeEntriesItemGroups {
         Predicate<ItemStack> isDyedVariant;
 
         if (tabIndex == 0) {
-            isDyedVariant = stack -> stack.getItem() instanceof DyeItemStorage;
+            isDyedVariant = stack -> stack.getItem().isDyed();
             colorantFunc = stack -> stack.getItem().getDyeColorant();
         } else if (tabIndex == 1) {
-            isDyedVariant = stack -> stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof DyeBlockStorage;
+            isDyedVariant = stack -> stack.getItem() instanceof BlockItem blockItem && blockItem.isDyed();
             colorantFunc = stack -> ((BlockItem) stack.getItem()).getBlock().getDyeColorant();
         } else {
             return;

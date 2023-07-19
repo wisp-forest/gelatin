@@ -1,7 +1,7 @@
 package io.wispforest.gelatin.dye_entities.mixins.client;
 
 import io.wispforest.gelatin.common.util.ColorUtil;
-import io.wispforest.gelatin.dye_entities.ducks.CustomCollarColorStorage;
+import io.wispforest.gelatin.dye_entities.ducks.CollarColorable;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.CatCollarFeatureRenderer;
@@ -33,14 +33,14 @@ public abstract class CatCollarFeatureRendererMixin extends FeatureRenderer<CatE
     private void gelatin$customCollarColor(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CatEntity catEntity, float f, float g, float h, float j, float k, float l, CallbackInfo ci){
         if (!catEntity.isTamed() || catEntity.isInvisible()) return;
 
-        CustomCollarColorStorage collarColorStorage = ((CustomCollarColorStorage) catEntity);
+        CollarColorable collarColorStorage = ((CollarColorable) catEntity);
 
         float[] fs;
 
         if(collarColorStorage.isRainbowCollared()){
-            fs = ColorUtil.rainbowColorizer(catEntity, g);
+            fs = ColorUtil.rainbowColorizerComp(catEntity, g);
         } else if (collarColorStorage.getCustomCollarColor() != DyeColorantRegistry.NULL_VALUE_NEW){
-            fs = ((CustomCollarColorStorage) catEntity).getCustomCollarColor().getColorComponents();
+            fs = ((CollarColorable) catEntity).getCustomCollarColor().getColorComponents();
         } else {
             return;
         }

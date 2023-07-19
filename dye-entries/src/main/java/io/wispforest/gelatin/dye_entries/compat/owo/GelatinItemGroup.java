@@ -3,8 +3,6 @@ package io.wispforest.gelatin.dye_entries.compat.owo;
 import io.wispforest.gelatin.common.misc.GelatinConstants;
 import io.wispforest.gelatin.dye_entries.misc.DyeEntriesItemGroups;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
-import io.wispforest.gelatin.dye_registry.ducks.DyeBlockStorage;
-import io.wispforest.gelatin.dye_registry.ducks.DyeItemStorage;
 import io.wispforest.owo.itemgroup.Icon;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
 import net.minecraft.item.BlockItem;
@@ -51,9 +49,9 @@ public class GelatinItemGroup extends OwoItemGroup {
         Predicate<ItemStack> isDyedEntry;
 
         if(this.getSelectedTabIndex() == 0){
-            isDyedEntry = stack -> stack.getItem() instanceof DyeItemStorage;
+            isDyedEntry = stack -> stack.getItem().isDyed();
         } else {
-            isDyedEntry = stack -> stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof DyeBlockStorage;
+            isDyedEntry = stack -> stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock().isDyed();
         }
 
         List<ItemStack> dyedBlocks = stacks.stream().filter(isDyedEntry).collect(Collectors.toList());

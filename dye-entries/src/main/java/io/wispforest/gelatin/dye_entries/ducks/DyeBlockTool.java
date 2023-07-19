@@ -41,8 +41,6 @@ public interface DyeBlockTool extends DyeBaseTool {
         return ActionResult.PASS;
     }
 
-
-
     //-----------------------------------------------------------------------------------------------------------------------------------
 
     @NotNull

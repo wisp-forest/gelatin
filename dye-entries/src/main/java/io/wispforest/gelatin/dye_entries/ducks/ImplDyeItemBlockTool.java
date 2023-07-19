@@ -3,7 +3,7 @@ package io.wispforest.gelatin.dye_entries.ducks;
 import io.wispforest.gelatin.dye_entries.BlockColorManipulators;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
-import io.wispforest.gelatin.dye_registry.ducks.DyeItemStorage;
+import io.wispforest.gelatin.dye_registry.ducks.DyeStorage;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeItem;
@@ -22,7 +22,7 @@ import java.util.Random;
  * This is the main interface for Implementing Jello DyeColorant System on to Minecrafts {@link DyeItem}
  */
 @ApiStatus.Internal
-public interface ImplDyeItemBlockTool extends DyeBlockTool, DyeItemStorage {
+public interface ImplDyeItemBlockTool extends DyeBlockTool, DyeStorage {
 
     default ActionResult attemptToDyeBlock(World world, PlayerEntity player, BlockPos blockPos, ItemStack stack, Hand hand){
         if(player.shouldCancelInteraction() && this.getDyeColorant() != DyeColorantRegistry.NULL_VALUE_NEW) {

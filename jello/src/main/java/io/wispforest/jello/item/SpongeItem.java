@@ -2,12 +2,12 @@ package io.wispforest.jello.item;
 
 import io.wispforest.gelatin.cauldron.blockentity.ColorStorageBlockEntity;
 import io.wispforest.gelatin.common.events.CauldronEvent;
-import io.wispforest.gelatin.dye_entries.BlockColorManipulators;
-import io.wispforest.gelatin.dye_entities.ducks.DyeableEntity;
-import io.wispforest.gelatin.dye_entities.misc.EntityColorManipulators;
-import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
-import io.wispforest.gelatin.dye_entries.ducks.DyeBlockTool;
+import io.wispforest.gelatin.dye_entities.ducks.Colorable;
 import io.wispforest.gelatin.dye_entities.ducks.DyeEntityTool;
+import io.wispforest.gelatin.dye_entities.misc.EntityColorImplementations;
+import io.wispforest.gelatin.dye_entries.BlockColorManipulators;
+import io.wispforest.gelatin.dye_entries.ducks.DyeBlockTool;
+import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FluidDrainable;
 import net.minecraft.block.LeveledCauldronBlock;
@@ -93,7 +93,7 @@ public class SpongeItem extends Item implements DyeBlockTool, DyeEntityTool {
 
     @Override
     public ActionResult attemptToDyeEntity(World world, PlayerEntity user, LivingEntity entity, ItemStack stack, Hand hand) {
-        if (stack.getDamage() != -1 && EntityColorManipulators.washEntityEvent((DyeableEntity) entity)) {
+        if (stack.getDamage() != -1 && EntityColorImplementations.washEntityEvent((Colorable) entity)) {
             if (!world.isClient()) {
                 incrementDirtiness(stack, user);
 
@@ -110,13 +110,12 @@ public class SpongeItem extends Item implements DyeBlockTool, DyeEntityTool {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemInHand = user.getStackInHand(hand);
 
-        if (user.shouldCancelInteraction()
+        boolean bl = user.shouldCancelInteraction()
                 && canClean(itemInHand)
-                && user instanceof DyeableEntity dyeableEntity
-                && dyeableEntity.isDyed()) {
+                && user instanceof Colorable colorable
+                && EntityColorImplementations.washEntityEvent(colorable);
 
-            dyeableEntity.setDyeColor(DyeColorantRegistry.NULL_VALUE_NEW);
-
+        if (bl) {
             if (!world.isClient()) {
                 incrementDirtiness(itemInHand, user);
 
@@ -149,16 +148,14 @@ public class SpongeItem extends Item implements DyeBlockTool, DyeEntityTool {
             }
         }
 
-
         return TypedActionResult.pass(itemInHand);
     }
 
     public static ActionResult cleanSponge(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack, CauldronEvent.CauldronType cauldronType) {
         if (cauldronType == CauldronEvent.CauldronType.WATER) {
-            if (world.getBlockEntity(pos) instanceof ColorStorageBlockEntity blockEntity
-                    && ColorStorageBlockEntity.isWaterColored(blockEntity)) {
-                return ActionResult.PASS;
-            }
+            boolean bl = world.getBlockEntity(pos) instanceof ColorStorageBlockEntity be && ColorStorageBlockEntity.isWaterColored(be);
+
+            if (bl) return ActionResult.PASS;
 
             if (stack.getItem() instanceof SpongeItem && stack.getOrCreateNbt().getInt(SpongeItem.DIRTINESS_KEY) != 0) {
                 if (!world.isClient) {
@@ -181,11 +178,11 @@ public class SpongeItem extends Item implements DyeBlockTool, DyeEntityTool {
     }
 
     private static void incrementDirtiness(ItemStack itemStack, PlayerEntity player) {
-        if (!player.getAbilities().creativeMode) {
-            int newDirtinessValue = itemStack.getOrCreateNbt().getInt(DIRTINESS_KEY) + 1;
+        if (player.getAbilities().creativeMode) return;
 
-            setDirtiness(itemStack.getOrCreateNbt(), newDirtinessValue);
-        }
+        int newDirtinessValue = itemStack.getOrCreateNbt().getInt(DIRTINESS_KEY) + 1;
+
+        setDirtiness(itemStack.getOrCreateNbt(), newDirtinessValue);
     }
 
     private static void setDirtiness(NbtCompound nbt, int amount) {

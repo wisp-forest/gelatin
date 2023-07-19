@@ -3,10 +3,10 @@ package io.wispforest.jello.item.dyebundle;
 import com.mojang.logging.LogUtils;
 import io.netty.util.collection.IntObjectHashMap;
 import io.netty.util.collection.IntObjectMap;
-import io.wispforest.jello.mixins.BundleItemAccessor;
-import io.wispforest.gelatin.dye_registry.ducks.DyeItemStorage;
+import io.wispforest.gelatin.dye_entries.variants.impl.VanillaItemVariants;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.client.gui.dyebundle.DyeBundleTooltipBuilder;
+import io.wispforest.jello.mixins.BundleItemAccessor;
 import io.wispforest.owo.network.ServerAccess;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.entity.player.PlayerEntity;
@@ -209,7 +209,7 @@ public class DyeBundlePackets {
 
                     shouldMarkDirty = true;
                 } else {
-                    if((cursorStack.getItem().isDyeItem())){
+                    if(cursorStack.getItem().isDyed() && cursorStack.isIn(VanillaItemVariants.DYE.getPrimaryTag())){
                         NbtCompound cursorStackTag = new NbtCompound();
 
                         cursorStack.writeNbt(cursorStackTag);

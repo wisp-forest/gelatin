@@ -28,7 +28,7 @@ public class DyeColorantRegistry {
     public static final RegistryKey<Registry<DyeColorant>> DYE_COLOR_KEY = RegistryKey.ofRegistry(GelatinConstants.id("dye_color"));
     public static final DefaultedRegistry<DyeColorant> DYE_COLOR = FabricRegistryBuilder.from(new DefaultedRegistry<>(GelatinConstants.id("_null").toString(), DYE_COLOR_KEY, Lifecycle.stable(), DyeColorant::getRegistryEntry)).buildAndRegister();
 
-    public static final DyeColorant NULL_VALUE_NEW = registerDyeColor(GelatinConstants.id("_null"), MapColor.CLEAR, 0);
+    public static final DyeColorant NULL_VALUE_NEW = registerDyeColor(GelatinConstants.id("_null"), MapColor.CLEAR, -1);
 
     public static final DyeColorant WHITE = registerDyeColorVanilla("white", 0xF9FFFE, MapColor.WHITE, 0xF0F0F0, 0xFFFFFF);
     public static final DyeColorant ORANGE = registerDyeColorVanilla("orange", 0xF9801D, MapColor.ORANGE, 0xEB8844, 0xFF681F);

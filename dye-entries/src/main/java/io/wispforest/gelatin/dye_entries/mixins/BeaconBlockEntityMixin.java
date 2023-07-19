@@ -1,7 +1,6 @@
 package io.wispforest.gelatin.dye_entries.mixins;
 
 import io.wispforest.gelatin.dye_entries.block.ColoredGlassBlock;
-import io.wispforest.gelatin.dye_registry.ducks.DyeBlockStorage;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BeaconBlockEntity;
 import net.minecraft.util.math.BlockPos;
@@ -28,7 +27,7 @@ public class BeaconBlockEntityMixin {
     @ModifyVariable(method = "tick", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/util/DyeColor;getColorComponents()[F"))
     private static float[] allowForCustomDyeColor(float[] fs, World world, BlockPos blockPos, BlockState blockState, BeaconBlockEntity beaconBlockEntity) {
         if (world.getBlockState(currentBlockCheckPos).getBlock() instanceof ColoredGlassBlock coloredGlassBlock) {
-            return ((DyeBlockStorage) coloredGlassBlock).getDyeColorant().getColorComponents();
+            return coloredGlassBlock.getDyeColorant().getColorComponents();
         }
 
         return fs;

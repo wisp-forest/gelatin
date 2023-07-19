@@ -13,13 +13,10 @@ import java.util.List;
 
 public class DataConstants {
 
-    public static final TrackedData<Identifier> DYE_COLOR = DataTracker.registerData(LivingEntity.class, TrackedDataHandlerExtended.IDENTIFIER);
     public static final TrackedData<Byte> RAINBOW_MODE = DataTracker.registerData(LivingEntity.class, TrackedDataHandlerRegistry.BYTE);
-    public static final TrackedData<Integer> CONSTANT_COLOR = DataTracker.registerData(LivingEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    public static final TrackedData<Integer> COLOR_VALUE = DataTracker.registerData(LivingEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
-    public static final int DEFAULT_NULL_COLOR_VALUE = 0x1000000;
-
-    private static final List<String> NBT_CONSTANTS = new ArrayList<>(Arrays.asList("BaseDyeColor", "RainbowMode", "ConstantColor"));
+    private static final List<String> NBT_CONSTANTS = new ArrayList<>(Arrays.asList("BaseDyeColor", "RainbowMode", "ConstantColor", "ColoredValue"));
 
     public static String getDyeColorNbtKey() {
         return NBT_CONSTANTS.get(0);
@@ -31,6 +28,10 @@ public class DataConstants {
 
     public static String getConstantColorNbtKey() {
         return NBT_CONSTANTS.get(2);
+    }
+
+    public static String getColoredNbtkey() {
+        return NBT_CONSTANTS.get(3);
     }
 
 }

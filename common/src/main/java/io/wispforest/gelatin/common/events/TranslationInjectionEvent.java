@@ -2,7 +2,7 @@ package io.wispforest.gelatin.common.events;
 
 import io.wispforest.gelatin.common.misc.GelatinConstants;
 import io.wispforest.gelatin.common.data.LangInterface;
-import io.wispforest.gelatin.common.data.providers.ImplLangProvider;
+import io.wispforest.gelatin.common.util.LangUtils;
 import io.wispforest.gelatin.common.util.VersatileLogger;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
@@ -46,15 +46,15 @@ public class TranslationInjectionEvent {
         }
 
         public void addItem(Item item) {
-            addItem(item, ImplLangProvider.getAutomaticNameForEntry(item));
+            addItem(item, LangUtils.getAutomaticNameForEntry(item));
         }
 
         public void addBlock(Block block) {
-            addBlock(block, ImplLangProvider.getAutomaticNameForEntry(block));
+            addBlock(block, LangUtils.getAutomaticNameForEntry(block));
         }
 
         public void addEntityType(EntityType<?> entity) {
-            addEntityType(entity, ImplLangProvider.getAutomaticNameForEntry(entity));
+            addEntityType(entity, LangUtils.getAutomaticNameForEntry(entity));
         }
 
         @Override

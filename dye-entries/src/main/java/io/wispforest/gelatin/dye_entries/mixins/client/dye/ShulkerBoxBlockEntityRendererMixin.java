@@ -2,7 +2,7 @@ package io.wispforest.gelatin.dye_entries.mixins.client.dye;
 
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
-import io.wispforest.gelatin.dye_registry.ducks.DyeBlockEntityStorage;
+import io.wispforest.gelatin.dye_registry.ducks.DyeStorage;
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.client.render.TexturedRenderLayers;
 import net.minecraft.client.render.block.entity.ShulkerBoxBlockEntityRenderer;
@@ -27,7 +27,7 @@ public class ShulkerBoxBlockEntityRendererMixin {
 
     @ModifyVariable(method = "render(Lnet/minecraft/block/entity/ShulkerBoxBlockEntity;FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;II)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;push()V"))
     private SpriteIdentifier implementCustomColors(SpriteIdentifier spriteIdentifier, ShulkerBoxBlockEntity shulkerBoxBlockEntity) {
-        DyeColorant blockEntityDyeColorant = ((DyeBlockEntityStorage) shulkerBoxBlockEntity).getDyeColor();
+        DyeColorant blockEntityDyeColorant = ((DyeStorage) shulkerBoxBlockEntity).getDyeColorant();
 
         if (blockEntityDyeColorant != DyeColorantRegistry.NULL_VALUE_NEW && !DyeColorantRegistry.Constants.VANILLA_DYES.contains(blockEntityDyeColorant)) {
             color = blockEntityDyeColorant;

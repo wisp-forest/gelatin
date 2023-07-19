@@ -17,7 +17,6 @@
     "accessors.ShulkerBoxBlockEntityAccessor"
   ],
   "client": [
-    "client.ShulkerBoxBlockEntityRendererMixin",
     "client.SpriteAtlasTextureMixin",
     "client.SpriteInfoAccessor",
     "client.TextureStitcherAccessor",

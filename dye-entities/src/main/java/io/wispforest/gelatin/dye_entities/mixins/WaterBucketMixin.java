@@ -1,8 +1,8 @@
 package io.wispforest.gelatin.dye_entities.mixins;
 
-import io.wispforest.gelatin.dye_entities.ducks.DyeableEntity;
-import io.wispforest.gelatin.dye_entities.misc.EntityColorManipulators;
+import io.wispforest.gelatin.dye_entities.ducks.Colorable;
 import io.wispforest.gelatin.dye_entities.ducks.DyeEntityTool;
+import io.wispforest.gelatin.dye_entities.misc.EntityColorImplementations;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
@@ -27,7 +27,7 @@ public abstract class WaterBucketMixin extends Item implements DyeEntityTool {
 
     @Override
     public ActionResult attemptToDyeEntity(World world, PlayerEntity player, LivingEntity entity, ItemStack stack, Hand hand) {
-        if(!EntityColorManipulators.washEntityEvent((DyeableEntity) entity)) return ActionResult.PASS;
+        if(!EntityColorImplementations.washEntityEvent((Colorable) entity)) return ActionResult.PASS;
 
         if (!player.world.isClient) {
             player.setStackInHand(hand, ItemUsage.exchangeStack(stack, player, Items.BUCKET.getDefaultStack()));
