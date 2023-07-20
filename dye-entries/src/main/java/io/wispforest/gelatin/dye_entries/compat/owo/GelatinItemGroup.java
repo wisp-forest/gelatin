@@ -54,12 +54,13 @@ public class GelatinItemGroup extends OwoItemGroup {
             isDyedEntry = stack -> stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock().isDyed();
         }
 
-        List<ItemStack> dyedBlocks = stacks.stream().filter(isDyedEntry).collect(Collectors.toList());
+        List<ItemStack> sortableEntries = stacks.stream().filter(isDyedEntry).collect(Collectors.toList());
 
         stacks.removeIf(isDyedEntry);
 
-        DyeEntriesItemGroups.sortEntries(dyedBlocks, this.getSelectedTabIndex());
+        DyeEntriesItemGroups.sortEntries(sortableEntries, this.getSelectedTabIndex());
 
+        stacks.addAll(sortableEntries);
     }
 
     @Override
