@@ -58,45 +58,13 @@ public abstract class LivingEntityMixin implements Colorable {
 
             int oldColorValue = dyeColorant.getBaseColor();
 
-            if(oldColorValue == -1) colorValue = oldColorValue;
-        }
-
-        if(nbt.contains(DataConstants.getConstantColorNbtKey())){
-            int oldColorValue = getOrDefaultNbtColor(DataConstants.getConstantColorNbtKey(), nbt, -1);
-
-            nbt.remove(DataConstants.getConstantColorNbtKey());
-
-            if(oldColorValue != 0) colorValue = oldColorValue;
+            if(oldColorValue != -1) colorValue = oldColorValue;
         }
 
         //----
 
         ((LivingEntity) (Object) this).getDataTracker().set(RAINBOW_MODE, nbt.getByte(DataConstants.getRainbowNbtKey()));
         ((LivingEntity) (Object) this).getDataTracker().set(COLOR_VALUE, colorValue);
-    }
-
-    @Unique
-    private int getOrDefaultNbtInt(String key, NbtCompound nbt, int defaultValue) {
-        return nbt.contains(key) ? nbt.getInt(key) : defaultValue;
-    }
-
-    @Unique
-    private Integer getOrDefaultNbtColor(String key, NbtCompound nbt, int defaultValue) {
-        if (nbt.contains(key)) {
-            String string = nbt.getString(key);
-            int radix = 10;
-
-            if (string.startsWith("#")) {
-                string = string.replace('#', ' ').trim();
-                radix = 16;
-            }
-
-            try {
-                return Integer.parseInt(string, radix);
-            } catch (NumberFormatException ignore) {}
-        }
-
-        return defaultValue;
     }
 
     //------------
