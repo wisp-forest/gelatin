@@ -1,14 +1,11 @@
 package io.wispforest.gelatin.dye_entries.mixins;
 
-import io.wispforest.gelatin.dye_entries.mixins.client.dye.ModelLoaderMixin;
 import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.ModContainer;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 public class DyeEntriesMixinPlugin implements IMixinConfigPlugin {
@@ -18,15 +15,12 @@ public class DyeEntriesMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        Optional<ModContainer> newModelLoadingAPI = FabricLoader.getInstance().getModContainer("fabric-model-loading-api-v1");
-
         String[] pathParts = mixinClassName.split("\\.");
 
         String onlyMixinName = pathParts[pathParts.length - 1];
 
-        boolean bl = (newModelLoadingAPI.isPresent() && onlyMixinName.equals("ModelLoaderMixin"))
-                || (newModelLoadingAPI.isEmpty() && onlyMixinName.equals("NewModelLoaderMixin"))
-                || (!FabricLoader.getInstance().isModLoaded("sheepconsistency") && onlyMixinName.equals("onlyMixinName"));
+        boolean bl = (FabricLoader.getInstance().getModContainer("fabric-model-loading-api-v1").isPresent() && onlyMixinName.equals("ModelLoaderMixin"))
+                || (!FabricLoader.getInstance().isModLoaded("sheepconsistency") && onlyMixinName.equals("SheepShearedFeatureRendererMixin"));
 
         return !bl;
     }
