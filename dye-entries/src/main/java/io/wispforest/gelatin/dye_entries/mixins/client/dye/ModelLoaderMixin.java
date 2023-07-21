@@ -22,6 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import java.io.IOException;
 import java.util.*;
 
+@Deprecated
 @Mixin(ModelLoader.class)
 public abstract class ModelLoaderMixin {
 

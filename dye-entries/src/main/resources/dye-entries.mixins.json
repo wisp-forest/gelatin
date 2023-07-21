@@ -3,6 +3,7 @@
   "minVersion": "0.8",
   "package": "io.wispforest.gelatin.dye_entries.mixins",
   "compatibilityLevel": "JAVA_17",
+  "plugin": "io.wispforest.gelatin.dye_entries.mixins.DyeEntriesMixinPlugin",
   "mixins": [
     "AbstractBlockStateMixin",
     "AnimationAccessor",
@@ -23,9 +24,12 @@
     "client.TextureStitcherAccessor",
     "client.dye.BedBlockEntityRendererMixin",
     "client.dye.ModelLoaderMixin",
+    "client.model.NewModelLoaderMixin",
     "client.dye.SheepWoolFeatureRendererMixin",
     "client.dye.ShulkerBoxBlockEntityRendererMixin",
-    "client.dye.sheep_consistency.SheepShearedFeatureRendererMixin"
+    "client.dye.sheep_consistency.SheepShearedFeatureRendererMixin",
+    "client.model.ModelLoaderAccessor",
+    "client.model.ResourceFinderMixin"
   ],
   "injectors": {
     "defaultRequire": 1
