@@ -12,9 +12,6 @@ import java.util.Set;
 
 public class DyeVariantBuilder {
 
-    public static final Set<Identifier> IDENTIFIER_RESOURCE_REDIRECTS = new HashSet<>();
-    public static final Set<String> NAMESPACE_RESOURCE_REDIRECTS = new HashSet<>();
-
     /**
      * Creates a bunch of Dyed Variants of the inputted {@link DyeColorant}
      *
@@ -36,26 +33,6 @@ public class DyeVariantBuilder {
      */
     public static DyeableVariantManager.DyeColorantVariantData createDyedVariants(DyeColorant dyeColorant, Item.Settings itemSettings, boolean identifierModelRedirect) {
         return DyeableVariantManager.createVariantContainer(dyeColorant, itemSettings, identifierModelRedirect);
-    }
-
-    /**
-     * [Warning]: This a faster method to identifier Model Redirect but could cause issues loading some models.
-     * <p>
-     * Simple method to add your MODID within the Model Redirect System for your created Variants
-     *
-     * @param modid A string representing your mods Id
-     */
-    public static void registerModidModelRedirect(String modid) {
-        NAMESPACE_RESOURCE_REDIRECTS.add(modid);
-    }
-
-    @ApiStatus.Internal
-    public static boolean shouldRedirectModelResource(Identifier identifier) {
-        if (NAMESPACE_RESOURCE_REDIRECTS.contains(identifier.getNamespace())) {
-            return true;
-        }
-
-        return IDENTIFIER_RESOURCE_REDIRECTS.contains(identifier);
     }
 
     public static void initVanillaDyes() {

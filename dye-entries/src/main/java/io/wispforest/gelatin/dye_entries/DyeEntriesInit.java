@@ -1,6 +1,7 @@
 package io.wispforest.gelatin.dye_entries;
 
 import io.wispforest.gelatin.common.misc.GelatinConstants;
+import io.wispforest.gelatin.dye_entries.client.VariantModelRedirectStorage;
 import io.wispforest.gelatin.dye_entries.data.GelatinLootTables;
 import io.wispforest.gelatin.dye_entries.data.recipe.GelatinRecipeSerializers;
 import io.wispforest.gelatin.dye_entries.misc.DyeEntriesItemGroups;
@@ -29,7 +30,7 @@ public class DyeEntriesInit implements ModInitializer {
     public void onInitialize() {
         DyeEntriesItemGroups.init();
 
-        DyeVariantBuilder.registerModidModelRedirect(GelatinConstants.MODID);
+        VariantModelRedirectStorage.addValidModID(GelatinConstants.MODID);
 
         //----------------------------[Independent Api Stuff's]----------------------------
         DyeVariantBuilder.initVanillaDyes();
