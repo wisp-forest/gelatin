@@ -1,7 +1,7 @@
 package io.wispforest.jello.client;
 
 import io.wispforest.gelatin.common.events.HotbarMouseEvents;
-import io.wispforest.gelatin.dye_entries.utils.DyeVariantBuilder;
+import io.wispforest.gelatin.dye_entries.client.VariantModelRedirectStorage;
 import io.wispforest.gelatin.dye_entries.variants.DyeableVariantManager;
 import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
@@ -35,6 +35,7 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.BundleItem;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
@@ -56,7 +57,9 @@ public class JelloClient implements ClientModInitializer {
         DyeBundleStackScrollEvents.initClientTickEvent();
         DyeBundleTooltipRender.initEvents();
 
-        DyeVariantBuilder.registerModidModelRedirect(Jello.MODID);
+        VariantModelRedirectStorage.addValidModID(Jello.MODID);
+
+        VariantModelRedirectStorage.invalidateID(Registries.BLOCK.getId(JelloBlocks.SLIME_SLAB));
 
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
             dispatcher.register(

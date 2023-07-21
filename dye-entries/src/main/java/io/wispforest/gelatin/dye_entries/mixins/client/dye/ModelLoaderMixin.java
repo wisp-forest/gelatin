@@ -1,6 +1,7 @@
 package io.wispforest.gelatin.dye_entries.mixins.client.dye;
 
 import io.wispforest.gelatin.common.misc.GelatinConstants;
+import io.wispforest.gelatin.dye_entries.client.VariantModelRedirectStorage;
 import io.wispforest.gelatin.dye_entries.utils.DyeVariantBuilder;
 import io.wispforest.gelatin.dye_entries.variants.DyeableVariantRegistry;
 import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
@@ -82,7 +83,7 @@ public abstract class ModelLoaderMixin {
 
     @Inject(method = "addModel", at = @At("HEAD"), cancellable = true)
     private void checkIfModelIsRedirectable(ModelIdentifier modelId, CallbackInfo ci) {
-        if (DyeVariantBuilder.shouldRedirectModelResource(new Identifier(modelId.getNamespace(), modelId.getPath()))) {
+        if (VariantModelRedirectStorage.shouldRedirectModelResource(new Identifier(modelId.getNamespace(), modelId.getPath()))) {
             String[] stringParts = modelId.getPath().split("_");
 
             if (ALL_BLOCK_VARIANTS.isEmpty()) {

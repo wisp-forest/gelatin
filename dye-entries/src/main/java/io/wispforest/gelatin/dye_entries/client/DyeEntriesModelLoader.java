@@ -75,14 +75,14 @@ public class DyeEntriesModelLoader implements ModelResolver, BlockStateResolver 
 
                 Block defaultBlock = blockVariant.getDefaultEntry();
 
-                if(!defaultBlock.isDyed() && DyeVariantBuilder.shouldRedirectModelResource(Registries.BLOCK.getId(defaultBlock))){
+                if(!defaultBlock.isDyed() && VariantModelRedirectStorage.shouldRedirectModelResource(Registries.BLOCK.getId(defaultBlock))){
                     blocks.add(defaultBlock);
                 }
 
                 for (DyeColorant allColorant : DyeColorantRegistry.getAllColorants()) {
                     Block coloredBlock = blockVariant.getColoredEntry(allColorant);
 
-                    if(DyeVariantBuilder.shouldRedirectModelResource(Registries.BLOCK.getId(coloredBlock))){
+                    if(VariantModelRedirectStorage.shouldRedirectModelResource(Registries.BLOCK.getId(coloredBlock))){
                         blocks.add(coloredBlock);
                     }
                 }
@@ -105,7 +105,7 @@ public class DyeEntriesModelLoader implements ModelResolver, BlockStateResolver 
 
         Identifier baseEntryID = new Identifier(id.getNamespace(), isItemVersion ? id.getPath().replace("item/", "") : id.getPath());
 
-        if (!DyeVariantBuilder.shouldRedirectModelResource(baseEntryID) || !isItemVersion) return null;
+        if (!VariantModelRedirectStorage.shouldRedirectModelResource(baseEntryID) || !isItemVersion) return null;
 
         String[] stringParts = id.getPath().split("_");
 
@@ -182,7 +182,7 @@ public class DyeEntriesModelLoader implements ModelResolver, BlockStateResolver 
         for (Map.Entry<BlockState, ModelIdentifier> entry : statesToModelIDMap.entrySet()) {
             ModelIdentifier modelId = entry.getValue();
 
-            if (!DyeVariantBuilder.shouldRedirectModelResource(new Identifier(modelId.getNamespace(), modelId.getPath()))) {
+            if (!VariantModelRedirectStorage.shouldRedirectModelResource(new Identifier(modelId.getNamespace(), modelId.getPath()))) {
                 return;
             }
 

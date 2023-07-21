@@ -1,6 +1,7 @@
 package io.wispforest.gelatin.dye_entries.variants;
 
 import io.wispforest.gelatin.common.util.ItemFunctions;
+import io.wispforest.gelatin.dye_entries.client.VariantModelRedirectStorage;
 import io.wispforest.gelatin.dye_entries.variants.impl.VanillaItemVariants;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
@@ -220,7 +221,7 @@ public class DyeableVariantManager {
         }
 
         private void addToModelRedirectSystem(Identifier identifier){
-            if (this.useModelRedirectSystem) DyeVariantBuilder.IDENTIFIER_RESOURCE_REDIRECTS.add(identifier);
+            if (this.useModelRedirectSystem) VariantModelRedirectStorage.addValidID(identifier);
         }
 
         private boolean isReadOnly(DyeableBlockVariant variant){
@@ -294,8 +295,7 @@ public class DyeableVariantManager {
         }
 
         private void addToModelRedirectSystem(Identifier identifier){
-            if (this.useModelRedirectSystem)
-                DyeVariantBuilder.IDENTIFIER_RESOURCE_REDIRECTS.add(identifier);
+            if (this.useModelRedirectSystem) VariantModelRedirectStorage.invalidateID(identifier);
         }
 
         private boolean isReadOnly(DyeableItemVariant variant){
