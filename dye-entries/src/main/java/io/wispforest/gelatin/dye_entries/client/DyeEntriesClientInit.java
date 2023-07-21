@@ -20,6 +20,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ShulkerBoxBlock;
@@ -36,16 +37,17 @@ import net.minecraft.util.math.BlockPos;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 public class DyeEntriesClientInit implements ClientModInitializer {
 
     public static final Identifier BED_BLANKET_ONLY = GelatinConstants.id("block/bed/blanket_only");
     public static final Identifier BED_PILLOW_ONLY = GelatinConstants.id("block/bed/pillow_only");
 
-    private static final RenderLayer TRANSLUCENT = RenderLayer.getTranslucent();
-
     @Override
     public void onInitializeClient() {
+        if(FabricLoader.getInstance().isModLoaded("fabric-model-loading-api-v1")) DyeEntriesModelLoader.init();
+
         DyeEntriesItemGroups.itemGroupInit.run();
 
         if (FabricLoader.getInstance().isModLoaded("continuity")) {
@@ -58,13 +60,9 @@ public class DyeEntriesClientInit implements ClientModInitializer {
 
         TranslationInjectionEvent.AFTER_LANGUAGE_LOAD.register(helper -> {
             for (DyeableVariantManager.DyeColorantVariantData dyedVariant : DyeableVariantManager.getVariantMap().values()) {
-                for (Block block : dyedVariant.dyedBlocks().values()) {
-                    helper.addBlock(block);
-                }
+                for (Block block : dyedVariant.dyedBlocks().values()) helper.addBlock(block);
 
-                for (Item item : dyedVariant.dyedItems().values()) {
-                    helper.addItem(item);
-                }
+                for (Item item : dyedVariant.dyedItems().values()) helper.addItem(item);
             }
 
             DyeableVariantRegistry.getAllBlockVariants().stream().filter(dyeableBlockVariant -> !dyeableBlockVariant.alwaysReadOnly() && dyeableBlockVariant.createBlockItem()).forEach(dyeableBlockVariant -> {
@@ -79,58 +77,50 @@ public class DyeEntriesClientInit implements ClientModInitializer {
         GrayScaleBlockRegistry.register(Blocks.GLOWSTONE);
     }
 
-
-
     public static void registerColorProvidersForBlockVariants() {
         for (Map.Entry<DyeColorant, DyeableVariantManager.DyeColorantVariantData> dyedContainerEntry : DyeableVariantManager.getVariantMap().entrySet()) {
             for (Map.Entry<DyeableBlockVariant, Block> blockVariantEntry : dyedContainerEntry.getValue().dyedBlocks().entrySet()) {
                 Block block = blockVariantEntry.getValue();
 
+                boolean bl = Objects.equals(Registries.BLOCK.getId(block).getNamespace(), "minecraft")
+                        || blockVariantEntry.getKey().alwaysReadOnly()
+                        || !(block instanceof BlockColorProvider);
+
                 // Remove blocks that are being handled by Minecraft i.e Vanilla blocks
-                if(!Objects.equals(Registries.BLOCK.getId(block).getNamespace(), "minecraft")) {
+                // or Read only block Variants are handled by the mod inwhich added them
+                // or remove any blocks that don't have Color providers
+                if(bl) continue;
 
-                    //Read only block Variants are handled by the mod inwhich add them and remove any blocks that don't have Color providers
-                    if (!blockVariantEntry.getKey().alwaysReadOnly() && block instanceof BlockColorProvider) {
-                        if (block instanceof ColoredGlassBlock || block instanceof ColoredGlassPaneBlock) {
-                            registerBlockLayer(block, RenderLayer.getTranslucent());
-                            registerBlockItemLayer(block.asItem(), RenderLayer.getTranslucent());
-                        } else if (block instanceof ShulkerBoxBlock) {
-                            BuiltinItemRendererRegistry.INSTANCE.register(block, (stack, mode, matrices, vertexConsumers, light, overlay) -> {
-                                ShulkerBoxBlockEntity shulkerBoxBlockEntity = new ShulkerBoxBlockEntity(DyeColorantRegistry.Constants.NULL_VALUE_OLD, BlockPos.ORIGIN, block.getDefaultState());
+                if (block instanceof ColoredGlassBlock || block instanceof ColoredGlassPaneBlock) {
+                    BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getTranslucent());
+                    //BlockRenderLayerMap.INSTANCE.putItem(block.asItem(), RenderLayer.getTranslucent());
+                } else if (block instanceof ShulkerBoxBlock) {
+                    BuiltinItemRendererRegistry.INSTANCE.register(block, (stack, mode, matrices, vertexConsumers, light, overlay) -> {
+                        ShulkerBoxBlockEntity shulkerBoxBlockEntity = new ShulkerBoxBlockEntity(DyeColorantRegistry.Constants.NULL_VALUE_OLD, BlockPos.ORIGIN, block.getDefaultState());
 
-                                MinecraftClient.getInstance().getBlockEntityRenderDispatcher().get(shulkerBoxBlockEntity).render(shulkerBoxBlockEntity, 0.0F, matrices, vertexConsumers, light, overlay);
-                            });
-                        }
+                        MinecraftClient.getInstance().getBlockEntityRenderDispatcher()
+                                .get(shulkerBoxBlockEntity)
+                                .render(shulkerBoxBlockEntity, 0.0F, matrices, vertexConsumers, light, overlay);
+                    });
+                }
 
-                        ColorProviderRegistry.BLOCK.register((BlockColorProvider) block, block);
+                ColorProviderRegistry.BLOCK.register((BlockColorProvider) block, block);
 
-                        if (blockVariantEntry.getKey().createBlockItem() && block.asItem() instanceof ItemColorProvider) {
-                            ColorProviderRegistry.ITEM.register((ItemColorProvider) block.asItem(), block.asItem());
-                        }
-                    }
+                if (blockVariantEntry.getKey().createBlockItem() && block.asItem() instanceof ItemColorProvider) {
+                    ColorProviderRegistry.ITEM.register((ItemColorProvider) block.asItem(), block.asItem());
                 }
             }
 
             //-----------------------------------------------------------
 
             // Stop client side registry from touching Minecraft Dyes
-            if(!Objects.equals(dyedContainerEntry.getKey().getId().getNamespace(), "minecraft")) {
-                Item dyeItem = dyedContainerEntry.getValue().dyeItem();
+            if(Objects.equals(dyedContainerEntry.getKey().getId().getNamespace(), "minecraft")) continue;
 
-                ColorProviderRegistry.ITEM.register((GelatinDyeItem)dyeItem, dyeItem);
+            Item dyeItem = dyedContainerEntry.getValue().dyeItem();
 
-                ModelPredicateProviderRegistry.register(dyeItem, new Identifier("variant"), (stack, world, entity, seed) -> GelatinDyeItem.getTextureVariant(stack));
-            }
+            ColorProviderRegistry.ITEM.register((GelatinDyeItem)dyeItem, dyeItem);
+
+            ModelPredicateProviderRegistry.register(dyeItem, new Identifier("variant"), (stack, world, entity, seed) -> GelatinDyeItem.getTextureVariant(stack));
         }
-    }
-
-
-
-    private static void registerBlockLayer(Block block, RenderLayer renderLayer){
-        BlockRenderLayerMap.INSTANCE.putBlock(block, renderLayer);
-    }
-
-    private static void registerBlockItemLayer(Item blockItem, RenderLayer renderLayer){
-        BlockRenderLayerMap.INSTANCE.putItem(blockItem, renderLayer);
     }
 }
