@@ -24,12 +24,10 @@
     "client.TextureStitcherAccessor",
     "client.dye.BedBlockEntityRendererMixin",
     "client.dye.ModelLoaderMixin",
-    "client.model.NewModelLoaderMixin",
     "client.dye.SheepWoolFeatureRendererMixin",
     "client.dye.ShulkerBoxBlockEntityRendererMixin",
     "client.dye.sheep_consistency.SheepShearedFeatureRendererMixin",
-    "client.model.ModelLoaderAccessor",
-    "client.model.ResourceFinderMixin"
+    "client.model.ModelLoaderAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
