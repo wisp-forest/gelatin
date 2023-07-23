@@ -6,9 +6,14 @@ import io.wispforest.gelatin.dye_entries.compat.condensedCreative.GelatinCCEntry
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.item.JelloItems;
+import io.wispforest.jello.item.jellocup.JelloCupItem;
 import io.wispforest.jello.misc.JelloBlockVariants;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.*;
+import net.minecraft.registry.Registries;
+import net.minecraft.resource.featuretoggle.FeatureFlag;
+import net.minecraft.resource.featuretoggle.FeatureFlags;
+import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.text.Text;
 
 import java.util.ArrayList;
@@ -49,5 +54,21 @@ public class JelloCCEntrypoint implements CondensedCreativeInitializer {
                 .setTitleSupplier(() -> Text.translatable("slime_blocks_condensed"))
                 .addToItemGroup(ItemGroups.REDSTONE);
 
+        List<ItemStack> itemStacks = new ArrayList<>();
+
+        Registries.ITEM.stream()
+                .filter(item -> item instanceof JelloCupItem)
+                .map(item -> ((JelloCupItem) item))
+                .forEach(item -> {
+                    ItemGroup.EntriesImpl entries = new ItemGroup.EntriesImpl(ItemGroups.FOOD_AND_DRINK, FeatureFlags.DEFAULT_ENABLED_FEATURES);
+
+                    item.addItems(null, entries);
+
+                    itemStacks.addAll(entries.parentTabStacks);
+                });
+
+        CondensedEntryRegistry.fromItemStacks(Jello.id("jello_cups"), itemStacks.get(0), itemStacks)
+                //.setTitleSupplier(() -> Text.translatable("jello_cups"))
+                .addToItemGroup(ItemGroups.FOOD_AND_DRINK);
     }
 }

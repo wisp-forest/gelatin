@@ -294,7 +294,7 @@ public class JelloItems implements ItemRegistryContainer {
         private static JelloCupItem createJelloCup(DyeColorant dyeColor) {
             return new JelloCupItem(
                     dyeColor,
-                    ItemFunctions.copyFrom(new JelloItemSettings().group(ItemGroups.FOOD_AND_DRINK).rarity(Rarity.UNCOMMON).maxCount(16).fireproof()).food(createJelloBase().build()));
+                    new JelloItemSettings().group(ItemGroups.FOOD_AND_DRINK).rarity(Rarity.UNCOMMON).maxCount(16).fireproof().food(createJelloBase().build()));
         }
 
         private static FoodComponent.Builder createJelloBase() {
