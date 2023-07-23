@@ -2,24 +2,34 @@ package io.wispforest.jello.misc;
 
 import io.wispforest.gelatin.dye_entries.data.GelatinLootTables;
 import io.wispforest.gelatin.dye_entries.item.ColoredBlockItem;
+import io.wispforest.gelatin.dye_entries.misc.DyeEntriesItemGroups;
 import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
 import io.wispforest.jello.Jello;
+import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.block.SlimeBlockColored;
 import io.wispforest.jello.block.SlimeSlabColored;
 import io.wispforest.jello.data.JelloTags;
+import io.wispforest.jello.item.JelloItems;
+import io.wispforest.owo.itemgroup.OwoItemGroup;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemGroups;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
+
+import java.rmi.registry.Registry;
 
 public class JelloBlockVariants {
 
     private static final Item.Settings itemSettings = new OwoItemSettings()
-            /*.group(ItemGroup.REDSTONE)*/
-            .tab(2)
+            .group((OwoItemGroup) DyeEntriesItemGroups.getItemGroup.apply(1))
+//            .group(ItemGroup)
+            .tab(1)
             .maxCount(64);
 
     public static final DyeableBlockVariant SLIME_BLOCK = new DyeableBlockVariant(Jello.id("slime_block"), itemSettings, (dyeColorant, parentBlock) -> {
@@ -40,5 +50,11 @@ public class JelloBlockVariants {
 //    }).setDefaultEntry(new Identifier("glowstone"))
 //    .register();
 
-    public static void initialize() {}
+    public static void initialize() {
+        ItemGroupEvents.MODIFY_ENTRIES_ALL.register((group, entries) -> {
+            if(group != Registries.ITEM_GROUP.get(ItemGroups.REDSTONE)) return;
+
+            entries.add(JelloBlocks.SLIME_SLAB.asItem());
+        });
+    }
 }
