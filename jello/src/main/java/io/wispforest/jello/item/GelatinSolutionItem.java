@@ -1,6 +1,9 @@
 package io.wispforest.jello.item;
 
 import io.wispforest.jello.misc.JelloPotions;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvironmentInterface;
 import net.minecraft.client.color.item.ItemColorProvider;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.effect.StatusEffect;
@@ -21,6 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@EnvironmentInterface(value = EnvType.CLIENT, itf = ItemColorProvider.class)
 public class GelatinSolutionItem extends Item implements ItemColorProvider {
 
     private static final Text NONE_TEXT = Text.translatable("effect.none").formatted(Formatting.GRAY);
@@ -35,6 +39,7 @@ public class GelatinSolutionItem extends Item implements ItemColorProvider {
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
     public int getColor(ItemStack stack, int tintIndex) {
         if(tintIndex == 0) return -1;
 
