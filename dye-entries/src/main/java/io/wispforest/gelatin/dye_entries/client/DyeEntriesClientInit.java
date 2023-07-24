@@ -48,8 +48,6 @@ public class DyeEntriesClientInit implements ClientModInitializer {
     public void onInitializeClient() {
         if(FabricLoader.getInstance().isModLoaded("fabric-model-loading-api-v1")) DyeEntriesModelLoader.init();
 
-        DyeEntriesItemGroups.itemGroupInit.run();
-
         if (FabricLoader.getInstance().isModLoaded("continuity")) {
             FabricLoader.getInstance().getModContainer("dye_block_and_item").ifPresent(container -> {
                 ResourceManagerHelper.registerBuiltinResourcePack(GelatinConstants.id("continuity_comp"), container, ResourcePackActivationType.NORMAL);

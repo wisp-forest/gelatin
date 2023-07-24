@@ -30,6 +30,8 @@ public class DyeEntriesInit implements ModInitializer {
     public void onInitialize() {
         DyeEntriesItemGroups.init();
 
+        DyeEntriesItemGroups.itemGroupInit.run();
+
         VariantModelRedirectStorage.addValidModID(GelatinConstants.MODID);
 
         //----------------------------[Independent Api Stuff's]----------------------------
