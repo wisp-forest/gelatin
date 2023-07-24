@@ -1,0 +1,1 @@
+Gelatin 1.0.1 fixes class loading issue and client side mixin problem
