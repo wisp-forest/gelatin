@@ -1,1 +1,1 @@
-Initial Release of Gelatin for Minecraft 1.19.2 with such bringing a evolution of Jellos orignal implemnation of API's. More info can be found on the Github Wiki and an update to docs will come within the future.
+Gelatin 1.0.1 fixes class loading issue and client side mixin problem
