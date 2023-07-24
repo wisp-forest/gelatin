@@ -1,7 +1,6 @@
 package io.wispforest.jello.mixins;
 
 import io.wispforest.gelatin.dye_registry.DyeColorant;
-import io.wispforest.jello.block.JelloBlocks;
 import io.wispforest.jello.data.JelloTags;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.SlabType;
@@ -23,11 +22,9 @@ public abstract class PistonHandlerMixin {
     @Shadow @Final private Direction motionDirection;
     @Shadow @Final private BlockPos posFrom;
 
-    @Shadow
-    protected abstract boolean tryMove(BlockPos pos, Direction dir);
+    @Shadow protected abstract boolean tryMove(BlockPos pos, Direction dir);
 
-    @Shadow
-    private static boolean isAdjacentBlockStuck(BlockState state, BlockState adjacentState) {
+    @Shadow private static boolean isAdjacentBlockStuck(BlockState state, BlockState adjacentState) {
         return false;
     }
 
@@ -48,44 +45,28 @@ public abstract class PistonHandlerMixin {
         boolean bl1 = state.isIn(JelloTags.Blocks.STICKY_BLOCKS);
         boolean bl2 = adjacentState.isIn(JelloTags.Blocks.STICKY_BLOCKS);
 
-        boolean returnValue = false;
+        Boolean returnValue = null;
 
         if(bl1 && bl2){
-            DyeColorant dyeColorant1 = block1.getDyeColorant();
-            DyeColorant dyeColorant2 = block2.getDyeColorant();
+            DyeColorant dye1 = block1.getDyeColorant();
+            DyeColorant dye2 = block2.getDyeColorant();
 
-            if(block1 == block2){
-                returnValue = true;
-            } else if(dyeColorant1 == dyeColorant2){
-                if(!(dyeColorant1.nullColorCheck() && (crossCompareToHoney(state, adjacentState) || crossCompareToHoney(adjacentState, state)))){
-                    returnValue = true;
-                }
-            }
+            returnValue = block1 == block2 || (dye1 == dye2 && !(dye2.nullColorCheck() && isNotHoneySticking(state, adjacentState)));
         } else if(bl1 || bl2) {
             returnValue = true;
         }
 
-        if(returnValue) cir.setReturnValue(true);
+        if(returnValue != null) cir.setReturnValue(returnValue);
     }
 
-    private static boolean crossCompareToHoney(BlockState state, BlockState adjacentState){
+    @Unique
+    private static boolean isNotHoneySticking(BlockState state, BlockState adjacentState){
+        return checkAndCompareHoney(state, adjacentState) || checkAndCompareHoney(adjacentState, state);
+    }
+
+    @Unique
+    private static boolean checkAndCompareHoney(BlockState state, BlockState adjacentState){
         return state.isOf(Blocks.HONEY_BLOCK) && !adjacentState.isOf(Blocks.HONEY_BLOCK);
-    }
-
-    @Unique
-    private static boolean isSlimeOrHoneyBlock(BlockState state) {
-        return state.isOf(Blocks.HONEY_BLOCK) || state.isOf(Blocks.SLIME_BLOCK) || state.isOf(JelloBlocks.SLIME_SLAB);
-    }
-
-    @Unique
-    private static boolean isCustomSlimeBlock(BlockState state) {
-        return state.isIn(JelloTags.Blocks.COLORED_SLIME_BLOCKS) || state.isIn(JelloTags.Blocks.COLORED_SLIME_SLABS);
-    }
-
-    @Unique
-    private static boolean isDefaultStickyBlock(BlockState state, BlockState adjacentState) {
-        return state.isOf(JelloBlocks.SLIME_SLAB) || state.isOf(Blocks.SLIME_BLOCK)
-                && adjacentState.isOf(JelloBlocks.SLIME_SLAB) || adjacentState.isOf(Blocks.SLIME_BLOCK);
     }
 
     //----------------------------------------------------------------------------//
@@ -94,25 +75,17 @@ public abstract class PistonHandlerMixin {
     private void firstBlockCulling(CallbackInfoReturnable<Boolean> cir, BlockState blockState) {
         if (!blockState.isIn(JelloTags.Blocks.SLIME_SLABS) /*&& !blockState.contains(SlabBlock.TYPE)*/) return;
 
-        Direction pistionDir = getPistonDirection();
+        Direction pistionDir = world.getBlockState(posFrom).get(FacingBlock.FACING);
 
-        if ((motionDirection == Direction.DOWN && pistionDir == Direction.UP) && blockState.get(SlabBlock.TYPE) == SlabType.TOP) {
-            cir.setReturnValue(true);
-        }
+        boolean bl = ((motionDirection == Direction.DOWN && pistionDir == Direction.UP) && blockState.get(SlabBlock.TYPE) == SlabType.TOP)
+                || ((motionDirection == Direction.UP && pistionDir == Direction.DOWN) && blockState.get(SlabBlock.TYPE) == SlabType.BOTTOM);
 
-        if ((motionDirection == Direction.UP && pistionDir == Direction.DOWN) && blockState.get(SlabBlock.TYPE) == SlabType.BOTTOM) {
-            cir.setReturnValue(true);
-        }
-    }
-
-    @Unique
-    private Direction getPistonDirection() {
-        return world.getBlockState(posFrom).get(FacingBlock.FACING);
+        if(bl) cir.setReturnValue(true);
     }
 
     //----------------------------------------------------------------------------//
 
-    @Unique private boolean setToAir = false;
+    @Unique private boolean gelatin$setToAir = false;
 
     @Inject(method = "tryMove", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/BlockState;", ordinal = 1, shift = At.Shift.BY, by = 2), locals = LocalCapture.CAPTURE_FAILHARD)
     private void secondBlockCulling(BlockPos pos, Direction dir, CallbackInfoReturnable<Boolean> cir, BlockState blockState, int i, BlockPos blockPos) {
@@ -121,31 +94,31 @@ public abstract class PistonHandlerMixin {
         BlockPos blockPos2 = pos.offset(this.motionDirection.getOpposite(), i - 1);
         BlockState blockState2 = world.getBlockState(blockPos2);
 
-        setToAir = false;
+        gelatin$setToAir = false;
 
         //--------------------------\/--\/--\/------------------------------\\
         if (blockState2.isIn(JelloTags.Blocks.SLIME_SLABS) /*|| blockState2.contains(SlabBlock.TYPE)*/) {
             if (motionDirection == Direction.DOWN && blockState2.get(SlabBlock.TYPE) == SlabType.BOTTOM) {
-                setToAir = true;
+                gelatin$setToAir = true;
             }
             if (motionDirection == Direction.UP && blockState2.get(SlabBlock.TYPE) == SlabType.TOP) {
-                setToAir = true;
+                gelatin$setToAir = true;
             }
 
             if (blockState.isIn(JelloTags.Blocks.SLIME_SLABS) /*|| blockState.contains(SlabBlock.TYPE)*/) {
                 if (motionDirection.getId() >= 2) {
                     if (blockState2.get(SlabBlock.TYPE) == SlabType.BOTTOM && blockState.get(SlabBlock.TYPE) == SlabType.TOP) {
-                        setToAir = true;
+                        gelatin$setToAir = true;
                     }
                     if (blockState2.get(SlabBlock.TYPE) == SlabType.TOP && blockState.get(SlabBlock.TYPE) == SlabType.BOTTOM) {
-                        setToAir = true;
+                        gelatin$setToAir = true;
                     }
                 }
                 if (motionDirection == Direction.UP && blockState.get(SlabBlock.TYPE) == SlabType.BOTTOM) {
-                    setToAir = true;
+                    gelatin$setToAir = true;
                 }
                 if (motionDirection == Direction.DOWN && blockState.get(SlabBlock.TYPE) == SlabType.TOP) {
-                    setToAir = true;
+                    gelatin$setToAir = true;
                 }
             }
         }
@@ -153,13 +126,14 @@ public abstract class PistonHandlerMixin {
 
     @ModifyVariable(method = "tryMove", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/BlockState;", shift = At.Shift.BY, by = 2, ordinal = 1), ordinal = 0)
     private BlockState setBlockState(BlockState state) {
-        return setToAir ? Blocks.AIR.getDefaultState() : state;
+        return gelatin$setToAir ? Blocks.AIR.getDefaultState() : state;
     }
 
     //----------------------------------------------------------------------------//
 
-    ThreadLocal<SlabType> slabType = ThreadLocal.withInitial(() -> null);
-    ThreadLocal<SlabType> slabType2 = ThreadLocal.withInitial(() -> null);
+
+    @Unique private final ThreadLocal<SlabType> gelatin$slabType = ThreadLocal.withInitial(() -> null);
+    @Unique private final ThreadLocal<SlabType> gelatin$slabType2 = ThreadLocal.withInitial(() -> null);
 
     /**
      * @author dragon_seeker
@@ -171,12 +145,12 @@ public abstract class PistonHandlerMixin {
 
         for (Direction direction : Direction.values()) {
             if (blockState.isIn(JelloTags.Blocks.SLIME_SLABS)/* || blockState.contains(SlabBlock.TYPE)*/) {
-                slabType.set(blockState.get(SlabBlock.TYPE));
+                gelatin$slabType.set(blockState.get(SlabBlock.TYPE));
 
                 if (motionDirection.getId() >= 2) {
-                    if (slabType.get() == SlabType.BOTTOM && direction == Direction.UP) {
+                    if (gelatin$slabType.get() == SlabType.BOTTOM && direction == Direction.UP) {
                         continue;
-                    } else if (slabType.get() == SlabType.TOP && direction == Direction.DOWN) {
+                    } else if (gelatin$slabType.get() == SlabType.TOP && direction == Direction.DOWN) {
                         continue;
                     }
                 }
@@ -187,18 +161,18 @@ public abstract class PistonHandlerMixin {
                 BlockState blockState2 = this.world.getBlockState(blockPos);
 
                 if (blockState2.isIn(JelloTags.Blocks.SLIME_SLABS) /*|| blockState2.contains(SlabBlock.TYPE)*/) {
-                    slabType2.set(blockState2.get(SlabBlock.TYPE));
+                    gelatin$slabType2.set(blockState2.get(SlabBlock.TYPE));
 
                     if (direction.getId() >= 2) {
-                        if (slabType.get() == SlabType.TOP && slabType2.get() == SlabType.BOTTOM) {
+                        if (gelatin$slabType.get() == SlabType.TOP && gelatin$slabType2.get() == SlabType.BOTTOM) {
                             continue;
-                        } else if (slabType.get() == SlabType.BOTTOM && slabType2.get() == SlabType.TOP) {
+                        } else if (gelatin$slabType.get() == SlabType.BOTTOM && gelatin$slabType2.get() == SlabType.TOP) {
                             continue;
                         }
                     }
 
-                    if (direction == Direction.DOWN && slabType2.get() == SlabType.BOTTOM) continue;
-                    if (direction == Direction.UP && slabType2.get() == SlabType.TOP) continue;
+                    if (direction == Direction.DOWN && gelatin$slabType2.get() == SlabType.BOTTOM) continue;
+                    if (direction == Direction.UP && gelatin$slabType2.get() == SlabType.TOP) continue;
                 }
 
                 if (isAdjacentBlockStuck(blockState2, blockState) && !this.tryMove(blockPos, direction)) {
