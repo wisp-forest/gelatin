@@ -3,14 +3,14 @@
   "minVersion": "0.8",
   "package": "io.wispforest.gelatin.dye_registry.mixins",
   "compatibilityLevel": "JAVA_17",
-  "mixins": [],
-  "client": [
+  "mixins": [
     "BlockMixin",
     "DyeColorEnumMixin",
     "FireworkStarItemMixin",
     "item.DyeItemMixin",
     "item.ItemMixin"
   ],
+  "client": [],
   "injectors": {
     "defaultRequire": 1
   }
