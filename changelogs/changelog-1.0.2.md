@@ -1,0 +1,1 @@
+Gelatin 1.0.2 fixes polymer issue due to the requirement of initializing owoItemGroups on the server
