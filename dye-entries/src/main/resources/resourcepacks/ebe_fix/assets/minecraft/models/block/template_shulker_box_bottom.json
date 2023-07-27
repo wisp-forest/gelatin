@@ -1,0 +1,31 @@
+{
+	"parent": "block/block",
+	"texture_size": [64, 64],
+	"textures": {
+		"particle": "#shulker"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 8, 16],
+			"faces": {
+				"north": {"uv": [4, 11, 8, 13], "texture": "#shulker", "cullface": "north", "tintindex": 1},
+				"east": {"uv": [0, 11, 4, 13], "texture": "#shulker", "cullface": "east", "tintindex": 1},
+				"south": {"uv": [12, 11, 16, 13], "texture": "#shulker", "cullface": "south", "tintindex": 1},
+				"west": {"uv": [8, 11, 12, 13], "texture": "#shulker", "cullface": "west", "tintindex": 1},
+				"down": {"uv": [8, 7, 12, 11], "texture": "#shulker", "cullface": "down", "tintindex": 1}
+			}
+		},
+		{
+			"from": [15.95, 0.05, 0.05],
+			"to": [0.05, 8, 15.95],
+			"faces": {
+				"north": {"uv": [8, 11, 4, 13], "texture": "#shulker", "tintindex": 1},
+				"east": {"uv": [4, 11, 0, 13], "texture": "#shulker", "tintindex": 1},
+				"south": {"uv": [16, 11, 12, 13], "texture": "#shulker", "tintindex": 1},
+				"west": {"uv": [12, 11, 8, 13], "texture": "#shulker", "tintindex": 1},
+				"down": {"uv": [8, 7, 12, 11], "texture": "#shulker", "tintindex": 1}
+			}
+		}
+	]
+}

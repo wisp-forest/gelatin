@@ -1,5 +1,6 @@
 package io.wispforest.gelatin.dye_entries.client;
 
+import com.mojang.logging.LogUtils;
 import io.wispforest.gelatin.common.events.TranslationInjectionEvent;
 import io.wispforest.gelatin.common.misc.GelatinConstants;
 import io.wispforest.gelatin.common.util.LangUtils;
@@ -34,12 +35,15 @@ import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import org.slf4j.Logger;
 
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
 public class DyeEntriesClientInit implements ClientModInitializer {
+
+    public static Logger LOGGER = LogUtils.getLogger();
 
     public static final Identifier BED_BLANKET_ONLY = GelatinConstants.id("block/bed/blanket_only");
     public static final Identifier BED_PILLOW_ONLY = GelatinConstants.id("block/bed/pillow_only");
@@ -49,8 +53,18 @@ public class DyeEntriesClientInit implements ClientModInitializer {
         if(FabricLoader.getInstance().isModLoaded("fabric-model-loading-api-v1")) DyeEntriesModelLoader.init();
 
         if (FabricLoader.getInstance().isModLoaded("continuity")) {
-            FabricLoader.getInstance().getModContainer("dye_block_and_item").ifPresent(container -> {
-                ResourceManagerHelper.registerBuiltinResourcePack(GelatinConstants.id("continuity_comp"), container, ResourcePackActivationType.NORMAL);
+            FabricLoader.getInstance().getModContainer("gelatin-dye-entries").ifPresent(container -> {
+                boolean bl = ResourceManagerHelper.registerBuiltinResourcePack(GelatinConstants.id("continuity_comp"), container, ResourcePackActivationType.NORMAL);
+
+                if(!bl) LOGGER.warn("[Gelatin]: Unable to create the Builtin Resource Pack for continuity which is needed for supporting such with the Colored Glass!");
+            });
+        }
+
+        if (FabricLoader.getInstance().isModLoaded("enhancedblockentities")) {
+            FabricLoader.getInstance().getModContainer("gelatin-dye-entries").ifPresent(container -> {
+                boolean bl = ResourceManagerHelper.registerBuiltinResourcePack(GelatinConstants.id("ebe_fix"), container, ResourcePackActivationType.ALWAYS_ENABLED);
+
+                if(!bl) LOGGER.error("[Gelatin]: Unable to create the Builtin Resource Pack for EBE which will lead to issues with Shulker Box Item Rendering!");
             });
         }
 

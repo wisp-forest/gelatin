@@ -77,6 +77,8 @@ allprojects {
 			url "https://maven.terraformersmc.com/releases/"
 			content {includeGroup "com.terraformersmc" }
 		}
+		maven { url = "https://ueaj.dev/maven/" }
+		maven { url = "https://maven.gegy.dev/" }
 		mavenLocal()
 		mavenCentral()
 	}
@@ -87,7 +89,8 @@ allprojects {
 		modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
 
 		modCompileOnly('com.google.code.findbugs:jsr305:3.0.2')
-		modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
+		modCompileOnly("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
+		modLocalRuntime("net.fabricmc.fabric-api:fabric-api:0.85.0+1.20.1")
 
 		//-----------------
 
@@ -127,6 +130,11 @@ allprojects {
 		})
 
 		modCompileOnly modLocalRuntime("com.terraformersmc:modmenu:${project.modmenu}")
+
+		//modImplementation modLocalRuntime("maven.modrinth:carpet:${project.carpet}")
+
+		modImplementation modLocalRuntime("foundationgames:EnhancedBlockEntities:${project.ebe}")
+		modLocalRuntime("net.devtech:arrp:0.6.7")
 
 		//-----------------
 		// Local Mods
