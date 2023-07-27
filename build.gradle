@@ -133,8 +133,8 @@ allprojects {
 
 		//modImplementation modLocalRuntime("maven.modrinth:carpet:${project.carpet}")
 
-		modImplementation modLocalRuntime("foundationgames:EnhancedBlockEntities:${project.ebe}")
-		modLocalRuntime("net.devtech:arrp:0.6.7")
+		//modImplementation modLocalRuntime("maven.modrinth.ebe:${project.ebe}")
+		//modLocalRuntime("net.devtech:arrp:0.6.7")
 
 		//-----------------
 		// Local Mods
