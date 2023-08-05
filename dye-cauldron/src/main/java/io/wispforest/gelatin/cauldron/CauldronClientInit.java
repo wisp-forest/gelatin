@@ -23,7 +23,7 @@ public class CauldronClientInit implements ClientModInitializer {
             ResourceManagerHelper.registerBuiltinResourcePack(GelatinConstants.id("cauldron_cull_fix"), container, ResourcePackActivationType.DEFAULT_ENABLED);
         });
 
-        CommonInit.getConfig().addCauldronFixSubscriber(CauldronClientInit::toggleRenderLayer);
+        CommonInit.getConfig().observeCauldronFix(CauldronClientInit::toggleRenderLayer);
 
         ColorProviderRegistry.BLOCK.register((BlockColorProvider) Blocks.WATER_CAULDRON, Blocks.WATER_CAULDRON);
 

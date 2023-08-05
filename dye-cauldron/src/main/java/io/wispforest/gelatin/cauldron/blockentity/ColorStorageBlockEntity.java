@@ -3,6 +3,7 @@ package io.wispforest.gelatin.cauldron.blockentity;
 import io.wispforest.gelatin.common.util.WorldFunctions;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
+import io.wispforest.gelatin.dye_registry.ducks.DyeStorage;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -15,7 +16,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 
-public class ColorStorageBlockEntity extends BlockEntity {
+public class ColorStorageBlockEntity extends BlockEntity implements DyeStorage {
 
     private DyeColorant currentColor = DyeColorantRegistry.NULL_VALUE_NEW;
 
@@ -25,12 +26,8 @@ public class ColorStorageBlockEntity extends BlockEntity {
         super(GelatinBlockEntityTypes.COLOR_STORAGE, pos, state);
     }
 
-    public void setDyeColorant(DyeColorant dyeColorant) {
-        if(dyeColorant == null) {
-            this.currentColor = DyeColorantRegistry.NULL_VALUE_NEW;
-        } else {
-            this.currentColor = dyeColorant;
-        }
+    public void setDyeColor(DyeColorant dyeColorant) {
+        this.currentColor = dyeColorant;
     }
 
     public DyeColorant getDyeColorant() {
@@ -62,9 +59,7 @@ public class ColorStorageBlockEntity extends BlockEntity {
         super.readNbt(nbt);
 
         if(nbt.contains(DYE_COLOR_KEY)){
-            Identifier id = Identifier.tryParse(nbt.getString(DYE_COLOR_KEY));
-
-            this.currentColor = DyeColorantRegistry.DYE_COLOR.get(id);
+            this.currentColor = DyeColorantRegistry.DYE_COLOR.get(Identifier.tryParse(nbt.getString(DYE_COLOR_KEY)));
         }
 
         if (world != null && world.isClient) {
@@ -75,10 +70,7 @@ public class ColorStorageBlockEntity extends BlockEntity {
     @Override
     public void markDirty() {
         super.markDirty();
-        WorldFunctions.updateIfOnServer(world, this.getPos());
-    }
 
-    public static boolean isWaterColored(ColorStorageBlockEntity blockEntity) {
-        return blockEntity.getDyeColorant() != DyeColorantRegistry.NULL_VALUE_NEW;
+        WorldFunctions.updateIfOnServer(world, this.getPos());
     }
 }

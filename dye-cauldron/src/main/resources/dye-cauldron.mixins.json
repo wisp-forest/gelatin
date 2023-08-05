@@ -4,12 +4,12 @@
   "package": "io.wispforest.gelatin.cauldron.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "LeveledCauldronBlockMixin",
+    "AbstractCauldronBlockMixin",
     "CauldronBehaviorMixin",
-    "AbstractCauldronBlockMixin"
+    "LeveledCauldronBlockMixin"
   ],
   "client": [
-    "sodium.LinearColorBlenderMixin"
+    "sodium.ColorProviderRegistryMixin"
   ],
   "injectors": {
     "defaultRequire": 1

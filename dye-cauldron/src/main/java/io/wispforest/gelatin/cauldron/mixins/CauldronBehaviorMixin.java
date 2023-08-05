@@ -21,7 +21,7 @@ public interface CauldronBehaviorMixin {
     private static void CLEAN_DYEABLE_ITEM$cancelIfDyedWater(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack, CallbackInfoReturnable<ActionResult> cir) {
         ColorStorageBlockEntity blockEntity = (ColorStorageBlockEntity) world.getBlockEntity(pos);
 
-        if (blockEntity != null && ColorStorageBlockEntity.isWaterColored(blockEntity)) {
+        if (blockEntity != null && blockEntity.isDyed()) {
             cir.setReturnValue(ActionResult.FAIL);
         }
     }
@@ -30,7 +30,7 @@ public interface CauldronBehaviorMixin {
     private static void CLEAN_BANNER$cancelIfDyedWater(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack, CallbackInfoReturnable<ActionResult> cir) {
         ColorStorageBlockEntity blockEntity = (ColorStorageBlockEntity) world.getBlockEntity(pos);
 
-        if (blockEntity != null && ColorStorageBlockEntity.isWaterColored(blockEntity)) {
+        if (blockEntity != null && blockEntity.isDyed()) {
             cir.setReturnValue(ActionResult.FAIL);
         }
     }
@@ -39,7 +39,7 @@ public interface CauldronBehaviorMixin {
     private static void CLEAN_SHULKER_BOX$cancelIfDyedWater(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack, CallbackInfoReturnable<ActionResult> cir) {
         ColorStorageBlockEntity blockEntity = (ColorStorageBlockEntity) world.getBlockEntity(pos);
 
-        if (blockEntity != null && ColorStorageBlockEntity.isWaterColored(blockEntity)) {
+        if (blockEntity != null && blockEntity.isDyed()) {
             cir.setReturnValue(ActionResult.FAIL);
         }
     }

@@ -51,7 +51,7 @@ public class GelatinCauldronBehaviors implements CauldronBehavior {
 
                             player.incrementStat(Stats.USED.getOrCreateStat(stack.getItem()));
 
-                            blockEntity.setDyeColorant(dyeColorant);
+                            blockEntity.setDyeColor(dyeColorant);
 
                             world.playSound((PlayerEntity) null, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
                             world.emitGameEvent((Entity) null, GameEvent.FLUID_PLACE, pos);
@@ -85,7 +85,7 @@ public class GelatinCauldronBehaviors implements CauldronBehavior {
             ItemConvertible changedBlock;
             ColorStorageBlockEntity blockEntity = (ColorStorageBlockEntity) world.getBlockEntity(pos);
 
-            if (blockEntity != null && ColorStorageBlockEntity.isWaterColored(blockEntity)) {
+            if (blockEntity != null && blockEntity.isDyed()) {
                 changedBlock = DyeableBlockVariant.attemptToGetColoredEntry(changedEntry, blockEntity.getDyeColorant());
             } else {
                 changedBlock = DyeableBlockVariant.attemptToGetColoredEntry(changedEntry, DyeColorantRegistry.NULL_VALUE_NEW);
@@ -117,7 +117,7 @@ public class GelatinCauldronBehaviors implements CauldronBehavior {
 
             ColorStorageBlockEntity blockEntity = (ColorStorageBlockEntity) world.getBlockEntity(pos);
 
-            if (item instanceof DyeableItem dyeableItem && blockEntity != null && ColorStorageBlockEntity.isWaterColored(blockEntity)) {
+            if (item instanceof DyeableItem dyeableItem && blockEntity != null && blockEntity.isDyed()) {
                 if (!world.isClient) {
                     if (!dyeableItem.hasColor(stack)) {
                         float[] colorComp = blockEntity.getDyeColorant().getColorComponents();

@@ -52,9 +52,7 @@ public abstract class LeveledCauldronBlockMixin extends AbstractCauldronBlock im
     public int getColor(BlockState state, @Nullable BlockRenderView world, @Nullable BlockPos pos, int tintIndex) {
         if(world == null || pos == null) return -1;
 
-        int worldColor = BiomeColors.getWaterColor(world, pos);
-
-        if (world.getBlockEntity(pos) instanceof ColorStorageBlockEntity colorBlockEntity && colorBlockEntity.getDyeColorant() != DyeColorantRegistry.NULL_VALUE_NEW) {
+        if (world.getBlockEntity(pos) instanceof ColorStorageBlockEntity colorBlockEntity && colorBlockEntity.isDyed()) {
             float[] colorComp = {1F, 1F, 1F};
 
             DyeColorant dyeColor = colorBlockEntity.getDyeColorant();
@@ -64,7 +62,6 @@ public abstract class LeveledCauldronBlockMixin extends AbstractCauldronBlock im
             return (int) (colorComp[0] * 255) << 16 | (int) (colorComp[1] * 255) << 8 | (int) (colorComp[2] * 255);
         }
 
-        return worldColor;
-
+        return BiomeColors.getWaterColor(world, pos);
     }
 }
