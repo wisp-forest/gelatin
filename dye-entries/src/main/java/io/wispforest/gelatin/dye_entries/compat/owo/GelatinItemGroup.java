@@ -6,6 +6,9 @@ import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import io.wispforest.owo.itemgroup.Icon;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
 import io.wispforest.owo.util.pond.OwoItemExtensions;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.resource.featuretoggle.FeatureSet;
@@ -27,18 +30,13 @@ public abstract class GelatinItemGroup extends OwoItemGroup {
     public static OwoItemGroup create(Identifier id){
         return OwoItemGroup.builder(id, () -> Icon.of(Items.ORANGE_DYE.getDefaultStack()))
                 .initializer(group -> {
-                    //this.addTab(Icon.of(JelloItems.DYE_BUNDLE.getDefaultStack()), "jello_tools", null, ItemGroupTab.DEFAULT_TEXTURE);
+                    group.addCustomTab(new DelayedIcon(() -> DyeEntriesItemGroups.getIconItems().getLeft().getDefaultStack()), "dyed_item_variants", (context, entries) -> {
+                        getItemEntries(group, entries, true);
+                    }, true);
 
-                    if(DyeColorantRegistry.DYE_COLOR.size() > 17) {
-                        Pair<Item, Item> iconPair = DyeEntriesItemGroups.getIconItems();
-
-                        group.addCustomTab(Icon.of(iconPair.getLeft()), "dyed_item_variants", (context, entries) -> {
-                            getItemEntries(group, entries, true);
-                        }, true);
-                        group.addCustomTab(Icon.of(iconPair.getRight()), "dyed_block_variants", (context, entries) -> {
-                            getItemEntries(group, entries, true);
-                        }, false);
-                    }
+                    group.addCustomTab(new DelayedIcon(() -> DyeEntriesItemGroups.getIconItems().getRight().getDefaultStack()), "dyed_block_variants", (context, entries) -> {
+                        getItemEntries(group, entries, true);
+                    }, false);
                 }).build();
     }
 
@@ -54,5 +52,22 @@ public abstract class GelatinItemGroup extends OwoItemGroup {
         entries.addAll(sortableEntries.parentTabStacks, ItemGroup.StackVisibility.PARENT_TAB_ONLY);
     }
 
+    @Environment(EnvType.CLIENT)
+    public static class DelayedIcon implements Icon {
+        private final Supplier<ItemStack> stackSupplier;
+
+        private ItemStack stack = ItemStack.EMPTY;
+
+        private DelayedIcon(Supplier<ItemStack> stackSupplier) {
+            this.stackSupplier = stackSupplier;
+        }
+
+        @Override
+        public void render(DrawContext context, int x, int y, int mouseX, int mouseY, float delta) {
+            if(this.stack == ItemStack.EMPTY) this.stack = this.stackSupplier.get();
+
+            context.drawItemWithoutEntity(this.stack, x, y);
+        }
+    }
 
 }
