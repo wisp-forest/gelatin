@@ -25,9 +25,7 @@
     "client.accessors.CreativeSlotAccessor",
     "client.accessors.HandledScreenAccessor",
     "client.accessors.ItemModelGeneratorAccessor",
-    "client.accessors.ModelsAccessor",
-    "client.owo.FlowLayoutMixin",
-    "client.owo.NinePatchRendererAccessor"
+    "client.accessors.ModelsAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

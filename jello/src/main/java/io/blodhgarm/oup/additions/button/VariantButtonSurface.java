@@ -1,11 +1,9 @@
-package io.wispforest.jello.client.gui.components.button;
+package io.blodhgarm.oup.additions.button;
 
-import io.wispforest.jello.Jello;
-import io.wispforest.jello.client.gui.VariantsNinePatchRender;
+import io.blodhgarm.oup.utils.VariantsNinePatchRender;
 import io.wispforest.owo.ui.core.OwoUIDrawContext;
 import io.wispforest.owo.ui.core.ParentComponent;
 import io.wispforest.owo.ui.core.Size;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class VariantButtonSurface extends VariantsNinePatchRender implements ButtonSurface {
@@ -19,7 +17,7 @@ public class VariantButtonSurface extends VariantsNinePatchRender implements But
     }
 
     public static VariantButtonSurface surfaceLike(Size patchSize, Size textureSize, boolean repeat, boolean darkMode, boolean squareVariant){
-        return (VariantButtonSurface) new VariantButtonSurface(Jello.id("textures/gui/button_surface.png"), patchSize, textureSize, repeat)
+        return (VariantButtonSurface) new VariantButtonSurface(new Identifier("oup","textures/gui/button_surface.png"), patchSize, textureSize, repeat)
                 .setVIndex(ButtonAddon.getVIndex(darkMode, squareVariant));
     }
 

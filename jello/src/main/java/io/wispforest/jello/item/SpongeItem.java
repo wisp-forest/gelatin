@@ -153,7 +153,7 @@ public class SpongeItem extends Item implements DyeBlockTool, DyeEntityTool {
 
     public static ActionResult cleanSponge(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, ItemStack stack, CauldronEvent.CauldronType cauldronType) {
         if (cauldronType == CauldronEvent.CauldronType.WATER) {
-            boolean bl = world.getBlockEntity(pos) instanceof ColorStorageBlockEntity be && ColorStorageBlockEntity.isWaterColored(be);
+            boolean bl = world.getBlockEntity(pos) instanceof ColorStorageBlockEntity be && be.isDyed();
 
             if (bl) return ActionResult.PASS;
 

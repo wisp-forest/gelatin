@@ -11,7 +11,7 @@ import io.wispforest.jello.client.gui.screen.ColorMixerScreenHandler;
 import io.wispforest.jello.client.gui.screen.JelloScreenHandlerTypes;
 import io.wispforest.jello.compat.JelloConfig;
 import io.wispforest.jello.data.recipe.JelloRecipeSerializers;
-import io.wispforest.jello.misc.ColorDebugHelper;
+import io.wispforest.jello.misc.debug.ColorDebugHelper;
 import io.wispforest.jello.misc.DyeColorantLoader;
 import io.wispforest.jello.item.JelloItems;
 import io.wispforest.jello.item.SpongeItem;

@@ -1,11 +1,11 @@
-package io.wispforest.jello.client.gui;
+package io.blodhgarm.oup.additions.surface;
 
 import io.wispforest.owo.ui.core.Surface;
 import net.minecraft.util.Identifier;
 
 public class ExtraSurfaces {
 
-    public static Identifier INVERSE_PANEL_TEXTURE = new Identifier("jello", "textures/gui/inverse_panel.png");
+    public static Identifier INVERSE_PANEL_TEXTURE = new Identifier("oup", "textures/gui/inverse_panel.png");
 
     public static Surface INVERSE_PANEL = (context, component) -> {
         int x = component.x();

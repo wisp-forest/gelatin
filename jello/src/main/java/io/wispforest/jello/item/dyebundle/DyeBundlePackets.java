@@ -3,11 +3,13 @@ package io.wispforest.jello.item.dyebundle;
 import com.mojang.logging.LogUtils;
 import io.netty.util.collection.IntObjectHashMap;
 import io.netty.util.collection.IntObjectMap;
+import io.wispforest.gelatin.common.util.VersatileLogger;
 import io.wispforest.gelatin.dye_entries.variants.impl.VanillaItemVariants;
 import io.wispforest.jello.Jello;
 import io.wispforest.jello.client.gui.dyebundle.DyeBundleTooltipBuilder;
 import io.wispforest.jello.mixins.BundleItemAccessor;
 import io.wispforest.owo.network.ServerAccess;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
@@ -27,9 +29,7 @@ import java.util.function.Supplier;
 
 public class DyeBundlePackets {
 
-    private static final Logger LOGGER = LogUtils.getLogger();
-
-    public static SlotInfoHelper lastSlotHelper = SlotInfoHelper.EMPTY;
+    private static final VersatileLogger LOGGER = new VersatileLogger("DyeBundlePackets", () -> FabricLoader.getInstance().isDevelopmentEnvironment());
 
     public static IntObjectMap<ItemStack> stacksToScroll = new IntObjectHashMap<>();
 
@@ -76,9 +76,7 @@ public class DyeBundlePackets {
                 return;
             }
 
-            if(verticalAmount > 2){
-                System.out.println("mouse scroll: " + verticalAmount);
-            }
+            if(verticalAmount > 2) LOGGER.infoMessage("mouse scroll: {}", verticalAmount);
 
             NbtList bundleInventory = bundleStackNbt.get(DyeBundleItem.INVENTORY_NBT_KEY);
 
@@ -118,7 +116,7 @@ public class DyeBundlePackets {
             var reference = message.bundleStackfinder.getReferenceInfo(player);
             var bundleStack = reference.stack();
 
-              if(!(bundleStack.getItem() instanceof DyeBundleItem)) return;
+            if(!(bundleStack.getItem() instanceof DyeBundleItem)) return;
 
             var bundleList = bundleStack.get(DyeBundleItem.INVENTORY_NBT_KEY);
             int selectedStack = bundleStack.get(DyeBundleItem.SELECTED_STACK_NBT_KEY);
@@ -128,7 +126,7 @@ public class DyeBundlePackets {
 
             //---------------------------------------------
 
-            //This section pertains to how horrible minecraft creative mod handler is and doesn't sync the data needed
+            //This section pertains to how horrible minecraft Creative Mode Screen Handler is and doesn't sync the data needed
             AtomicReference<ItemStack> cursorStackToClient = new AtomicReference<>(null);
 
             Consumer<ItemStack> setCursorStack = !player.isCreative()
@@ -145,8 +143,8 @@ public class DyeBundlePackets {
 
             //---------------------------------------------
 
-            LOGGER.info("Before { BundleData }: {}", bundleStack.hasNbt() ? bundleStack.getNbt() : "None");
-            LOGGER.info("Before { CursorStack }: {} {}", cursorStack.toString(), cursorStack.hasNbt() ? "[" + cursorStack.getNbt() + "]" : "");
+            LOGGER.infoMessage("Before { BundleData }: {}", bundleStack.hasNbt() ? bundleStack.getNbt() : "None");
+            LOGGER.infoMessage("Before { CursorStack }: {} {}", cursorStack.toString(), cursorStack.hasNbt() ? "[" + cursorStack.getNbt() + "]" : "");
 
             NbtCompound dyeStackNbtTag = new NbtCompound();
             ItemStack dyeStack = ItemStack.EMPTY;
@@ -252,9 +250,9 @@ public class DyeBundlePackets {
 
                 cursorStack = getCursorStack.get();
 
-                LOGGER.info("[Finder: {}, SlotId: {}, Interaction: {}]: ", message.bundleStackfinder, message.innerStackIndex, interaction);
-                LOGGER.info("After BundleData: {}", bundleStack.hasNbt() ? bundleStack.getNbt() : "None");
-                LOGGER.info("After { CursorStack }: {} {}", cursorStack.toString(), cursorStack.hasNbt() ? "[" + cursorStack.getNbt() + "]" : "");
+                LOGGER.infoMessage("[Finder: {}, SlotId: {}, Interaction: {}]: ", message.bundleStackfinder, message.innerStackIndex, interaction);
+                LOGGER.infoMessage("After BundleData: {}", bundleStack.hasNbt() ? bundleStack.getNbt() : "None");
+                LOGGER.infoMessage("After { CursorStack }: {} {}", cursorStack.toString(), cursorStack.hasNbt() ? "[" + cursorStack.getNbt() + "]" : "");
 
                 Jello.CHANNEL.serverHandle(player)
                         .send(new DyeBundleTooltipBuilder.UpdateDyeBundleTooltip(

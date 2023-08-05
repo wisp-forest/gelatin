@@ -44,7 +44,9 @@ import java.util.concurrent.CompletableFuture;
 
 public class JelloClient implements ClientModInitializer {
 
-    public static final KeyBinding DYE_BUNDLE_RESET_BIND = new KeyBinding("", GLFW.GLFW_KEY_J, "");
+    public static String JELLO_CATEGORY = "key.jello";
+
+    public static final KeyBinding DYE_BUNDLE_RESET_BIND = new KeyBinding("key.dye_bundle_reset", GLFW.GLFW_KEY_J, JELLO_CATEGORY);
 
     private static final RenderLayer TRANSLUCENT = RenderLayer.getTranslucent();
 

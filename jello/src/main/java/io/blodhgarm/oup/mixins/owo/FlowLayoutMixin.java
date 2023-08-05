@@ -1,6 +1,6 @@
-package io.wispforest.jello.mixins.client.owo;
+package io.blodhgarm.oup.mixins.owo;
 
-import io.wispforest.jello.client.gui.components.button.ButtonAddon;
+import io.blodhgarm.oup.additions.button.ButtonAddon;
 import io.wispforest.jello.misc.pond.owo.ButtonAddonDuck;
 import io.wispforest.jello.misc.pond.owo.FocusCheck;
 import io.wispforest.jello.misc.pond.owo.FocusCheckable;
@@ -10,8 +10,6 @@ import io.wispforest.owo.ui.core.OwoUIDrawContext;
 import io.wispforest.owo.ui.core.Sizing;
 import io.wispforest.owo.util.EventSource;
 import io.wispforest.owo.util.EventStream;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.util.math.MatrixStack;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -68,6 +66,15 @@ public abstract class FlowLayoutMixin extends BaseParentComponent implements Foc
         if(buttonAddon != null && buttonAddon.onMouseDown(mouseX, mouseY, button)) return true;
 
         return super.onMouseDown(mouseX, mouseY, button);
+    }
+
+    @Override
+    public void dismount(DismountReason reason) {
+        super.dismount(reason);
+
+        if(buttonAddon != null && reason != DismountReason.LAYOUT_INFLATION){
+            buttonAddon.dismount(reason);
+        }
     }
 
     @Override

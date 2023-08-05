@@ -1,6 +1,6 @@
 package io.wispforest.jello.misc.pond.owo;
 
-import io.wispforest.jello.client.gui.components.button.ButtonAddon;
+import io.blodhgarm.oup.additions.button.ButtonAddon;
 import io.wispforest.owo.ui.base.BaseParentComponent;
 import io.wispforest.owo.ui.container.FlowLayout;
 

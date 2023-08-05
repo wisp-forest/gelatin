@@ -62,34 +62,27 @@ public class DyeBundleItem extends BundleItem implements DyeBlockTool, DyeEntity
     public ActionResult attemptToDyeEntity(World world, PlayerEntity user, LivingEntity entity, ItemStack stack, Hand hand) {
         DyeColorant dyeColorant = getDyeColorantFromBundle(user, stack);
 
-        if (!dyeColorant.nullColorCheck() && user.shouldCancelInteraction() && entity instanceof Colorable colorable) {
-            if(EntityColorImplementations.dyeEntityEvent(colorable, dyeColorant)) {
-                DyeBundleItem.dyeBundleInteraction(user.getStackInHand(hand), dyeColorant);
-            }
+        boolean bl = !dyeColorant.nullColorCheck()
+                && user.shouldCancelInteraction()
+                && entity instanceof Colorable colorable
+                && EntityColorImplementations.dyeEntityEvent(colorable, dyeColorant);
 
-            return ActionResult.SUCCESS;
-        }
+        if (bl) DyeBundleItem.dyeBundleInteraction(user.getStackInHand(hand), dyeColorant);
 
-        return ActionResult.PASS;
+        return bl ? ActionResult.SUCCESS : ActionResult.PASS;
     }
 
     @Override
     public ActionResult attemptToDyeBlock(World world, PlayerEntity player, BlockPos blockPos, ItemStack stack, Hand hand) {
         DyeColorant dyeColorant = getDyeColorantFromBundle(player, stack);
 
-        if (!dyeColorant.nullColorCheck() && !player.shouldCancelInteraction()) {
+        boolean bl = !dyeColorant.nullColorCheck()
+                && !player.shouldCancelInteraction()
+                && BlockColorManipulators.changeBlockColor(world, blockPos, dyeColorant, player, true);
 
-            //TODO: Possible change this so it just Passes?
-            if (!BlockColorManipulators.changeBlockColor(world, blockPos, dyeColorant, player, true)) {
-                return ActionResult.FAIL;
-            }
+        if (bl) this.afterInteraction(player, hand, dyeColorant);
 
-            this.afterInteraction(player, hand, dyeColorant);
-
-            return ActionResult.SUCCESS;
-        }
-
-        return ActionResult.PASS;
+        return bl ? ActionResult.SUCCESS : ActionResult.PASS;
     }
 
     @Override
@@ -156,19 +149,19 @@ public class DyeBundleItem extends BundleItem implements DyeBlockTool, DyeEntity
         for (int i = 0; i < currentDyeBuffers.size(); i++) {
             DyeBufferEntry bufferEntry = currentDyeBuffers.get(i);
 
-            if (bufferEntry.getDyeColorant() == dyeColorant) {
-                if (!bufferEntry.decrementBufferSize()) {
-                    currentDyeBuffers.remove(i);
+            if (bufferEntry.getDyeColorant() != dyeColorant) continue;
 
-                    if(decrementSelectedStack(bundleStack)){
-                        LOGGER.warn("[DyeBundleItem] It seems that a Dyebundle interaction happened but there was a issue with decrementing the stack selected leading to free dye usage!");
-                    }
+            if (!bufferEntry.decrementBufferSize()) {
+                currentDyeBuffers.remove(i);
+
+                if(decrementSelectedStack(bundleStack)){
+                    LOGGER.warn("[DyeBundleItem] It seems that a Dyebundle interaction happened but there was a issue with decrementing the stack selected leading to free dye usage!");
                 }
-
-                addedToExistingBuffer = true;
-
-                break;
             }
+
+            addedToExistingBuffer = true;
+
+            break;
         }
 
         if (!addedToExistingBuffer) {
@@ -181,46 +174,6 @@ public class DyeBundleItem extends BundleItem implements DyeBlockTool, DyeEntity
     }
 
     //----------------------------------------------------------------------------------------------------
-
-    public static ItemStack getFirstStack(ItemStack stack) {
-        if(!(stack.getItem() instanceof BundleItem)) return ItemStack.EMPTY;
-
-        NbtCompound bundleNbt = stack.getOrCreateNbt();
-
-        if (!bundleNbt.has(INVENTORY_NBT_KEY)) return ItemStack.EMPTY;
-
-        NbtList bundleItemsList = bundleNbt.get(INVENTORY_NBT_KEY);
-
-        if (bundleItemsList.isEmpty()) return ItemStack.EMPTY;
-
-        return ItemStack.fromNbt(bundleItemsList.getCompound(0));
-    }
-
-    private static boolean decrementFirstStack(ItemStack bundleStack) {
-        NbtCompound bundleNbt = bundleStack.getOrCreateNbt();
-        if (!bundleNbt.has(INVENTORY_NBT_KEY)) {
-            return false;
-        } else {
-            NbtList bundleItemsList = bundleNbt.get(INVENTORY_NBT_KEY);
-            if (bundleItemsList.isEmpty()) {
-                return false;
-            } else {
-                NbtCompound itemNbt = bundleItemsList.getCompound(0);
-
-                int currentStackCount = itemNbt.getInt("Count") - 1;
-
-                if (currentStackCount < 1) {
-                    bundleItemsList.remove(0);
-                } else {
-                    itemNbt.putInt("Count", currentStackCount);
-                }
-
-                bundleNbt.put(INVENTORY_NBT_KEY, bundleItemsList);
-
-                return true;
-            }
-        }
-    }
 
     public static ItemStack getSelectedStack(ItemStack stack) {
         NbtCompound bundleNbt = stack.getOrCreateNbt();
@@ -357,7 +310,5 @@ public class DyeBundleItem extends BundleItem implements DyeBlockTool, DyeEntity
             return "HudTimerHelper[" +
                     "slotIndex=" + slotIndex + ']';
         }
-
-
     }
 }

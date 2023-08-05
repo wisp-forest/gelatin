@@ -1,12 +1,14 @@
-package io.wispforest.jello.misc;
+package io.wispforest.jello.misc.debug;
 
 import com.mojang.logging.LogUtils;
 import io.wispforest.gelatin.dye_entries.variants.impl.VanillaBlockVariants;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
+import io.wispforest.jello.misc.BetterBlockBox;
 import io.wispforest.owo.ui.core.Color;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import org.slf4j.Logger;
@@ -22,7 +24,10 @@ public class ColorDebugHelper {
 
     public static ColorDebugHelper INSTANCE = new ColorDebugHelper();
 
+    public Map<Identifier, Vec3i> colorIDtoColorVec = new LinkedHashMap<>();
+
     public Map<Vec3i, ColorDataStorage> defaultColorDataStorageMap = new LinkedHashMap<>();
+
 
     public int cubeLength = 0;
 
@@ -71,6 +76,8 @@ public class ColorDebugHelper {
             Vec3i rgbValues = new Vec3i(x, y, z);
 
             defaultColorDataStorageMap.put(rgbValues, new ColorDataStorage(dyeColorant, color, woolBlock));
+
+            colorIDtoColorVec.put(dyeColorant.getId(), rgbValues);
         }
     }
 
@@ -232,7 +239,7 @@ public class ColorDebugHelper {
 
                 ColorDataStorage storage = defaultColorDataStorageMap.get(colorVecs.get(blocksPlaced.get()));
 
-                world.setBlockState(new BlockPos(innerStartingPos.add(innerCubePos)), storage.block.getDefaultState());
+                world.setBlockState(new BlockPos(innerStartingPos.add(innerCubePos)), storage.block().getDefaultState());
 
                 blocksPlaced.incrementAndGet();
 
@@ -278,6 +285,4 @@ public class ColorDebugHelper {
             return number == min || number == max;
         }
     }
-
-    public record ColorDataStorage(DyeColorant colorant, Color color, Block block){};
 }

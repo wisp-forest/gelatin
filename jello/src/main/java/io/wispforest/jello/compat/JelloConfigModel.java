@@ -13,12 +13,11 @@ public class JelloConfigModel {
     @Sync(Option.SyncMode.OVERRIDE_CLIENT)
     public boolean addCustomJsonColors = true;
 
-    @SectionHeader("common")
     @Sync(Option.SyncMode.OVERRIDE_CLIENT)
-    public boolean allowVanillaColorsInPaintMixer = true;
+    public boolean allowVanillaColorsInPaintMixer = false;
 
-    @SectionHeader("client")
-    public HudPosition bundlePosition = new HudPosition(-1, -1);
-
-    public record HudPosition(int x, int y) {}
+//    @SectionHeader("client")
+//    public HudPosition bundlePosition = new HudPosition(-1, -1);
+//
+//    public record HudPosition(int x, int y) {}
 }

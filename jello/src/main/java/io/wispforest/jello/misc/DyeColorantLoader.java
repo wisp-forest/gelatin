@@ -107,6 +107,8 @@ public class DyeColorantLoader {
             }
         }
 
+        int doubleDuplicateEntries = 0;
+
         try {
             if(versionsOrdered.isEmpty()) versionsOrdered.add(folderPath.get().resolve("data/jello/other/colorDatabase_rev0.json"));
 
@@ -117,7 +119,11 @@ public class DyeColorantLoader {
 
                 Identifier colorId = data.getColorId();
 
-                if (DyeColorantRegistry.DYE_COLOR.containsId(new Identifier(colorId.getPath()))) continue;
+                if (DyeColorantRegistry.DYE_COLOR.containsId(new Identifier(colorId.getPath()))){
+                    doubleDuplicateEntries++;
+
+                    continue;
+                }
 
                 loadedColorData.put(colorId, data);
 
@@ -182,6 +188,18 @@ public class DyeColorantLoader {
             LOGGER.failMessage("Something has gone with the file loading for extra dye colors!");
             e.printStackTrace();
         }
+
+        int duplicateEntries = ColorData.similarNames.values().stream()
+                .map(colorData -> {
+                    return colorData.stream()
+                            .filter(colorData1 -> colorData1.getColorId().getPath().contains("2"))
+                            .toList();
+                })
+                .mapToInt(List::size)
+                .sum();
+
+        LOGGER.setDebugCheck(() -> FabricLoader.getInstance().isDevelopmentEnvironment())
+                .infoMessage("There are {} duplicate entries within the color database!", (duplicateEntries - doubleDuplicateEntries));
     }
 
     public static JsonObject saveToJson(Map<Identifier, ColorData> colorData, Map<String, List<String>> conversionData){
@@ -214,13 +232,15 @@ public class DyeColorantLoader {
     }
 
     public static void saveNewVersion(Map<Identifier, ColorData> colorData, Map<String, List<String>> conversionData){
-        URL file = DyeColorantRegistry.class.getClassLoader().getResource("data/jello/other/colorDatabase.json");
+        if(!FabricLoader.getInstance().isDevelopmentEnvironment()) return;
+
+        URL file = DyeColorantRegistry.class.getClassLoader().getResource("data/jello/other/colorDatabase_rev0.json");
 
         String root = file.getPath().split("run")[0];
 
         Path path = Path.of(root.substring(1, root.length()).replace("%20", " ")).resolve("jello/src/main/resources/data/jello/other/");
 
-        File newFile = path.resolve("colorDatabase_rev1.json").toFile();
+        File newFile = path.resolve("colorDatabase_rev2.json").toFile();
 
         LOGGER.infoMessage(path.toString());
 
@@ -229,9 +249,7 @@ public class DyeColorantLoader {
         if(newFile.exists()) newFile.delete();
 
         try {
-//            Files.createDirectories(path);
             newFile.createNewFile();
-            //newFile.createNewFile();
         } catch (IOException e){
             LOGGER.failMessage("Could not create new File for new Color Database");
             LOGGER.failMessage(e.toString());

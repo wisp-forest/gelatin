@@ -1,6 +1,6 @@
-package io.wispforest.jello.client.gui;
+package io.blodhgarm.oup.utils;
 
-import io.wispforest.jello.mixins.client.owo.NinePatchRendererAccessor;
+import io.blodhgarm.oup.mixins.owo.NinePatchRendererAccessor;
 import io.wispforest.owo.ui.core.OwoUIDrawContext;
 import io.wispforest.owo.ui.core.ParentComponent;
 import io.wispforest.owo.ui.core.Size;

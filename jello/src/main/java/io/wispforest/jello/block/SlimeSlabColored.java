@@ -24,6 +24,4 @@ public class SlimeSlabColored extends SlimeSlab implements BlockColorProvider {
     public int getColor(BlockState state, @Nullable BlockRenderView world, @Nullable BlockPos pos, int tintIndex) {
         return this.getDyeColorant().getBaseColor();
     }
-
-
 }

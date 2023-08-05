@@ -22,11 +22,6 @@ public class SlimeBlockColored extends SlimeBlock implements BlockColorProvider 
     }
 
     @Override
-    public boolean isSideInvisible(BlockState state, BlockState stateFrom, Direction direction) {
-        return super.isSideInvisible(state, stateFrom, direction);
-    }
-
-    @Override
     @Environment(EnvType.CLIENT)
     public int getColor(BlockState state, @Nullable BlockRenderView world, @Nullable BlockPos pos, int tintIndex) {
         return this.getDyeColorant().getBaseColor();

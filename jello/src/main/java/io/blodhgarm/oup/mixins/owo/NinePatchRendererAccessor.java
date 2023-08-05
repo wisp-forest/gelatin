@@ -1,4 +1,4 @@
-package io.wispforest.jello.mixins.client.owo;
+package io.blodhgarm.oup.mixins.owo;
 
 import io.wispforest.owo.ui.util.NinePatchTexture;
 import org.spongepowered.asm.mixin.Mixin;

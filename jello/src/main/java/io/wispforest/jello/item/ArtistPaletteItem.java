@@ -38,11 +38,6 @@ public class ArtistPaletteItem extends Item implements ItemColorProvider {
         super(settings);
     }
 
-//    @Override
-//    public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
-//        if (this.isIn(group)) stacks.add(getDefaultStack());
-//    }
-
     @Override
     public boolean isItemBarVisible(ItemStack stack) {
         return stack.getOrCreateNbt().getInt(TIMES_USED_KEY) > 0;
@@ -70,7 +65,9 @@ public class ArtistPaletteItem extends Item implements ItemColorProvider {
     @Override
     public ItemStack getDefaultStack() {
         ItemStack stack = super.getDefaultStack();
+
         setStackColors(stack.getOrCreateNbt(), ALLOWED_COLORS.toArray(DyeColorant[]::new));
+
         return stack;
     }
 

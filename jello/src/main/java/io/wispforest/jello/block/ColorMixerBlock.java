@@ -25,6 +25,7 @@ public class ColorMixerBlock extends BlockWithEntity {
     public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
 
     private static VoxelShape RAYCAST_SHAPE = createCuboidShape(2.0, 4.0, 2.0, 14.0, 10.0, 14.0);
+
     protected static VoxelShape OUTLINE_SHAPE = VoxelShapes.combineAndSimplify(
             createCuboidShape(0.0, 0.0, 0.0, 16.0, 12.0, 16.0),
             VoxelShapes.union(
@@ -38,6 +39,7 @@ public class ColorMixerBlock extends BlockWithEntity {
 
     protected ColorMixerBlock(Settings settings) {
         super(settings);
+
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
     }
 
@@ -51,21 +53,22 @@ public class ColorMixerBlock extends BlockWithEntity {
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {
             var factory = state.createScreenHandlerFactory(world, pos);
+
             if (factory != null) player.openHandledScreen(factory);
         }
+
         return ActionResult.SUCCESS;
     }
 
     @Override
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        if (state.getBlock() != newState.getBlock()) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (state.getBlock() == newState.getBlock()) return;
 
-            if (blockEntity instanceof ColorMixerBlockEntity) {
-                world.updateComparators(pos, this);
-            }
-            super.onStateReplaced(state, world, pos, newState, moved);
-        }
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+
+        if (blockEntity instanceof ColorMixerBlockEntity) world.updateComparators(pos, this);
+
+        super.onStateReplaced(state, world, pos, newState, moved);
     }
 
     @Nullable

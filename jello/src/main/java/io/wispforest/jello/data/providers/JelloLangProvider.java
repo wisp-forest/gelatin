@@ -61,6 +61,8 @@ public class JelloLangProvider extends AbstractLanguageProvider implements ExtLa
         addOCName("Jello Config");
 
         addOCToolTipAndNameEntry("addCustomJsonColors", "Enable Json Colors", "Whether or not Jello will add it's included 1822 colors to Minecraft internally.");
+        addOCToolTipAndNameEntry("allowVanillaColorsInPaintMixer", "Allow Vanilla Colors In Paint Mixer", "Whether or not to allow Vanilla colors within Paint Mixer as it will lead to infinite Dye Creation");
+
 
         addOCCategoryName("common", "Main Config");
 

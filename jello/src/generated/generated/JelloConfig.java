@@ -15,7 +15,6 @@ public class JelloConfig extends ConfigWrapper<io.wispforest.jello.compat.JelloC
 
     private final Option<java.lang.Boolean> addCustomJsonColors = this.optionForKey(this.keys.addCustomJsonColors);
     private final Option<java.lang.Boolean> allowVanillaColorsInPaintMixer = this.optionForKey(this.keys.allowVanillaColorsInPaintMixer);
-    private final Option<io.wispforest.jello.compat.JelloConfigModel.HudPosition> bundlePosition = this.optionForKey(this.keys.bundlePosition);
 
     private JelloConfig() {
         super(io.wispforest.jello.compat.JelloConfigModel.class);
@@ -53,19 +52,10 @@ public class JelloConfig extends ConfigWrapper<io.wispforest.jello.compat.JelloC
         allowVanillaColorsInPaintMixer.set(value);
     }
 
-    public io.wispforest.jello.compat.JelloConfigModel.HudPosition bundlePosition() {
-        return bundlePosition.value();
-    }
-
-    public void bundlePosition(io.wispforest.jello.compat.JelloConfigModel.HudPosition value) {
-        bundlePosition.set(value);
-    }
-
 
     public static class Keys {
         public final Option.Key addCustomJsonColors = new Option.Key("addCustomJsonColors");
         public final Option.Key allowVanillaColorsInPaintMixer = new Option.Key("allowVanillaColorsInPaintMixer");
-        public final Option.Key bundlePosition = new Option.Key("bundlePosition");
     }
 }
 

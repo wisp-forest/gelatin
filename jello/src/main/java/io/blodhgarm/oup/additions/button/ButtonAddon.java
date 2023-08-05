@@ -1,4 +1,4 @@
-package io.wispforest.jello.client.gui.components.button;
+package io.blodhgarm.oup.additions.button;
 
 import io.wispforest.jello.misc.pond.owo.FocusCheckable;
 import io.wispforest.owo.ui.base.BaseParentComponent;
@@ -23,7 +23,7 @@ public class ButtonAddon<T extends BaseParentComponent> {
     protected boolean hovered = false;
     protected boolean active = true;
 
-    protected PressAction<T> onPress = button -> {};
+    protected Runnable onPress = () -> {};
 
     protected final T linkedComponent;
 
@@ -36,8 +36,8 @@ public class ButtonAddon<T extends BaseParentComponent> {
         this.linkedComponent = component;
     }
 
-    public ButtonAddon<T> onPress(PressAction<T> onPress) {
-        this.onPress = onPress;
+    public <A extends ButtonAddon<T>> ButtonAddon<T> onPress(PressAction<T, A> pressAction) {
+        this.onPress = () -> pressAction.onPress((A) this);
 
         return this;
     }
@@ -68,7 +68,7 @@ public class ButtonAddon<T extends BaseParentComponent> {
         return this.hovered;
     }
 
-    public ButtonAddon<T> useCustomButtonSurface(ButtonSurface renderer){
+    public ButtonAddon<T> buttonSurface(ButtonSurface renderer){
         this.renderer = renderer;
 
         var buttonSurface = new ImplButtonSurface(this, renderer);
@@ -82,36 +82,36 @@ public class ButtonAddon<T extends BaseParentComponent> {
         return ((squareShape) ? 1 : 0) + (((darkMode) ? 1 : 0) << 1);
     }
 
-    public void beforeDraw(OwoUIDrawContext context, int mouseX, int mouseY, float partialTicks, float delta) {
-    }
+    public void beforeDraw(OwoUIDrawContext context, int mouseX, int mouseY, float partialTicks, float delta) {}
 
     public boolean onKeyPress(int keyCode, int scanCode, int modifiers) {
-        if (this.active) {
-            if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_SPACE || keyCode == GLFW.GLFW_KEY_KP_ENTER) {
-                MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
-                this.onPress.onPress(linkedComponent);
-                return true;
-            }
-        }
+        boolean bl = this.active
+                && keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_SPACE || keyCode == GLFW.GLFW_KEY_KP_ENTER;
 
-        return false;
+        if (bl) this.onPress();
+
+        return bl;
     }
 
     public boolean onMouseDown(double mouseX, double mouseY, int button) {
-        if (this.active) {
-            if (button == GLFW.GLFW_MOUSE_BUTTON_1) {
-                MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
-                this.onPress.onPress(linkedComponent);
-                return true;
-            }
-        }
+        boolean bl = this.active && button == GLFW.GLFW_MOUSE_BUTTON_1;
 
-        return false;
+        if(bl) this.onPress();
+
+        return bl;
+    }
+
+    public void dismount(Component.DismountReason reason) {}
+
+    public void onPress() {
+        MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+
+        this.onPress.run();
     }
 
     @Environment(EnvType.CLIENT)
-    public interface PressAction<T extends Component> {
-        void onPress(T button);
+    public interface PressAction<T extends BaseParentComponent, A extends ButtonAddon<T>> {
+        void onPress(A addon);
     }
 
     private record ImplButtonSurface(ButtonAddon<?> addon, ButtonSurface renderer) implements Surface {

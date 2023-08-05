@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "io.blodhgarm.oup.mixins",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [],
+  "client": [
+    "owo.FlowLayoutMixin",
+    "owo.NinePatchRendererAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
