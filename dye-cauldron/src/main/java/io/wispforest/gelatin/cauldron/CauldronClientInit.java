@@ -27,7 +27,7 @@ public class CauldronClientInit implements ClientModInitializer {
 
         ColorProviderRegistry.BLOCK.register((BlockColorProvider) Blocks.WATER_CAULDRON, Blocks.WATER_CAULDRON);
 
-        toggleRenderLayer(CommonInit.getConfig().isCauldronFixEnabled());
+        toggleRenderLayer(CommonInit.getConfig().cauldronFix());
     }
 
     private static void toggleRenderLayer(boolean enableTransparencyFixCauldrons){

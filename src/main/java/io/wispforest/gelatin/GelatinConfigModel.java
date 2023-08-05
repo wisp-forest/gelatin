@@ -13,21 +13,35 @@ public class GelatinConfigModel {
 
     @SectionHeader("common")
     @Sync(Option.SyncMode.OVERRIDE_CLIENT)
-    public boolean enableDyeingEntities = GelatinDefaultConfig.INSTANCE.isEntityDyeingEnabled();
+    public boolean enableDyeingEntities = GelatinDefaultConfig.INSTANCE.entityDyeing();
 
     @Sync(Option.SyncMode.OVERRIDE_CLIENT)
-    public boolean enableDyeingPlayers = GelatinDefaultConfig.INSTANCE.isPlayerDyeingEnabled();
+    public boolean enableDyeingPlayers = GelatinDefaultConfig.INSTANCE.playerDyeing();
 
     @Sync(Option.SyncMode.OVERRIDE_CLIENT)
-    public boolean enableDyeingBlocks = GelatinDefaultConfig.INSTANCE.isBlockDyeingEnabled();
+    public boolean enableDyeingBlocks = GelatinDefaultConfig.INSTANCE.blockDyeing();
 
     @SectionHeader("client")
     @Hook
-    public boolean enableTransparencyFixCauldrons = GelatinDefaultConfig.INSTANCE.isCauldronFixEnabled();
+    public boolean enableTransparencyFixCauldrons = GelatinDefaultConfig.INSTANCE.cauldronFix();
 
-    public boolean enableGrayScalingOfEntities = GelatinDefaultConfig.INSTANCE.isGrayScalingOfEntityEnabled();
+    public boolean enableGrayScalingOfEntities = GelatinDefaultConfig.INSTANCE.grayScalingOfEntity();
 
-    public boolean enableGrayScalingOfRainbowEntities = GelatinDefaultConfig.INSTANCE.isGrayScalingOfRainbowEntityEnabled();
+    @Nest
+    @Expanded
+    public DyeingControls dyeingControls = new DyeingControls();
+
+    public static class DyeingControls {
+        @Hook
+        @RestartRequired
+        public boolean useSeparateKeybinding = true;
+
+        @Hook
+        public boolean useToggleMode = true;
+
+        @Hook
+        public boolean alwaysOnByDefault = true;
+    }
 
     @Hook
     public List<String> gelatinBlackListModid = GelatinDefaultConfig.INSTANCE.getGelatinBlacklist();

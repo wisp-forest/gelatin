@@ -25,7 +25,7 @@ public interface DyeBlockTool extends DyeBaseTool {
      * @return {@link ActionResult#PASS} if the event won't cancel or return any other result for the {@link Item#useOnBlock(ItemUsageContext)} to be stopped
      */
     default ActionResult attemptToDyeBlock(ItemUsageContext context){
-        if (CommonInit.getConfig().isBlockDyeingEnabled() && context.getPlayer() != null) {
+        if (CommonInit.getConfig().blockDyeing() && context.getPlayer() != null) {
             return this.attemptToDyeBlock(context.getWorld(), context.getPlayer(), context.getBlockPos(), context.getStack(), context.getHand());
         }
 

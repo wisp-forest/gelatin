@@ -17,5 +17,20 @@
   "text.config.gelatin.option.enableTransparencyFixCauldrons.tooltip": "Enables a fix for water within cauldrons just being Opaque rather than translucent.",
   "text.config.gelatin.option.enableTransparencyFixCauldrons": "Enable Transparency Fix for Cauldrons",
   "text.config.gelatin.option.gelatinBlackListModid.tooltip": "Used to Blacklist mods from allowing Gelatin to change its entities encase of Rendering issues",
-  "text.config.gelatin.option.gelatinBlackListModid": "Gelatin Modid Blacklist"
+  "text.config.gelatin.option.gelatinBlackListModid": "Gelatin Modid Blacklist",
+
+  "text.config.gelatin.category.dyeingControls": "Dyeing Controls",
+  "text.config.gelatin.category.dyeingControls.tooltip": "Options to change how dyeing works for the user",
+
+  "text.config.gelatin.option.dyeingControls.useSeparateKeybinding": "Use Separate Keybinding",
+  "text.config.gelatin.option.dyeingControls.useSeparateKeybinding.tooltip": "Alternative Controls instead of using shift by default",
+
+  "text.config.gelatin.option.dyeingControls.useToggleMode": "Use Toggle Based Controls",
+  "text.config.gelatin.option.dyeingControls.useToggleMode.tooltip": "Alternative to constantly hold down a button to Color using Dye tools.",
+
+  "text.config.gelatin.option.dyeingControls.alwaysOnByDefault": "Always on by default",
+  "text.config.gelatin.option.dyeingControls.alwaysOnByDefault.tooltip": "Whether dyeing should be on by default or not when joining a world.",
+
+  "key.dye_coloring_toggle": "Toggle Dye Coloring",
+  "key.categories.gelatin": "Gelatin"
 }

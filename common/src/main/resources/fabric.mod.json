@@ -26,6 +26,9 @@
   "entrypoints": {
     "main": [
       "io.wispforest.gelatin.common.CommonInit"
+    ],
+    "client": [
+      "io.wispforest.gelatin.common.client.CommonClientInit"
     ]
   },
 
@@ -42,6 +45,9 @@
     "modmenu": {
       "badges": [ "library" ],
       "parent": "gelatin"
+    },
+    "loom:injected_interfaces": {
+      "net/minecraft/class_1657": ["io/wispforest/gelatin/common/ducks/Actionable"]
     }
   }
 }

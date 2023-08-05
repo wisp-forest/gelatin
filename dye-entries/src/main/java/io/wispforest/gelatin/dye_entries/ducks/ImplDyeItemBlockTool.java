@@ -1,5 +1,7 @@
 package io.wispforest.gelatin.dye_entries.ducks;
 
+import io.wispforest.gelatin.common.CommonInit;
+import io.wispforest.gelatin.common.misc.GelatinConstants;
 import io.wispforest.gelatin.dye_entries.BlockColorManipulators;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
@@ -25,7 +27,7 @@ import java.util.Random;
 public interface ImplDyeItemBlockTool extends DyeBlockTool, DyeStorage {
 
     default ActionResult attemptToDyeBlock(World world, PlayerEntity player, BlockPos blockPos, ItemStack stack, Hand hand){
-        if(player.shouldCancelInteraction() && this.getDyeColorant() != DyeColorantRegistry.NULL_VALUE_NEW) {
+        if(player.getState(GelatinConstants.DYE_TOGGLE_SYNC_ID) && this.getDyeColorant() != DyeColorantRegistry.NULL_VALUE_NEW) {
             BlockState blockState = world.getBlockState(blockPos);
 
             if (!BlockColorManipulators.changeBlockColor(world, blockPos, this.getDyeColorant(), player, true)) {

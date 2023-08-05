@@ -3,6 +3,7 @@ package io.wispforest.gelatin.common.util;
 import com.mojang.logging.LogUtils;
 import org.slf4j.Logger;
 
+import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 public class VersatileLogger {
@@ -12,7 +13,8 @@ public class VersatileLogger {
     private long startTime;
     private final String prefix;
 
-    public final Supplier<Boolean> debugCheck;
+    private Supplier<Boolean> oldDebugCheck = () -> true;
+    private Supplier<Boolean> debugCheck;
 
     public VersatileLogger(String prefix) {
         this.startTime = System.currentTimeMillis();
@@ -26,6 +28,17 @@ public class VersatileLogger {
         this.prefix = prefix;
 
         this.debugCheck = debugCheck;
+    }
+
+    public VersatileLogger setDebugCheck(Supplier<Boolean> debugCheck){
+        return setDebugCheck(debugCheck, false);
+    }
+
+    public VersatileLogger setDebugCheck(Supplier<Boolean> debugCheck, boolean useForever){
+        this.oldDebugCheck = !useForever ? this.debugCheck : null;
+        this.debugCheck = debugCheck;
+
+        return this;
     }
 
     //-------------------------------------------------------------
@@ -42,15 +55,31 @@ public class VersatileLogger {
     //-------------------------------------------------------------
 
     public void failMessage(String message, Object... variables) {
-        if(!debugCheck.get()) return;
+        this.logMessage(LOGGER::error, message, variables);
+    }
 
-        LOGGER.error("[" + prefix + "]: " + message, variables);
+    public void warnMessage(String message, Object... variables) {
+        this.logMessage(LOGGER::warn, message, variables);
     }
 
     public void infoMessage(String message, Object... variables) {
-        if(!debugCheck.get()) return;
-
-        LOGGER.info("[" + prefix + "]: " + message, variables);
+        this.logMessage(LOGGER::info, message, variables);
     }
 
+    protected void logMessage(BiConsumer<String, Object[]> logMethod, String message, Object... variables){
+        if(!checkDebug()) return;
+
+        logMethod.accept("[" + prefix + "]: " + message, variables);
+    }
+
+    private boolean checkDebug(){
+        boolean bl = debugCheck.get();
+
+        if(oldDebugCheck != null){
+            debugCheck = oldDebugCheck;
+            oldDebugCheck = null;
+        }
+
+        return bl;
+    }
 }

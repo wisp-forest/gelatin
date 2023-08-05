@@ -1,6 +1,7 @@
 package io.wispforest.jello.item.dyebundle;
 
 import com.mojang.logging.LogUtils;
+import io.wispforest.gelatin.common.misc.GelatinConstants;
 import io.wispforest.gelatin.dye_entities.ducks.Colorable;
 import io.wispforest.gelatin.dye_entities.ducks.DyeEntityTool;
 import io.wispforest.gelatin.dye_entities.misc.EntityColorImplementations;
@@ -63,7 +64,7 @@ public class DyeBundleItem extends BundleItem implements DyeBlockTool, DyeEntity
         DyeColorant dyeColorant = getDyeColorantFromBundle(user, stack);
 
         boolean bl = !dyeColorant.nullColorCheck()
-                && user.shouldCancelInteraction()
+                && user.getState(GelatinConstants.DYE_TOGGLE_SYNC_ID)
                 && entity instanceof Colorable colorable
                 && EntityColorImplementations.dyeEntityEvent(colorable, dyeColorant);
 
@@ -77,7 +78,7 @@ public class DyeBundleItem extends BundleItem implements DyeBlockTool, DyeEntity
         DyeColorant dyeColorant = getDyeColorantFromBundle(player, stack);
 
         boolean bl = !dyeColorant.nullColorCheck()
-                && !player.shouldCancelInteraction()
+                && player.getState(GelatinConstants.DYE_TOGGLE_SYNC_ID)
                 && BlockColorManipulators.changeBlockColor(world, blockPos, dyeColorant, player, true);
 
         if (bl) this.afterInteraction(player, hand, dyeColorant);

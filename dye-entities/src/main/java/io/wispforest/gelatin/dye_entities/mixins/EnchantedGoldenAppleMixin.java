@@ -1,5 +1,6 @@
 package io.wispforest.gelatin.dye_entities.mixins;
 
+import io.wispforest.gelatin.common.misc.GelatinConstants;
 import io.wispforest.gelatin.dye_entities.ducks.Colorable;
 import io.wispforest.gelatin.dye_entities.ducks.CollarColorable;
 import io.wispforest.gelatin.dye_entities.ducks.DyeEntityTool;
@@ -20,7 +21,7 @@ public class EnchantedGoldenAppleMixin implements DyeEntityTool {
 
     @Override
     public ActionResult attemptToDyeEntity(World world, PlayerEntity player, LivingEntity entity, ItemStack stack, Hand hand) {
-        boolean bl = player.shouldCancelInteraction()
+        boolean bl = player.getState(GelatinConstants.DYE_TOGGLE_SYNC_ID)
                 && entity instanceof Colorable colorable
                 && EntityColorImplementations.rainbowEntityEvent(colorable);
 

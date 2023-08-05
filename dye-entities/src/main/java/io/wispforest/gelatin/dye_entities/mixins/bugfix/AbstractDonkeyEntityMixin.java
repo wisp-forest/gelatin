@@ -19,7 +19,7 @@ public class AbstractDonkeyEntityMixin {
     private void fixInablityToDyeLlamaAndDonkey(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         Item item = player.getStackInHand(hand).getItem();
 
-        if (item instanceof DyeEntityTool && CommonInit.getConfig().isEntityDyeingEnabled()) {
+        if (item instanceof DyeEntityTool && CommonInit.getConfig().entityDyeing()) {
             cir.setReturnValue(ActionResult.PASS);
         }
     }

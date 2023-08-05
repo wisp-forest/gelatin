@@ -68,7 +68,7 @@ public abstract class LivingEntityRenderMixin<T extends LivingEntity, M extends 
     @SuppressWarnings("unchecked")
     @Inject(method = "getRenderLayer", at = @At(value = "HEAD"))
     private void checkForGrayScaleTexture(T entity, boolean showBody, boolean translucent, boolean showOutline, CallbackInfoReturnable<@Nullable RenderLayer> cir) {
-        if (!FabricLoaderImpl.INSTANCE.isDevelopmentEnvironment() && CommonInit.getConfig().isGrayScalingOfEntityEnabled()) {
+        if (!FabricLoaderImpl.INSTANCE.isDevelopmentEnvironment() && CommonInit.getConfig().grayScalingOfEntity()) {
             jello$grayScaleCache = null;
         }
 

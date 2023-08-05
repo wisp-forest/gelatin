@@ -1,5 +1,6 @@
 package io.wispforest.gelatin.dye_entities.ducks;
 
+import io.wispforest.gelatin.common.misc.GelatinConstants;
 import io.wispforest.gelatin.dye_entities.misc.EntityColorImplementations;
 import io.wispforest.gelatin.dye_registry.DyeColorantRegistry;
 import io.wispforest.gelatin.dye_registry.ducks.DyeStorage;
@@ -13,7 +14,7 @@ import net.minecraft.world.World;
 public interface ImplDyeEntityTool extends DyeEntityTool, DyeStorage {
 
     default ActionResult attemptToDyeEntity(World world, PlayerEntity user, LivingEntity entity, ItemStack stack, Hand hand){
-        if (user.shouldCancelInteraction() && entity instanceof Colorable colorable && EntityColorImplementations.dyeEntityEvent(colorable, this.getDyeColorant())) {
+        if (user.getState(GelatinConstants.DYE_TOGGLE_SYNC_ID) && entity instanceof Colorable colorable && EntityColorImplementations.dyeEntityEvent(colorable, this.getDyeColorant())) {
             afterInteraction(user, hand, this.getDyeColorant());
 
             return ActionResult.SUCCESS;
