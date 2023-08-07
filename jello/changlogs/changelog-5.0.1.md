@@ -1,0 +1,1 @@
+Jello 5.0.1 is a single release to fix Sticky Block Interactions not working i.e opposite colors or honey blocks still sticking to each other.
