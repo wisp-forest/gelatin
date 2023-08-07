@@ -1,0 +1,1 @@
+Gelatin 1.0.3 fixes a Model issue with EBE's custom block model having no tint indexes for texture faces, leading to Shulker Item Models being white.
