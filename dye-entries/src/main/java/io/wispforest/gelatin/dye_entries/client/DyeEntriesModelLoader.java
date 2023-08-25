@@ -101,6 +101,8 @@ public class DyeEntriesModelLoader implements ModelResolver, BlockStateResolver 
     public UnbakedModel resolveModel(ModelResolver.Context context) {
         Identifier id = context.id();
 
+        if(id.getNamespace().equals("minecraft")) return null;
+
         boolean isItemVersion = id.getPath().contains("item/");
 
         Identifier baseEntryID = new Identifier(id.getNamespace(), isItemVersion ? id.getPath().replace("item/", "") : id.getPath());

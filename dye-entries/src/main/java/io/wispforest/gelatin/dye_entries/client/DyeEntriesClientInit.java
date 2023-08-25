@@ -50,7 +50,7 @@ public class DyeEntriesClientInit implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        if(FabricLoader.getInstance().isModLoaded("fabric-model-loading-api-v1")) DyeEntriesModelLoader.init();
+        DyeEntriesModelLoader.init();
 
         if (FabricLoader.getInstance().isModLoaded("continuity")) {
             FabricLoader.getInstance().getModContainer("gelatin-dye-entries").ifPresent(container -> {

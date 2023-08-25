@@ -23,10 +23,10 @@
     "client.SpriteContentsAccessor",
     "client.TextureStitcherAccessor",
     "client.dye.BedBlockEntityRendererMixin",
-    "client.dye.ModelLoaderMixin",
     "client.dye.SheepWoolFeatureRendererMixin",
     "client.dye.ShulkerBoxBlockEntityRendererMixin",
     "client.dye.sheep_consistency.SheepShearedFeatureRendererMixin",
+    "client.diagonal_windows.MultipartAppenderMixin",
     "client.model.ModelLoaderAccessor"
   ],
   "injectors": {

@@ -19,10 +19,13 @@ public class DyeEntriesMixinPlugin implements IMixinConfigPlugin {
 
         String onlyMixinName = pathParts[pathParts.length - 1];
 
-        boolean bl = (FabricLoader.getInstance().getModContainer("fabric-model-loading-api-v1").isPresent() && onlyMixinName.equals("ModelLoaderMixin"))
-                || (!FabricLoader.getInstance().isModLoaded("sheepconsistency") && onlyMixinName.equals("SheepShearedFeatureRendererMixin"));
+        String dependentModID = switch (onlyMixinName) {
+            case "SheepShearedFeatureRendererMixin" -> "sheepconsistency";
+            case "MultipartAppenderMixin" -> "diagonalwindows";
+            default -> null;
+        };
 
-        return !bl;
+        return dependentModID == null || FabricLoader.getInstance().isModLoaded(dependentModID);
     }
 
     @Override public void acceptTargets(Set<String> myTargets, Set<String> otherTargets) {}
