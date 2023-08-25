@@ -83,14 +83,19 @@ allprojects {
 		mavenCentral()
 	}
 
+//	publishing {
+//		if (project.archivesBaseName == "jello") return
+//
+//		setupRepositories(repositories)
+//	}
+
 	dependencies {
 		minecraft("com.mojang:minecraft:${project.minecraft_version}")
 		mappings("net.fabricmc:yarn:${project.yarn_mappings}:v2")
 		modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
 
 		modCompileOnly('com.google.code.findbugs:jsr305:3.0.2')
-		modCompileOnly("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
-		modLocalRuntime("net.fabricmc.fabric-api:fabric-api:0.85.0+1.20.1")
+		modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
 
 		//-----------------
 
@@ -144,8 +149,8 @@ allprojects {
 //    modLocalRuntime("maven.modrinth:lithium:${project.lithium}")
 
 		modCompileOnly modLocalRuntime ("maven.modrinth:sodium:${project.sodium}")
-
-		modImplementation modLocalRuntime('org.joml:joml:1.10.2')
+		modCompileOnly modLocalRuntime ("maven.modrinth:indium:${project.indium}")
+		modCompileOnly modLocalRuntime('org.joml:joml:1.10.2')
 
 		modLocalRuntime("maven.modrinth:starlight:${project.starlight}")
 
@@ -295,28 +300,35 @@ javadoc {
 	failOnError false
 }
 
-subprojects.each {project ->
-	if(project.archivesBaseName == "jello") return
+var allowNestedJars = true
 
-	remapJar.dependsOn("${project.path}:remapJar")
-}
+publishing {
+	setupRepositories(repositories)
 
-//dependencies {
-//	afterEvaluate {
-//		subprojects.each {project ->
-//			if(project.archivesBaseName == "jello") return
-//
-//			api project.configurations.getByName("namedElements") //project(path: "${project.path}", configuration: "namedElements")
-//		}
-//	}
-//}
+	publications {
+		mavenJava(MavenPublication) {
+			allowNestedJars = false
 
-remapJar {
-	afterEvaluate {
-		subprojects.each {project ->
-			if(project.archivesBaseName == "jello") return
+			artifact(remapJar) {
+				builtBy(remapJar)
+			}
 
-			nestedJars.from project.tasks.getByName("remapJar")
+			artifact(sourcesJar) {
+				builtBy remapSourcesJar
+			}
+
+			pom.withXml {
+				def depsNode = asNode().appendNode("dependencies")
+				subprojects.each {
+					if (it.archivesBaseName == "jello" || it.archivesBaseName == "gelatin") return//if(project.archivesBaseName == "jello") return
+
+					def depNode = depsNode.appendNode("dependency")
+					depNode.appendNode("groupId", it.group)
+					depNode.appendNode("artifactId", it.name)
+					depNode.appendNode("version", it.version)
+					depNode.appendNode("scope", "compile")
+				}
+			}
 		}
 	}
 }
@@ -333,6 +345,12 @@ void setupRepositories(RepositoryHandler repositories) {
 			password ENV.MAVEN_PASSWORD
 		}
 	}
+}
+
+subprojects.each {
+	if(it.archivesBaseName == "jello") return
+
+	remapJar.dependsOn("${it.path}:remapJar")
 }
 
 subprojects {
@@ -354,22 +372,26 @@ subprojects {
 	}
 }
 
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			pom.withXml {
-				def depsNode = asNode().appendNode("dependencies")
-				subprojects.each {
-					if (it.archivesBaseName == "jello" || it.archivesBaseName == "gelatin") return//if(project.archivesBaseName == "jello") return
+dependencies {
+	afterEvaluate {
+		subprojects.each {
+			if(it.archivesBaseName == "jello") return
 
-					def depNode = depsNode.appendNode("dependency")
-					depNode.appendNode("groupId", it.group)
-					depNode.appendNode("artifactId", it.name)
-					depNode.appendNode("version", it.version)
-					depNode.appendNode("scope", "compile")
-				}
-			}
+			api project(path: "${it.path}", configuration: "namedElements")
 		}
 	}
 }
 
+
+
+remapJar {
+	afterEvaluate {
+		if(!allowNestedJars) return
+
+		subprojects.each {
+			if(it.archivesBaseName == "jello") return
+
+			nestedJars.from project("${it.path}").tasks.getByName("remapJar")//project.tasks.getByName("remapJar")
+		}
+	}
+}

@@ -1,3 +1,5 @@
+moduleDependencies(project, [])
+
 processResources {
     duplicatesStrategy = DuplicatesStrategy.WARN
 }
