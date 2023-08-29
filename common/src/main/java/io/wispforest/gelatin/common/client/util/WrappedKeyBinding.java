@@ -3,12 +3,15 @@ package io.wispforest.gelatin.common.client.util;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.function.Supplier;
 
 public class WrappedKeyBinding extends KeyBinding {
 
-    private Supplier<KeyBinding> wrappedKeybinding;
+    private static final KeyBinding INVALID_KEYBINDING = new KeyBinding("", GLFW.GLFW_KEY_UNKNOWN, "");
+
+    private Supplier<KeyBinding> wrappedKeybinding = null;
 
     private boolean observationOnly = false;
 
@@ -33,6 +36,9 @@ public class WrappedKeyBinding extends KeyBinding {
     }
 
     public KeyBinding keybinding(){
+        //Specifically here to prevent crash with mods mixing into keybind to circumvent issues with vanillas key handling
+        if(wrappedKeybinding == null) return INVALID_KEYBINDING;
+
         return this.wrappedKeybinding.get();
     }
 
