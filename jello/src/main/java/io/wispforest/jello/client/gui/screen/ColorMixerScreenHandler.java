@@ -70,7 +70,7 @@ public class ColorMixerScreenHandler extends ScreenHandler {
 
         SlotGenerator.begin(this::addSlot, 44, 24)
                 .slotFactory(DyeOutputSlot::new)
-                .grid(dyeInventory, 0, 5, 6)
+                .grid(dyeInventory, 0, 6, 5)
                 .moveTo(8, 122)
                 .defaultSlotFactory()
                 .playerInventory(playerInventory);

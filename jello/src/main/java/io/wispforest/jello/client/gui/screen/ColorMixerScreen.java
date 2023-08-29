@@ -115,8 +115,6 @@ public class ColorMixerScreen extends HandledScreen<ColorMixerScreenHandler> {
 
     @Override
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
-        RenderSystem.setShaderTexture(0, TEXTURE);
-
         context.drawTexture(TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight);
 
         ItemStack stack = this.getScreenHandler().slots.get(0).getStack();
@@ -129,13 +127,11 @@ public class ColorMixerScreen extends HandledScreen<ColorMixerScreenHandler> {
 
         context.drawTexture(TEXTURE, x + 19, y + 72 - progress, 176, 62 - progress, 6, 62);
 
-        RenderSystem.setShaderTexture(0, SCROLL);
-
         int i = this.x + 156;
         int j = this.y + 24;
         int k = 73;
 
-        context.drawTexture(TEXTURE, i, j + (int) ((float) (k) * this.scrollPosition), 232, 0, 12, 15);
+        context.drawTexture(SCROLL, i, j + (int) ((float) (k) * this.scrollPosition), 232, 0, 12, 15);
         this.searchBox.render(context, mouseX, mouseY, delta);
     }
 
@@ -211,7 +207,7 @@ public class ColorMixerScreen extends HandledScreen<ColorMixerScreenHandler> {
 
         this.searchBox.setVisible(true);
 
-        if((Jello.getConfig().allowVanillaColorsInPaintMixer() && Jello.getConfig().addCustomJsonColors()) || DyeColorantRegistry.DYE_COLOR.size() == 16) {
+        if((Jello.getConfig().allowVanillaColorsInPaintMixer() && Jello.getConfig().addCustomJsonColors()) || DyeColorantRegistry.DYE_COLOR.size() >= 16) {
             this.searchBox.setFocusUnlocked(false);
 
             //this.searchBox.setTextFieldFocused(true);
