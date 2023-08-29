@@ -1,1 +1,1 @@
-Jello 5.0.2 contains fix for missing items within the Creative Tab and some missing translations for config options
+Jello 5.0.3 handles various fixes for bugs involved with screen rendering of the Paint Mixer and mining issues 
