@@ -15,12 +15,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.List;
 
 @Pseudo
-@Mixin(value = MultipartAppender.class, remap = false)
+@Mixin(value = MultipartAppender.class)
 public class MultipartAppenderMixin {
 
     @Unique private static boolean gelatin$idReplacedForModelModification = false;
