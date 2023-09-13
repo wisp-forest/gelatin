@@ -138,12 +138,12 @@ allprojects {
 
 		//modImplementation modLocalRuntime("maven.modrinth:carpet:${project.carpet}")
 
-		//modImplementation modLocalRuntime("maven.modrinth.ebe:${project.ebe}")
+		//modImplementation modLocalRuntime("maven.modrinth:ebe:${project.ebe}")
 		//modLocalRuntime("net.devtech:arrp:0.6.7")
 
-		modLocalRuntime("maven.modrinth:diagonal-windows:v8.0.1-1.20.1-Fabric")
-		modLocalRuntime("maven.modrinth:puzzles-lib:v8.0.24-1.20.1-Fabric")
-		modLocalRuntime("maven.modrinth:forge-config-api-port:v8.0.0-1.20.1-Fabric")
+		//modLocalRuntime("maven.modrinth:diagonal-windows:v8.0.1-1.20.1-Fabric")
+		//modLocalRuntime("maven.modrinth:puzzles-lib:v8.0.24-1.20.1-Fabric")
+		//modLocalRuntime("maven.modrinth:forge-config-api-port:v8.0.0-1.20.1-Fabric")
 
 		//-----------------
 		// Local Mods
@@ -311,7 +311,8 @@ publishing {
 
 	publications {
 		mavenJava(MavenPublication) {
-			allowNestedJars = false
+			//This is such a jank way of disabling nested jars when publishing Gelatin only without the modules since
+			//allowNestedJars = false
 
 			artifact(remapJar) {
 				builtBy(remapJar)
