@@ -22,6 +22,8 @@ import java.util.List;
 public class MultipartAppenderMixin {
 
     @Unique private static boolean gelatin$idReplacedForModelModification = false;
+    @Unique private static boolean gelatin$alreadyModelModified = false;
+
     @Unique private static boolean gelatin$cancelModelModification = false;
 
     @Unique private static ModelLoader gelatin$cachedModelLoader;
@@ -35,14 +37,16 @@ public class MultipartAppenderMixin {
 
     @ModifyArg(method = "lambda$onPrepareModelBaking$2", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/model/ModelLoader;getOrLoadModel(Lnet/minecraft/util/Identifier;)Lnet/minecraft/client/render/model/UnbakedModel;"))
     private static Identifier gelatin$attemptRedirectID(Identifier id){
-        if(getaltin$cachedState.getBlock() instanceof ColoredGlassPaneBlock) {
+        if(gelatin$alreadyModelModified){
+            gelatin$cancelModelModification = true;
+        } else if(getaltin$cachedState.getBlock() instanceof ColoredGlassPaneBlock) {
             UnbakedModel model = gelatin$cachedModelLoader.getOrLoadModel(id);
 
             if (model instanceof DelegatingUnbakedModel delegatingUnbakedModel) {
                 return ((List<Identifier>) delegatingUnbakedModel.getModelDependencies()).get(0);
             }
 
-            if(!gelatin$cancelModelModification) gelatin$idReplacedForModelModification = true;
+            gelatin$idReplacedForModelModification = true;
         }
 
         return id;
@@ -53,11 +57,15 @@ public class MultipartAppenderMixin {
         if(gelatin$idReplacedForModelModification){
             gelatin$idReplacedForModelModification = false;
 
-            gelatin$cancelModelModification = true;
+            gelatin$alreadyModelModified = true;
 
             return;
         }
 
-        if(gelatin$cancelModelModification) ci.cancel();
+        if(gelatin$cancelModelModification){
+            gelatin$cancelModelModification = false;
+
+            ci.cancel();
+        }
     }
 }

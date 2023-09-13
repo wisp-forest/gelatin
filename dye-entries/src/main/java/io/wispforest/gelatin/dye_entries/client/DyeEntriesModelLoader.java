@@ -3,7 +3,6 @@ package io.wispforest.gelatin.dye_entries.client;
 import com.google.common.collect.ImmutableMap;
 import io.wispforest.gelatin.common.misc.GelatinConstants;
 import io.wispforest.gelatin.dye_entries.mixins.client.model.ModelLoaderAccessor;
-import io.wispforest.gelatin.dye_entries.utils.DyeVariantBuilder;
 import io.wispforest.gelatin.dye_entries.variants.DyeableVariantRegistry;
 import io.wispforest.gelatin.dye_entries.variants.block.DyeableBlockVariant;
 import io.wispforest.gelatin.dye_registry.DyeColorant;
@@ -94,7 +93,7 @@ public class DyeEntriesModelLoader implements ModelResolver, BlockStateResolver 
 
     //----------------------------------------------------------------------------------------------------------------------
 
-    private static final Map<String, ModelCacheInfo> ITEMS_MODEL_CACHE = new HashMap<>();
+    private static final Map<String, Identifier> ITEMS_MODEL_CACHE = new HashMap<>();
 
     @Override
     @Nullable
@@ -143,13 +142,13 @@ public class DyeEntriesModelLoader implements ModelResolver, BlockStateResolver 
             String key = baseModelId + "/item";
 
             if (ITEMS_MODEL_CACHE.get(key) != null) {
-                model = new DelegatingUnbakedModel(ITEMS_MODEL_CACHE.get(key).id());//ITEMS_MODEL_CACHE.get(key).model();
+                model = new DelegatingUnbakedModel(ITEMS_MODEL_CACHE.get(key));
             } else {
                 Identifier modelId = new Identifier(baseModelId.getNamespace(), "item/" + baseModelId.getPath());
 
                 model = loadItemModel(context, modelId);
 
-                ITEMS_MODEL_CACHE.put(key, new ModelCacheInfo(modelId, model));
+                ITEMS_MODEL_CACHE.put(key, modelId);
             }
 
             return model;
@@ -168,11 +167,8 @@ public class DyeEntriesModelLoader implements ModelResolver, BlockStateResolver 
 
     //----------------------------------------------------------------------------------------------------------------------
 
-    private final Map<String, ModelCacheInfo> BLOCK_MODEL_CACHE = new HashMap<>();
-
     @Override
     public void resolveBlockStates(BlockStateResolver.Context context) {
-        //--
         Block block = context.block();
 
         if (ALL_BLOCK_VARIANTS.isEmpty()) ALL_BLOCK_VARIANTS.addAll(DyeableVariantRegistry.getAllBlockVariants());
@@ -210,23 +206,9 @@ public class DyeEntriesModelLoader implements ModelResolver, BlockStateResolver 
                 context.setModel(entry.getKey(), model);
             }
         }
-
-        //--
-
     }
 
     //----------------------------------------------------------------------------------------------------------------------
-
-    public record ModelCacheInfo(Identifier id, UnbakedModel model){
-        public boolean isModelID(){
-            return this.id() instanceof ModelIdentifier;
-        }
-
-        @Nullable
-        public ModelIdentifier modelId(){
-            return isModelID() ? (ModelIdentifier) this.id() : null;
-        }
-    }
 
     public static class IllegalResolverStateException extends IllegalStateException {
         public IllegalResolverStateException(String s) {
