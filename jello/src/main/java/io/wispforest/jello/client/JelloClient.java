@@ -102,7 +102,7 @@ public class JelloClient implements ClientModInitializer {
 
         //----------------------------------------------------------------------------------
 
-        BlockRenderLayerMap.INSTANCE.putBlock(JelloBlocks.SLIME_SLAB,  TRANSLUCENT);
+        BlockRenderLayerMap.INSTANCE.putBlock(JelloBlocks.SLIME_SLAB, TRANSLUCENT);
 
         for(Map.Entry<DyeColorant, DyeableVariantManager.DyeColorantVariantData> entrty : DyeableVariantManager.getVariantMap().entrySet()){
             for(Map.Entry<DyeableBlockVariant, Block> variantEntry : entrty.getValue().dyedBlocks().entrySet()){

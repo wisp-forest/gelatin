@@ -102,28 +102,30 @@ public class Jello implements ModInitializer {
 
         initializeNetworking();
 
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-            dispatcher.register(
-                    CommandManager.literal("generate_color_build")
-                            .then(
-                                    CommandManager.argument("type", StringArgumentType.string())
-                                            .suggests((context, builder) -> CommandSource.suggestMatching(List.of("delete", "cube"), builder))
-                                                    .then(
-                                                            CommandManager.argument("cube_size", IntegerArgumentType.integer(2))
-                                                                    .executes(context ->
-                                                                            runDebugCommand(context,
-                                                                                    StringArgumentType.getString(context, "type"),
-                                                                                    IntegerArgumentType.getInteger(context, "cube_size"))
-                                                                    )
-                                                    )
-                                                    .executes(context ->
-                                                            runDebugCommand(context,
-                                                                    StringArgumentType.getString(context, "type"),
-                                                                    5)
-                                                    )
-                            )
-            );
-        });
+        if (DEBUG_ENV_VAR || DEBUG_ENV) {
+            CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
+                dispatcher.register(
+                        CommandManager.literal("generate_color_build")
+                                .then(
+                                        CommandManager.argument("type", StringArgumentType.string())
+                                                .suggests((context, builder) -> CommandSource.suggestMatching(List.of("delete", "cube"), builder))
+                                                .then(
+                                                        CommandManager.argument("cube_size", IntegerArgumentType.integer(2))
+                                                                .executes(context ->
+                                                                        runDebugCommand(context,
+                                                                                StringArgumentType.getString(context, "type"),
+                                                                                IntegerArgumentType.getInteger(context, "cube_size"))
+                                                                )
+                                                )
+                                                .executes(context ->
+                                                        runDebugCommand(context,
+                                                                StringArgumentType.getString(context, "type"),
+                                                                5)
+                                                )
+                                )
+                );
+            });
+        }
     }
 
     private static int runDebugCommand(CommandContext<ServerCommandSource> context, String type, int cubeSize){

@@ -50,7 +50,7 @@
     "fabricloader": ">=0.14.21",
     "fabric": "*",
     "minecraft": "~1.20",
-    "gelatin": ">=1.0.0+1.20.1",
+    "gelatin": "*",
     "owo": ">=0.11.1+1.20"
   },
   "suggests": {
