@@ -1,1 +1,1 @@
-Jello 5.0.3 handles various fixes for bugs involved with screen rendering of the Paint Mixer and mining issues 
+Jello 5.0.4 just contains a fix prevent a debug command from existing within production

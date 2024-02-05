@@ -1,0 +1,1 @@
+Jello 5.0.3 handles various fixes for bugs involved with screen rendering of the Paint Mixer and mining issues 
